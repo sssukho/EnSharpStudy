@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{881D0C81-AAE4-4D2E-BD5B-C4914F69F522}</ProjectGuid>
+    <ProjectGuid>{5C3A6183-05E9-480F-90D6-063C66BB4EF9}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>BookManage</RootNamespace>
-    <AssemblyName>BookManage</AssemblyName>
+    <RootNamespace>BookManagementProgram</RootNamespace>
+    <AssemblyName>BookManagementProgram</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

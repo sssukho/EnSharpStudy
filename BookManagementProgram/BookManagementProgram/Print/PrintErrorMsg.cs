@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookManage
+namespace BookManagementProgram.Print
 {
-    class Print
+    class PrintErrorMsg
     {
     }
 }
