@@ -10,6 +10,11 @@ namespace BookManagementProgram
     {
         static void Main(string[] args)
         {
+            ErrorCheck errorCheck = new ErrorCheck();
+            MemberManagement memberManagement = new MemberManagement();
+            BookRent bookRent = new BookRent();
+
+            Menu menu = new Menu(errorCheck, memberManagement, bookRent);
         }
     }
 }

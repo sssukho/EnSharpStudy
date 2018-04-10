@@ -42,6 +42,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BookManage\Book.cs" />
+    <Compile Include="BookManage\BookManagement.cs" />
+    <Compile Include="BookManage\BookRent.cs" />
+    <Compile Include="ErrorCheck.cs" />
+    <Compile Include="MemberManage\Member.cs" />
+    <Compile Include="MemberManage\MemberManagement.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="Print\PrintErrorMsg.cs" />
+    <Compile Include="Print\PrintInput.cs" />
+    <Compile Include="Print\PrintMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

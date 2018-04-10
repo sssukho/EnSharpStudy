@@ -6,7 +6,17 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
-    class BookManagement
+    class BookManagement : Book
     {
+        public BookManagement()
+        {
+
+        }
+
+        public void ViewBookManageMenu()
+        {
+            PrintMenu.ViewBookManageMenu();
+        }
+
     }
 }
