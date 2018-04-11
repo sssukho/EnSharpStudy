@@ -104,5 +104,71 @@ namespace BookManagementProgram
             }
         }
 
+        public void SearchNameListIndexErrorHandler(List<Member> inputMemberList, int inputListIndex)
+        {
+            ConsoleKeyInfo input;
+            printErrorMsg.NoMemberErrorMsg();
+            input = Console.ReadKey(true);
+            error = errorCheck.ConsoleInputErrorCheck(input);
+
+            if (error == true)
+            {
+                Console.WriteLine("1 과 2 만 입력이 가능합니다.");
+                SearchNameListIndexErrorHandler(inputMemberList, inputListIndex);
+            }
+
+            else
+            {
+                string name;
+                switch(int.Parse(input.KeyChar.ToString()))
+                {
+                    case 1:
+                        name = printInput.SearchName();
+                        memberManagement.SearchByName(inputMemberList, name);
+                        break;
+
+                    case 2:
+                        memberManagement.ViewEditMenu(inputMemberList);
+                        break;
+                }
+            }
+        }
+
+        public void SearchIDListIndexErrorHandler(List<Member> inputMemberList, int inputListIndex)
+        {
+            ConsoleKeyInfo input;
+            printErrorMsg.NoMemberErrorMsg();
+            input = Console.ReadKey(true);
+            error = errorCheck.ConsoleInputErrorCheck(input);
+
+            if (error == true)
+            {
+                Console.WriteLine("1 과 2 만 입력이 가능합니다.");
+                SearchNameListIndexErrorHandler(inputMemberList, inputListIndex);
+            }
+
+            else
+            {
+                string ID;
+                switch (int.Parse(input.KeyChar.ToString()))
+                {
+                    case 1:
+                        ID = printInput.SearchName();
+                        memberManagement.SearchByStudentID(inputMemberList, ID);
+                        break;
+
+                    case 2:
+                        memberManagement.ViewEditMenu(inputMemberList);
+                        break;
+                }
+            }
+        }
+
+        public void DeleteConfirmErrorHandler(bool error)
+        {
+            if(error == true)
+            {
+            }
+        }
     }
 }

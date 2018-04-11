@@ -89,7 +89,7 @@ namespace BookManagementProgram
         public static void EditMemberMenu()
         {
             Console.Clear();
-            Console.WriteLine("\n\n\t-------------------------------------수정할 회원 검색------------------------------------------");
+            Console.WriteLine("\n\n\t-------------------------------------수정할 회원 검색-----------------------------------------");
             Console.WriteLine("\t|                                  이름으로 검색 : 1번                                        |");
             Console.WriteLine("\t|                                                                                             |");
             Console.WriteLine("\t|                                  학번으로 검색 : 2번                                        |");

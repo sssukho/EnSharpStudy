@@ -23,7 +23,7 @@ namespace BookManagementProgram
             this.errorCheck = new ErrorCheck();
             this.printErrorMsg = new PrintErrorMsg();
             memberManagement = new MemberManagement();
-            
+            bookManagement = new BookManagement();
             ViewMainMenu();
         }
 

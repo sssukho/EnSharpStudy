@@ -12,20 +12,7 @@ namespace BookManagementProgram
         {
             if (input == "1" || input == "2" || input == "3" || input == "4")
             {
-                switch (input)
-                {
-                    case "1":
-                        return false;
-
-                    case "2":
-                        return false;
-
-                    case "3":
-                        return false;
-
-                    case "4":
-                        return false;
-                }
+                return false;
             }
             return true;
         }
@@ -35,42 +22,98 @@ namespace BookManagementProgram
             if (input == "1" || input == "2" || input == "3" || input == "4"
                 || input == "5" || input == "6" || input == "7")
             {
-                switch (input)
-                {
-                    case "1":
-                        return false;
-
-                    case "2":
-                        return false;
-
-                    case "3":
-                        return false;
-
-                    case "4":
-                        return false;
-
-                    case "5":
-                        return false;
-
-                    case "6":
-                        return false;
-
-                    case "7":
-                        return false;
-                }
+                return false;
             }
             return true;
         }
 
-        //등록 시킬 때 예외처리, 오류 일때가 트루
-        public bool RegisterErrorCheck(Member newMember)
+        public bool EditMenuInputError(string input)
+        {
+            if(input == "1" || input == "2" || input == "3" || input == "4")
+            {
+                return false;
+            }
+            return true;
+        }
+
+        
+        public bool RegisterErrorCheck(Member newMember) //타입 안맞을때
+        {
+            if(newMember == null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        //오류 일때가 트루(index가 음이어서 outofindex 오류 나면 인자를 listindex로
+        public bool EditErrorCheck(Member inputMember)
         {
             return false;
         }
 
-        public bool EditErrorCheck(Member inputMember)
+        //오류 일때가 트루(index가 음이어서 outofindex 오류 나면 인자를 listindex로
+        public bool DeleteErrorCheck(Member inputMember, string confirm)
         {
-            return false;
+            if(confirm == "Y" || confirm == "y" || confirm == "N" || confirm == "n")
+            {
+                if(inputMember == null)
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            else
+            {
+                return true;
+            }
+        }
+
+        public bool DeleteConfirmErrorCheck(string inputCheck)
+        {
+            if(inputCheck == "y" || inputCheck == "Y" || inputCheck == "n" || inputCheck == "N")
+            {
+
+                return false;
+            }
+
+            else
+            {
+                return true;
+            }
+        }
+
+        public bool ListIndexErrorCheck(int inputListIndex)
+        {
+            if(inputListIndex == -1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool ConsoleInputErrorCheck(ConsoleKeyInfo input)
+        {
+            int intInput;
+            if(char.IsDigit(input.KeyChar))
+            {
+                intInput = int.Parse(input.KeyChar.ToString());
+
+                if(intInput == 1 || intInput == 2)
+                {
+                    return false;
+                }
+
+                else
+                {
+                    return true;
+                }
+            }
+            return true;
         }
     }
 }

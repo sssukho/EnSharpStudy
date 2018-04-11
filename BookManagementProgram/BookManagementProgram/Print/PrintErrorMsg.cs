@@ -30,18 +30,12 @@ namespace BookManagementProgram
             Console.ReadLine();
         }
 
-        public void EditInputErrorMsg()
+        public void NoMemberErrorMsg()
         {
-            Console.WriteLine("수정할 사용자가 존재하지 않습니다.");
-            Console.WriteLine("다시 입력하려면 엔터키");
-            Console.ReadLine();
-        }
-
-        public void DeleteInputErrorMsg()
-        {
-            Console.WriteLine("삭제할 사용자가 존재하지 않습니다.");
-            Console.WriteLine("다시 입력하려면 엔터키");
-            Console.ReadLine();
+            Console.Clear();
+            Console.WriteLine("\n\n\t사용자가 존재하지 않습니다.");
+            Console.WriteLine("\n\n\t다시 입력 : 1번");
+            Console.WriteLine("\t이전 메뉴로 : 2번");
         }
     }
 }
