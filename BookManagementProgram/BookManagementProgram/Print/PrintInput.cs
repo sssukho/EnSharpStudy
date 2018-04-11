@@ -45,14 +45,30 @@ namespace BookManagementProgram
             return newMember;
         }
 
-        public Member Edit(Member inputMember)
+        public Member Edit(Member inputMember, MemberErrorHandler errorHandler)
         {
             Console.Clear();
-
-            PrintMenu.EditMemberMenu();
-
+            
 
             return inputMember;
+        }
+
+        public string SearchName()
+        {
+            string name;
+            Console.WriteLine("이름을 입력해주세요");
+            name = Console.ReadLine();
+
+            return name;
+        }
+
+        public string SearchStudentID()
+        {
+            string studentID;
+            Console.WriteLine("학번을 입력해주세요");
+            studentID = Console.ReadLine();
+
+            return studentID;
         }
     }
 }

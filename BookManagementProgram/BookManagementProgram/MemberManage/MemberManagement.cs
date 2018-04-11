@@ -10,12 +10,14 @@ namespace BookManagementProgram
     {
         List<Member> memberList;
         ErrorCheck errorCheck;
-        Member newMember;
         PrintInput printInput;
+        MemberErrorHandler errorHandler;
+        MemberManagement memberManagement;
+        Member member;
         PrintErrorMsg printErrorMsg;
-
-        bool error;
+        
         string menuSelect;
+        bool error;
 
         public MemberManagement()
         {
@@ -25,118 +27,100 @@ namespace BookManagementProgram
             printErrorMsg = new PrintErrorMsg();
         }
 
-        public void ViewMenu()
+        public void ViewMenu(MemberManagement memberManagement)
         {
+            this.memberManagement = memberManagement;
             PrintMenu.ViewMemberManageMenu();
             menuSelect = Console.ReadLine();
 
-            ManageMenuErrorHandler(menuSelect);
+            errorHandler = new MemberErrorHandler(errorCheck, memberManagement);
+            errorHandler.ManageMenuErrorHandler(menuSelect); 
         }
 
-        public void Register()
+       public void Register()
         {
-            newMember = printInput.Register(newMember);
-            error = errorCheck.RegisterErrorCheck(newMember);
+            member = printInput.Register(member);
+            error = errorCheck.RegisterErrorCheck(member);
 
             if (error == true)
             {
                 printErrorMsg.RegisterInputErrorMsg();
-                newMember = printInput.Register(newMember);
+                member = printInput.Register(member);
             }
 
             else
             {
-                memberList.Add(newMember);
+                memberList.Add(member);
+                PrintCompleteMsg CompleteMsg = new PrintCompleteMsg();
+                CompleteMsg.RegisterCompleteMsg();
+                MemberManagement memberManagement = new MemberManagement();
+                memberManagement.ViewMenu(memberManagement);
             }
         }
 
-        public void Edit(Member member)
+        public void ViewEditMenu()
         {
             PrintMenu.EditMemberMenu();
             menuSelect = Console.ReadLine();
+            //member가 null 값임 현재
+            errorHandler.EditMenuErrorHandler(menuSelect, memberList);
+        }
 
-            EditMenuErrorHandler(menuSelect);
+        public void Edit()
+        {
+            member = printInput.Edit(member, errorHandler);
+            error = errorCheck.EditErrorCheck(member);
+
+            if (error == true)
+            {
+                printErrorMsg.EditInputErrorMsg();
+                
+            }
+
+            else
+            {
+                PrintMenu.EditMemberMenu();
+                member = printInput.Edit(member, errorHandler);
+            }
+        }
+        
+        public int SearchByName(List<Member> inputMemberList, string inputName)
+        {
+            int listIndex;
+            listIndex = inputMemberList.FindIndex(member => member.Name.Equals(inputName));
+
+            return listIndex;
+        }
+        
+        public int SearchByStudentID(List<Member> inputMemberList, string inputID)
+        {
+            int listIndex;
+            listIndex = inputMemberList.FindIndex(member => member.StudentId.Equals(inputID));
+
+            return listIndex;
         }
 
         public void Delete(Member member)
         {
-
-        }
-
-        public void Search(Member member)
-        {
-
-        }
-
-        public void ManageMenuErrorHandler(string menuSelect)
-        {
-            error = errorCheck.MainMenuInputError(menuSelect);
+            member = printInput.Register(member);
+            error = errorCheck.RegisterErrorCheck(member);
 
             if (error == true)
             {
-                printErrorMsg.ManangeMenuInputErrorMsg();
-                ViewMenu();
+                printErrorMsg.DeleteInputErrorMsg();
+                member = printInput.Register(member);
             }
 
             else
             {
-                switch (menuSelect)
-                {
-                    case "1":
-                        Register();
-                        break;
-
-                    case "2":
-                        break;
-
-                    case "3":
-                        break;
-
-                    case "4":
-                        break;
-
-                    case "5":
-                        break;
-
-                    case "6":
-                        break;
-
-                    case "7":
-                        Environment.Exit(0);
-                        break;
-                }
+                PrintCompleteMsg CompleteMsg = new PrintCompleteMsg();
+                CompleteMsg.DeleteCompleteMsg();
+                MemberManagement memberManagement = new MemberManagement();
+                memberManagement.ViewMenu(memberManagement);
             }
         }
+        
 
-        public void EditMenuErrorHandler(string menuSelect)
-        {
-            error = errorCheck.MainMenuInputError(menuSelect);
-
-            if (error == true)
-            {
-                printErrorMsg.ManangeMenuInputErrorMsg();
-                PrintMenu.EditMemberMenu();
-            }
-
-            else
-            {
-                switch (menuSelect)
-                {
-                    case "1":
-                        Register();
-                        break;
-
-                    case "2":
-                        break;
-
-                    case "3":
-                        break;
-
-                    case "4":
-                        break;
-
-                }
-            }
-        }
+       
     }
 }

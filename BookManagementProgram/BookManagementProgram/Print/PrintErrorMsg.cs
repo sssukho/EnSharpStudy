@@ -29,5 +29,19 @@ namespace BookManagementProgram
             Console.WriteLine("다시 입력하려면 엔터키");
             Console.ReadLine();
         }
+
+        public void EditInputErrorMsg()
+        {
+            Console.WriteLine("수정할 사용자가 존재하지 않습니다.");
+            Console.WriteLine("다시 입력하려면 엔터키");
+            Console.ReadLine();
+        }
+
+        public void DeleteInputErrorMsg()
+        {
+            Console.WriteLine("삭제할 사용자가 존재하지 않습니다.");
+            Console.WriteLine("다시 입력하려면 엔터키");
+            Console.ReadLine();
+        }
     }
 }

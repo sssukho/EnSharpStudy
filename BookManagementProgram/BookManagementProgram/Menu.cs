@@ -18,11 +18,12 @@ namespace BookManagementProgram
             ViewMainMenu();
         }
 
-        public Menu(ErrorCheck errorCheck, MemberManagement memberManagement, BookRent bookRent)
+        public Menu(ErrorCheck errorCheck, MemberManagement memberManagement, BookRent bookRent, PrintErrorMsg printErrorMsg)
         {
             this.errorCheck = errorCheck;
             this.memberManagement = memberManagement;
             this.bookRent = bookRent;
+            this.printErrorMsg = printErrorMsg;
             ViewMainMenu();
         }
 
@@ -32,10 +33,10 @@ namespace BookManagementProgram
             string menuSelect;
             menuSelect = Console.ReadLine();
 
-            ErrorHandler(menuSelect);
+            MenuErrorHandler(menuSelect);
         }
 
-        void ErrorHandler(string menuSelect)
+        void MenuErrorHandler(string menuSelect)
         {
             bool error;
             error = errorCheck.MainMenuInputError(menuSelect);
@@ -51,7 +52,7 @@ namespace BookManagementProgram
                 switch (menuSelect)
                 {
                     case "1":
-                        memberManagement.ViewMenu();
+                        memberManagement.ViewMenu(memberManagement);
                         break;
 
                     case "2":

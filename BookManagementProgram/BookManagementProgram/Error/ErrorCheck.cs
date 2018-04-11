@@ -8,17 +8,6 @@ namespace BookManagementProgram
 {
     class ErrorCheck
     {
-        Member member;
-        MemberManagement memberManagement;
-        Book book;
-        BookManagement bookManagement;
-        BookRent bookRent;
-
-        public ErrorCheck()
-        {
-
-        }
-
         public bool MainMenuInputError(string input)
         {
             if (input == "1" || input == "2" || input == "3" || input == "4")
@@ -76,7 +65,12 @@ namespace BookManagementProgram
         //등록 시킬 때 예외처리, 오류 일때가 트루
         public bool RegisterErrorCheck(Member newMember)
         {
-            return true;
+            return false;
+        }
+
+        public bool EditErrorCheck(Member inputMember)
+        {
+            return false;
         }
     }
 }

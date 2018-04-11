@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookManagementProgram.MemberManage
+namespace BookManagementProgram
 {
-    class MemberErrorHandler
+    class MemberList
     {
     }
 }
