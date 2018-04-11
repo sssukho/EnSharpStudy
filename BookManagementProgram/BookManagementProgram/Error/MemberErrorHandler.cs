@@ -6,21 +6,28 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
-    class MemberErrorHandler : MemberManagement
+    class MemberErrorHandler
     {
+        MemberManagement memberManagement;
+        List<Member> memberList;
         ErrorCheck errorCheck;
         PrintErrorMsg printErrorMsg;
-        MemberManagement memberManagement;
         PrintInput printInput;
 
         bool error;
 
-        public MemberErrorHandler(ErrorCheck errorCheck, MemberManagement memberManagement)
+        public MemberErrorHandler()
         {
-            this.errorCheck = errorCheck;
+
+        }
+
+        public MemberErrorHandler(MemberManagement memberManagement, List<Member> memberList, ErrorCheck errorCheck, PrintErrorMsg printErrorMsg, PrintInput printInput)
+        {
             this.memberManagement = memberManagement;
-            this.printErrorMsg = new PrintErrorMsg();
-            this.printInput = new PrintInput();
+            this.memberList = memberList;
+            this.errorCheck = errorCheck;
+            this.printErrorMsg = printErrorMsg;
+            this.printInput = printInput;
         }
 
         public void ManageMenuErrorHandler(string menuSelect)
@@ -30,7 +37,7 @@ namespace BookManagementProgram
             if (error == true)
             {
                 printErrorMsg.ManangeMenuInputErrorMsg();
-                memberManagement.ViewMenu(memberManagement);
+                memberManagement.ViewMenu(memberList, memberManagement, errorCheck, printErrorMsg);
             }
 
             else
@@ -38,11 +45,11 @@ namespace BookManagementProgram
                 switch (menuSelect)
                 {
                     case "1":
-                        memberManagement.Register();
+                        memberManagement.Register(memberList);
                         break;
 
                     case "2":
-                        memberManagement.ViewEditMenu();
+                        memberManagement.ViewEditMenu(memberList);
                         break;
 
                     case "3":
@@ -87,13 +94,12 @@ namespace BookManagementProgram
                         break;
 
                     case "3":
-                        memberManagement.ViewMenu(memberManagement);
+                        memberManagement.ViewMenu(memberList, memberManagement, errorCheck, printErrorMsg);
                         break;
 
                     case "4":
                         Environment.Exit(0);
                         break;
-
                 }
             }
         }

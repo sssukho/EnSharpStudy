@@ -10,12 +10,10 @@ namespace BookManagementProgram
     {
         static void Main(string[] args)
         {
-            ErrorCheck errorCheck = new ErrorCheck();
-            MemberManagement memberManagement = new MemberManagement();
-            BookRent bookRent = new BookRent();
-            PrintErrorMsg printErrorMsg= new PrintErrorMsg();
-
-            Menu menu = new Menu(errorCheck, memberManagement, bookRent, printErrorMsg);
+            List<Member> memberList = new List<Member>();
+            List<Book> bookList = new List<Book>();
+            new Menu(memberList, bookList);
+            //new Menu(new MemberManagement(), new BookManagement());
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
-    class MemberManagement
+    class MemberManagement : Member
     {
         List<Member> memberList;
         ErrorCheck errorCheck;
@@ -15,29 +15,30 @@ namespace BookManagementProgram
         MemberManagement memberManagement;
         Member member;
         PrintErrorMsg printErrorMsg;
+        PrintCompleteMsg printCompleteMsg;
         
         string menuSelect;
         bool error;
 
-        public MemberManagement()
-        {
-            memberList = new List<Member>();
-            errorCheck = new ErrorCheck();
-            printInput = new PrintInput();
-            printErrorMsg = new PrintErrorMsg();
-        }
-
-        public void ViewMenu(MemberManagement memberManagement)
+        public MemberManagement() : base() { }
+        
+        public void ViewMenu(List<Member> memberList, MemberManagement memberManagement, ErrorCheck errorCheck, PrintErrorMsg printErrorMsg)
         {
             this.memberManagement = memberManagement;
+            this.memberList = memberList;
+            this.errorCheck = errorCheck;
+            this.printErrorMsg = printErrorMsg;
+            this.printInput = new PrintInput();
+            printCompleteMsg = new PrintCompleteMsg();
+
             PrintMenu.ViewMemberManageMenu();
             menuSelect = Console.ReadLine();
 
-            errorHandler = new MemberErrorHandler(errorCheck, memberManagement);
+            errorHandler = new MemberErrorHandler(memberManagement, memberList, errorCheck, printErrorMsg, printInput);
             errorHandler.ManageMenuErrorHandler(menuSelect); 
         }
 
-       public void Register()
+       public void Register(List<Member> memberList)
         {
             member = printInput.Register(member);
             error = errorCheck.RegisterErrorCheck(member);
@@ -47,57 +48,52 @@ namespace BookManagementProgram
                 printErrorMsg.RegisterInputErrorMsg();
                 member = printInput.Register(member);
             }
-
+            
             else
             {
                 memberList.Add(member);
-                PrintCompleteMsg CompleteMsg = new PrintCompleteMsg();
-                CompleteMsg.RegisterCompleteMsg();
-                MemberManagement memberManagement = new MemberManagement();
-                memberManagement.ViewMenu(memberManagement);
+                printCompleteMsg.RegisterCompleteMsg();
+                ViewMenu(memberList, memberManagement, errorCheck, printErrorMsg);
             }
         }
 
-        public void ViewEditMenu()
+        public void ViewEditMenu(List<Member> memberList)
         {
             PrintMenu.EditMemberMenu();
             menuSelect = Console.ReadLine();
-            //member가 null 값임 현재
             errorHandler.EditMenuErrorHandler(menuSelect, memberList);
         }
 
-        public void Edit()
+        public void Edit(int listIndex, List<Member> inputMemberList)
         {
-            member = printInput.Edit(member, errorHandler);
+            inputMemberList[listIndex] = printInput.Edit(member, errorHandler);
             error = errorCheck.EditErrorCheck(member);
 
             if (error == true)
             {
                 printErrorMsg.EditInputErrorMsg();
-                
+                inputMemberList[listIndex] = printInput.Edit(member, errorHandler);
             }
 
             else
             {
-                PrintMenu.EditMemberMenu();
-                member = printInput.Edit(member, errorHandler);
+                printCompleteMsg.EditCompleteMsg();
+                ViewEditMenu(inputMemberList);
             }
         }
         
-        public int SearchByName(List<Member> inputMemberList, string inputName)
+        public void SearchByName(List<Member> inputMemberList, string inputName)
         {
             int listIndex;
             listIndex = inputMemberList.FindIndex(member => member.Name.Equals(inputName));
-
-            return listIndex;
+            Edit(listIndex, inputMemberList);
         }
         
-        public int SearchByStudentID(List<Member> inputMemberList, string inputID)
+        public void SearchByStudentID(List<Member> inputMemberList, string inputID)
         {
             int listIndex;
             listIndex = inputMemberList.FindIndex(member => member.StudentId.Equals(inputID));
-
-            return listIndex;
+            Edit(listIndex, inputMemberList);
         }
 
         public void Delete(Member member)
@@ -116,11 +112,8 @@ namespace BookManagementProgram
                 PrintCompleteMsg CompleteMsg = new PrintCompleteMsg();
                 CompleteMsg.DeleteCompleteMsg();
                 MemberManagement memberManagement = new MemberManagement();
-                memberManagement.ViewMenu(memberManagement);
+                ViewMenu(memberList, memberManagement, errorCheck, printErrorMsg);
             }
         }
-        
-
-       
     }
 }

@@ -8,24 +8,64 @@ namespace BookManagementProgram
 {
     class Menu
     {
-        ErrorCheck errorCheck;
         MemberManagement memberManagement;
+        BookManagement bookManagement;
         BookRent bookRent;
+        ErrorCheck errorCheck;
         PrintErrorMsg printErrorMsg;
+        List<Member> memberList;
+        List<Book> bookList;
 
-        public Menu()
+        public Menu(List<Member> memberList, List<Book> bookList)
         {
+            this.memberList = memberList;
+            this.bookList = bookList;
+            this.errorCheck = new ErrorCheck();
+            this.printErrorMsg = new PrintErrorMsg();
+            memberManagement = new MemberManagement();
+            
             ViewMainMenu();
         }
 
-        public Menu(ErrorCheck errorCheck, MemberManagement memberManagement, BookRent bookRent, PrintErrorMsg printErrorMsg)
+        public Menu(List<Member> memberList)
         {
-            this.errorCheck = errorCheck;
+            this.memberList = memberList;
+            ViewMainMenu();
+        }
+
+        public Menu(List<Book> bookList)
+        {
+            this.bookList = bookList;
+            ViewMainMenu();
+        }
+        
+        /*
+        public Menu(MemberManagement memberManagement)
+        {
             this.memberManagement = memberManagement;
-            this.bookRent = bookRent;
-            this.printErrorMsg = printErrorMsg;
-            ViewMainMenu();
+            this.errorCheck = new ErrorCheck();
+            this.printErrorMsg = new PrintErrorMsg();
+            //ViewMainMenu();
         }
+
+        public Menu(BookManagement bookManagement)
+        {
+            this.bookManagement = bookManagement;
+            this.bookRent = new BookRent();
+            this.errorCheck = new ErrorCheck();
+            this.printErrorMsg = new PrintErrorMsg();
+            //ViewMainMenu();
+        }
+
+        public Menu(MemberManagement memberManagement, BookManagement bookManagement)
+        {
+            this.memberManagement = memberManagement;
+            this.bookManagement = bookManagement;
+            this.bookRent = new BookRent();
+            this.errorCheck = new ErrorCheck();
+            this.printErrorMsg = new PrintErrorMsg();
+            ViewMainMenu();
+        }*/
 
         public void ViewMainMenu()
         {
@@ -52,7 +92,7 @@ namespace BookManagementProgram
                 switch (menuSelect)
                 {
                     case "1":
-                        memberManagement.ViewMenu(memberManagement);
+                        memberManagement.ViewMenu(memberList, memberManagement, errorCheck, printErrorMsg);
                         break;
 
                     case "2":

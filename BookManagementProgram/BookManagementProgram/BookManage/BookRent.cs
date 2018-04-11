@@ -8,10 +8,7 @@ namespace BookManagementProgram
 {
     class BookRent : BookManagement
     {
-        public BookRent()
-        {
-
-        }
+        public BookRent() : base() { }
 
         public void ViewMenu()
         {
