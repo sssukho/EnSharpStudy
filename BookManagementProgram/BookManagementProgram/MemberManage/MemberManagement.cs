@@ -5,37 +5,41 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 
+//에러 처리 다 핸들러로 넘기기
 namespace BookManagementProgram
 {
     class MemberManagement : Member
     {
+        Menu menu;
         List<Member> memberList;
-        ErrorCheck errorCheck;
+        MemberErrorCheck errorCheck;
         PrintInput printInput;
         MemberErrorHandler errorHandler;
         MemberManagement memberManagement;
         PrintErrorMsg printErrorMsg;
         PrintCompleteMsg printCompleteMsg;
-        
-        string menuSelect;
+
         bool error;
+        string menuSelect;
 
         public MemberManagement() : base() { }
         
-        public void ViewMenu(List<Member> memberList, MemberManagement memberManagement, ErrorCheck errorCheck, PrintErrorMsg printErrorMsg)
+        public void ViewMenu(Menu menu, List<Member> memberList, MemberManagement memberManagement, 
+            MemberErrorCheck errorCheck, PrintErrorMsg printErrorMsg)
         {
+            this.menu = menu;
             this.memberManagement = memberManagement;
             this.memberList = memberList;
             this.errorCheck = errorCheck;
             this.printErrorMsg = printErrorMsg;
-            this.printInput = new PrintInput();
+            printInput = new PrintInput();
             printCompleteMsg = new PrintCompleteMsg();
 
             PrintMenu.ViewMemberManageMenu();
             menuSelect = Console.ReadLine();
 
-            errorHandler = new MemberErrorHandler(memberManagement, memberList, errorCheck, printErrorMsg, printInput);
-            errorHandler.ManageMenuErrorHandler(menuSelect); 
+            errorHandler = new MemberErrorHandler(memberManagement, memberList, errorCheck, printErrorMsg, printInput, menu);
+            errorHandler.ManageMenuErrorHandler(menu, menuSelect); 
         }
 
        public void Register(List<Member> memberList)
@@ -54,7 +58,7 @@ namespace BookManagementProgram
             {
                 memberList.Add(newMember);
                 printCompleteMsg.RegisterCompleteMsg();
-                ViewMenu(memberList, memberManagement, errorCheck, printErrorMsg);
+                ViewMenu(menu, memberList, memberManagement, errorCheck, printErrorMsg);
             }
         }
 
@@ -62,18 +66,18 @@ namespace BookManagementProgram
         {
             PrintMenu.EditMemberMenu();
             menuSelect = Console.ReadLine(); 
-            error = errorCheck.EditMenuInputError(menuSelect);
-            errorHandler.EditMenuErrorHandler(menuSelect, memberList);
+            error = errorCheck.Number4InputError(menuSelect);
+            errorHandler.EditMenuErrorHandler(menuSelect, error, memberList);
         }
 
         public void Edit(int listIndex, List<Member> inputMemberList)
         {
             inputMemberList[listIndex] = printInput.Edit(inputMemberList[listIndex], errorHandler);
-            error = errorCheck.EditErrorCheck(inputMemberList[listIndex]);
+            error = errorCheck.ListIndexErrorCheck(listIndex);
 
             if (error == true)
             {
-                printErrorMsg.NoMemberErrorMsg();
+                printErrorMsg.NoMemberErrorMsg(); //순서 에러 쳌
                 Edit(listIndex, inputMemberList);
             }
 
@@ -84,7 +88,7 @@ namespace BookManagementProgram
             }
         }
         
-        public void SearchByName(List<Member> inputMemberList, string inputName)
+        public void EditSearchByName(List<Member> inputMemberList, string inputName)
         {
             int listIndex;
             bool error;
@@ -94,7 +98,7 @@ namespace BookManagementProgram
 
             if(error == true)
             {
-                errorHandler.SearchNameListIndexErrorHandler(inputMemberList, listIndex);
+                errorHandler.EditSearchNameListIndexErrorHandler(inputMemberList, listIndex);
             }
 
             else
@@ -103,7 +107,7 @@ namespace BookManagementProgram
             }
         }
         
-        public void SearchByStudentID(List<Member> inputMemberList, string inputID)
+        public void EditSearchByStudentID(List<Member> inputMemberList, string inputID)
         {
             int listIndex;
             bool error;
@@ -113,13 +117,21 @@ namespace BookManagementProgram
 
             if (error == true)
             {
-                errorHandler.SearchIDListIndexErrorHandler(inputMemberList, listIndex);   
+                errorHandler.EditSearchIDListIndexErrorHandler(inputMemberList, listIndex);   
             }
 
             else
             {
                 Edit(listIndex, inputMemberList);
             }
+        }
+
+        public void ViewDeleteMenu(List<Member> inputMemberList)
+        {
+            PrintMenu.DeleteMemberMenu();
+            menuSelect = Console.ReadLine();
+            error = errorCheck.Number4InputError(menuSelect);
+            errorHandler.DeleteMenuErrorHandler(menuSelect, error, inputMemberList);
         }
 
         public void Delete(int listIndex, List<Member> inputMemberList)
@@ -139,8 +151,117 @@ namespace BookManagementProgram
             {
                 inputMemberList.RemoveAt(listIndex);
                 printCompleteMsg.EditCompleteMsg();
-                ViewEditMenu(inputMemberList);
+                ViewDeleteMenu(inputMemberList);
             }
+        }
+
+        public void DeleteSearchByName(List<Member> inputMemberList, string inputName)
+        {
+            int listIndex;
+            bool error;
+
+            listIndex = inputMemberList.FindIndex(member => member.Name.Equals(inputName));
+            error = errorCheck.ListIndexErrorCheck(listIndex);
+
+            if (error == true)
+            {
+                errorHandler.DeleteSearchNameListIndexErrorHandler(inputMemberList, listIndex);
+            }
+
+            else
+            {
+                printCompleteMsg.DeleteCompleteMsg();
+                Delete(listIndex, inputMemberList);
+            }
+        }
+
+        public void DeleteSearchByStudentID(List<Member> inputMemberList, string inputID)
+        {
+            int listIndex;
+            bool error;
+
+            listIndex = inputMemberList.FindIndex(member => member.StudentId.Equals(inputID));
+            error = errorCheck.ListIndexErrorCheck(listIndex);
+
+            if (error == true)
+            {
+                errorHandler.DeleteSearchIDListIndexErrorHandler(inputMemberList, listIndex);
+            }
+
+            else
+            {
+                printCompleteMsg.DeleteCompleteMsg();
+                Delete(listIndex, inputMemberList);
+            }
+        }
+
+        public void ViewSearchMenu(List<Member> inputMemberList)
+        {
+            PrintMenu.SearchMemberMenu();
+            menuSelect = Console.ReadLine();
+            error = errorCheck.Number4InputError(menuSelect);
+            errorHandler.SearchMenuErrorHandler(menuSelect, error, inputMemberList);
+        }
+
+        public void Search(int listIndex, List<Member> inputMemberList)
+        {
+            error = errorCheck.ListIndexErrorCheck(listIndex);
+
+            if (error == true)
+            {
+                printErrorMsg.NoMemberErrorMsg();
+                Search(listIndex, inputMemberList);
+            }
+
+            else
+            {
+                printInput.SearchCheck(inputMemberList[listIndex], errorHandler);
+                ViewSearchMenu(inputMemberList);
+            }
+        }
+
+        public void SearchByName(List<Member> inputMemberList, string inputName)
+        {
+            int listIndex;
+            bool error;
+
+            listIndex = inputMemberList.FindIndex(member => member.Name.Equals(inputName));
+            error = errorCheck.ListIndexErrorCheck(listIndex);
+
+            if (error == true)
+            {
+                errorHandler.SearchNameListIndexErrorHandler(inputMemberList, listIndex);
+            }
+
+            else
+            {
+                Search(listIndex, inputMemberList);
+            }
+        }
+
+        public void SearchByStudentID(List<Member> inputMemberList, string inputID)
+        {
+            int listIndex;
+            bool error;
+
+            listIndex = inputMemberList.FindIndex(member => member.StudentId.Equals(inputID));
+            error = errorCheck.ListIndexErrorCheck(listIndex);
+
+            if (error == true)
+            {
+                errorHandler.SearchIDListIndexErrorHandler(inputMemberList, listIndex);
+            }
+
+            else
+            {
+                Search(listIndex, inputMemberList);
+            }
+        }
+
+        public void ViewMemberList(List<Member> inputMemberList, MemberManagement memberManagement, MemberErrorCheck errorCheck, PrintErrorMsg printErrorMsg)
+        {
+            printInput.ViewAllMember(inputMemberList);
+            ViewMenu(menu, memberList, memberManagement, errorCheck, printErrorMsg);
         }
     }
 }

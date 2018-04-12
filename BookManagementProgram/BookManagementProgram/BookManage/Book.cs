@@ -8,28 +8,59 @@ namespace BookManagementProgram
 {
     class Book
     {
-        private string index { set; get; } //책 번호
-        private string bookName { set; get; } //책 제목
-        private string bookPublisher { set; get; } //책 출판사
-        private string bookAuthor { set; get; } //저자
-        private string bookPrice { set; get; }//가격
-        private string bookCount { set; get; } //수량
+        private string index;
+        private string name;
+        private string publisher;
+        private string author;
+        private string price;
+        private string count;
 
-        List<Book> bookList;
+        public Book() { }
 
-        public Book()
-        {
-            bookList = new List<Book>();
-        }
-
-        public Book(string index, string bookName, string bookPublisher, string bookAuthor, string bookPrice, string bookCount)
+        public Book(string index, string name, string publisher, string author, string price, string count)
         {
             this.index = index;
-            this.bookName = bookName;
-            this.bookPublisher = bookPublisher;
-            this.bookAuthor = bookAuthor;
-            this.bookPrice = bookPrice;
-            this.bookCount = bookCount;
+            this.name = name;
+            this.publisher= publisher;
+            this.author = author;
+            this.price = price;
+            this.count = count;
+        }
+
+        public string Index
+        {
+            get { return index; }
+            set { index = value; }
+        }
+
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
+        public string Publisher
+        {
+            get { return publisher; }
+            set { publisher = value; }
+        }
+
+        public string Author
+        {
+            get { return author; }
+            set { author = value; }
+        }
+
+        public string Price
+        {
+            get { return price; }
+            set { price = value; }
+        }
+
+        public string Count
+        {
+            get { return count; }
+            set { count = value; }
         }
     }
 }

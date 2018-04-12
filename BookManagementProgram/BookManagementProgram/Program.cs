@@ -10,10 +10,7 @@ namespace BookManagementProgram
     {
         static void Main(string[] args)
         {
-            List<Member> memberList = new List<Member>();
-            List<Book> bookList = new List<Book>();
-            new Menu(memberList, bookList);
-            //new Menu(new MemberManagement(), new BookManagement());
+            new Menu(new Menu(), new List<Member>(), new List<Book>());
         }
     }
 }

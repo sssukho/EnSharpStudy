@@ -6,8 +6,17 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
-    class ErrorCheck
+    class MemberErrorCheck
     {
+        public bool Number4InputError(string input)
+        {
+            if (input == "1" || input == "2" || input == "3" || input == "4")
+            {
+                return false;
+            }
+            return true;
+        }
+    
         public bool MainMenuInputError(string input)
         {
             if (input == "1" || input == "2" || input == "3" || input == "4")
@@ -27,9 +36,18 @@ namespace BookManagementProgram
             return true;
         }
 
-        public bool EditMenuInputError(string input)
+        public bool EditMenuInputError(string input) //4numberInputError로 통합
         {
             if(input == "1" || input == "2" || input == "3" || input == "4")
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool DeleteMenuInputError(string input)
+        {
+            if (input == "1" || input == "2" || input == "3" || input == "4")
             {
                 return false;
             }
@@ -74,7 +92,6 @@ namespace BookManagementProgram
         {
             if(inputCheck == "y" || inputCheck == "Y" || inputCheck == "n" || inputCheck == "N")
             {
-
                 return false;
             }
 

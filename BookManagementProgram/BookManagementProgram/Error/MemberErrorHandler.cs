@@ -10,9 +10,10 @@ namespace BookManagementProgram
     {
         MemberManagement memberManagement;
         List<Member> memberList;
-        ErrorCheck errorCheck;
+        MemberErrorCheck errorCheck;
         PrintErrorMsg printErrorMsg;
         PrintInput printInput;
+        Menu menu;
 
         bool error;
 
@@ -21,23 +22,23 @@ namespace BookManagementProgram
 
         }
 
-        public MemberErrorHandler(MemberManagement memberManagement, List<Member> memberList, ErrorCheck errorCheck, PrintErrorMsg printErrorMsg, PrintInput printInput)
+        public MemberErrorHandler(MemberManagement memberManagement, List<Member> memberList, MemberErrorCheck errorCheck, PrintErrorMsg printErrorMsg, PrintInput printInput, Menu menu)
         {
             this.memberManagement = memberManagement;
             this.memberList = memberList;
             this.errorCheck = errorCheck;
             this.printErrorMsg = printErrorMsg;
             this.printInput = printInput;
+            this.menu = menu;
         }
 
-        public void ManageMenuErrorHandler(string menuSelect)
+        public void ManageMenuErrorHandler(Menu menu, string menuSelect)
         {
-            error = errorCheck.MainMenuInputError(menuSelect);
-
+            error = errorCheck.ManagementMenuInputError(menuSelect);
             if (error == true)
             {
                 printErrorMsg.ManangeMenuInputErrorMsg();
-                memberManagement.ViewMenu(memberList, memberManagement, errorCheck, printErrorMsg);
+                memberManagement.ViewMenu(menu, memberList, memberManagement, errorCheck, printErrorMsg);
             }
 
             else
@@ -53,15 +54,19 @@ namespace BookManagementProgram
                         break;
 
                     case "3":
+                        memberManagement.ViewDeleteMenu(memberList);
                         break;
 
                     case "4":
+                        memberManagement.ViewSearchMenu(memberList);
                         break;
 
                     case "5":
+                        memberManagement.ViewMemberList(memberList, memberManagement, errorCheck, printErrorMsg);
                         break;
-
+                        //menu가 널이었음
                     case "6":
+                        menu.ViewMainMenu(memberList, memberManagement, errorCheck, printErrorMsg); 
                         break;
 
                     case "7":
@@ -71,14 +76,195 @@ namespace BookManagementProgram
             }
         }
 
-        public void EditMenuErrorHandler(string menuSelect, List<Member> inputMemberList)
+        public void EditMenuErrorHandler(string menuSelect, bool error, List<Member> inputMemberList)
         {
-            error = errorCheck.MainMenuInputError(menuSelect);
-
             if (error == true)
             {
                 printErrorMsg.ManangeMenuInputErrorMsg();
                 PrintMenu.EditMemberMenu();
+                memberManagement.ViewEditMenu(inputMemberList);
+            }
+
+            else
+            {
+                switch (menuSelect)
+                {
+                    case "1":
+                        memberManagement.EditSearchByName(inputMemberList, printInput.EditSearchName()); //에러체크할것(타입, 공백)
+                        break;
+
+                    case "2":
+                        memberManagement.EditSearchByStudentID(inputMemberList, printInput.EditSearchStudentID()); //에러체크할것(타입, 공백)
+                        break;
+
+                    case "3":
+                        memberManagement.ViewMenu(menu, memberList, memberManagement, errorCheck, printErrorMsg);
+                        break;
+
+                    case "4":
+                        Environment.Exit(0);
+                        break;
+                }
+            }
+        }
+
+        public void EditSearchNameListIndexErrorHandler(List<Member> inputMemberList, int inputListIndex)
+        {
+            ConsoleKeyInfo input;
+            printErrorMsg.NoMemberErrorMsg();
+            input = Console.ReadKey(true);
+            error = errorCheck.ConsoleInputErrorCheck(input);
+
+            if (error == true)
+            {
+                Console.WriteLine("1 과 2 만 입력이 가능합니다.");
+                EditSearchNameListIndexErrorHandler(inputMemberList, inputListIndex);
+            }
+
+            else
+            {
+                string name;
+                switch(int.Parse(input.KeyChar.ToString()))
+                {
+                    case 1:
+                        name = printInput.EditSearchName();
+                        memberManagement.EditSearchByName(inputMemberList, name);
+                        break;
+
+                    case 2:
+                        memberManagement.ViewEditMenu(inputMemberList);
+                        break;
+                }
+            }
+        }
+
+        public void EditSearchIDListIndexErrorHandler(List<Member> inputMemberList, int inputListIndex)
+        {
+            ConsoleKeyInfo input;
+            printErrorMsg.NoMemberErrorMsg();
+            input = Console.ReadKey(true);
+            error = errorCheck.ConsoleInputErrorCheck(input);
+
+            if (error == true)
+            {
+                Console.WriteLine("1 과 2 만 입력이 가능합니다.");
+                EditSearchIDListIndexErrorHandler(inputMemberList, inputListIndex);
+            }
+
+            else
+            {
+                string ID;
+                switch (int.Parse(input.KeyChar.ToString()))
+                {
+                    case 1:
+                        ID = printInput.EditSearchName();
+                        memberManagement.EditSearchByStudentID(inputMemberList, ID);
+                        break;
+
+                    case 2:
+                        memberManagement.ViewEditMenu(inputMemberList);
+                        break;
+                }
+            }
+        }
+
+        public void DeleteMenuErrorHandler(string menuSelect, bool error, List<Member> inputMemberList)
+        {
+            if (error == true)
+            {
+                printErrorMsg.ManangeMenuInputErrorMsg();//예외처리 필요
+                memberManagement.ViewDeleteMenu(inputMemberList);
+            }
+
+            else
+            {
+                switch (menuSelect)
+                {
+                    case "1":
+                        memberManagement.DeleteSearchByName(inputMemberList, printInput.DeleteSearchName()); //에러체크할것(타입, 공백)
+                        break;
+
+                    case "2":
+                        memberManagement.DeleteSearchByStudentID(inputMemberList, printInput.DeleteSearchStudentID()); //에러체크할것(타입, 공백)
+                        break;
+
+                    case "3":
+                        memberManagement.ViewMenu(menu, memberList, memberManagement, errorCheck, printErrorMsg);
+                        break;
+
+                    case "4":
+                        Environment.Exit(0);
+                        break;
+                }
+            }
+        }
+
+        public void DeleteSearchNameListIndexErrorHandler(List<Member> inputMemberList, int inputListIndex)
+        {
+            ConsoleKeyInfo input;
+            printErrorMsg.NoMemberErrorMsg();
+            input = Console.ReadKey(true);
+            error = errorCheck.ConsoleInputErrorCheck(input);
+
+            if (error == true)
+            {
+                Console.WriteLine("1 과 2 만 입력이 가능합니다.");
+                DeleteSearchNameListIndexErrorHandler(inputMemberList, inputListIndex);
+            }
+
+            else
+            {
+                string name;
+                switch (int.Parse(input.KeyChar.ToString()))
+                {
+                    case 1:
+                        name = printInput.DeleteSearchName();
+                        memberManagement.DeleteSearchByName(inputMemberList, name);
+                        break;
+
+                    case 2:
+                        memberManagement.ViewDeleteMenu(inputMemberList);
+                        break;
+                }
+            }
+        }
+
+        public void DeleteSearchIDListIndexErrorHandler(List<Member> inputMemberList, int inputListIndex)
+        {
+            ConsoleKeyInfo input;
+            printErrorMsg.NoMemberErrorMsg();
+            input = Console.ReadKey(true);
+            error = errorCheck.ConsoleInputErrorCheck(input);
+
+            if (error == true)
+            {
+                Console.WriteLine("1 과 2 만 입력이 가능합니다.");
+                DeleteSearchIDListIndexErrorHandler(inputMemberList, inputListIndex);
+            }
+
+            else
+            {
+                string ID;
+                switch (int.Parse(input.KeyChar.ToString()))
+                {
+                    case 1:
+                        ID = printInput.DeleteSearchStudentID();
+                        memberManagement.DeleteSearchByStudentID(inputMemberList, ID);
+                        break;
+
+                    case 2:
+                        memberManagement.ViewDeleteMenu(inputMemberList);
+                        break;
+                }
+            }
+        }
+
+        public void SearchMenuErrorHandler(string menuSelect, bool error, List<Member> inputMemberList)
+        {
+            if (error == true)
+            {
+                printErrorMsg.ManangeMenuInputErrorMsg();//예외처리 필요
+                memberManagement.ViewSearchMenu(inputMemberList);
             }
 
             else
@@ -94,7 +280,7 @@ namespace BookManagementProgram
                         break;
 
                     case "3":
-                        memberManagement.ViewMenu(memberList, memberManagement, errorCheck, printErrorMsg);
+                        memberManagement.ViewMenu(menu, memberList, memberManagement, errorCheck, printErrorMsg);
                         break;
 
                     case "4":
@@ -120,7 +306,7 @@ namespace BookManagementProgram
             else
             {
                 string name;
-                switch(int.Parse(input.KeyChar.ToString()))
+                switch (int.Parse(input.KeyChar.ToString()))
                 {
                     case 1:
                         name = printInput.SearchName();
@@ -128,7 +314,7 @@ namespace BookManagementProgram
                         break;
 
                     case 2:
-                        memberManagement.ViewEditMenu(inputMemberList);
+                        memberManagement.ViewSearchMenu(inputMemberList);
                         break;
                 }
             }
@@ -144,7 +330,7 @@ namespace BookManagementProgram
             if (error == true)
             {
                 Console.WriteLine("1 과 2 만 입력이 가능합니다.");
-                SearchNameListIndexErrorHandler(inputMemberList, inputListIndex);
+                SearchIDListIndexErrorHandler(inputMemberList, inputListIndex);
             }
 
             else
@@ -153,22 +339,25 @@ namespace BookManagementProgram
                 switch (int.Parse(input.KeyChar.ToString()))
                 {
                     case 1:
-                        ID = printInput.SearchName();
+                        ID = printInput.SearchStudentID();
                         memberManagement.SearchByStudentID(inputMemberList, ID);
                         break;
 
                     case 2:
-                        memberManagement.ViewEditMenu(inputMemberList);
+                        memberManagement.ViewSearchMenu(inputMemberList);
                         break;
                 }
             }
         }
 
+
+        //정말 삭제하시겠습니까 에러 헨들러 작업 요망
         public void DeleteConfirmErrorHandler(bool error)
         {
             if(error == true)
             {
             }
         }
+
     }
 }

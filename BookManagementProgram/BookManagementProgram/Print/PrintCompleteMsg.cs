@@ -25,7 +25,7 @@ namespace BookManagementProgram
 
         public void DeleteCompleteMsg()
         {
-            Console.WriteLine("\n\n\t수정이 완료 되었습니다.");
+            Console.WriteLine("\n\n\t삭제가 완료 되었습니다.");
             Console.WriteLine("\t2초 후에 메뉴로 돌아갑니다...t");
             Thread.Sleep(2000);
         }

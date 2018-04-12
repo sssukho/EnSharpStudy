@@ -82,14 +82,13 @@ namespace BookManagementProgram
             Console.WriteLine("\t주소 : {0}", inputMember.Address + "\n");
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
 
-            Console.WriteLine("\n\n\t정말로 삭제하시겠습니까? (Y/N) : "); //에러 체크할 것
+            Console.Write("\n\n\t정말로 삭제하시겠습니까? (Y/N) : "); //에러 체크할 것
             input = Console.ReadLine();
-
-
+            
             return input;
         }
 
-        public string SearchName()
+        public string EditSearchName()
         {
             Console.Clear();
             string name;
@@ -99,7 +98,7 @@ namespace BookManagementProgram
             return name;
         }
 
-        public string SearchStudentID()
+        public string EditSearchStudentID()
         {
             Console.Clear();
             string studentID;
@@ -107,6 +106,90 @@ namespace BookManagementProgram
             studentID = Console.ReadLine();
 
             return studentID;
+        }
+
+        public string DeleteSearchName()
+        {
+            Console.Clear();
+            string name;
+            Console.Write("\n\n\t삭제할 회원의 이름을 입력해주세요 : ");
+            name = Console.ReadLine();
+
+            return name;
+        }
+
+        public string DeleteSearchStudentID()
+        {
+            Console.Clear();
+            string studentID;
+            Console.Write("\n\n\t삭제할 회원의 학번을 입력해주세요 : ");
+            studentID = Console.ReadLine();
+
+            return studentID;
+        }
+
+        public string SearchCheck(Member inputMember, MemberErrorHandler errorHandler)
+        {
+            Console.Clear();
+            string input;
+
+            Console.WriteLine("\n\n\t---------------------------------검색한 회원 기존 정보--------------------------------");
+            Console.WriteLine("\n\t이름 : {0}", inputMember.Name);
+            Console.WriteLine("\t학번 : {0}", inputMember.StudentId);
+            Console.WriteLine("\t성별 : {0}", inputMember.Gender);
+            Console.WriteLine("\t핸드폰 번호 : {0}", inputMember.PhoneNumber);
+            Console.WriteLine("\t주소 : {0}", inputMember.Address + "\n");
+            Console.WriteLine("\t--------------------------------------------------------------------------------------");
+
+            Console.Write("\n\n\t이전으로 돌아가려면 엔터..."); //에러 체크할 것
+            input = Console.ReadLine();
+
+            return input;
+        }
+
+        public string SearchName()
+        {
+            Console.Clear();
+            string name;
+            Console.Write("\n\n\t검색할 회원의 이름을 입력해주세요 : ");
+            name = Console.ReadLine();
+
+            return name;
+        }
+
+        public string SearchStudentID()
+        {
+            Console.Clear();
+            string studentID;
+            Console.Write("\n\n\t검색할 회원의 학번을 입력해주세요 : ");
+            studentID = Console.ReadLine();
+
+            return studentID;
+        }
+
+        public void ViewAllMember(List<Member> inputMemberList)
+        {
+            if (inputMemberList.Count == 0)
+            {
+                Console.Clear();
+                Console.WriteLine("\n\n\t등록된 회원이 존재하지 않습니다.");
+                Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
+                Console.ReadLine();
+                return;
+            }
+
+            Console.Clear();
+            Console.WriteLine("\n\n\t---------------------------------회원 명단--------------------------------");
+            Console.WriteLine("\t   이름   |   학번   |   성별   |   휴대폰번호   |   이메일   |   주소 ");
+            
+            foreach (var item in inputMemberList)
+            {
+                Console.WriteLine("\n\t   {0}      {1}      {2}      {3}      {4}      {5}", 
+                    item.Name, item.StudentId, item.Gender, item.PhoneNumber, item.Email, item.Address);
+            }
+
+            Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
+            Console.ReadLine();
         }
     }
 }

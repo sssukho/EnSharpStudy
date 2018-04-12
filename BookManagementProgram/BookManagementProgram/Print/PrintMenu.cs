@@ -46,6 +46,22 @@ namespace BookManagementProgram
             Console.Write("\t메뉴 번호 입력 : ");
         }
 
+        public static void SearchMemberMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
+            Console.WriteLine("\t|                                  이름으로 검색 : 1번                                        |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  학번으로 검색 : 2번                                        |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  이전 메뉴 : 3번                                            |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  프로그램 종료 : 4번                                        |");
+            Console.WriteLine("\t----------------------------------------------------------------------------------------------\n");
+
+            Console.Write("\t메뉴 번호 입력 : ");
+        }
+
         public static void ViewBookManageMenu()
         {
             Console.Clear();
