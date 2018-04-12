@@ -15,6 +15,13 @@ namespace BookManagementProgram
             Console.ReadLine();
         }
 
+        public void Number5InputErrorMsg()
+        {
+            Console.WriteLine("1 ~ 5 만 입력이 가능합니다.");
+            Console.WriteLine("다시 입력하려면 엔터키");
+            Console.ReadLine();
+        }
+
         public void ManangeMenuInputErrorMsg()
         {
             Console.WriteLine("1 ~ 7만 입력이 가능합니다.");
@@ -34,6 +41,14 @@ namespace BookManagementProgram
         {
             Console.Clear();
             Console.WriteLine("\n\n\t사용자가 존재하지 않습니다.");
+            Console.WriteLine("\n\n\t다시 입력 : 1번");
+            Console.WriteLine("\t이전 메뉴로 : 2번");
+        }
+
+        public void NoBookErrorMsg()
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t도서가 존재하지 않습니다.");
             Console.WriteLine("\n\n\t다시 입력 : 1번");
             Console.WriteLine("\t이전 메뉴로 : 2번");
         }

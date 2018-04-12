@@ -150,7 +150,7 @@ namespace BookManagementProgram
             else
             {
                 inputMemberList.RemoveAt(listIndex);
-                printCompleteMsg.EditCompleteMsg();
+                printCompleteMsg.DeleteCompleteMsg();
                 ViewDeleteMenu(inputMemberList);
             }
         }

@@ -8,35 +8,27 @@ namespace BookManagementProgram
 {
     class Book
     {
-        private string index;
-        private string name;
+        private string bookName;
         private string publisher;
         private string author;
         private string price;
-        private string count;
+        private int count;
 
         public Book() { }
 
-        public Book(string index, string name, string publisher, string author, string price, string count)
+        public Book(string name, string publisher, string author, string price, int count)
         {
-            this.index = index;
-            this.name = name;
+            this.bookName = name;
             this.publisher= publisher;
             this.author = author;
             this.price = price;
             this.count = count;
         }
 
-        public string Index
+        public string BookName
         {
-            get { return index; }
-            set { index = value; }
-        }
-
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
+            get { return bookName; }
+            set { bookName = value; }
         }
 
         public string Publisher
@@ -57,7 +49,7 @@ namespace BookManagementProgram
             set { price = value; }
         }
 
-        public string Count
+        public int Count
         {
             get { return count; }
             set { count = value; }

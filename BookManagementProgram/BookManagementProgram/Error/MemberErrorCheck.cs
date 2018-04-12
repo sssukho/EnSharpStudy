@@ -54,7 +54,6 @@ namespace BookManagementProgram
             return true;
         }
 
-        
         public bool RegisterErrorCheck(Member newMember) //타입 안맞을때
         {
             if(newMember == null)

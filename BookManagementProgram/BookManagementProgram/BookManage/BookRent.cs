@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
-    class BookRent : BookManagement
+    class BookRent
     {
-        public BookRent() : base() { }
+        public BookRent() { }
 
         public void ViewMenu()
         {
