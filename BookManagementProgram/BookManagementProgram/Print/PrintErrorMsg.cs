@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
+    /// <summary>
+    /// 각 상황별 에러 메시지
+    /// </summary>
     class PrintErrorMsg
     {
         public void MenuInputErrorMsg()

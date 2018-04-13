@@ -7,6 +7,9 @@ using System.Threading;
 
 namespace BookManagementProgram
 {
+    /// <summary>
+    /// 각 상황별 기능이 제대로 작동했을 시 나타나는 메시지
+    /// </summary>
     class PrintCompleteMsg
     {
         public void RegisterCompleteMsg()

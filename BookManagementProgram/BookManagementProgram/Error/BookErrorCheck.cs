@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
+    /// <summary>
+    /// 도서 관리 기능 수행 중 일어나는 에러 체크
+    /// 에러가 나면 true 값을 반환하여 도서 관리 기능 수행 코드에서의 가독성 높이려 했음
+    /// </summary>
     class BookErrorCheck
     {
         public bool ManagementMenuInputError(string input)

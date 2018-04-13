@@ -5,13 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 
-//에러 처리 다 핸들러로 넘기기
 namespace BookManagementProgram
 {
-    class MemberManagement : Member
+    /// <summary>
+    /// 회원 정보를 등록/수정/삭제/검색/출력 하는 클래스
+    /// </summary>
+    class MemberManagement
     {
         Menu menu;
         List<Member> memberList;
+        List<Book> bookList; //프로그램이 작동하면서 클래스 이동하는동안 도서 데이터가 없어지기 때문에 항상 인자값으로 받기 위함
         MemberErrorCheck errorCheck;
         PrintInput printInput;
         MemberErrorHandler errorHandler;
@@ -40,6 +43,18 @@ namespace BookManagementProgram
 
             errorHandler = new MemberErrorHandler(memberManagement, memberList, errorCheck, printErrorMsg, printInput, menu);
             errorHandler.ManageMenuErrorHandler(menu, menuSelect); 
+        }
+
+        public void ViewMenu(List<Member> memberList, List<Book> bookList)
+        {
+            this.memberList = memberList;
+            this.bookList = bookList;
+
+            PrintMenu.ViewMemberManageMenu();
+            menuSelect = Console.ReadLine();
+
+            errorHandler = new MemberErrorHandler();
+            errorHandler.ManageMenuErrorHandler(menu, menuSelect);
         }
 
        public void Register(List<Member> memberList)
@@ -77,7 +92,7 @@ namespace BookManagementProgram
 
             if (error == true)
             {
-                printErrorMsg.NoMemberErrorMsg(); //순서 에러 쳌
+                printErrorMsg.NoMemberErrorMsg();
                 Edit(listIndex, inputMemberList);
             }
 
@@ -170,7 +185,6 @@ namespace BookManagementProgram
 
             else
             {
-                printCompleteMsg.DeleteCompleteMsg();
                 Delete(listIndex, inputMemberList);
             }
         }
@@ -190,7 +204,6 @@ namespace BookManagementProgram
 
             else
             {
-                printCompleteMsg.DeleteCompleteMsg();
                 Delete(listIndex, inputMemberList);
             }
         }

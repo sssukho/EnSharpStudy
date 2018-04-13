@@ -6,16 +6,19 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
+    /// <summary>
+    /// 도서 대여 및 반납 기능 수행 중 일어나는 에러 처리 클래스
+    /// </summary>
     class BookRentErrorHandler
     {
         List<Member> memberList;
         List<Book> bookList;
         BookRent bookRent;
         BookRentErrorCheck errorCheck;
-        //BookRentErrorHandler errorHandler;
-        //PrintInput printInput;
+        BookRentErrorHandler errorHandler;
+        PrintInput printInput;
         PrintErrorMsg printErrorMsg;
-        //PrintCompleteMsg printCompleteMsg;
+        PrintCompleteMsg printCompleteMsg;
         Menu menu;
 
         bool error;

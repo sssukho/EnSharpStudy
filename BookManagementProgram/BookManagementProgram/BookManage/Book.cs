@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
+    /// <summary>
+    /// 도서 정보 get, set
+    /// </summary>
     class Book
     {
         private string bookName;

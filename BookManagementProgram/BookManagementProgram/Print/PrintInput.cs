@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
+    /// <summary>
+    /// 입력을 받아야하는 양식들을 모아놓은 클래스
+    /// </summary>
     class PrintInput
     {
         string name, studentId, gender, phoneNumber, email, address;

@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
+    /// <summary>
+    /// 회원 관리 기능 수행 중 일어나는 에러체크
+    /// 에러가 나면 true값을 반환하여 코드의 가독성을 높이려 했음
+    /// </summary>
     class MemberErrorCheck
     {
         public bool Number4InputError(string input)
@@ -36,7 +40,7 @@ namespace BookManagementProgram
             return true;
         }
 
-        public bool RegisterErrorCheck(Member newMember) //타입 안맞을때
+        public bool RegisterErrorCheck(Member newMember)
         {
             if(newMember == null)
             {
@@ -45,13 +49,6 @@ namespace BookManagementProgram
             return false;
         }
 
-        //오류 일때가 트루(index가 음이어서 outofindex 오류 나면 인자를 listindex로
-        public bool EditErrorCheck(Member inputMember)
-        {
-            return false;
-        }
-
-        //오류 일때가 트루(index가 음이어서 outofindex 오류 나면 인자를 listindex로
         public bool DeleteErrorCheck(Member inputMember, string confirm)
         {
             if(confirm == "Y" || confirm == "y" || confirm == "N" || confirm == "n")

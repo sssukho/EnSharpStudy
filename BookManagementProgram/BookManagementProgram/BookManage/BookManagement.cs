@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
-    class BookManagement : Book
+    /// <summary>
+    /// 도서 관리 기능 수행하는 클래스
+    /// </summary>
+    class BookManagement
     {
         Menu menu;
         List<Book> bookList;
+        List<Member> memberList;
         BookErrorCheck errorCheck;
         PrintInput printInput;
         BookErrorHandler errorHandler;

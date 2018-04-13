@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
+    /// <summary>
+    /// 회원 정보 get, set
+    /// </summary>
     class Member
     {
         private string name;

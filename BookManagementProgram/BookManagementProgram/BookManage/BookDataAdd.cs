@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
+    /// <summary>
+    /// 프로그램 빌드한뒤 가장 상위에 있는 메인 메뉴를 호출할 때 데이터 추가함
+    /// </summary>
     class BookDataAdd
-    {
+    {   
         public BookDataAdd(List<Book> bookList)
         {
             bookList.Add(new Book("일반물리학및실험1", "땅콩", "김용덕", "8,000원", 3));

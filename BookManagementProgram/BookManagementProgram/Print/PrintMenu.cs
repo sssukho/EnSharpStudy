@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 namespace BookManagementProgram
 {
     class PrintMenu
-    {
+    {/// <summary>
+    /// 여러가지 메뉴 UI만 출력하는 클래스
+    /// </summary>
         public static void ViewMainMenu()
         {
             Console.Clear();

@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
+    /// <summary>
+    /// 도서 대출 기능 수행 중 일어나는 에러 체크
+    /// 에러가 나면 true값을 반환하여 코드의 가독성을 높이려 했음
+    /// </summary>
     class BookRentErrorCheck
     {
         public bool Number5InputError(string input)

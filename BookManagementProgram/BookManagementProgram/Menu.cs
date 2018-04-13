@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
+    /// <summary>
+    /// 클래스 구조상 가장 상위에 있는 메인 메뉴
+    /// </summary>
     class Menu
     {
         Menu menu;
@@ -18,24 +21,21 @@ namespace BookManagementProgram
         List<Member> memberList;
         List<Book> bookList;
 
-        public Menu()
-        {
-
-        }
+        public Menu() { }
 
         public Menu(Menu menu, List<Member> memberList, List<Book> bookList)
         {
-            this.menu = menu;
             this.memberList = memberList;
             this.bookList = bookList;
+            this.menu = menu;
             memberErrorCheck = new MemberErrorCheck();
             bookErrorCheck = new BookErrorCheck();
             printErrorMsg = new PrintErrorMsg();
             memberManagement = new MemberManagement();
             bookManagement = new BookManagement();
             bookRent = new BookRent();
-            new BookDataAdd(this.bookList);
-            new MemberDataAdd(this.memberList);
+            new BookDataAdd(this.bookList); //처음 삽입되는 도서 데이터
+            new MemberDataAdd(this.memberList); //처음 삼입되는 회원 데이터
             ViewMainMenu();
         }
 
@@ -55,7 +55,7 @@ namespace BookManagementProgram
             this.memberErrorCheck = errorCheck;
             this.printErrorMsg = printErrorMsg;
             this.menu = menu;
-
+            this.bookManagement = new BookManagement();
             PrintMenu.ViewMainMenu();
 
             string menuSelect;
@@ -70,8 +70,9 @@ namespace BookManagementProgram
             this.bookManagement = bookManagement;
             this.bookErrorCheck = errorCheck;
             this.printErrorMsg = printErrorMsg;
-            this.bookRent = bookRent;
+            this.bookRent = new BookRent();
             this.menu = menu;
+            this.memberManagement = new MemberManagement();
             memberErrorCheck = new MemberErrorCheck();
 
             PrintMenu.ViewMainMenu();
@@ -82,17 +83,19 @@ namespace BookManagementProgram
             MenuErrorHandler(menuSelect);
         }
 
+        //데이터 이동시에 생기는 null 할당 예외로 인해 바꾸려고 한 생성자
         public void ViewMainMenu(List<Member> inputMemberList, List<Book> inputBookList)
         {
             this.memberList = inputMemberList;
             this.bookList = inputBookList;
+            
             menu = new Menu();
             memberErrorCheck = new MemberErrorCheck();
-            bookErrorCheck = new BookErrorCheck();
             printErrorMsg = new PrintErrorMsg();
             memberManagement = new MemberManagement();
             bookManagement = new BookManagement();
             bookRent = new BookRent();
+
             PrintMenu.ViewMainMenu();
 
             string menuSelect;
@@ -117,7 +120,7 @@ namespace BookManagementProgram
                 switch (menuSelect)
                 {
                     case "1":
-                        memberManagement.ViewMenu(menu, memberList, memberManagement, memberErrorCheck, printErrorMsg);
+                        memberManagement.ViewMenu(menu,memberList, memberManagement, memberErrorCheck, printErrorMsg);
                         break;
 
                     case "2":

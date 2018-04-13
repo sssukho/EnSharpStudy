@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
+    /// <summary>
+    /// 
+    /// </summary>
     class MemberErrorHandler
     {
         MemberManagement memberManagement;
         List<Member> memberList;
+        List<Book> bookList;
         MemberErrorCheck errorCheck;
         PrintErrorMsg printErrorMsg;
         PrintInput printInput;
@@ -30,6 +34,11 @@ namespace BookManagementProgram
             this.printErrorMsg = printErrorMsg;
             this.printInput = printInput;
             this.menu = menu;
+        }
+        public MemberErrorHandler(List<Member> inputMemberList, List<Book> inputBookList)
+        {
+            this.memberList = inputMemberList;
+            this.bookList = inputBookList;
         }
         
         public void ManageMenuErrorHandler(Menu menu, string menuSelect)
@@ -90,11 +99,11 @@ namespace BookManagementProgram
                 switch (menuSelect)
                 {
                     case "1":
-                        memberManagement.EditSearchByName(inputMemberList, printInput.EditSearchName()); //에러체크할것(타입, 공백)
+                        memberManagement.EditSearchByName(inputMemberList, printInput.EditSearchName()); 
                         break;
 
                     case "2":
-                        memberManagement.EditSearchByStudentID(inputMemberList, printInput.EditSearchStudentID()); //에러체크할것(타입, 공백)
+                        memberManagement.EditSearchByStudentID(inputMemberList, printInput.EditSearchStudentID()); 
                         break;
 
                     case "3":
@@ -172,7 +181,7 @@ namespace BookManagementProgram
         {
             if (error == true)
             {
-                printErrorMsg.ManangeMenuInputErrorMsg();//예외처리 필요
+                printErrorMsg.ManangeMenuInputErrorMsg();
                 memberManagement.ViewDeleteMenu(inputMemberList);
             }
 
@@ -181,11 +190,11 @@ namespace BookManagementProgram
                 switch (menuSelect)
                 {
                     case "1":
-                        memberManagement.DeleteSearchByName(inputMemberList, printInput.DeleteSearchName()); //에러체크할것(타입, 공백)
+                        memberManagement.DeleteSearchByName(inputMemberList, printInput.DeleteSearchName()); 
                         break;
 
                     case "2":
-                        memberManagement.DeleteSearchByStudentID(inputMemberList, printInput.DeleteSearchStudentID()); //에러체크할것(타입, 공백)
+                        memberManagement.DeleteSearchByStudentID(inputMemberList, printInput.DeleteSearchStudentID()); 
                         break;
 
                     case "3":
@@ -263,7 +272,7 @@ namespace BookManagementProgram
         {
             if (error == true)
             {
-                printErrorMsg.ManangeMenuInputErrorMsg();//예외처리 필요
+                printErrorMsg.ManangeMenuInputErrorMsg();
                 memberManagement.ViewSearchMenu(inputMemberList);
             }
 
@@ -272,11 +281,11 @@ namespace BookManagementProgram
                 switch (menuSelect)
                 {
                     case "1":
-                        memberManagement.SearchByName(inputMemberList, printInput.SearchName()); //에러체크할것(타입, 공백)
+                        memberManagement.SearchByName(inputMemberList, printInput.SearchName()); 
                         break;
 
                     case "2":
-                        memberManagement.SearchByStudentID(inputMemberList, printInput.SearchStudentID()); //에러체크할것(타입, 공백)
+                        memberManagement.SearchByStudentID(inputMemberList, printInput.SearchStudentID()); 
                         break;
 
                     case "3":
@@ -350,8 +359,6 @@ namespace BookManagementProgram
             }
         }
 
-
-        //정말 삭제하시겠습니까 에러 헨들러 작업 요망
         public void DeleteConfirmErrorHandler(bool error)
         {
             if(error == true)

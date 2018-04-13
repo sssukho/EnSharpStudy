@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
+    /// <summary>
+    /// 도서 관리 기능 수행 중 일어나는 에러를 처리하는 클래스
+    /// </summary>
     class BookErrorHandler
     {
         BookManagement bookManagement;
@@ -34,6 +37,10 @@ namespace BookManagementProgram
 
         public void ManageMenuErrorHandler(Menu menu, string menuSelect)
         {
+            if(errorCheck == null)
+            {
+                errorCheck = new BookErrorCheck();
+            }
             error = errorCheck.ManagementMenuInputError(menuSelect);
             if (error == true)
             {

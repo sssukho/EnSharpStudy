@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
+    /// <summary>
+    /// 도서 대여 및 반납을 관리하는 클래스
+    /// </summary>
     class BookRent
     {
         List<Member> memberList;

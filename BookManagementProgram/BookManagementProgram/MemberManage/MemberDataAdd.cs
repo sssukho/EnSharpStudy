@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BookManagementProgram
 {
+    /// <summary>
+    /// 프로그램 빌드한뒤 가장 상위에 있는 메인 메뉴를 호출할 때 데이터 추가함
+    /// </summary>
     class MemberDataAdd
     {
         public MemberDataAdd(List<Member> inputMemberList)
