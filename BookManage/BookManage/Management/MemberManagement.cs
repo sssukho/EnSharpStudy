@@ -8,5 +8,9 @@ namespace BookManage
 {
     class MemberManagement
     {
+        public MemberManagement(Object o)
+        {
+            Console.Write(o.GetType());
+        }
     }
 }

@@ -22,7 +22,6 @@ namespace BookManagementProgram
             Console.WriteLine("\t|                                                                                             |");
             Console.WriteLine("\t|                                  프로그램 종료 : 4번                                        |");
             Console.WriteLine("\t----------------------------------------------------------------------------------------------\n");
-
             Console.Write("\t메뉴 번호 입력 : ");
         }
 

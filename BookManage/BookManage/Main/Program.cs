@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace BookManage
 {
-    class Member
+    class Program
     {
+        static void Main(string[] args)
+        {
+            Menu menu = new Menu();
+            menu.ViewMenu();
+        }
     }
 }
