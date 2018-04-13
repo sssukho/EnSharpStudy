@@ -29,5 +29,32 @@ namespace BookManagementProgram
             Console.WriteLine("\t2초 후에 메뉴로 돌아갑니다...t");
             Thread.Sleep(2000);
         }
+
+        public void RentalCompleteMsg()
+        {
+            Console.WriteLine("\n\n\t대여 완료 되었습니다.");
+            Console.WriteLine("\t2초 후에 메뉴로 돌아갑니다...t");
+            Thread.Sleep(2000);
+        }
+
+        public void ReturnCompleteMsg()
+        {
+            Console.WriteLine("\n\n\t반납 완료 되었습니다.");
+            Console.WriteLine("\t2초 후에 메뉴로 돌아갑니다...");
+            Thread.Sleep(2000);
+        }
+
+        public void ExtensionCompleteMsg()
+        {
+            Console.WriteLine("\n\n\t1주일 뒤로 연장 되었습니다.");
+            Console.WriteLine("\t2초 후에 메뉴로 돌아갑니다...t");
+            Thread.Sleep(2000);
+        }
+
+        public void NotCompleteMsg()
+        {
+            Console.WriteLine("\t2초 후에 메뉴로 돌아갑니다...");
+            Thread.Sleep(2000);
+        }
     }
 }

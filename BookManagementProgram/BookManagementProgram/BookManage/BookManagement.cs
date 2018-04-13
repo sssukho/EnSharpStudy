@@ -21,7 +21,7 @@ namespace BookManagementProgram
         string menuSelect;
         bool error;
 
-        public BookManagement() : base(){}
+        public BookManagement() { }
 
         public void ViewMenu(Menu menu, List<Book> bookList,
             BookManagement bookManagement, BookRent bookRent, 
@@ -67,7 +67,7 @@ namespace BookManagementProgram
         {
             PrintMenu.EditBookMenu();
             menuSelect = Console.ReadLine();
-            error = errorCheck.Number4InputError(menuSelect);
+            error = errorCheck.Number5InputError(menuSelect);
             errorHandler.EditMenuErrorHandler(menuSelect, error, inputBookList);
         }
 
@@ -150,7 +150,7 @@ namespace BookManagementProgram
         {
             PrintMenu.DeleteBookMenu();
             menuSelect = Console.ReadLine();
-            error = errorCheck.Number4InputError(menuSelect);
+            error = errorCheck.Number5InputError(menuSelect);
             errorHandler.DeleteMenuErrorHandler(menuSelect, error, inputBookList);
         }
 

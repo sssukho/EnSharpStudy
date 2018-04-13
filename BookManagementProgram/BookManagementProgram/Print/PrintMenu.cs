@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace BookManagementProgram
 {
     class PrintMenu
-    { //Menu menu, List<Book> bookList, BookManagement bookManagement, BookRent bookRent, BookErrorCheck errorCheck, PrintErrorMsg printErrorMsg
+    {
         public static void ViewMainMenu()
         {
             Console.Clear();
@@ -187,5 +187,7 @@ namespace BookManagementProgram
 
             Console.Write("\t메뉴 번호 입력 : ");
         }
+
+
     }
 }

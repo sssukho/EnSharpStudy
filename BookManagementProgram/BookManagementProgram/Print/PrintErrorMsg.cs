@@ -41,16 +41,24 @@ namespace BookManagementProgram
         {
             Console.Clear();
             Console.WriteLine("\n\n\t사용자가 존재하지 않습니다.");
-            Console.WriteLine("\n\n\t다시 입력 : 1번");
-            Console.WriteLine("\t이전 메뉴로 : 2번");
+            Console.WriteLine("\n\n\t다시 입력 : 1번 (바로 진입함)");
+            Console.WriteLine("\t이전 메뉴로 : 2번 (바로 진입함)");
         }
 
         public void NoBookErrorMsg()
         {
             Console.Clear();
             Console.WriteLine("\n\n\t도서가 존재하지 않습니다.");
-            Console.WriteLine("\n\n\t다시 입력 : 1번");
-            Console.WriteLine("\t이전 메뉴로 : 2번");
+            Console.WriteLine("\n\n\t다시 입력 : 1번 (바로 진입함)");
+            Console.WriteLine("\t이전 메뉴로 : 2번 (바로 진입함)");
+        }
+
+        public void BookCountErrorMsg()
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t도서 수량이 없습니다.");
+            Console.WriteLine("\n\n\t다시 입력 : 1번 (바로 진입함)");
+            Console.WriteLine("\t이전 메뉴로 : 2번 (바로 진입함)");
         }
     }
 }

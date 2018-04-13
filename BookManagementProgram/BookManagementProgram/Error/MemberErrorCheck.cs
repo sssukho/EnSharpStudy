@@ -16,38 +16,20 @@ namespace BookManagementProgram
             }
             return true;
         }
-    
-        public bool MainMenuInputError(string input)
+
+        public bool Number5InputError(string input)
         {
-            if (input == "1" || input == "2" || input == "3" || input == "4")
+            if (input == "1" || input == "2" || input == "3" || input == "4" || input == "5")
             {
                 return false;
             }
             return true;
         }
 
-        public bool ManagementMenuInputError(string input)
+        public bool Number7InputError(string input)
         {
             if (input == "1" || input == "2" || input == "3" || input == "4"
                 || input == "5" || input == "6" || input == "7")
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public bool EditMenuInputError(string input) //4numberInputError로 통합
-        {
-            if(input == "1" || input == "2" || input == "3" || input == "4")
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public bool DeleteMenuInputError(string input)
-        {
-            if (input == "1" || input == "2" || input == "3" || input == "4")
             {
                 return false;
             }

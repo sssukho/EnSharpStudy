@@ -22,7 +22,7 @@ namespace BookManagementProgram
         bool error;
         string menuSelect;
 
-        public MemberManagement() : base() { }
+        public MemberManagement() { }
         
         public void ViewMenu(Menu menu, List<Member> memberList, MemberManagement memberManagement, 
             MemberErrorCheck errorCheck, PrintErrorMsg printErrorMsg)

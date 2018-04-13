@@ -14,13 +14,15 @@ namespace BookManagementProgram
         private string phoneNumber;
         private string email;
         private string address;
+        private string rentBook;
+        private string dueDate;
 
         public Member()
         {
 
         }
 
-        public Member(string name, string studentId, string gender, string phoneNumber, string email, string address)
+        public Member(string name, string studentId, string gender, string phoneNumber, string email, string address, string rentBook, string dueDate)
         {
             this.name = name;
             this.studentId = studentId;
@@ -28,6 +30,8 @@ namespace BookManagementProgram
             this.phoneNumber = phoneNumber;
             this.email = email;
             this.address = address;
+            this.rentBook = rentBook;
+            this.dueDate = dueDate;
         }
 
         public string Name
@@ -64,6 +68,18 @@ namespace BookManagementProgram
         {
             get { return address; }
             set { address = value; }
+        }
+
+        public string RentBook
+        {
+            get { return rentBook; }
+            set { rentBook = value; }
+        }
+
+        public string DueDate
+        {
+            get { return dueDate; }
+            set { dueDate = value; }
         }
     }
 }

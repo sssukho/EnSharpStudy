@@ -31,10 +31,10 @@ namespace BookManagementProgram
             this.printInput = printInput;
             this.menu = menu;
         }
-
+        
         public void ManageMenuErrorHandler(Menu menu, string menuSelect)
         {
-            error = errorCheck.ManagementMenuInputError(menuSelect);
+            error = errorCheck.Number7InputError(menuSelect);
             if (error == true)
             {
                 printErrorMsg.ManangeMenuInputErrorMsg();
@@ -64,9 +64,9 @@ namespace BookManagementProgram
                     case "5":
                         memberManagement.ViewMemberList(memberList, memberManagement, errorCheck, printErrorMsg);
                         break;
-                        //menu가 널이었음
+
                     case "6":
-                        menu.ViewMainMenu(memberList, memberManagement, errorCheck, printErrorMsg); 
+                        menu.ViewMainMenu(memberList, memberManagement, errorCheck, printErrorMsg, menu); 
                         break;
 
                     case "7":

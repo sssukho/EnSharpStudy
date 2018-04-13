@@ -34,6 +34,8 @@ namespace BookManagementProgram
             memberManagement = new MemberManagement();
             bookManagement = new BookManagement();
             bookRent = new BookRent();
+            new BookDataAdd(this.bookList);
+            new MemberDataAdd(this.memberList);
             ViewMainMenu();
         }
 
@@ -46,26 +48,52 @@ namespace BookManagementProgram
             MenuErrorHandler(menuSelect);
         }
 
-        public void ViewMainMenu(List<Member> memberList, MemberManagement memberManagement, MemberErrorCheck errorCheck, PrintErrorMsg printErrorMsg)
+        public void ViewMainMenu(List<Member> memberList, MemberManagement memberManagement, MemberErrorCheck errorCheck, PrintErrorMsg printErrorMsg, Menu menu)
         {
             this.memberList = memberList;
             this.memberManagement = memberManagement;
             this.memberErrorCheck = errorCheck;
             this.printErrorMsg = printErrorMsg;
-            
+            this.menu = menu;
+
+            PrintMenu.ViewMainMenu();
+
             string menuSelect;
             menuSelect = Console.ReadLine();
 
             MenuErrorHandler(menuSelect);
         }
 
-        public void ViewMainMenu(List<Book> bookList, BookRent bookRent, BookManagement bookManagement, BookErrorCheck errorCheck, PrintErrorMsg printErrorMsg)
+        public void ViewMainMenu(List<Book> bookList, BookRent bookRent, BookManagement bookManagement, BookErrorCheck errorCheck, PrintErrorMsg printErrorMsg, Menu menu)
         {
             this.bookList = bookList;
             this.bookManagement = bookManagement;
             this.bookErrorCheck = errorCheck;
             this.printErrorMsg = printErrorMsg;
             this.bookRent = bookRent;
+            this.menu = menu;
+            memberErrorCheck = new MemberErrorCheck();
+
+            PrintMenu.ViewMainMenu();
+
+            string menuSelect;
+            menuSelect = Console.ReadLine();
+            
+            MenuErrorHandler(menuSelect);
+        }
+
+        public void ViewMainMenu(List<Member> inputMemberList, List<Book> inputBookList)
+        {
+            this.memberList = inputMemberList;
+            this.bookList = inputBookList;
+            menu = new Menu();
+            memberErrorCheck = new MemberErrorCheck();
+            bookErrorCheck = new BookErrorCheck();
+            printErrorMsg = new PrintErrorMsg();
+            memberManagement = new MemberManagement();
+            bookManagement = new BookManagement();
+            bookRent = new BookRent();
+            PrintMenu.ViewMainMenu();
 
             string menuSelect;
             menuSelect = Console.ReadLine();
@@ -76,7 +104,7 @@ namespace BookManagementProgram
         void MenuErrorHandler(string menuSelect)
         {
             bool error;
-            error = memberErrorCheck.MainMenuInputError(menuSelect);
+            error = memberErrorCheck.Number4InputError(menuSelect);
 
             if (error == true)
             {
@@ -97,7 +125,7 @@ namespace BookManagementProgram
                         break;
 
                     case "3":
-                        bookRent.ViewMenu();
+                        bookRent.ViewMenu(memberList, bookList, menu);
                         break;
 
                     case "4":

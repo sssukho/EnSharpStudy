@@ -9,7 +9,7 @@ namespace BookManagementProgram
     class PrintInput
     {
         string name, studentId, gender, phoneNumber, email, address;
-        string index, bookName, publisher, author, price;
+        string bookName, publisher, author, price;
         int count = 0;
 
         /***************************************회원 관리*************************************************/
@@ -30,7 +30,7 @@ namespace BookManagementProgram
             Console.Write("\n\n\t주소 입력 : ");
             address = Console.ReadLine();
 
-            Member newMember = new Member(name, studentId, gender, phoneNumber, email, address);
+            Member newMember = new Member(name, studentId, gender, phoneNumber, email, address, "", "");
             
             return newMember;
         }
@@ -251,7 +251,6 @@ namespace BookManagementProgram
         public Book BookEdit(Book inputBook, BookErrorHandler errorHandler)
         {
             Console.Clear();
-            string strCount;
 
             Console.WriteLine("\n\n\t---------------------------------수정할 도서 기존 정보--------------------------------");
             Console.WriteLine("\t도서 제목 : {0}", inputBook.BookName);

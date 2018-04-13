@@ -43,13 +43,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BookManage\Book.cs" />
+    <Compile Include="BookManage\BookDataAdd.cs" />
     <Compile Include="BookManage\BookManagement.cs" />
     <Compile Include="BookManage\BookRent.cs" />
     <Compile Include="Error\BookErrorCheck.cs" />
     <Compile Include="Error\BookErrorHandler.cs" />
+    <Compile Include="Error\BookRentErrorCheck.cs" />
+    <Compile Include="Error\BookRentErrorHandler.cs" />
     <Compile Include="Error\MemberErrorCheck.cs" />
     <Compile Include="MemberManage\Member.cs" />
     <Compile Include="Error\MemberErrorHandler.cs" />
+    <Compile Include="MemberManage\MemberDataAdd.cs" />
     <Compile Include="MemberManage\MemberManagement.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Print\PrintCompleteMsg.cs" />

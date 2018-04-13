@@ -64,9 +64,9 @@ namespace BookManagementProgram
                     case "5":
                         bookManagement.ViewBookList(bookList, bookRent, bookManagement, errorCheck, printErrorMsg);
                         break;
-                    //menu가 널이었음
+
                     case "6":
-                        menu.ViewMainMenu(bookList, bookRent, bookManagement, errorCheck, printErrorMsg);
+                        menu.ViewMainMenu(bookList, bookRent, bookManagement, errorCheck, printErrorMsg, menu);
                         break;
 
                     case "7":
