@@ -9,29 +9,34 @@ namespace BookManage
 {
     class MemberManagement
     {
-        Menu menu;
-        List<Member> memberList;
-        Print print;
-        ErrorCheck errorCheck;
-        ConsoleKeyInfo menuInput;
-
-        int menuSelect;
-
         private const int Registration = 1;
         private const int Editing = 2;
         private const int Remove = 3;
         private const int Searching = 4;
         private const int PrintAllMembers = 5;
         private const int Previous = 6;
-
+        private const int EXIT = 7;
         private const int ReInput = 1;
         private const int GoPrev = 2;
+
+        Menu menu;
+        List<Member> memberList;
+        Print print;
+        ErrorCheck errorCheck;
+
+        int menuSelect;
 
         public MemberManagement(Menu menu)
         {
             this.menu = menu;
             memberList = new List<Member>();
             this.print = new Print();
+        }
+
+        public List<Member> MemberList 
+        {
+            set { memberList = value; }
+            get { return memberList; }
         }
 
         public void ViewMenu()
@@ -58,6 +63,9 @@ namespace BookManage
                     break;
                 case Previous:
                     menu.ViewMenu();
+                    break;
+                case EXIT:
+                    Environment.Exit(0);
                     break;
             }
         }

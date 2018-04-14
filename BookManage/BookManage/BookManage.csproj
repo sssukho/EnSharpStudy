@@ -45,9 +45,9 @@
     <Compile Include="Data\Book.cs" />
     <Compile Include="Data\DataAdd.cs" />
     <Compile Include="Management\BookManagement.cs" />
-    <Compile Include="Management\BookRent.cs" />
     <Compile Include="Error\ErrorCheck.cs" />
     <Compile Include="Data\Member.cs" />
+    <Compile Include="Management\BookRent.cs" />
     <Compile Include="Management\MemberManagement.cs" />
     <Compile Include="Main\Menu.cs" />
     <Compile Include="Print\Print.cs" />
