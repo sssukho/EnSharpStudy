@@ -8,5 +8,17 @@ namespace BookManage
 {
     class BookManagement
     {
+        Menu menu;
+        List<Book> bookList;
+        ErrorCheck errorCheck;
+        public BookManagement(Menu menu)
+        {
+            this.menu = menu;
+        }
+
+        public void ViewMenu()
+        {
+
+        }
     }
 }

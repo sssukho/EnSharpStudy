@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Book.cs" />
+    <Compile Include="Data\DataAdd.cs" />
     <Compile Include="Management\BookManagement.cs" />
     <Compile Include="Management\BookRent.cs" />
     <Compile Include="Error\ErrorCheck.cs" />

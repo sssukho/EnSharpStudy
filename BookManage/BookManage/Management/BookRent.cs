@@ -8,5 +8,15 @@ namespace BookManage
 {
     class BookRent
     {
+        Menu menu;
+        public BookRent(Menu menu)
+        {
+            this.menu = menu;
+        }
+
+        public void ViewMenu()
+        {
+
+        }
     }
 }

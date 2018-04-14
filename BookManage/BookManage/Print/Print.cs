@@ -9,14 +9,15 @@ namespace BookManage
 {
     class Print
     {
-        List<Member> memberList;
-        List<Book> bookList;
-        public Print() { }
-
-        public Print(List<Member> memberList, List<Book> bookList)
+        Menu menu;
+        public Print(Menu menu)
         {
-            this.memberList = memberList;
-            this.bookList = bookList;
+            this.menu = menu;
+        }
+
+        public Print()
+        {
+
         }
 
         public void CompleteMsg(string type)
@@ -42,6 +43,10 @@ namespace BookManage
                     Console.WriteLine("\n\n\t1 ~ 7만 입력이 가능합니다.");
                     break;
 
+                case "Y/N오류":
+                    Console.WriteLine("\n\n\tY혹은 N으로만 입력이 가능합니다.");
+                    break;
+
                 case "양식오류":
                     Console.WriteLine("\n\n\t양식에 맞게 작성해주십시오.");
                     break;
@@ -58,8 +63,8 @@ namespace BookManage
                     Console.WriteLine("\n\n\t도서 수량이 없습니다.");
                     break;
             }
-            Console.WriteLine("\t다시 입력 : 1번 (바로 진입함)");
-            Console.WriteLine("\t이전 메뉴로 : 2번 (바로 진입함)");
+            Console.WriteLine("\t다시 입력 : 1번");
+            Console.WriteLine("\t이전 메뉴로 : 2번");
         }
 
        public void Menu(string type)
