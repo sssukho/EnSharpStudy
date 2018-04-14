@@ -26,17 +26,12 @@ namespace BookManage
 
         int menuSelect;
 
-        public MemberManagement(Menu menu)
+        public MemberManagement(Menu menu, List<Member> memberList)
         {
             this.menu = menu;
-            memberList = new List<Member>();
-            this.print = new Print();
-        }
-
-        public List<Member> MemberList 
-        {
-            set { memberList = value; }
-            get { return memberList; }
+            this.memberList = memberList;
+            this.print = Print.GetInstance();
+            this.errorCheck = ErrorCheck.GetInstance();
         }
 
         public void ViewMenu()

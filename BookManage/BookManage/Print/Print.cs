@@ -9,15 +9,21 @@ namespace BookManage
 {
     class Print
     {
-        Menu menu;
-        public Print(Menu menu)
-        {
-            this.menu = menu;
-        }
+        private static Print print;
 
         public Print()
         {
 
+        }
+
+        public static Print GetInstance()
+        {
+            if(print == null)
+            {
+                print = new Print();
+            }
+
+            return print;
         }
 
         public void CompleteMsg(string type)
@@ -62,11 +68,25 @@ namespace BookManage
                 case "수량오류":
                     Console.WriteLine("\n\n\t도서 수량이 없습니다.");
                     break;
+
+                case "대여오류":
+                    Console.WriteLine("\n\n\t해당 회원은 빌려간 책을 먼저 반납해야 합니다.");
+                    break;
             }
             Console.WriteLine("\t다시 입력 : 1번");
             Console.WriteLine("\t이전 메뉴로 : 2번");
         }
 
+        public void InputIDMsg(string type)
+        {
+            Console.WriteLine("\n\n\t{0}의 학번을 입력해주세요 : ", type);
+        }
+
+        public void RetrunMsg(string type)
+        {
+            Console.WriteLine("\n\n\t{0}을 반납하시겠습니까? (Y/N)", type);
+
+        }
        public void Menu(string type)
         {
             Console.Clear();
@@ -175,6 +195,20 @@ namespace BookManage
                     Console.WriteLine("\t|                                                                                             |");
                     Console.WriteLine("\t|                                  프로그램 종료 : 5번                                        |");
                     Console.WriteLine("\t----------------------------------------------------------------------------------------------\n");
+                    break;
+                case "대여검색":
+                    Console.Clear();
+                    Console.WriteLine("\n\n\t-------------------------------------대여할 도서 검색------------------------------------------");
+                    Console.WriteLine("\t|                                  도서명으로 검색 : 1번                                        |");
+                    Console.WriteLine("\t|                                                                                             |");
+                    Console.WriteLine("\t|                                  출판사로 검색 : 2번                                        |");
+                    Console.WriteLine("\t|                                                                                             |");
+                    Console.WriteLine("\t|                                  작가로 검색 : 3번                                        |");
+                    Console.WriteLine("\t|                                                                                             |");
+                    Console.WriteLine("\t|                                  이전 메뉴 : 4번                                            |");
+                    Console.WriteLine("\t|                                                                                             |");
+                    Console.WriteLine("\t|                                  프로그램 종료 : 5번                                        |");
+                    Console.WriteLine("\t-----------------------------------------------------------------------------------------------\n");
                     break;
             }
             Console.Write("\n\t메뉴 번호 입력 : ");
@@ -334,7 +368,6 @@ namespace BookManage
         public void BookDelete(Book inputBook)
         {
             Console.Clear();
-            string input;
 
             Console.WriteLine("\n\n\t---------------------------------삭제할 도서 기존 정보--------------------------------");
             Console.WriteLine("\t도서 제목 : {0}", inputBook.BookName);

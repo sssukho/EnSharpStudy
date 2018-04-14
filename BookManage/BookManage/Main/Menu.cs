@@ -16,6 +16,8 @@ namespace BookManage
         MemberManagement memberManagement;
         BookManagement bookManagement;
         BookRent bookRent;
+        List<Book> bookList;
+        List<Member> memberList;
         Print print;
         ErrorCheck errorCheck;
 
@@ -23,10 +25,14 @@ namespace BookManage
 
         public Menu()
         {
-            this.memberManagement = new MemberManagement(this);
-            this.bookManagement = new BookManagement(this);
-            this.bookRent = new BookRent(this);
-            this.print = new Print(this);
+            this.memberList = new List<Member>();
+            this.bookList = new List<Book>();
+            this.memberManagement = new MemberManagement(this, memberList);
+            this.bookManagement = new BookManagement(this, bookList);
+            this.bookRent = new BookRent(this, memberList, bookList);
+            this.print = Print.GetInstance();
+            this.errorCheck = ErrorCheck.GetInstance();
+            new DataAdd(this.memberList, this.bookList);
         }
 
         public void ViewMenu()
@@ -51,8 +57,6 @@ namespace BookManage
                     Environment.Exit(0);
                     break;
             }
-
         }
-
     }
 }

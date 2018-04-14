@@ -37,19 +37,13 @@ namespace BookManage
         int listIndex;
         string input;
 
-        public BookManagement(Menu menu)
+        public BookManagement(Menu menu, List<Book> bookList)
         {
             this.menu = menu;
-            this.bookList = new List<Book>();
-            this.print = new Print();
-            this.errorCheck = new ErrorCheck();
+            this.bookList = bookList;
+            this.print = Print.GetInstance();
+            this.errorCheck = ErrorCheck.GetInstance();
         } 
-
-        public List<Book> BookList
-        {
-            set { bookList = value; }
-            get { return bookList; }
-        }
 
         public void ViewMenu()
         {
@@ -134,7 +128,7 @@ namespace BookManage
 
             if (listIndex == NO_BOOK)
             {
-                print.ErrorMsg("존재하지않는회원");
+                print.ErrorMsg("존재하지않는도서");
                 menuSelect = int.Parse(Console.ReadLine()); //타입 에러, 1,2번 말고 딴 번호
                 switch(menuSelect)
                 {
@@ -181,7 +175,7 @@ namespace BookManage
                     break;
 
                 case PREV:
-                    menu.ViewMenu();
+                    ViewMenu();
                     break;
 
                 case SHUT_DOWN:
@@ -191,7 +185,7 @@ namespace BookManage
 
             if (listIndex == NO_BOOK)
             {
-                print.ErrorMsg("존재하지않는회원");
+                print.ErrorMsg("존재하지않는도서");
                 menuSelect = int.Parse(Console.ReadLine()); //타입 에러처리
                 switch (menuSelect)
                 {
@@ -257,7 +251,7 @@ namespace BookManage
                     break;
 
                 case PREV:
-                    menu.ViewMenu();
+                    ViewMenu();
                     break;
 
                 case SHUT_DOWN:
@@ -267,7 +261,7 @@ namespace BookManage
 
             if (listIndex == NO_BOOK)
             {
-                print.ErrorMsg("존재하지않는회원");
+                print.ErrorMsg("존재하지않는도서");
                 menuSelect = int.Parse(Console.ReadLine()); //타입 에러처리
                 switch (menuSelect)
                 {
@@ -291,8 +285,5 @@ namespace BookManage
             print.AllBook(bookList);
             ViewMenu();
         }
-
-        
-
     }
 }

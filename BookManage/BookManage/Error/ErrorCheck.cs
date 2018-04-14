@@ -9,7 +9,7 @@ namespace BookManage
     class ErrorCheck
     {
         Menu menu;
-        private static ErrorCheck errorCheck;
+        public static ErrorCheck errorCheck;
 
         public ErrorCheck()
         {
@@ -21,6 +21,13 @@ namespace BookManage
             this.menu = menu;
         }
 
-
+        public static ErrorCheck GetInstance()
+        {
+            if(errorCheck == null)
+            {
+                errorCheck = new ErrorCheck();
+            }
+            return errorCheck;
+        }
     }
 }
