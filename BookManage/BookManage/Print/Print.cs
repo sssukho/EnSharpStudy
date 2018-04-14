@@ -331,6 +331,22 @@ namespace BookManage
             return inputBook;
         }
 
+        public void BookDelete(Book inputBook)
+        {
+            Console.Clear();
+            string input;
+
+            Console.WriteLine("\n\n\t---------------------------------삭제할 도서 기존 정보--------------------------------");
+            Console.WriteLine("\t도서 제목 : {0}", inputBook.BookName);
+            Console.WriteLine("\t출판사 : {0}", inputBook.Publisher);
+            Console.WriteLine("\t저자 : {0}", inputBook.Author);
+            Console.WriteLine("\t도서 가격 : {0}", inputBook.Price);
+            Console.WriteLine("\t수량 : {0}", inputBook.Count + "\n");
+            Console.WriteLine("\t--------------------------------------------------------------------------------------");
+
+            Console.Write("\n\n\t정말로 삭제하시겠습니까? (Y/N) : "); //에러 체크할 것
+        }
+
         public void BookSearch(Book inputBook)
         {
             Console.Clear();

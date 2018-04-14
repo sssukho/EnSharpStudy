@@ -9,15 +9,15 @@ namespace BookManage
 {
     class MemberManagement
     {
-        private const int Registration = 1;
-        private const int Editing = 2;
-        private const int Remove = 3;
-        private const int Searching = 4;
-        private const int PrintAllMembers = 5;
-        private const int Previous = 6;
+        private const int REGISTER = 1;
+        private const int EDIT = 2;
+        private const int REMOVE = 3;
+        private const int SEARCH = 4;
+        private const int PRINT_MEMBER_LIST = 5;
+        private const int PREVIOUS = 6;
         private const int EXIT = 7;
-        private const int ReInput = 1;
-        private const int GoPrev = 2;
+        private const int REINPUT = 1;
+        private const int GOPREV = 2;
 
         Menu menu;
         List<Member> memberList;
@@ -46,22 +46,22 @@ namespace BookManage
             
             switch(menuSelect)
             {
-                case Registration:
+                case REGISTER:
                     Register();
                     break;
-                case Editing:
+                case EDIT:
                     Edit();
                     break;
-                case Remove:
+                case REMOVE:
                     Delete();
                     break;
-                case Searching:
+                case SEARCH:
                     Search();
                     break;
-                case PrintAllMembers:
+                case PRINT_MEMBER_LIST:
                     PrintMemberList();
                     break;
-                case Previous:
+                case PREVIOUS:
                     menu.ViewMenu();
                     break;
                 case EXIT:
@@ -94,11 +94,11 @@ namespace BookManage
             {
                 print.ErrorMsg("존재하지않는회원");
                 menuInput = int.Parse(Console.ReadLine()); //타입 에러처리
-                if(menuInput == ReInput)
+                if(menuInput == REINPUT)
                 {
                     Edit();
                 }
-                if(menuInput == GoPrev)
+                if(menuInput == GOPREV)
                 {
                     ViewMenu();
                 }
@@ -110,6 +110,8 @@ namespace BookManage
             else //리스트에 존재
             {
                 memberList[listIndex] = print.MemberEdit(memberList[listIndex]);
+                print.CompleteMsg("편집이 완료");
+                ViewMenu();
             }
         }
 
@@ -127,11 +129,11 @@ namespace BookManage
             {
                 print.ErrorMsg("존재하지않는회원");
                 menuInput = int.Parse(Console.ReadLine()); //타입 에러처리
-                if (menuInput == ReInput)
+                if (menuInput == REINPUT)
                 {
                     Delete();
                 }
-                if (menuInput == GoPrev)
+                if (menuInput == GOPREV)
                 {
                     ViewMenu();
                 }
@@ -157,6 +159,7 @@ namespace BookManage
                     Console.WriteLine("이전 메뉴로 돌아갑니다...");
                     Console.WriteLine("\t2초 후에 메뉴로 돌아갑니다...");
                     Thread.Sleep(2000);
+                    ViewMenu();
                 }
 
                 else
@@ -180,11 +183,11 @@ namespace BookManage
             {
                 print.ErrorMsg("존재하지않는회원");
                 menuInput = int.Parse(Console.ReadLine()); //타입 에러처리
-                if (menuInput == ReInput)
+                if (menuInput == REINPUT)
                 {
                     Delete();
                 }
-                if (menuInput == GoPrev)
+                if (menuInput == GOPREV)
                 {
                     ViewMenu();
                 }

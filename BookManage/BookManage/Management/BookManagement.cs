@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace BookManage
 {
@@ -12,14 +13,19 @@ namespace BookManage
         private const int EDIT = 2;
         private const int REMOVE = 3;
         private const int SEARCH = 4;
-        private const int PRINT_MEMBER_LIST = 5;
+        private const int PRINT_BOOK_LIST = 5;
         private const int PREVIOUS = 6;
         private const int EXIT = 7;
+
         private const int REINPUT = 1;
         private const int GOPREV = 2;
+
         private const int SEARCH_BY_NAME = 1;
         private const int SEARCH_BY_PUBLISHER = 2;
         private const int SEARCH_BY_AUTHOR = 3;
+        private const int PREV = 4;
+        private const int SHUT_DOWN = 5;
+
         private const int NO_BOOK = -1;
 
         Menu menu;
@@ -29,6 +35,7 @@ namespace BookManage
 
         int menuSelect;
         int listIndex;
+        string input;
 
         public BookManagement(Menu menu)
         {
@@ -67,7 +74,7 @@ namespace BookManage
                     Search();
                     break;
 
-                case PRINT_MEMBER_LIST:
+                case PRINT_BOOK_LIST:
                     PrintBookList();
                     break;
 
@@ -93,49 +100,63 @@ namespace BookManage
 
         public void Edit()
         {
-            /*
-            string input;
-            int listIndex;
-            int menuInput;
+            print.Menu("도서수정");
+            menuSelect = int.Parse(Console.ReadLine());
 
-            print.Search("편집할 회원의 학번을 ");
-            input = Console.ReadLine(); //타입 에러처리
-            listIndex = bookList.FindIndex(book => );
+            switch (menuSelect)
+            {
+                case SEARCH_BY_NAME:
+                    print.Search("도서명");
+                    input = Console.ReadLine();
+                    listIndex = bookList.FindIndex(book => book.BookName.Equals(input));
+                    break;
+
+                case SEARCH_BY_PUBLISHER:
+                    print.Search("출판사");
+                    input = Console.ReadLine();
+                    listIndex = bookList.FindIndex(book => book.Publisher.Equals(input));
+                    break;
+
+                case SEARCH_BY_AUTHOR:
+                    print.Search("저자");
+                    input = Console.ReadLine();
+                    listIndex = bookList.FindIndex(book => book.Author.Equals(input));
+                    break;
+
+                case PREV:
+                    menu.ViewMenu();
+                    break;
+
+                case SHUT_DOWN:
+                    Environment.Exit(0);
+                    break;
+            }
 
             if (listIndex == NO_BOOK)
             {
                 print.ErrorMsg("존재하지않는회원");
-                menuInput = int.Parse(Console.ReadLine()); //타입 에러처리
-                if (menuInput == REINPUT)
+                menuSelect = int.Parse(Console.ReadLine()); //타입 에러, 1,2번 말고 딴 번호
+                switch(menuSelect)
                 {
-                    Edit();
+                    case REINPUT:
+                        //다시 입력창으로 돌아가는 거 
+                        break;
+                    case GOPREV:
+                        ViewMenu();
+                        break;
                 }
-                if (menuInput == GOPREV)
-                {
-                    ViewMenu();
-                }
-                else
-                {
-                    //error처리
-                }
+
             }
             else //리스트에 존재
             {
-                memberList[listIndex] = print.MemberEdit(memberList[listIndex]);
-            }*/
+                bookList[listIndex] = print.BookEdit(bookList[listIndex]);
+                print.CompleteMsg("수량 수정 완료");
+                ViewMenu();
+            }
         }
 
         public void Delete()
         {
-
-        }
-
-        public void Search()
-        {
-            string input;
-            int type = 0;
-
-
             print.Menu("도서검색");
             menuSelect = int.Parse(Console.ReadLine());
 
@@ -158,34 +179,117 @@ namespace BookManage
                     input = Console.ReadLine();
                     listIndex = bookList.FindIndex(book => book.Author.Equals(input));
                     break;
+
+                case PREV:
+                    menu.ViewMenu();
+                    break;
+
+                case SHUT_DOWN:
+                    Environment.Exit(0);
+                    break;
             }
 
             if (listIndex == NO_BOOK)
             {
                 print.ErrorMsg("존재하지않는회원");
                 menuSelect = int.Parse(Console.ReadLine()); //타입 에러처리
-                if (menuSelect == REINPUT)
+                switch (menuSelect)
                 {
-                    Search();
+                    case REINPUT:
+                        //다시 입력창으로 돌아가는 것
+                        break;
+                    case GOPREV:
+                        ViewMenu();
+                        break;
                 }
-                if (menuSelect == GOPREV)
+            }
+            else //리스트에 존재
+            {
+                string confirm;
+                print.BookDelete(bookList[listIndex]);
+                confirm = Console.ReadLine();
+
+                if (confirm == "Y" || confirm == "y")
                 {
+                    bookList.RemoveAt(listIndex);
+                    print.CompleteMsg("도서 삭제가 완료 ");
                     ViewMenu();
                 }
+
+                else if (confirm == "N" || confirm == "n")
+                {
+                    Console.WriteLine("이전 메뉴로 돌아갑니다...");
+                    Console.WriteLine("\t2초 후에 메뉴로 돌아갑니다...");
+                    Thread.Sleep(2000);
+                    ViewMenu();
+                }
+
                 else
                 {
-                    //error처리
+                    print.ErrorMsg("Y/N오류"); //에러체크
+                }
+            }
+        }
+
+        public void Search()
+        {
+            print.Menu("도서검색");
+            menuSelect = int.Parse(Console.ReadLine());
+
+            switch (menuSelect)
+            {
+                case SEARCH_BY_NAME:
+                    print.Search("도서명");
+                    input = Console.ReadLine();
+                    listIndex = bookList.FindIndex(book => book.BookName.Equals(input));
+                    break;
+
+                case SEARCH_BY_PUBLISHER:
+                    print.Search("출판사");
+                    input = Console.ReadLine();
+                    listIndex = bookList.FindIndex(book => book.Publisher.Equals(input));
+                    break;
+
+                case SEARCH_BY_AUTHOR:
+                    print.Search("저자");
+                    input = Console.ReadLine();
+                    listIndex = bookList.FindIndex(book => book.Author.Equals(input));
+                    break;
+
+                case PREV:
+                    menu.ViewMenu();
+                    break;
+
+                case SHUT_DOWN:
+                    Environment.Exit(0);
+                    break;
+            }
+
+            if (listIndex == NO_BOOK)
+            {
+                print.ErrorMsg("존재하지않는회원");
+                menuSelect = int.Parse(Console.ReadLine()); //타입 에러처리
+                switch (menuSelect)
+                {
+                    case REINPUT:
+                        //다시 입력창으로 돌아가는 것
+                        break;
+                    case GOPREV:
+                        ViewMenu();
+                        break;
                 }
             }
             else //리스트에 존재
             {
                 print.BookSearch(bookList[listIndex]);
+                ViewMenu();
             }
         }
 
         public void PrintBookList()
         {
-
+            print.AllBook(bookList);
+            ViewMenu();
         }
 
         
