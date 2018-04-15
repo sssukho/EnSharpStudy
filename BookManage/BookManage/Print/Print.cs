@@ -65,13 +65,13 @@ namespace BookManage
             Console.WriteLine("\n\t다시 입력 : 1번");
             Console.WriteLine("\t이전 메뉴로 : 2번");
             Console.Write("\t입력(1~2) : ");
-            Thread.Sleep(1000);
         }
 
         public void RegisterErrorMsg(string type)
         {
             Console.WriteLine("\n\n\t{0} 양식에 맞게 작성해주세요.", type);
             Thread.Sleep(1000);
+            Console.Clear();
         }
 
         public void MenuErrorMsg(string type)
@@ -108,7 +108,7 @@ namespace BookManage
         public void RetrunMsg(string type)
         {
             Console.Clear();
-            Console.Write("\n\n\t" + type + "을 반납하시겠습니까? (Y/N) : ");
+            Console.Write("\n\n\t" + type + " 을 반납하시겠습니까? (Y/N) : ");
         }
 
         public void ExtensionMsg(string type)
@@ -243,10 +243,9 @@ namespace BookManage
             Console.Write("\n\t메뉴 번호 입력 : ");
         }
 
-        public Member MemberRegister()
+        public Member MemberRegister() //while로 틀린 항목 다시 입력하게
         {
             string name, studentId, gender, phoneNumber, email, address;
-            bool error;
             Console.Clear();
             Console.Write("\n\n\t이름 입력 (4자리 이내) : ");
             name = Console.ReadLine();
@@ -354,7 +353,7 @@ namespace BookManage
             Console.WriteLine("\t핸드폰 번호 : {0}", inputMember.PhoneNumber);
             Console.WriteLine("\t주소 : {0}", inputMember.Address + "\n");
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
-            Console.Write("\n\n\t정말로 삭제하시겠습니까? (Y/N) : "); //에러 체크할 것
+            Console.Write("\n\n\t정말로 삭제하시겠습니까? (Y/N) : ");
         }
 
        public void AllMember(List<Member> MemberList)
@@ -374,22 +373,60 @@ namespace BookManage
 
         public Book BookRegister()
         {
-            string bookName, publisher, author, price;
-            int count;
+            string bookName, publisher, author, price, count;
 
             Console.Clear();
-            Console.Write("\n\n\t도서 제목 입력 : ");
-            bookName = Console.ReadLine();
-            Console.Write("\n\n\t출판사 입력 : ");
-            publisher = Console.ReadLine();
-            Console.Write("\n\n\t저자 입력 : ");
-            author = Console.ReadLine();
-            Console.Write("\n\n\t가격 입력 : ");
-            price = Console.ReadLine();
-            Console.Write("\n\n\t수량 입력 : ");
-            count = int.Parse(Console.ReadLine());
+            while(true)
+            {
+                Console.Write("\n\n\t도서 제목 입력(16자이내) : ");
+                bookName = Console.ReadLine();
+                if(errorCheck.BookName(bookName) == false)
+                {
+                    break;
+                }
+                RegisterErrorMsg("도서제목");
+            }
+           while(true)
+            {
+                Console.Write("\n\n\t출판사 입력(8자이내) : ");
+                publisher = Console.ReadLine();
+                if(errorCheck.BookName(publisher) == false)
+                {
+                    break;
+                }
+                RegisterErrorMsg("출판사명");
+            }
+            while(true)
+            {
+                Console.Write("\n\n\t저자 입력(10자이내) : ");
+                author = Console.ReadLine();
+                if(errorCheck.BookAuthor(author) == false)
+                {
+                    break;
+                }
+                RegisterErrorMsg("저자");
+            }
+            while(true)
+            {
+                Console.Write("\n\n\t가격 입력(예:50000원) : ");
+                price = Console.ReadLine();
+                if(errorCheck.BookPrice(price) == false)
+                {
+                    break;
+                }
+                RegisterErrorMsg("가격");
+            }
+            while(true)
+            {
+                Console.Write("\n\n\t수량 입력(숫자만 입력) : ");
+                count = Console.ReadLine();
+                if(errorCheck.BookCount(count) == false)
+                {
+                    break;
+                }
+            }
 
-            Book newBook = new Book(bookName, publisher, author, price, count);
+            Book newBook = new Book(bookName, publisher, author, price, int.Parse(count));
 
             return newBook;
         }

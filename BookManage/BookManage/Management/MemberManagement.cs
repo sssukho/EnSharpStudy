@@ -26,7 +26,6 @@ namespace BookManage
         ErrorCheck errorCheck;
 
         string menuSelect;
-        bool error;
 
         public MemberManagement(Menu menu, List<Member> memberList)
         {
@@ -47,7 +46,6 @@ namespace BookManage
                     break;
                 }
                 print.MenuErrorMsg("7지선다오류");
-                ViewMenu();
             }
 
             switch (int.Parse(menuSelect))
@@ -199,7 +197,7 @@ namespace BookManage
 
                 else if (confirm == "N" || confirm == "n")
                 {
-                    Console.WriteLine("\t2초 후에 메뉴로 돌아갑니다...");
+                    Console.WriteLine("\n\t2초 후에 메뉴로 돌아갑니다...");
                     Thread.Sleep(2000);
                     ViewMenu();
                 }
@@ -210,27 +208,42 @@ namespace BookManage
         {
             string inputID;
             int listIndex;
-            int menuInput;
 
-            print.Search("검색할 회원의 학번을 ");
-            inputID = Console.ReadLine(); //타입 에러처리
+            while (true)
+            {
+                print.Search("검색할 회원의 학번을 ");
+                inputID = Console.ReadLine();
+                errorCheck.MemberID(inputID);
+                if(errorCheck.MemberID(inputID) == false)
+                {
+                    break;
+                }
+                print.MenuErrorMsg("2지선다오류");
+            }
             listIndex = memberList.FindIndex(member => member.StudentId.Equals(inputID));
 
             if (listIndex == -1) //리스트-1 => 매칭 되는 item 없다는 뜻
             {
-                print.ErrorMsg("존재하지않는회원");
-                menuInput = int.Parse(Console.ReadLine()); //타입 에러처리
-                if (menuInput == REINPUT)
+                while(true)
                 {
-                    Delete();
+                    print.ErrorMsg("존재하지않는회원");
+                    menuSelect = Console.ReadLine();
+                    if(errorCheck.TwoNumber(menuSelect) == false)
+                    {
+                        break;
+                    }
+                    print.MenuErrorMsg("2지선다오류");
                 }
-                if (menuInput == GOPREV)
+
+                switch (int.Parse(menuSelect))
                 {
-                    ViewMenu();
-                }
-                else
-                {
-                    //error처리
+                    case REINPUT:
+                        Search();
+                        break;
+
+                    case GOPREV:
+                        ViewMenu();
+                        break;
                 }
             }
             else //리스트에 존재
@@ -245,6 +258,5 @@ namespace BookManage
             print.AllMember(memberList);
             ViewMenu();
         }
-
     }
 }
