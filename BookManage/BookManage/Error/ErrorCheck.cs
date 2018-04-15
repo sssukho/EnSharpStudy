@@ -10,16 +10,28 @@ namespace BookManage
 {
     class ErrorCheck
     {
-        Menu menu;
         public static ErrorCheck errorCheck;
+        Menu menu;
+        MemberManagement memberManagement;
+        BookManagement bookManagement;
         MatchCollection mc;
         string pattern;
-
+       
         public ErrorCheck(){ }
 
         public ErrorCheck(Menu menu)
         {
             this.menu = menu;
+        }
+
+        public ErrorCheck(MemberManagement memberManagement)
+        {
+            this.memberManagement = memberManagement;
+        }
+
+        public ErrorCheck(BookManagement bookManagement)
+        {
+            this.bookManagement = bookManagement;
         }
 
         public static ErrorCheck GetInstance()
@@ -34,31 +46,63 @@ namespace BookManage
         public bool MemberName(string input)
         {
             pattern = @"^[가-힣]{2,4}$";
-            mc = Regex.Matches(input, pattern);
+            MatchCollection mc = Regex.Matches(input, pattern);
             return Judgement(mc);
         }
 
-        public bool PhoneNumber(string input)
+        public bool MemberID(string input)
         {
-            pattern = @"/^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;";
-            mc = Regex.Matches(input, pattern);
+            pattern = @"^[0-9]{6,9}$";
+            MatchCollection mc = Regex.Matches(input, pattern);
             return Judgement(mc);
         }
 
-        public bool Address(string input)
+        public bool MemberGender(string input)
+        {//@"^[남|여]{1}$";
+            if (input == "남" || input =="여")
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool MemberPhone(string input)
+        {
+            pattern = @"^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$";
+            MatchCollection mc = Regex.Matches(input, pattern);
+            return Judgement(mc);
+        }
+
+        public bool MemberAddress(string input)
         {
             pattern = @"(([가-힣]+(\d{1,5}|\d{1,5}(,|.)\d{1,5}|)+(읍|면|동|가|리))(^구|)((\d{1,5}(~|-)\d{1,5}|\d{1,5})(가|리|)|))([ ](산(\d{1,5}(~|-)\d{1,5}|\d{1,5}))|)|(([가-힣]|(\d{1,5}(~|-)\d{1,5})|\d{1,5})+(로|길))";
-            mc = Regex.Matches(input, pattern);
+            MatchCollection mc = Regex.Matches(input, pattern);
             return Judgement(mc);
         }
 
-        public bool EmailAddress(string input)
+        public bool MemberEmail(string input)
         {
-            pattern = @"/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$";
-            mc = Regex.Matches(input, pattern);
+            pattern = @"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$";
+            MatchCollection mc = Regex.Matches(input, pattern);
             return Judgement(mc);
         }
 
+        public bool TwoNumber(string input)
+        {
+            pattern = @"^[1-2]{1}$";
+            MatchCollection mc = Regex.Matches(input, pattern);
+            return Judgement(mc);
+        }
+
+        public bool Confirm(string input)
+        {
+            pattern = @"^[Y|y|N|n]{1}$";
+            MatchCollection mc = Regex.Matches(input, pattern);
+            return Judgement(mc);
+        }
+
+
+        /*
         public string RemoveBlank(string input)
         {
             pattern = "\\s+";
@@ -67,20 +111,20 @@ namespace BookManage
             string result = rgx.Replace(input, replacement);
             return result;
         }
-
+        
         public bool Korean(string input)
         {
-            pattern = @"/^[가-힣\s]+$/";
+            pattern = @"^[가-힣\s]+$";
             mc = Regex.Matches(input, pattern);
             return Judgement(mc);
         }
 
         public bool English(string input)
         {
-            pattern = @"/^[a-zA-Z\s]+$/";
+            pattern = @"^[a-zA-Z\s]+$";
             mc = Regex.Matches(input, pattern);
             return Judgement(mc);
-        }
+        }*/
 
         public bool Number(string input, string type)
         {
@@ -106,18 +150,8 @@ namespace BookManage
             mc = Regex.Matches(input, pattern);
             return Judgement(mc);
         }
-
-        public bool MemberRegister(Member newMember)
-        {
-            bool nameError, 
-            nameError = MemberName(newMember.Name);
-            if(nameError == true)
-            {
-                return true;
-            }
-            
-
-        }
+        
+      
 
         public bool Judgement(MatchCollection mc)
         {

@@ -11,10 +11,16 @@ namespace BookManage
     {
         private static Print print;
         ErrorCheck errorCheck;
-        bool error;
+        MemberManagement memberManagement;
 
         public Print()
         {
+            errorCheck = ErrorCheck.GetInstance();
+        }
+
+        public Print(MemberManagement memberManagement)
+        {
+            this.memberManagement = memberManagement;
             errorCheck = ErrorCheck.GetInstance();
         }
 
@@ -39,14 +45,6 @@ namespace BookManage
         {
             switch(type)
             {        
-                case "Y/N오류":
-                    Console.WriteLine("\n\n\tY혹은 N으로만 입력이 가능합니다.");
-                    break;
-
-                case "양식오류":
-                    Console.WriteLine("\n\n\t양식에 맞게 작성해주십시오.");
-                    break;
-
                 case "존재하지않는회원":
                     Console.WriteLine("\n\n\t사용자가 존재하지 않습니다.");
                     break;
@@ -67,25 +65,38 @@ namespace BookManage
             Console.WriteLine("\n\t다시 입력 : 1번");
             Console.WriteLine("\t이전 메뉴로 : 2번");
             Console.Write("\t입력(1~2) : ");
+            Thread.Sleep(1000);
+        }
+
+        public void RegisterErrorMsg(string type)
+        {
+            Console.WriteLine("\n\n\t{0} 양식에 맞게 작성해주세요.", type);
+            Thread.Sleep(1000);
         }
 
         public void MenuErrorMsg(string type)
         {
             switch(type)
             {
+                case "2지선다오류":
+                    Console.Write("\n\n\t1과 2만");
+                    break;
                 case "4지선다오류":
-                    Console.WriteLine("\n\n\t1 ~ 4만 입력이 가능합니다.");
+                    Console.Write("\n\n\t1 ~ 4만");
                     break;
-
                 case "5지선다오류":
-                    Console.WriteLine("\n\n\t1 ~ 5만 입력이 가능합니다.");
+                    Console.Write("\n\n\t1 ~ 5만");
                     break;
-
                 case "7지선다오류":
-                    Console.WriteLine("\n\n\t1 ~ 7만 입력이 가능합니다.");
+                    Console.Write("\n\n\t1 ~ 7만");
+                    break;
+                case "Y/N오류":
+                    Console.Write("\n\n\tY혹은 N으로만");
                     break;
             }
+            Console.WriteLine(" 입력이 가능합니다.");
             Thread.Sleep(1000);
+            Console.Clear();
         }
 
         public void InputIDMsg(string type)
@@ -235,22 +246,52 @@ namespace BookManage
         public Member MemberRegister()
         {
             string name, studentId, gender, phoneNumber, email, address;
+            bool error;
             Console.Clear();
-            Console.Write("\n\n\t이름 입력 (16자리 이내) : ");
+            Console.Write("\n\n\t이름 입력 (4자리 이내) : ");
             name = Console.ReadLine();
-            Console.Write("\n\n\t학번 입력 (8자리 이내) : ");
+            if(errorCheck.MemberName(name) == true)
+            {
+                RegisterErrorMsg("이름");
+                memberManagement.Register();
+            }
+            Console.Write("\n\n\t학번 입력 (6~8자리 이내) : ");
             studentId = Console.ReadLine();
+            if(errorCheck.MemberID(studentId))
+            {
+                RegisterErrorMsg("학번");
+                memberManagement.Register();
+            }
             Console.Write("\n\n\t성별 입력 (남/여): ");
             gender = Console.ReadLine();
+            if(errorCheck.MemberGender(gender))
+            {
+                RegisterErrorMsg("성별");
+                memberManagement.Register();
+            }
             Console.Write("\n\n\t핸드폰 번호 입력(010-1234-5678 형식) : ");
             phoneNumber = Console.ReadLine();
+            if(errorCheck.MemberPhone(phoneNumber))
+            {
+                RegisterErrorMsg("핸드폰 번호");
+                memberManagement.Register();
+            }
             Console.Write("\n\n\t이메일 입력 : ");
             email = Console.ReadLine();
+            if(errorCheck.MemberEmail(email))
+            {
+                RegisterErrorMsg("이메일");
+                memberManagement.Register();
+            }
             Console.Write("\n\n\t주소 입력 : ");
             address = Console.ReadLine();
+            if(errorCheck.MemberAddress(address))
+            {
+                RegisterErrorMsg("주소");
+                memberManagement.Register();
+            }
 
             Member newMember = new Member(name, studentId, gender, phoneNumber, email, address, "", "");
-
             return newMember;
         }
 

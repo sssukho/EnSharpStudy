@@ -32,55 +32,54 @@ namespace BookManage
         {
             this.menu = menu;
             this.memberList = memberList;
-            this.print = Print.GetInstance();
+            this.print = new Print(this);
             this.errorCheck = ErrorCheck.GetInstance();
         }
 
         public void ViewMenu()
         {
-            print.Menu("회원관리");
-            menuSelect = Console.ReadLine();
-            error = errorCheck.Number(menuSelect, "7지선다");
-            
-            if(error == true)
+            while (true)
             {
+                print.Menu("회원관리");
+                menuSelect = Console.ReadLine();
+                if (errorCheck.Number(menuSelect, "7지선다") == false)
+                {
+                    break;
+                }
                 print.MenuErrorMsg("7지선다오류");
                 ViewMenu();
             }
-            else
+
+            switch (int.Parse(menuSelect))
             {
-                switch (int.Parse(menuSelect))
-                {
-                    case REGISTER:
-                        Register();
-                        break;
-                    case EDIT:
-                        Edit();
-                        break;
-                    case REMOVE:
-                        Delete();
-                        break;
-                    case SEARCH:
-                        Search();
-                        break;
-                    case PRINT_MEMBER_LIST:
-                        PrintMemberList();
-                        break;
-                    case PREVIOUS:
-                        menu.ViewMenu();
-                        break;
-                    case EXIT:
-                        Environment.Exit(0);
-                        break;
-                }
+                case REGISTER:
+                    Register();
+                    break;
+                case EDIT:
+                    Edit();
+                    break;
+                case REMOVE:
+                    Delete();
+                    break;
+                case SEARCH:
+                    Search();
+                    break;
+                case PRINT_MEMBER_LIST:
+                    PrintMemberList();
+                    break;
+                case PREVIOUS:
+                    menu.ViewMenu();
+                    break;
+                case EXIT:
+                    Environment.Exit(0);
+                    break;
             }
         }
 
         public void Register()
         {
             Member newMember;
-            newMember = print.MemberRegister(); //에러체크
-            error = errorCheck.MemberRegister(newMember);
+            newMember = print.MemberRegister();
 
             memberList.Add(newMember);
             print.CompleteMsg("등록이 완료");
@@ -91,29 +90,44 @@ namespace BookManage
         {
             string inputID;
             int listIndex;
-            int menuInput;
 
-            print.Search("편집할 회원의 학번을 ");
-            inputID = Console.ReadLine(); //타입 에러처리
-            listIndex = memberList.FindIndex(member => member.StudentId.Equals(inputID));
-
-            if(listIndex == -1) //리스트-1 => 매칭 되는 item 없다는 뜻
+            while(true)
             {
-                print.ErrorMsg("존재하지않는회원");
-                menuInput = int.Parse(Console.ReadLine()); //타입 에러처리
-                if(menuInput == REINPUT)
+                print.Search("편집할 회원의 학번을 ");
+                inputID = Console.ReadLine();
+
+                if (errorCheck.MemberID(inputID) == false)
                 {
-                    Edit();
-                }
-                if(menuInput == GOPREV)
-                {
-                    ViewMenu();
-                }
-                else
-                {
-                    //error처리
+                    break;
                 }
             }
+
+            listIndex = memberList.FindIndex(member => member.StudentId.Equals(inputID));
+            if (listIndex == -1) //리스트-1 => 매칭 되는 item 없다는 뜻
+            {
+                
+                while (true)
+                {
+                    print.ErrorMsg("존재하지않는회원");
+                    menuSelect = Console.ReadLine();
+                    if (errorCheck.TwoNumber(menuSelect) == false) //에러 안나면 나감
+                    {
+                        break;
+                    }
+                    print.MenuErrorMsg("2지선다오류");
+                }
+                switch (int.Parse(menuSelect))
+                {
+                    case REINPUT:
+                        Edit();
+                        break;
+
+                    case GOPREV:
+                        ViewMenu();
+                        break;
+                }
+            }
+
             else //리스트에 존재
             {
                 memberList[listIndex] = print.MemberEdit(memberList[listIndex]);
@@ -127,32 +141,54 @@ namespace BookManage
             string inputID;
             string confirm;
             int listIndex;
-            int menuInput;
 
-            print.Search("삭제할 회원의 학번을 ");
-            inputID = Console.ReadLine(); //타입 에러처리
+            while(true)
+            {
+                print.Search("삭제할 회원의 학번을 ");
+                inputID = Console.ReadLine();
+                if (errorCheck.MemberID(inputID) == false)
+                {
+                    break;
+                }
+            }
+
             listIndex = memberList.FindIndex(member => member.StudentId.Equals(inputID));
             if (listIndex == -1) //리스트-1 => 매칭 되는 item 없다는 뜻
             {
-                print.ErrorMsg("존재하지않는회원");
-                menuInput = int.Parse(Console.ReadLine()); //타입 에러처리
-                if (menuInput == REINPUT)
+                while(true)
                 {
-                    Delete();
+                    print.ErrorMsg("존재하지않는회원");
+                    menuSelect = Console.ReadLine();
+                    if (errorCheck.TwoNumber(menuSelect) == false) //에러 안나면 나감
+                    {
+                        break;
+                    }
+                    print.MenuErrorMsg("2지선다오류");
                 }
-                if (menuInput == GOPREV)
+                switch (int.Parse(menuSelect))
                 {
-                    ViewMenu();
-                }
-                else
-                {
-                    //error처리
+                    case REINPUT:
+                        Edit();
+                        break;
+
+                    case GOPREV:
+                        ViewMenu();
+                        break;
                 }
             }
+            
             else //리스트에 존재
             {
-                print.MemberDelete(memberList[listIndex]);
-                confirm = Console.ReadLine();
+                while(true)
+                {
+                    print.MemberDelete(memberList[listIndex]);
+                    confirm = Console.ReadLine();
+                    if(errorCheck.Confirm(confirm) == false)
+                    {
+                        break;
+                    }
+                    print.MenuErrorMsg("Y/N오류");
+                }
 
                 if (confirm == "Y" || confirm == "y")
                 {
@@ -160,18 +196,12 @@ namespace BookManage
                     print.CompleteMsg("회원 삭제가 완료 ");
                     ViewMenu();
                 }
-                
-                else if(confirm == "N" || confirm == "n")
+
+                else if (confirm == "N" || confirm == "n")
                 {
-                    Console.WriteLine("이전 메뉴로 돌아갑니다...");
                     Console.WriteLine("\t2초 후에 메뉴로 돌아갑니다...");
                     Thread.Sleep(2000);
                     ViewMenu();
-                }
-
-                else
-                {
-                    print.ErrorMsg("Y/N오류"); //에러체크
                 }
             }
         }
