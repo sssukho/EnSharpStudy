@@ -23,7 +23,7 @@ namespace BookManage
         {
             this.menu = menu;
         }
-
+        
         public ErrorCheck(MemberManagement memberManagement)
         {
             this.memberManagement = memberManagement;
@@ -153,36 +153,12 @@ namespace BookManage
 
         public bool Judgement(string input, string pattern)
         {
-            MatchCollection mc = Regex.Matches(input, pattern);
+            mc = Regex.Matches(input, pattern);
             if (mc.Count == 0)
             {
                 return true;
             }
             return false;
         }
-
-        /*
-        public string RemoveBlank(string input)
-        {
-            pattern = "\\s+";
-            string replacement = "";
-            Regex rgx = new Regex(pattern);
-            string result = rgx.Replace(input, replacement);
-            return result;
-        }
-        
-        public bool Korean(string input)
-        {
-            pattern = @"^[가-힣\s]+$";
-            mc = Regex.Matches(input, pattern);
-            return Judgement(mc);
-        }
-
-        public bool English(string input)
-        {
-            pattern = @"^[a-zA-Z\s]+$";
-            mc = Regex.Matches(input, pattern);
-            return Judgement(mc);
-        }*/
     }
 }

@@ -31,7 +31,7 @@ namespace BookManage
         Print print;
         ErrorCheck errorCheck;
 
-        int menuSelect;
+        string menuSelect;
         int bookListIndex;
         int memberListIndex;
         string studentID;
@@ -48,13 +48,20 @@ namespace BookManage
 
         public void ViewMenu()
         {
-            print.Menu("도서대여");
-            menuSelect = int.Parse(Console.ReadLine());
-
-            switch (menuSelect)
+            while (true)
+            {
+                print.Menu("도서대여");
+                menuSelect = Console.ReadLine();
+                if (errorCheck.Number(menuSelect, "4지선다") == false)
+                {
+                    break;
+                }
+                print.MenuErrorMsg("4지선다오류");
+            }
+            switch (int.Parse(menuSelect))
             {
                 case RENT:
-                    Rent();
+                    RentMenu();
                     break;
 
                 case RETURN:
@@ -71,29 +78,26 @@ namespace BookManage
             }
         }
 
-        public void Rent()
+        public void RentMenu()
         {
             print.Menu("대여검색");
-            menuSelect = int.Parse(Console.ReadLine());
-            
-            switch (menuSelect)
+            menuSelect = Console.ReadLine();
+
+            switch (int.Parse(menuSelect))
             {
                 case SEARCH_BY_NAME:
-                    print.Search("도서명");
-                    input = Console.ReadLine();
-                    bookListIndex = bookList.FindIndex(book => book.BookName.Equals(input));
+                    bookListIndex = SearchByName();
+                    Rent(bookListIndex);
                     break;
 
                 case SEARCH_BY_PUBLISHER:
-                    print.Search("출판사");
-                    input = Console.ReadLine();
-                    bookListIndex = bookList.FindIndex(book => book.Publisher.Equals(input));
+                    bookListIndex = SearchByPublisher();
+                    Rent(bookListIndex);
                     break;
 
                 case SEARCH_BY_AUTHOR:
-                    print.Search("저자");
-                    input = Console.ReadLine();
-                    bookListIndex = bookList.FindIndex(book => book.Author.Equals(input));
+                    bookListIndex = SearchByAuthor();
+                    Rent(bookListIndex);
                     break;
 
                 case GOPREV:
@@ -104,53 +108,88 @@ namespace BookManage
                     Environment.Exit(0);
                     break;
             }
+        }
         
+
+        public void Rent(int bookListIndex)
+        {
             if (bookListIndex == NO_BOOK)
             {
-                print.ErrorMsg("존재하지않는도서");
-                menuSelect = int.Parse(Console.ReadLine()); //타입 에러처리
-                switch (menuSelect)
+                while (true)
+                {
+                    print.ErrorMsg("존재하지않는도서");
+                    menuSelect = Console.ReadLine();
+                    if (errorCheck.TwoNumber(menuSelect) == false)
+                    {
+                        break;
+                    }
+                    print.MenuErrorMsg("2지선다");
+                }
+                switch (int.Parse(menuSelect))
                 {
                     case REINPUT:
                         //다시 입력창으로 돌아가는 것
                         break;
                     case PREV:
-                        ViewMenu();
+                        RentMenu();
                         break;
                 }
             }
             else //리스트에 존재
             {
-                if(bookList[bookListIndex].Count == 0) //수량 없음
+                if (bookList[bookListIndex].Count == 0) //수량 없음
                 {
-                    print.ErrorMsg("수량오류");
-                    menuSelect = int.Parse(Console.ReadLine()); //타입 에러처리
-                    switch (menuSelect)
+                    while (true)
+                    {
+                        print.ErrorMsg("수량오류");
+                        menuSelect = Console.ReadLine();
+                        if (errorCheck.TwoNumber(menuSelect) == false)
+                        {
+                            break;
+                        }
+                        print.MenuErrorMsg("2지선다");
+                    }
+                    switch (int.Parse(menuSelect))
                     {
                         case REINPUT:
                             //다시 입력창으로 돌아가는 것
                             break;
                         case PREV:
-                            ViewMenu();
+                            RentMenu();
                             break;
                     }
                 }
                 else//빌릴사람 입력
                 {
-                    print.InputIDMsg("책을 빌릴 회원");
-                    studentID = Console.ReadLine();
+                    while (true)
+                    {
+                        print.InputIDMsg("책을 빌릴 회원");
+                        studentID = Console.ReadLine();
+                        if (errorCheck.MemberID(studentID) == false)
+                        {
+                            break;
+                        }
+                        print.RegisterErrorMsg("학번");
+                    }
+
                     memberListIndex = memberList.FindIndex(member => member.StudentId.Equals(studentID));
+
+                    if (memberListIndex == -1)
+                    {
+
+                    }
+
                     if (memberList[memberListIndex].RentBook != "") //해당 회원이 빌린 책이 있을 때                    
                     {
                         print.ErrorMsg("대여오류");
-                        menuSelect = int.Parse(Console.ReadLine());
-                        switch(menuSelect)
+                        menuSelect = Console.ReadLine();
+                        switch (int.Parse(menuSelect))
                         {
                             case REINPUT:
                                 //다시 입력창으로 돌아가는 것
                                 break;
                             case PREV:
-                                ViewMenu();
+                                RentMenu();
                                 break;
                         }
                     }
@@ -181,7 +220,7 @@ namespace BookManage
             print.RetrunMsg(bookList[bookListIndex].BookName);
             confirm = Console.ReadLine();
 
-            if(confirm == "Y" || confirm == "y")
+            if (confirm == "Y" || confirm == "y")
             {
                 memberList[memberListIndex].RentBook = "";
                 memberList[memberListIndex].DueDate = "";
@@ -190,7 +229,7 @@ namespace BookManage
                 ViewMenu();
             }
 
-            else if(confirm == "N" || confirm == "n")
+            else if (confirm == "N" || confirm == "n")
             {
                 Console.WriteLine("\t2초 후에 메뉴로 돌아갑니다...");
                 Thread.Sleep(2000);
@@ -236,6 +275,30 @@ namespace BookManage
             {
                 //예외처리
             }
+        }
+
+        public int SearchByName()
+        {
+            print.Search("도서명");
+            input = Console.ReadLine();
+            bookListIndex = bookList.FindIndex(book => book.BookName.Equals(input));
+            return bookListIndex;
+        }
+
+        public int SearchByPublisher()
+        {
+            print.Search("출판사");
+            input = Console.ReadLine();
+            bookListIndex = bookList.FindIndex(book => book.Publisher.Equals(input));
+            return bookListIndex;
+        }
+
+        public int SearchByAuthor()
+        {
+            print.Search("저자");
+            input = Console.ReadLine();
+            bookListIndex = bookList.FindIndex(book => book.Author.Equals(input));
+            return bookListIndex;
         }
     }
 }

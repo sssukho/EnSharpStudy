@@ -31,7 +31,7 @@ namespace BookManage
         {
             this.menu = menu;
             this.memberList = memberList;
-            this.print = new Print(this);
+            this.print = Print.GetInstance();
             this.errorCheck = ErrorCheck.GetInstance();
         }
 
