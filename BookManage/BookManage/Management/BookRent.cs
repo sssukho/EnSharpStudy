@@ -114,7 +114,7 @@ namespace BookManage
                     case REINPUT:
                         //다시 입력창으로 돌아가는 것
                         break;
-                    case GOPREV:
+                    case PREV:
                         ViewMenu();
                         break;
                 }
@@ -130,26 +130,26 @@ namespace BookManage
                         case REINPUT:
                             //다시 입력창으로 돌아가는 것
                             break;
-                        case GOPREV:
+                        case PREV:
                             ViewMenu();
                             break;
                     }
                 }
                 else//빌릴사람 입력
                 {
-                    print.InputIDMsg("책을 빌릴 회원의");
+                    print.InputIDMsg("책을 빌릴 회원");
                     studentID = Console.ReadLine();
                     memberListIndex = memberList.FindIndex(member => member.StudentId.Equals(studentID));
                     if (memberList[memberListIndex].RentBook != "") //해당 회원이 빌린 책이 있을 때                    
                     {
                         print.ErrorMsg("대여오류");
-                        int menuSelect = int.Parse(Console.ReadLine());
+                        menuSelect = int.Parse(Console.ReadLine());
                         switch(menuSelect)
                         {
                             case REINPUT:
                                 //다시 입력창으로 돌아가는 것
                                 break;
-                            case GOPREV:
+                            case PREV:
                                 ViewMenu();
                                 break;
                         }
@@ -160,7 +160,7 @@ namespace BookManage
                         memberList[memberListIndex].DueDate = "2018-04-23";
                         memberList[memberListIndex].RentBook = bookList[bookListIndex].BookName;
 
-                        print.CompleteMsg("해당 인원에게 대출이 완료");
+                        print.CompleteMsg("{0}에게 대출이 완료" + memberList[memberListIndex]);
                         ViewMenu();
                     }
                 }
@@ -214,7 +214,7 @@ namespace BookManage
             bookListIndex = bookList.FindIndex(book =>
             memberList[memberListIndex].RentBook.Equals(book.BookName));
 
-            print.RetrunMsg(bookList[bookListIndex].BookName);
+            print.ExtensionMsg(bookList[bookListIndex].BookName);
             confirm = Console.ReadLine();
 
             if (confirm == "Y" || confirm == "y")

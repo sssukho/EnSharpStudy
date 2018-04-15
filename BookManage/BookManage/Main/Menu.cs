@@ -22,6 +22,7 @@ namespace BookManage
         ErrorCheck errorCheck;
 
         string menuSelect;
+        bool error;
 
         public Menu()
         {
@@ -38,24 +39,33 @@ namespace BookManage
         public void ViewMenu()
         {
             print.Menu("메인");
-            menuSelect = Console.ReadLine(); //에러쳌
-            switch (int.Parse(menuSelect))
+            menuSelect = Console.ReadLine(); 
+            error = errorCheck.Number(menuSelect, "4지선다");
+            if(error == true)
             {
-                case MemberManagementMenu:
-                    memberManagement.ViewMenu();
+                print.MenuErrorMsg("4지선다오류");
+                ViewMenu();
+            }
+            else
+            {
+                switch (int.Parse(menuSelect))
+                {
+                    case MemberManagementMenu:
+                        memberManagement.ViewMenu();
                         break;
 
-                case BookManagementMenu:
-                    bookManagement.ViewMenu();
+                    case BookManagementMenu:
+                        bookManagement.ViewMenu();
                         break;
 
-                case BookRentMenu:
-                    bookRent.ViewMenu();
+                    case BookRentMenu:
+                        bookRent.ViewMenu();
                         break;
 
-                case EXIT:
-                    Environment.Exit(0);
-                    break;
+                    case EXIT:
+                        Environment.Exit(0);
+                        break;
+                }
             }
         }
     }

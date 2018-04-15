@@ -10,10 +10,12 @@ namespace BookManage
     class Print
     {
         private static Print print;
+        ErrorCheck errorCheck;
+        bool error;
 
         public Print()
         {
-
+            errorCheck = ErrorCheck.GetInstance();
         }
 
         public static Print GetInstance()
@@ -36,19 +38,7 @@ namespace BookManage
         public void ErrorMsg(string type)
         {
             switch(type)
-            {
-                case "5지선다오류":
-                    Console.WriteLine("\n\n\t1 ~ 5만 입력이 가능합니다.");
-                    break;
-
-                case "4지선다오류":
-                    Console.WriteLine("\n\n\t1 ~ 4만 입력이 가능합니다.");
-                    break;
-
-                case "7지선다오류":
-                    Console.WriteLine("\n\n\t1 ~ 7만 입력이 가능합니다.");
-                    break;
-
+            {        
                 case "Y/N오류":
                     Console.WriteLine("\n\n\tY혹은 N으로만 입력이 가능합니다.");
                     break;
@@ -70,22 +60,50 @@ namespace BookManage
                     break;
 
                 case "대여오류":
+                    Console.Clear();
                     Console.WriteLine("\n\n\t해당 회원은 빌려간 책을 먼저 반납해야 합니다.");
                     break;
             }
-            Console.WriteLine("\t다시 입력 : 1번");
+            Console.WriteLine("\n\t다시 입력 : 1번");
             Console.WriteLine("\t이전 메뉴로 : 2번");
+            Console.Write("\t입력(1~2) : ");
+        }
+
+        public void MenuErrorMsg(string type)
+        {
+            switch(type)
+            {
+                case "4지선다오류":
+                    Console.WriteLine("\n\n\t1 ~ 4만 입력이 가능합니다.");
+                    break;
+
+                case "5지선다오류":
+                    Console.WriteLine("\n\n\t1 ~ 5만 입력이 가능합니다.");
+                    break;
+
+                case "7지선다오류":
+                    Console.WriteLine("\n\n\t1 ~ 7만 입력이 가능합니다.");
+                    break;
+            }
+            Thread.Sleep(1000);
         }
 
         public void InputIDMsg(string type)
         {
-            Console.WriteLine("\n\n\t{0}의 학번을 입력해주세요 : ", type);
+            Console.Clear();
+            Console.Write("\n\n\t" + type + "의 학번을 입력해주세요(8자리 이내) : ");
         }
 
         public void RetrunMsg(string type)
         {
-            Console.WriteLine("\n\n\t{0}을 반납하시겠습니까? (Y/N)", type);
+            Console.Clear();
+            Console.Write("\n\n\t" + type + "을 반납하시겠습니까? (Y/N) : ");
+        }
 
+        public void ExtensionMsg(string type)
+        {
+            Console.Clear();
+            Console.Write("\n\n\t" + type + "의 반납을 연장하시겠습니까? (Y/N) : ");
         }
        public void Menu(string type)
         {
@@ -218,13 +236,13 @@ namespace BookManage
         {
             string name, studentId, gender, phoneNumber, email, address;
             Console.Clear();
-            Console.Write("\n\n\t이름 입력 : ");
+            Console.Write("\n\n\t이름 입력 (16자리 이내) : ");
             name = Console.ReadLine();
-            Console.Write("\n\n\t학번 입력 : ");
+            Console.Write("\n\n\t학번 입력 (8자리 이내) : ");
             studentId = Console.ReadLine();
-            Console.Write("\n\n\t성별 입력 : ");
+            Console.Write("\n\n\t성별 입력 (남/여): ");
             gender = Console.ReadLine();
-            Console.Write("\n\n\t핸드폰 번호 입력(xxx-xxxx-xxxx 형식) : ");
+            Console.Write("\n\n\t핸드폰 번호 입력(010-1234-5678 형식) : ");
             phoneNumber = Console.ReadLine();
             Console.Write("\n\n\t이메일 입력 : ");
             email = Console.ReadLine();
@@ -239,7 +257,7 @@ namespace BookManage
         public void Search(string type)
         {
             Console.Clear();
-            Console.Write("\n\n\t{0}을(를) 입력해주세요.", type);
+            Console.Write("\n\n\t{0}을(를) 입력해주세요 : ", type);
         }
 
         public void MemberInfo(Member inputMember)
@@ -250,7 +268,9 @@ namespace BookManage
             Console.WriteLine("\t학번 : {0}", inputMember.StudentId);
             Console.WriteLine("\t성별 : {0}", inputMember.Gender);
             Console.WriteLine("\t핸드폰 번호 : {0}", inputMember.PhoneNumber);
-            Console.WriteLine("\t주소 : {0}", inputMember.Address + "\n");
+            Console.WriteLine("\t주소 : {0}", inputMember.Address);
+            Console.WriteLine("\t현재 대출한 책 : {0}", inputMember.RentBook);
+            Console.WriteLine("\t반납 예정일 : {0}", inputMember.DueDate + "\n");
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
 
             Console.Write("\n\n\t이전으로 돌아가려면 엔터...");
@@ -260,7 +280,7 @@ namespace BookManage
         //기본 기능은 주소/핸드폰 번호만 수정 가능
         public Member MemberEdit(Member inputMember)
         {
-            string name, studentId, gender, phoneNumber, email, address;
+            string phoneNumber, address;
             Console.Clear();
             Console.WriteLine("\n\n\t---------------------------------수정할 회원 기존 정보--------------------------------");
             Console.WriteLine("\n\t이름 : {0}", inputMember.Name);
@@ -272,24 +292,12 @@ namespace BookManage
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
 
             Console.WriteLine("\n\n\t---------------------------------수정할 회원 정보 입력--------------------------------");
-            Console.Write("\n\t이름 입력 : ");
-            name = Console.ReadLine();
-            Console.Write("\n\n\t학번 입력(8자리이하) : ");
-            studentId = Console.ReadLine();
-            Console.Write("\n\n\t성별 입력(남/여) : ");
-            gender = Console.ReadLine();
-            Console.Write("\n\n\t핸드폰 번호 입력(xxx-xxxx-xxxx 형식) : ");
+            Console.Write("\n\t핸드폰 번호 입력(010-1234-5678 형식) : ");
             phoneNumber = Console.ReadLine();
-            Console.Write("\n\n\t이메일 입력 : ");
-            email = Console.ReadLine();
             Console.Write("\n\n\t주소 입력(동/리까지 입력) : ");
             address = Console.ReadLine();
-
-            inputMember.Name = name;
-            inputMember.StudentId = studentId;
-            inputMember.Gender = gender;
+            
             inputMember.PhoneNumber = phoneNumber;
-            inputMember.Email = email;
             inputMember.Address = address;
 
             return inputMember;
@@ -312,12 +320,12 @@ namespace BookManage
         {
             Console.Clear();
             Console.WriteLine("\n\n\t---------------------------------회원 명단--------------------------------");
-            Console.WriteLine("\t   이름   |   학번   |   성별   |   휴대폰번호   |   이메일   |   주소 ");
+            Console.WriteLine("\t   이름   |   학번   |   성별   |   휴대폰번호   |   이메일   |   주소   |   대출한 책   |   반납일   ");
 
             foreach (var item in MemberList)
             {
-                Console.WriteLine("\n\t   {0}      {1}      {2}      {3}      {4}      {5}",
-                    item.Name, item.StudentId, item.Gender, item.PhoneNumber, item.Email, item.Address);
+                Console.WriteLine("\n\t   {0}      {1}      {2}      {3}      {4}      {5}      {6}      {7}",
+                    item.Name, item.StudentId, item.Gender, item.PhoneNumber, item.Email, item.Address, item.RentBook, item.DueDate);
             }
             Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
             Console.ReadLine();
@@ -358,7 +366,7 @@ namespace BookManage
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
 
             Console.WriteLine("\n\n\t---------------------------------수정할 도서 수량 입력--------------------------------");
-            Console.WriteLine("\n\t수량을 입력해주세요 : ");
+            Console.Write("\n\t수량을 입력해주세요 : ");
             count = int.Parse(Console.ReadLine()); //타입 에러체크
 
             inputBook.Count = count;
@@ -407,7 +415,7 @@ namespace BookManage
             }
 
             Console.Clear();
-            Console.WriteLine("\n\n\t---------------------------------회원 명단--------------------------------");
+            Console.WriteLine("\n\n\t---------------------------------도서 명단--------------------------------");
             Console.WriteLine("\t   도서명   |   출판사   |   저자   |   가격   |   수량");
 
             foreach (var item in inputBookList)

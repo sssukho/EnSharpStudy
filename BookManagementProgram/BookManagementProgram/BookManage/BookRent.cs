@@ -20,7 +20,6 @@ namespace BookManagementProgram
         PrintErrorMsg printErrorMsg;
         PrintCompleteMsg printCompleteMsg;
         Menu menu;
-        
 
         string menuSelect;
         bool error;
@@ -76,7 +75,7 @@ namespace BookManagementProgram
                 if (inputBookList[bookIndex].Count == 0)
                 {
                     printErrorMsg.BookCountErrorMsg();
-                    if (error == true) //책 검색 후 존재안함
+                    if (error == true) //책 검색 후 수량 없음
                     {
                         printErrorMsg.NoBookErrorMsg();
                         input = Console.ReadKey(true);

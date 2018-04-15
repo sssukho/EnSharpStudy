@@ -16,6 +16,7 @@ namespace BookManage
         private const int PRINT_MEMBER_LIST = 5;
         private const int PREVIOUS = 6;
         private const int EXIT = 7;
+
         private const int REINPUT = 1;
         private const int GOPREV = 2;
 
@@ -24,7 +25,8 @@ namespace BookManage
         Print print;
         ErrorCheck errorCheck;
 
-        int menuSelect;
+        string menuSelect;
+        bool error;
 
         public MemberManagement(Menu menu, List<Member> memberList)
         {
@@ -37,31 +39,40 @@ namespace BookManage
         public void ViewMenu()
         {
             print.Menu("회원관리");
-            menuSelect = int.Parse(Console.ReadLine()); //에러체크
+            menuSelect = Console.ReadLine();
+            error = errorCheck.Number(menuSelect, "7지선다");
             
-            switch(menuSelect)
+            if(error == true)
             {
-                case REGISTER:
-                    Register();
-                    break;
-                case EDIT:
-                    Edit();
-                    break;
-                case REMOVE:
-                    Delete();
-                    break;
-                case SEARCH:
-                    Search();
-                    break;
-                case PRINT_MEMBER_LIST:
-                    PrintMemberList();
-                    break;
-                case PREVIOUS:
-                    menu.ViewMenu();
-                    break;
-                case EXIT:
-                    Environment.Exit(0);
-                    break;
+                print.MenuErrorMsg("7지선다오류");
+                ViewMenu();
+            }
+            else
+            {
+                switch (int.Parse(menuSelect))
+                {
+                    case REGISTER:
+                        Register();
+                        break;
+                    case EDIT:
+                        Edit();
+                        break;
+                    case REMOVE:
+                        Delete();
+                        break;
+                    case SEARCH:
+                        Search();
+                        break;
+                    case PRINT_MEMBER_LIST:
+                        PrintMemberList();
+                        break;
+                    case PREVIOUS:
+                        menu.ViewMenu();
+                        break;
+                    case EXIT:
+                        Environment.Exit(0);
+                        break;
+                }
             }
         }
 
@@ -69,6 +80,7 @@ namespace BookManage
         {
             Member newMember;
             newMember = print.MemberRegister(); //에러체크
+            error = errorCheck.MemberRegister(newMember);
 
             memberList.Add(newMember);
             print.CompleteMsg("등록이 완료");
