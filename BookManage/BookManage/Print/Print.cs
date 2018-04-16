@@ -18,7 +18,7 @@ namespace BookManage
 
         public Print()
         {
-            errorCheck = ErrorCheck.GetInstance();
+            errorCheck = ErrorCheck.GetInstance(); //싱글톤구조
         }
 
         public static Print GetInstance()
@@ -31,14 +31,14 @@ namespace BookManage
             return print;
         }
 
-        public void CompleteMsg(string type)
+        public void CompleteMsg(string type) //기능 에러없이 완료했을 경우
         {
             Console.WriteLine("\n\n\t{0} 되었습니다.", type);
             Console.WriteLine("\t2초 후에 메뉴로 돌아갑니다...");
             Thread.Sleep(2000);
         }
 
-        public void ErrorMsg(string type)
+        public void ErrorMsg(string type) //에러가 난곳에서 스트링 타입으로 인자를 받아서 어떤 에러인지 분류
         {
             switch(type)
             {        
@@ -59,7 +59,7 @@ namespace BookManage
             Console.Write("\t입력(1~2) : ");
         }
 
-        public void RegisterErrorMsg(string type)
+        public void RegisterErrorMsg(string type) //등록 및 편집시 잘못 입력하면 뜨는 오류 메시지
         {
             Console.WriteLine("\n\n\t{0} 양식에 맞게 작성해주세요.", type);
             Thread.Sleep(1000);
@@ -251,9 +251,9 @@ namespace BookManage
             while(true)
             {
                 Console.Write("\n\n\t이름 입력 (4자리 이내) : ");
-                name = CancelKey.ReadLineWithCancel();
-                if (name == null) memberManagement.ViewMenu();
-                if (errorCheck.MemberName(name) == false)
+                name = CancelKey.ReadLineWithCancel(); 
+                if (name == null) memberManagement.ViewMenu();//입력중간에 ESC키 입력하면 바로 이전 메뉴로 나감
+                if (errorCheck.MemberName(name) == false)//미리 설정해둔 정규식에 맞으면 bool 타입 false 반환
                 {
                     break;
                 }
@@ -262,8 +262,8 @@ namespace BookManage
             while(true)
             {
                 Console.Write("\n\n\t학번 입력 (6~8자리 이내) : ");
-                studentId = CancelKey.ReadLineWithCancel();
-                if (studentId == null) MemberRegister(memberManagement);
+                studentId = CancelKey.ReadLineWithCancel(); 
+                if (studentId == null) MemberRegister(memberManagement); //입력중간에 ESC키 입력하면 입력 양식 가장 위로 올라감 
                 if (errorCheck.MemberID(studentId) == false)
                 {
                     break;
@@ -272,7 +272,7 @@ namespace BookManage
             }
             while(true)
             {
-                Console.Write("\n\n\t성별 입력 (남/여): ");
+                Console.Write("\n\n\t성별 입력 (남/여): "); 
                 gender = CancelKey.ReadLineWithCancel();
                 if (gender == null) MemberRegister(memberManagement);
                 if (errorCheck.MemberGender(gender) == false)
@@ -343,7 +343,7 @@ namespace BookManage
         }
 
         //기본 기능은 주소/핸드폰 번호만 수정 가능
-        public Member MemberEdit(Member inputMember)
+        public Member MemberEdit(Member inputMember, MemberManagement memberManagement)
         {
             string phoneNumber, address;
             Console.Clear();
@@ -361,7 +361,7 @@ namespace BookManage
             {
                 Console.Write("\n\t핸드폰 번호 입력(010-1234-5678 형식) : ");
                 phoneNumber = CancelKey.ReadLineWithCancel();
-                if (phoneNumber == null) MemberEdit(inputMember);
+                if (phoneNumber == null) memberManagement.Edit(memberManagement);
                 if (errorCheck.MemberPhone(phoneNumber) == false)
                 {
                     break;
@@ -372,7 +372,7 @@ namespace BookManage
             {
                 Console.Write("\n\n\t주소 입력(동/리까지 입력) : ");
                 address = CancelKey.ReadLineWithCancel();
-                if (address == null) MemberEdit(inputMember);
+                if (address == null) MemberEdit(inputMember, memberManagement);
                 if (errorCheck.MemberAddress(address) == false)
                 {
                     break;
@@ -478,7 +478,7 @@ namespace BookManage
             return newBook;
         }
 
-        public Book BookEdit(Book inputBook)
+        public Book BookEdit(Book inputBook, BookManagement bookManagement)
         {
             string count;
             Console.Clear();
@@ -495,7 +495,7 @@ namespace BookManage
             {
                 Console.Write("\n\t수량을 입력해주세요 : ");
                 count = CancelKey.ReadLineWithCancel();
-                if (count == null) BookEdit(inputBook);
+                if (count == null) bookManagement.Edit(bookManagement);
                 if (errorCheck.BookCount(count) == false)
                 {
                     break;

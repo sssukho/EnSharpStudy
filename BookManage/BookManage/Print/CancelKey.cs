@@ -17,10 +17,10 @@ namespace BookManage
         public CancelKey() { }
         public static string ReadLineWithCancel()
         {
-            string result = null;
+            string inputString = null;
             StringBuilder buffer = new StringBuilder();
             ConsoleKeyInfo key = Console.ReadKey(true);
-
+          
             while (key.Key != ConsoleKey.Enter && key.Key != ConsoleKey.Escape)
             {
                 Console.Write(key.KeyChar);
@@ -30,9 +30,9 @@ namespace BookManage
 
             if (key.Key == ConsoleKey.Enter)
             {
-                result = buffer.ToString();
+                inputString = buffer.ToString();
             }
-            return result;
+            return inputString;
         }
     }
 }

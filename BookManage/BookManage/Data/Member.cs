@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BookManage
 {
+    /// <Member클래스>
+    /// 회원 정보가 들어있는 VO로서 데이터 불러오고 저장함
+    
     class Member
     {
         private string name;

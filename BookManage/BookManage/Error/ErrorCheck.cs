@@ -11,30 +11,13 @@ namespace BookManage
     class ErrorCheck
     {
         public static ErrorCheck errorCheck;
-        Menu menu;
-        MemberManagement memberManagement;
-        BookManagement bookManagement;
+      
         MatchCollection mc;
         string pattern;
        
         public ErrorCheck(){ }
 
-        public ErrorCheck(Menu menu)
-        {
-            this.menu = menu;
-        }
-        
-        public ErrorCheck(MemberManagement memberManagement)
-        {
-            this.memberManagement = memberManagement;
-        }
-
-        public ErrorCheck(BookManagement bookManagement)
-        {
-            this.bookManagement = bookManagement;
-        }
-
-        public static ErrorCheck GetInstance()
+        public static ErrorCheck GetInstance() //싱글톤구조
         {
             if(errorCheck == null)
             {
@@ -43,7 +26,7 @@ namespace BookManage
             return errorCheck;
         }
 
-        public bool MemberName(string input)
+        public bool MemberName(string input) 
         {
             pattern = @"^[가-힣]{2,4}$";
             return Judgement(input, pattern);

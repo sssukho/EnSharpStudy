@@ -72,7 +72,7 @@ namespace BookManage
                     break;
 
                 case EDIT:
-                    Edit();
+                    Edit(this);
                     break;
 
                 case REMOVE:
@@ -107,7 +107,7 @@ namespace BookManage
             ViewMenu();
         }
 
-        public void Edit()
+        public void Edit(BookManagement bookManagement)
         {
             while(true)
             {
@@ -149,7 +149,7 @@ namespace BookManage
                 {
                     print.ErrorMsg("존재하지않는도서");
                     menuSelect = CancelKey.ReadLineWithCancel();
-                    if (menuSelect == null) Edit();
+                    if (menuSelect == null) Edit(this);
                     if (errorCheck.Number(menuSelect, "선택") == false)
                     {
                         break;
@@ -159,16 +159,16 @@ namespace BookManage
                 switch (int.Parse(menuSelect))
                 {
                     case REINPUT:
-                        Edit();
+                        Edit(this);
                         break;
                     case GOPREV:
-                        Edit();
+                        Edit(this);
                         break;
                 }
             }
             else //리스트에 존재
             {
-                bookList[listIndex] = print.BookEdit(bookList[listIndex]);
+                bookList[listIndex] = print.BookEdit(bookList[listIndex], this);
                 print.CompleteMsg("수량 수정 완료");
                 ViewMenu();
             }

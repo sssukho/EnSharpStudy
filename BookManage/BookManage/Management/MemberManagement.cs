@@ -24,6 +24,8 @@ namespace BookManage
         private const int REINPUT = 1;
         private const int GOPREV = 2;
 
+        private const int NO_MEMBER = -1;
+
         Menu menu;
         List<Member> memberList;
         Print print;
@@ -37,7 +39,10 @@ namespace BookManage
             this.memberList = memberList;
             this.print = Print.GetInstance();
             this.errorCheck = ErrorCheck.GetInstance();
-            this.memberManagement = this;
+            this.memberManagement = this; 
+            //등록 혹은 편집 기능을 하는 메소드가 다른 클래스에 있어서 현재 MemberManagement
+            //인스턴스 전체를 가리키고 있는 this로 membermanagement 에 할당해준 뒤
+            //다른 클래스로 넘길때 인자로 넘겨줌
         }
 
         public void ViewMenu()
@@ -46,8 +51,8 @@ namespace BookManage
             {
                 print.Menu("회원관리");
                 menuSelect = CancelKey.ReadLineWithCancel();
-                if (menuSelect == null) menu.ViewMenu();
-
+                if (menuSelect == null) menu.ViewMenu(); //입력 중간에 ESC키 받으면 menuSelect값이 null이 되어
+                                                                        //이전 메뉴로 돌아가게됨.
                 if (errorCheck.Number(menuSelect, "7지선다") == false)
                 {
                     break;
@@ -61,7 +66,7 @@ namespace BookManage
                     Register();
                     break;
                 case EDIT:
-                    Edit();
+                    Edit(this);
                     break;
                 case REMOVE:
                     Delete();
@@ -81,7 +86,7 @@ namespace BookManage
             }
         }
 
-        public void Register()
+        public void Register() //멤버 등록
         {
             Member newMember;
             newMember = print.MemberRegister(memberManagement);
@@ -91,7 +96,7 @@ namespace BookManage
             ViewMenu();
         }
 
-        public void Edit()
+        public void Edit(MemberManagement memberManagement) //멤버 편집
         {
             string inputID;
             int listIndex;
@@ -109,14 +114,14 @@ namespace BookManage
             }
 
             listIndex = memberList.FindIndex(member => member.StudentId.Equals(inputID));
-            if (listIndex == -1) //리스트-1 => 매칭 되는 item 없다는 뜻
+            //listIndex = 회원 리스트에서 입력받은 inputID 값과 일치하는 item의 index를 반환함
+            if (listIndex == NO_MEMBER) //리스트-1 => 매칭 되는 item 없다는 뜻
             {
-                
-                while (true)
+                while (true) //입력시 정규표현식에 맞지 않으면 반복문 탈출 불가(같은 부분 지속적으로 입력받기 위함)
                 {
                     print.ErrorMsg("존재하지않는회원");
-                    menuSelect = CancelKey.ReadLineWithCancel();
-                    if (menuSelect == null) ViewMenu();
+                    menuSelect = CancelKey.ReadLineWithCancel(); 
+                    if (menuSelect == null) ViewMenu(); //입력 중간에 ESC키를 누르면 이전 메뉴로
                     if (errorCheck.Number(menuSelect, "선택") == false) //에러 안나면 나감
                     {
                         break;
@@ -126,7 +131,7 @@ namespace BookManage
                 switch (int.Parse(menuSelect))
                 {
                     case REINPUT:
-                        Edit();
+                        Edit(this);
                         break;
 
                     case GOPREV:
@@ -137,13 +142,14 @@ namespace BookManage
 
             else //리스트에 존재
             {
-                memberList[listIndex] = print.MemberEdit(memberList[listIndex]);
+                memberList[listIndex] = print.MemberEdit(memberList[listIndex], this);
                 print.CompleteMsg("편집이 완료");
                 ViewMenu();
             }
         }
 
-        public void Delete()
+        
+        public void Delete() //멤버 삭제 메소드
         {
             string inputID;
             string confirm;
@@ -161,14 +167,14 @@ namespace BookManage
             }
 
             listIndex = memberList.FindIndex(member => member.StudentId.Equals(inputID));
-            if (listIndex == -1) //리스트-1 => 매칭 되는 item 없다는 뜻
+            if (listIndex == NO_MEMBER) //리스트-1 => 매칭 되는 item 없다는 뜻
             {
                 while(true)
                 {
                     print.ErrorMsg("존재하지않는회원");
                     menuSelect = CancelKey.ReadLineWithCancel();
                     if (menuSelect == null) ViewMenu();
-                    if (errorCheck.Number(menuSelect, "선택") == false) //에러 안나면 나감
+                    if (errorCheck.Number(menuSelect, "선택") == false) //에러 값이 false이기 때문에 반복문 나감
                     {
                         break;
                     }
@@ -177,7 +183,7 @@ namespace BookManage
                 switch (int.Parse(menuSelect))
                 {
                     case REINPUT:
-                        Edit();
+                        Edit(this);
                         break;
 
                     case GOPREV:
@@ -186,14 +192,14 @@ namespace BookManage
                 }
             }
             
-            else //리스트에 존재
+            else //리스트에 입력받은 학번과 일치하는 아이템 있음.
             {
                 while(true)
                 {
                     print.MemberDelete(memberList[listIndex]);
                     confirm = CancelKey.ReadLineWithCancel();
                     if (confirm == null) ViewMenu(); 
-                    if (errorCheck.Confirm(confirm) == false)
+                    if (errorCheck.Confirm(confirm) == false) //입력 양식 안맞을때
                     {
                         break;
                     }
@@ -216,7 +222,7 @@ namespace BookManage
             }
         }
 
-        public void Search()
+        public void Search() //회원 검색
         {
             string inputID;
             int listIndex;
@@ -235,7 +241,7 @@ namespace BookManage
             }
             listIndex = memberList.FindIndex(member => member.StudentId.Equals(inputID));
 
-            if (listIndex == -1) //리스트-1 => 매칭 되는 item 없다는 뜻
+            if (listIndex == NO_MEMBER) //리스트-1 => 매칭 되는 item 없다는 뜻
             {
                 while(true)
                 {
@@ -260,7 +266,7 @@ namespace BookManage
                         break;
                 }
             }
-            else //리스트에 존재
+            else //리스트에 입력받은 학번에 부합하는 아이템 존재
             {
                 print.MemberInfo(memberList[listIndex]);
                 ViewMenu();

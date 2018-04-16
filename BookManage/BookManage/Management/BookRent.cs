@@ -29,6 +29,7 @@ namespace BookManage
         private const int SHUT_DOWN = 5;
 
         private const int NO_BOOK = -1;
+        private const int NO_MEMBER = -1;
 
         Menu menu;
         List<Member> memberList;
@@ -56,9 +57,9 @@ namespace BookManage
             while (true)
             {
                 print.Menu("도서대여");
-                menuSelect = CancelKey.ReadLineWithCancel();
-                if (menuSelect == null) menu.ViewMenu();
-                if (errorCheck.Number(menuSelect, "5지선다") == false)
+                menuSelect = CancelKey.ReadLineWithCancel(); //중간에 ESC키 받으면 menuSelect 값이 null이 되어
+                if (menuSelect == null) menu.ViewMenu(); //이전 메뉴로 나감
+                if (errorCheck.Number(menuSelect, "5지선다") == false) //입력받은 menuSelect의 오류값이 false면(오류없음) 반복문 나감
                 {
                     break;
                 }
@@ -101,17 +102,17 @@ namespace BookManage
             switch (int.Parse(menuSelect))
             {
                 case SEARCH_BY_NAME:
-                    bookListIndex = SearchByName();
+                    bookListIndex = SearchByName(); //이름으로 검색
                     ValidateCheckBook("byName");
                     break;
 
                 case SEARCH_BY_PUBLISHER:
-                    bookListIndex = SearchByPublisher();
+                    bookListIndex = SearchByPublisher(); //출판사명으로 검색
                     ValidateCheckBook("byPublisher");
                     break;
 
                 case SEARCH_BY_AUTHOR:
-                    bookListIndex = SearchByAuthor();
+                    bookListIndex = SearchByAuthor(); //작가로 검색
                     ValidateCheckBook("byAuthor");
                     break;
 
@@ -143,7 +144,7 @@ namespace BookManage
 
                 switch (int.Parse(menuSelect))
                 {
-                    case REINPUT:
+                    case REINPUT: //다시 입력 할 때 searchType 변수로 검색 방식 설정해주고 인자값으로 넘겨줌
                         if (searchType == "byName") SearchByName();
                         if (searchType == "byPublisher") SearchByPublisher();
                         if (searchType == "byAuthor") SearchByAuthor();
@@ -159,7 +160,7 @@ namespace BookManage
         public void Rent(int bookListIndex, string searchType)
         {
             //리스트에 존재
-            if (bookList[bookListIndex].Count == 0) //수량 없음
+            if (bookList[bookListIndex].Count == 0) //책 수량 없음
             {
                 print.CompleteMsg("수량이 소진");
                 RentMenu();
@@ -180,7 +181,7 @@ namespace BookManage
 
                 memberListIndex = memberList.FindIndex(member => member.StudentId.Equals(studentID));
 
-                if (memberListIndex == -1) //학번 검색했을때 등록되지 않은 회원이었을때
+                if (memberListIndex == NO_MEMBER) //학번 검색했을때 등록되지 않은 회원이었을때
                 {
                     while(true)
                     {
@@ -229,8 +230,8 @@ namespace BookManage
                 }
                 else //정상적으로 해당 인원에게 책을 대출해줌. 책 카운트도 감소
                 {
-                    bookList[bookListIndex].Count = bookList[bookListIndex].Count - 1;
-                    memberList[memberListIndex].DueDate = "2018-04-23";
+                    bookList[bookListIndex].Count = bookList[bookListIndex].Count - 1; //책 카운트 감소
+                    memberList[memberListIndex].DueDate = "2018-04-23"; //오늘부터 일주일 설정
                     memberList[memberListIndex].RentBook = bookList[bookListIndex].BookName;
 
                     print.CompleteMsg("{0}에게 대출이 완료" + memberList[memberListIndex]);
@@ -256,14 +257,14 @@ namespace BookManage
                 print.RegisterErrorMsg("학번");
             }
             
-            memberListIndex = memberList.FindIndex(member => member.StudentId.Equals(studentID));
-            if(memberListIndex == -1) //입력받은 학번에 해당하는 회원 없을때
+            memberListIndex = memberList.FindIndex(member => member.StudentId.Equals(studentID)); //입력받은 학번과 일치하는 회원을 리스트에서 찾아서 인덱스를 반환
+            if(memberListIndex == NO_MEMBER) //입력받은 학번에 해당하는 회원 없을때
             {
                 while(true)
                 {
                     print.ErrorMsg("존재하지않는회원");
                     menuSelect = CancelKey.ReadLineWithCancel();
-                    if (menuSelect == null) Return();
+                    if (menuSelect == null) Return(); //ESC키
                     if (errorCheck.Number(menuSelect, "선택") == false)
                     {
                         break;
@@ -280,8 +281,8 @@ namespace BookManage
                         break;
                 }
             }
-            bookListIndex = bookList.FindIndex(book =>
-            memberList[memberListIndex].RentBook.Equals(book.BookName));
+            bookListIndex = bookList.FindIndex(book => //검색한 학번의 회원이 존재하면 그 회원이 빌린 책과
+            memberList[memberListIndex].RentBook.Equals(book.BookName)); //도서 리스트에 있는 책에서 값이 일치하는 인덱스를 반환
 
             while(true)
             {
@@ -297,8 +298,8 @@ namespace BookManage
 
             if (confirm == "Y" || confirm == "y")
             {
-                memberList[memberListIndex].RentBook = "";
-                memberList[memberListIndex].DueDate = "";
+                memberList[memberListIndex].RentBook = ""; //책을 반납한 회원의 빌린 책명 없애줌
+                memberList[memberListIndex].DueDate = ""; //책을 반납한 회원의 반납일 없애줌
                 bookList[bookListIndex].Count = bookList[bookListIndex].Count + 1;
                 print.CompleteMsg("반납 완료");
                 RentMenu();
@@ -312,7 +313,7 @@ namespace BookManage
             }
         }
 
-        public void Extension()
+        public void Extension() //반납 연장
         {
             string studentID;
             string confirm;
@@ -329,8 +330,8 @@ namespace BookManage
                 print.RegisterErrorMsg("학번");
             }
             
-            memberListIndex = memberList.FindIndex(member => member.StudentId.Equals(studentID));
-            if (memberListIndex == -1) //입력받은 학번에 해당하는 회원 없을때
+            memberListIndex = memberList.FindIndex(member => member.StudentId.Equals(studentID)); //입력받은 학번에 해당하는 회원의 인덱스
+            if (memberListIndex == NO_MEMBER) //입력받은 학번에 해당하는 회원 없을때
             {
                 while (true)
                 {
@@ -370,8 +371,7 @@ namespace BookManage
             
             if (confirm == "Y" || confirm == "y")
             {
-                memberList[memberListIndex].DueDate = "2018-04-30";
-                bookList[bookListIndex].Count = bookList[bookListIndex].Count + 1;
+                memberList[memberListIndex].DueDate = "2018-04-30"; //오늘 날짜로부터 연장
                 print.CompleteMsg("연장 완료");
                 RentMenu();
             }
@@ -390,7 +390,7 @@ namespace BookManage
             input = CancelKey.ReadLineWithCancel();
             if (input == null) ViewMenu();
             bookListIndex = bookList.FindIndex(book => book.BookName.Equals(input));
-            return bookListIndex;
+            return bookListIndex; //bookList에서 입력받은 도서명 값과 일치하는 인덱스를 반환
         }
 
         public int SearchByPublisher()
@@ -399,7 +399,7 @@ namespace BookManage
             input = CancelKey.ReadLineWithCancel();
             if (input == null) ViewMenu();
             bookListIndex = bookList.FindIndex(book => book.Publisher.Equals(input));
-            return bookListIndex;
+            return bookListIndex; //bookList에서 입력받은 출판사명 값과 일치하는 인덱스 반환
         }
 
         public int SearchByAuthor()
@@ -408,7 +408,7 @@ namespace BookManage
             input = CancelKey.ReadLineWithCancel();
             if (input == null) ViewMenu();
             bookListIndex = bookList.FindIndex(book => book.Author.Equals(input));
-            return bookListIndex;
+            return bookListIndex; //bookList에서 입력받은 저자명 값과 일치하는 인덱스 반환
         }
     }
 }

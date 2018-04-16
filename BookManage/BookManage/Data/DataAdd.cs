@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace BookManage
 {
+    /// <DataAdd클래스>
+    /// 기본 데이터 추가하는 클래스
+    /// 프로그램이 시작하면서 메뉴 클래스를 호출하는데 이 때 생성자를 통해 본 클래스를
+    /// 생성하여 데이터를 추가시켜준다.
     class DataAdd
     {
         public DataAdd(List<Member> memberList, List<Book> bookList)

@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/// <Book클래스>
+///  도서 정보가 들어있는 VO로서 데이터 불러오고 저장함
+
 namespace BookManage
 {
     class Book
