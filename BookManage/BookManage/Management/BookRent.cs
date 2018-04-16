@@ -7,6 +7,10 @@ using System.Threading;
 
 namespace BookManage
 {
+    /// <BookRent클래스>
+    ///  도서 대출 및 반납 그리고 반납연장 기능을 하는 클래스.
+    ///  빌리는 도서와 빌리는 회원간에 데이터를 사용해야하기 때문에 bookList와 memberList 둘 다
+    ///  생성자를 통해 가져옴.
     class BookRent
     {
         private const int RENT = 1;
@@ -52,7 +56,8 @@ namespace BookManage
             while (true)
             {
                 print.Menu("도서대여");
-                menuSelect = Console.ReadLine();
+                menuSelect = CancelKey.ReadLineWithCancel();
+                if (menuSelect == null) menu.ViewMenu();
                 if (errorCheck.Number(menuSelect, "5지선다") == false)
                 {
                     break;
@@ -84,8 +89,9 @@ namespace BookManage
             while(true)
             {
                 print.Menu("대여검색");
-                menuSelect = Console.ReadLine();
-                if(errorCheck.Number(menuSelect, "5지선다") == false)
+                menuSelect = CancelKey.ReadLineWithCancel();
+                if (menuSelect == null) ViewMenu();
+                if (errorCheck.Number(menuSelect, "5지선다") == false)
                 {
                     break;
                 }
@@ -101,12 +107,12 @@ namespace BookManage
 
                 case SEARCH_BY_PUBLISHER:
                     bookListIndex = SearchByPublisher();
-                    //ValidateCheckBook(bookListIndex, "byPublisher");
+                    ValidateCheckBook("byPublisher");
                     break;
 
                 case SEARCH_BY_AUTHOR:
                     bookListIndex = SearchByAuthor();
-                    //ValidateCheckBook(bookListIndex, "byAuthor");
+                    ValidateCheckBook("byAuthor");
                     break;
 
                 case GOPREV:
@@ -126,7 +132,8 @@ namespace BookManage
                 while (true)
                 {
                     print.ErrorMsg("존재하지않는도서");
-                    menuSelect = Console.ReadLine();
+                    menuSelect = CancelKey.ReadLineWithCancel();
+                    if (menuSelect == null) RentMenu();
                     if (errorCheck.Number(menuSelect,"선택") == false)
                     {
                         break;
@@ -162,7 +169,8 @@ namespace BookManage
                 while (true)
                 {
                     print.InputIDMsg("책을 빌릴 회원");
-                    studentID = Console.ReadLine();
+                    studentID = CancelKey.ReadLineWithCancel();
+                    if (studentID == null) RentMenu();
                     if (errorCheck.MemberID(studentID) == false)
                     {
                         break;
@@ -177,7 +185,8 @@ namespace BookManage
                     while(true)
                     {
                         print.ErrorMsg("존재하지않는회원");
-                        menuSelect = Console.ReadLine();
+                        menuSelect = CancelKey.ReadLineWithCancel();
+                        if (menuSelect == null) RentMenu();
                         if (errorCheck.Number(menuSelect,"선택") == false)
                         {
                             break;
@@ -200,7 +209,8 @@ namespace BookManage
                     while (true)
                     {
                         print.ReturnErrorMsg();
-                        menuSelect = Console.ReadLine();
+                        menuSelect = CancelKey.ReadLineWithCancel();
+                        if (menuSelect == null) Rent(bookListIndex, searchType);
                         if (errorCheck.Number(menuSelect, "선택") == false)
                         {
                             break;
@@ -237,8 +247,9 @@ namespace BookManage
             while(true)
             {
                 print.InputIDMsg("책을 반납할 회원");
-                studentID = Console.ReadLine();
-                if(errorCheck.MemberID(studentID) == false)
+                studentID = CancelKey.ReadLineWithCancel();
+                if (studentID == null) ViewMenu();
+                if (errorCheck.MemberID(studentID) == false)
                 {
                     break;
                 }
@@ -251,8 +262,9 @@ namespace BookManage
                 while(true)
                 {
                     print.ErrorMsg("존재하지않는회원");
-                    menuSelect = Console.ReadLine();
-                    if(errorCheck.Number(menuSelect, "선택") == false)
+                    menuSelect = CancelKey.ReadLineWithCancel();
+                    if (menuSelect == null) Return();
+                    if (errorCheck.Number(menuSelect, "선택") == false)
                     {
                         break;
                     }
@@ -268,16 +280,15 @@ namespace BookManage
                         break;
                 }
             }
-
-            
             bookListIndex = bookList.FindIndex(book =>
             memberList[memberListIndex].RentBook.Equals(book.BookName));
 
             while(true)
             {
                 print.ReturnMsg(bookList[bookListIndex].BookName);
-                confirm = Console.ReadLine();
-                if(errorCheck.Confirm(confirm) == false)
+                confirm = CancelKey.ReadLineWithCancel();
+                if (confirm == null) Return();
+                if (errorCheck.Confirm(confirm) == false)
                 {
                     break;
                 }
@@ -309,8 +320,9 @@ namespace BookManage
             while(true)
             {
                 print.InputIDMsg("책을 연장할 회원");
-                studentID = Console.ReadLine();
-                if(errorCheck.MemberID(studentID) == false)
+                studentID = CancelKey.ReadLineWithCancel();
+                if (studentID == null) ViewMenu();
+                if (errorCheck.MemberID(studentID) == false)
                 {
                     break;
                 }
@@ -323,7 +335,8 @@ namespace BookManage
                 while (true)
                 {
                     print.ErrorMsg("존재하지않는회원");
-                    menuSelect = Console.ReadLine();
+                    menuSelect = CancelKey.ReadLineWithCancel();
+                    if (menuSelect == null) Extension();
                     if (errorCheck.Number(menuSelect, "선택") == false)
                     {
                         break;
@@ -346,8 +359,9 @@ namespace BookManage
             while(true)
             {
                 print.ExtensionMsg(bookList[bookListIndex].BookName);
-                confirm = Console.ReadLine();
-                if(errorCheck.Confirm(confirm) == false)
+                confirm = CancelKey.ReadLineWithCancel();
+                if (confirm == null) ViewMenu();
+                if (errorCheck.Confirm(confirm) == false)
                 {
                     break;
                 }
@@ -373,7 +387,8 @@ namespace BookManage
         public int SearchByName()
         {
             print.Search("도서명");
-            input = Console.ReadLine();
+            input = CancelKey.ReadLineWithCancel();
+            if (input == null) ViewMenu();
             bookListIndex = bookList.FindIndex(book => book.BookName.Equals(input));
             return bookListIndex;
         }
@@ -381,7 +396,8 @@ namespace BookManage
         public int SearchByPublisher()
         {
             print.Search("출판사");
-            input = Console.ReadLine();
+            input = CancelKey.ReadLineWithCancel();
+            if (input == null) ViewMenu();
             bookListIndex = bookList.FindIndex(book => book.Publisher.Equals(input));
             return bookListIndex;
         }
@@ -389,7 +405,8 @@ namespace BookManage
         public int SearchByAuthor()
         {
             print.Search("저자");
-            input = Console.ReadLine();
+            input = CancelKey.ReadLineWithCancel();
+            if (input == null) ViewMenu();
             bookListIndex = bookList.FindIndex(book => book.Author.Equals(input));
             return bookListIndex;
         }

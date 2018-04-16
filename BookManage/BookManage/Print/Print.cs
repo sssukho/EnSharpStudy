@@ -7,6 +7,10 @@ using System.Threading;
 
 namespace BookManage
 {
+    /// <Print클래스>
+    ///  모든 출력과 일부 입력을 관리하는 클래스
+    ///  모든 클래스에서 사용하기 때문에 싱글톤 구조 사용함
+    
     class Print
     {
         private static Print print;
@@ -240,14 +244,15 @@ namespace BookManage
             Console.Write("\n\t메뉴 번호 입력 : ");
         }
 
-        public Member MemberRegister() //while로 틀린 항목 다시 입력하게
+        public Member MemberRegister(MemberManagement memberManagement) //while로 틀린 항목 다시 입력하게
         {
             string name, studentId, gender, phoneNumber, email, address;
             Console.Clear();
             while(true)
             {
                 Console.Write("\n\n\t이름 입력 (4자리 이내) : ");
-                name = Console.ReadLine();
+                name = CancelKey.ReadLineWithCancel();
+                if (name == null) memberManagement.ViewMenu();
                 if (errorCheck.MemberName(name) == false)
                 {
                     break;
@@ -257,7 +262,8 @@ namespace BookManage
             while(true)
             {
                 Console.Write("\n\n\t학번 입력 (6~8자리 이내) : ");
-                studentId = Console.ReadLine();
+                studentId = CancelKey.ReadLineWithCancel();
+                if (studentId == null) MemberRegister(memberManagement);
                 if (errorCheck.MemberID(studentId) == false)
                 {
                     break;
@@ -267,7 +273,8 @@ namespace BookManage
             while(true)
             {
                 Console.Write("\n\n\t성별 입력 (남/여): ");
-                gender = Console.ReadLine();
+                gender = CancelKey.ReadLineWithCancel();
+                if (gender == null) MemberRegister(memberManagement);
                 if (errorCheck.MemberGender(gender) == false)
                 {
                     break;
@@ -277,7 +284,8 @@ namespace BookManage
             while(true)
             {
                 Console.Write("\n\n\t핸드폰 번호 입력(010-1234-5678 형식) : ");
-                phoneNumber = Console.ReadLine();
+                phoneNumber = CancelKey.ReadLineWithCancel();
+                if (phoneNumber == null) MemberRegister(memberManagement);
                 if (errorCheck.MemberPhone(phoneNumber) == false)
                 {
                     break;
@@ -287,7 +295,8 @@ namespace BookManage
             while(true)
             {
                 Console.Write("\n\n\t이메일 입력 : ");
-                email = Console.ReadLine();
+                email = CancelKey.ReadLineWithCancel();
+                if (email == null) MemberRegister(memberManagement);
                 if (errorCheck.MemberEmail(email) == false)
                 {
                     break;
@@ -297,7 +306,8 @@ namespace BookManage
             while(true)
             {
                 Console.Write("\n\n\t주소 입력 : ");
-                address = Console.ReadLine();
+                address = CancelKey.ReadLineWithCancel();
+                if (address == null) MemberRegister(memberManagement);
                 if (errorCheck.MemberAddress(address) == false)
                 {
                     break;
@@ -350,8 +360,9 @@ namespace BookManage
             while(true)
             {
                 Console.Write("\n\t핸드폰 번호 입력(010-1234-5678 형식) : ");
-                phoneNumber = Console.ReadLine();
-                if(errorCheck.MemberPhone(phoneNumber) == false)
+                phoneNumber = CancelKey.ReadLineWithCancel();
+                if (phoneNumber == null) MemberEdit(inputMember);
+                if (errorCheck.MemberPhone(phoneNumber) == false)
                 {
                     break;
                 }
@@ -360,8 +371,9 @@ namespace BookManage
             while(true)
             {
                 Console.Write("\n\n\t주소 입력(동/리까지 입력) : ");
-                address = Console.ReadLine();
-                if(errorCheck.MemberAddress(address) == false)
+                address = CancelKey.ReadLineWithCancel();
+                if (address == null) MemberEdit(inputMember);
+                if (errorCheck.MemberAddress(address) == false)
                 {
                     break;
                 }
@@ -401,7 +413,7 @@ namespace BookManage
             Console.ReadLine();
         }
 
-        public Book BookRegister()
+        public Book BookRegister(BookManagement bookManagement)
         {
             string bookName, publisher, author, price, count;
 
@@ -409,8 +421,9 @@ namespace BookManage
             while(true)
             {
                 Console.Write("\n\n\t도서 제목 입력(16자이내) : ");
-                bookName = Console.ReadLine();
-                if(errorCheck.BookName(bookName) == false)
+                bookName = CancelKey.ReadLineWithCancel();
+                if (bookName == null) bookManagement.ViewMenu();
+                if (errorCheck.BookName(bookName) == false)
                 {
                     break;
                 }
@@ -419,8 +432,9 @@ namespace BookManage
            while(true)
             {
                 Console.Write("\n\n\t출판사 입력(8자이내) : ");
-                publisher = Console.ReadLine();
-                if(errorCheck.BookName(publisher) == false)
+                publisher = CancelKey.ReadLineWithCancel();
+                if (publisher == null) BookRegister(bookManagement);
+                if (errorCheck.BookName(publisher) == false)
                 {
                     break;
                 }
@@ -429,8 +443,9 @@ namespace BookManage
             while(true)
             {
                 Console.Write("\n\n\t저자 입력(10자이내) : ");
-                author = Console.ReadLine();
-                if(errorCheck.BookAuthor(author) == false)
+                author = CancelKey.ReadLineWithCancel();
+                if (author == null) BookRegister(bookManagement);
+                if (errorCheck.BookAuthor(author) == false)
                 {
                     break;
                 }
@@ -439,8 +454,9 @@ namespace BookManage
             while(true)
             {
                 Console.Write("\n\n\t가격 입력(예:50000원) : ");
-                price = Console.ReadLine();
-                if(errorCheck.BookPrice(price) == false)
+                price = CancelKey.ReadLineWithCancel();
+                if (price == null) BookRegister(bookManagement);
+                if (errorCheck.BookPrice(price) == false)
                 {
                     break;
                 }
@@ -449,8 +465,9 @@ namespace BookManage
             while(true)
             {
                 Console.Write("\n\n\t수량 입력(숫자만 입력) : ");
-                count = Console.ReadLine();
-                if(errorCheck.BookCount(count) == false)
+                count = CancelKey.ReadLineWithCancel();
+                if (count == null) BookRegister(bookManagement);
+                if (errorCheck.BookCount(count) == false)
                 {
                     break;
                 }
@@ -477,7 +494,8 @@ namespace BookManage
             while(true)
             {
                 Console.Write("\n\t수량을 입력해주세요 : ");
-                count = Console.ReadLine();
+                count = CancelKey.ReadLineWithCancel();
+                if (count == null) BookEdit(inputBook);
                 if (errorCheck.BookCount(count) == false)
                 {
                     break;

@@ -7,6 +7,10 @@ using System.Threading;
 
 namespace BookManage
 {
+    /// <MemberManagement클래스>
+    ///  모든 회원들의 데이터를 관리하는 클래스
+    ///  Menu 클래스에서 생성된 회원List 데이터를 생성자로 받아와 기능들을 수행함.
+  
     class MemberManagement
     {
         private const int REGISTER = 1;
@@ -24,7 +28,7 @@ namespace BookManage
         List<Member> memberList;
         Print print;
         ErrorCheck errorCheck;
-
+        MemberManagement memberManagement;
         string menuSelect;
 
         public MemberManagement(Menu menu, List<Member> memberList)
@@ -33,6 +37,7 @@ namespace BookManage
             this.memberList = memberList;
             this.print = Print.GetInstance();
             this.errorCheck = ErrorCheck.GetInstance();
+            this.memberManagement = this;
         }
 
         public void ViewMenu()
@@ -40,7 +45,9 @@ namespace BookManage
             while (true)
             {
                 print.Menu("회원관리");
-                menuSelect = Console.ReadLine();
+                menuSelect = CancelKey.ReadLineWithCancel();
+                if (menuSelect == null) menu.ViewMenu();
+
                 if (errorCheck.Number(menuSelect, "7지선다") == false)
                 {
                     break;
@@ -77,7 +84,7 @@ namespace BookManage
         public void Register()
         {
             Member newMember;
-            newMember = print.MemberRegister();
+            newMember = print.MemberRegister(memberManagement);
 
             memberList.Add(newMember);
             print.CompleteMsg("등록이 완료");
@@ -92,7 +99,8 @@ namespace BookManage
             while(true)
             {
                 print.Search("편집할 회원의 학번을 ");
-                inputID = Console.ReadLine();
+                inputID = CancelKey.ReadLineWithCancel();
+                if (inputID == null) ViewMenu();
 
                 if (errorCheck.MemberID(inputID) == false)
                 {
@@ -107,7 +115,8 @@ namespace BookManage
                 while (true)
                 {
                     print.ErrorMsg("존재하지않는회원");
-                    menuSelect = Console.ReadLine();
+                    menuSelect = CancelKey.ReadLineWithCancel();
+                    if (menuSelect == null) ViewMenu();
                     if (errorCheck.Number(menuSelect, "선택") == false) //에러 안나면 나감
                     {
                         break;
@@ -143,7 +152,8 @@ namespace BookManage
             while(true)
             {
                 print.Search("삭제할 회원의 학번을 ");
-                inputID = Console.ReadLine();
+                inputID = CancelKey.ReadLineWithCancel();
+                if (inputID == null) ViewMenu();
                 if (errorCheck.MemberID(inputID) == false)
                 {
                     break;
@@ -156,7 +166,8 @@ namespace BookManage
                 while(true)
                 {
                     print.ErrorMsg("존재하지않는회원");
-                    menuSelect = Console.ReadLine();
+                    menuSelect = CancelKey.ReadLineWithCancel();
+                    if (menuSelect == null) ViewMenu();
                     if (errorCheck.Number(menuSelect, "선택") == false) //에러 안나면 나감
                     {
                         break;
@@ -180,8 +191,9 @@ namespace BookManage
                 while(true)
                 {
                     print.MemberDelete(memberList[listIndex]);
-                    confirm = Console.ReadLine();
-                    if(errorCheck.Confirm(confirm) == false)
+                    confirm = CancelKey.ReadLineWithCancel();
+                    if (confirm == null) ViewMenu(); 
+                    if (errorCheck.Confirm(confirm) == false)
                     {
                         break;
                     }
@@ -212,7 +224,8 @@ namespace BookManage
             while (true)
             {
                 print.Search("검색할 회원의 학번을 ");
-                inputID = Console.ReadLine();
+                inputID = CancelKey.ReadLineWithCancel();
+                if (inputID == null) ViewMenu();
                 errorCheck.MemberID(inputID);
                 if(errorCheck.MemberID(inputID) == false)
                 {
@@ -227,8 +240,9 @@ namespace BookManage
                 while(true)
                 {
                     print.ErrorMsg("존재하지않는회원");
-                    menuSelect = Console.ReadLine();
-                    if(errorCheck.Number(menuSelect, "선택") == false)
+                    menuSelect = CancelKey.ReadLineWithCancel();
+                    if (menuSelect == null) ViewMenu();
+                    if (errorCheck.Number(menuSelect, "선택") == false)
                     {
                         break;
                     }
