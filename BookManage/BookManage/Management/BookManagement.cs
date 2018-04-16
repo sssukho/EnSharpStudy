@@ -106,7 +106,7 @@ namespace BookManage
             {
                 print.Menu("도서수정");
                 menuSelect = Console.ReadLine();
-                if (errorCheck.FiveNumber(menuSelect) == false)
+                if (errorCheck.Number(menuSelect, "5지선다") == false)
                 {
                     break;
                 }
@@ -140,8 +140,8 @@ namespace BookManage
                 while(true)
                 {
                     print.ErrorMsg("존재하지않는도서");
-                    menuSelect = Console.ReadLine(); //타입 에러, 1,2번 말고 딴 번호
-                    if(errorCheck.TwoNumber(menuSelect) == false)
+                    menuSelect = Console.ReadLine();
+                    if (errorCheck.Number(menuSelect, "선택") == false)
                     {
                         break;
                     }
@@ -153,7 +153,7 @@ namespace BookManage
                         //다시 입력창으로 돌아가는 거 
                         break;
                     case GOPREV:
-                        ViewMenu();
+                        Edit();
                         break;
                 }
             }
@@ -171,7 +171,7 @@ namespace BookManage
             {
                 print.Menu("도서검색");
                 menuSelect = Console.ReadLine();
-                if(errorCheck.FiveNumber(menuSelect) == false)
+                if(errorCheck.Number(menuSelect, "5지선다") == false)
                 {
                     break;
                 }
@@ -252,7 +252,7 @@ namespace BookManage
             {
                 print.Menu("도서검색");
                 menuSelect = Console.ReadLine();
-                if(errorCheck.FiveNumber(menuSelect) == false)
+                if(errorCheck.Number(menuSelect, "5지선다") == false)
                 {
                     break;
                 }
@@ -287,7 +287,7 @@ namespace BookManage
                 {
                     print.ErrorMsg("존재하지않는도서");
                     menuSelect = Console.ReadLine();
-                    if(errorCheck.TwoNumber(menuSelect) == false)
+                    if(errorCheck.Number(menuSelect,"선택") == false)
                     {
                         break;
                     }

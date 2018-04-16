@@ -49,11 +49,6 @@ namespace BookManage
                 case "수량오류":
                     Console.WriteLine("\n\n\t도서 수량이 없습니다.");
                     break;
-
-                case "대여오류":
-                    Console.Clear();
-                    Console.WriteLine("\n\n\t해당 회원은 빌려간 책을 먼저 반납해야 합니다.");
-                    break;
             }
             Console.WriteLine("\n\t다시 입력 : 1번");
             Console.WriteLine("\t이전 메뉴로 : 2번");
@@ -92,13 +87,22 @@ namespace BookManage
             Console.Clear();
         }
 
+        public void ReturnErrorMsg()
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t해당 회원은 빌려간 책을 먼저 반납해야 합니다.");
+            Console.WriteLine("\n\t반납하러 가기 : 1번");
+            Console.WriteLine("\t이전 메뉴로 : 2번");
+            Console.Write("\t입력(1~2) : ");
+        }
+
         public void InputIDMsg(string type)
         {
             Console.Clear();
             Console.Write("\n\n\t" + type + "의 학번을 입력해주세요(8자리 이내) : ");
         }
 
-        public void RetrunMsg(string type)
+        public void ReturnMsg(string type)
         {
             Console.Clear();
             Console.Write("\n\n\t" + type + " 을 반납하시겠습니까? (Y/N) : ");

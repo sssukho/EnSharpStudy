@@ -108,7 +108,7 @@ namespace BookManage
                 {
                     print.ErrorMsg("존재하지않는회원");
                     menuSelect = Console.ReadLine();
-                    if (errorCheck.TwoNumber(menuSelect) == false) //에러 안나면 나감
+                    if (errorCheck.Number(menuSelect, "선택") == false) //에러 안나면 나감
                     {
                         break;
                     }
@@ -157,7 +157,7 @@ namespace BookManage
                 {
                     print.ErrorMsg("존재하지않는회원");
                     menuSelect = Console.ReadLine();
-                    if (errorCheck.TwoNumber(menuSelect) == false) //에러 안나면 나감
+                    if (errorCheck.Number(menuSelect, "선택") == false) //에러 안나면 나감
                     {
                         break;
                     }
@@ -228,7 +228,7 @@ namespace BookManage
                 {
                     print.ErrorMsg("존재하지않는회원");
                     menuSelect = Console.ReadLine();
-                    if(errorCheck.TwoNumber(menuSelect) == false)
+                    if(errorCheck.Number(menuSelect, "선택") == false)
                     {
                         break;
                     }

@@ -79,18 +79,6 @@ namespace BookManage
             return Judgement(input, pattern);
         }
 
-        public bool TwoNumber(string input)
-        {
-            pattern = @"^[1-2]{1}$";
-            return Judgement(input, pattern);
-        }
-
-        public bool FiveNumber(string input)
-        {
-            pattern = @"^[1-5]{1}$";
-            return Judgement(input, pattern);
-        }
-
         public bool Confirm(string input)
         {
             pattern = @"^[Y|y|N|n]{1}$";

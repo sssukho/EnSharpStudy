@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CancelKey.cs" />
     <Compile Include="Data\Book.cs" />
     <Compile Include="Data\DataAdd.cs" />
     <Compile Include="Management\BookManagement.cs" />

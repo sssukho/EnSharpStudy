@@ -25,6 +25,7 @@ namespace BookManage
         private const int SHUT_DOWN = 5;
 
         private const int NO_BOOK = -1;
+
         Menu menu;
         List<Member> memberList;
         List<Book> bookList;
@@ -52,11 +53,11 @@ namespace BookManage
             {
                 print.Menu("도서대여");
                 menuSelect = Console.ReadLine();
-                if (errorCheck.Number(menuSelect, "4지선다") == false)
+                if (errorCheck.Number(menuSelect, "5지선다") == false)
                 {
                     break;
                 }
-                print.MenuErrorMsg("4지선다오류");
+                print.MenuErrorMsg("5지선다오류");
             }
             switch (int.Parse(menuSelect))
             {
@@ -80,24 +81,32 @@ namespace BookManage
 
         public void RentMenu()
         {
-            print.Menu("대여검색");
-            menuSelect = Console.ReadLine();
+            while(true)
+            {
+                print.Menu("대여검색");
+                menuSelect = Console.ReadLine();
+                if(errorCheck.Number(menuSelect, "5지선다") == false)
+                {
+                    break;
+                }
+                print.MenuErrorMsg("5지선다오류");
+            }
 
             switch (int.Parse(menuSelect))
             {
                 case SEARCH_BY_NAME:
                     bookListIndex = SearchByName();
-                    Rent(bookListIndex);
+                    ValidateCheckBook("byName");
                     break;
 
                 case SEARCH_BY_PUBLISHER:
                     bookListIndex = SearchByPublisher();
-                    Rent(bookListIndex);
+                    //ValidateCheckBook(bookListIndex, "byPublisher");
                     break;
 
                 case SEARCH_BY_AUTHOR:
                     bookListIndex = SearchByAuthor();
-                    Rent(bookListIndex);
+                    //ValidateCheckBook(bookListIndex, "byAuthor");
                     break;
 
                 case GOPREV:
@@ -109,9 +118,8 @@ namespace BookManage
                     break;
             }
         }
-        
 
-        public void Rent(int bookListIndex)
+        public void ValidateCheckBook(string searchType)
         {
             if (bookListIndex == NO_BOOK)
             {
@@ -119,89 +127,104 @@ namespace BookManage
                 {
                     print.ErrorMsg("존재하지않는도서");
                     menuSelect = Console.ReadLine();
-                    if (errorCheck.TwoNumber(menuSelect) == false)
+                    if (errorCheck.Number(menuSelect,"선택") == false)
                     {
                         break;
                     }
                     print.MenuErrorMsg("2지선다");
                 }
+
                 switch (int.Parse(menuSelect))
                 {
                     case REINPUT:
-                        //다시 입력창으로 돌아가는 것
+                        if (searchType == "byName") SearchByName();
+                        if (searchType == "byPublisher") SearchByPublisher();
+                        if (searchType == "byAuthor") SearchByAuthor();
                         break;
                     case PREV:
                         RentMenu();
                         break;
                 }
             }
-            else //리스트에 존재
+            Rent(bookListIndex, searchType);
+        }
+
+        public void Rent(int bookListIndex, string searchType)
+        {
+            //리스트에 존재
+            if (bookList[bookListIndex].Count == 0) //수량 없음
             {
-                if (bookList[bookListIndex].Count == 0) //수량 없음
+                print.CompleteMsg("수량이 소진");
+                RentMenu();
+            }
+            else//수량이 있으면 빌릴 사람 입력
+            {
+                while (true)
                 {
-                    while (true)
+                    print.InputIDMsg("책을 빌릴 회원");
+                    studentID = Console.ReadLine();
+                    if (errorCheck.MemberID(studentID) == false)
                     {
-                        print.ErrorMsg("수량오류");
+                        break;
+                    }
+                    print.RegisterErrorMsg("학번");
+                }
+
+                memberListIndex = memberList.FindIndex(member => member.StudentId.Equals(studentID));
+
+                if (memberListIndex == -1) //학번 검색했을때 등록되지 않은 회원이었을때
+                {
+                    while(true)
+                    {
+                        print.ErrorMsg("존재하지않는회원");
                         menuSelect = Console.ReadLine();
-                        if (errorCheck.TwoNumber(menuSelect) == false)
+                        if (errorCheck.Number(menuSelect,"선택") == false)
                         {
                             break;
                         }
-                        print.MenuErrorMsg("2지선다");
+                        print.MenuErrorMsg("2지선다오류");
                     }
-                    switch (int.Parse(menuSelect))
+                    switch(int.Parse(menuSelect))
                     {
                         case REINPUT:
-                            //다시 입력창으로 돌아가는 것
+                            Rent(bookListIndex, searchType);
                             break;
                         case PREV:
                             RentMenu();
                             break;
                     }
                 }
-                else//빌릴사람 입력
+
+                if (memberList[memberListIndex].RentBook != "") //해당 회원이 빌린 책이 있을 때                    
                 {
                     while (true)
                     {
-                        print.InputIDMsg("책을 빌릴 회원");
-                        studentID = Console.ReadLine();
-                        if (errorCheck.MemberID(studentID) == false)
+                        print.ReturnErrorMsg();
+                        menuSelect = Console.ReadLine();
+                        if (errorCheck.Number(menuSelect, "선택") == false)
                         {
                             break;
                         }
-                        print.RegisterErrorMsg("학번");
+                        print.MenuErrorMsg("2지선다오류");
                     }
-
-                    memberListIndex = memberList.FindIndex(member => member.StudentId.Equals(studentID));
-
-                    if (memberListIndex == -1)
-                    {
-
-                    }
-
-                    if (memberList[memberListIndex].RentBook != "") //해당 회원이 빌린 책이 있을 때                    
-                    {
-                        print.ErrorMsg("대여오류");
-                        menuSelect = Console.ReadLine();
                         switch (int.Parse(menuSelect))
                         {
                             case REINPUT:
-                                //다시 입력창으로 돌아가는 것
+                            Return();
                                 break;
                             case PREV:
                                 RentMenu();
                                 break;
                         }
-                    }
-                    else //정상적으로 해당 인원에게 책을 대출해줌. 책 카운트도 감소
-                    {
-                        bookList[bookListIndex].Count = bookList[bookListIndex].Count - 1;
-                        memberList[memberListIndex].DueDate = "2018-04-23";
-                        memberList[memberListIndex].RentBook = bookList[bookListIndex].BookName;
+                }
+                else //정상적으로 해당 인원에게 책을 대출해줌. 책 카운트도 감소
+                {
+                    bookList[bookListIndex].Count = bookList[bookListIndex].Count - 1;
+                    memberList[memberListIndex].DueDate = "2018-04-23";
+                    memberList[memberListIndex].RentBook = bookList[bookListIndex].BookName;
 
-                        print.CompleteMsg("{0}에게 대출이 완료" + memberList[memberListIndex]);
-                        ViewMenu();
-                    }
+                    print.CompleteMsg("{0}에게 대출이 완료" + memberList[memberListIndex]);
+                    ViewMenu();
                 }
             }
         }
@@ -210,15 +233,56 @@ namespace BookManage
         {
             string studentID;
             string confirm;
-            print.InputIDMsg("책을 반납할 회원");
-            studentID = Console.ReadLine();
 
+            while(true)
+            {
+                print.InputIDMsg("책을 반납할 회원");
+                studentID = Console.ReadLine();
+                if(errorCheck.MemberID(studentID) == false)
+                {
+                    break;
+                }
+                print.RegisterErrorMsg("학번");
+            }
+            
             memberListIndex = memberList.FindIndex(member => member.StudentId.Equals(studentID));
+            if(memberListIndex == -1) //입력받은 학번에 해당하는 회원 없을때
+            {
+                while(true)
+                {
+                    print.ErrorMsg("존재하지않는회원");
+                    menuSelect = Console.ReadLine();
+                    if(errorCheck.Number(menuSelect, "선택") == false)
+                    {
+                        break;
+                    }
+                    print.MenuErrorMsg("2지선다오류");
+                }
+                switch(int.Parse(menuSelect))
+                {
+                    case REINPUT:
+                        Return();
+                        break;
+                    case PREV:
+                        RentMenu();
+                        break;
+                }
+            }
+
+            
             bookListIndex = bookList.FindIndex(book =>
             memberList[memberListIndex].RentBook.Equals(book.BookName));
 
-            print.RetrunMsg(bookList[bookListIndex].BookName);
-            confirm = Console.ReadLine();
+            while(true)
+            {
+                print.ReturnMsg(bookList[bookListIndex].BookName);
+                confirm = Console.ReadLine();
+                if(errorCheck.Confirm(confirm) == false)
+                {
+                    break;
+                }
+                print.MenuErrorMsg("Y/N오류");
+            }
 
             if (confirm == "Y" || confirm == "y")
             {
@@ -226,7 +290,7 @@ namespace BookManage
                 memberList[memberListIndex].DueDate = "";
                 bookList[bookListIndex].Count = bookList[bookListIndex].Count + 1;
                 print.CompleteMsg("반납 완료");
-                ViewMenu();
+                RentMenu();
             }
 
             else if (confirm == "N" || confirm == "n")
@@ -234,11 +298,6 @@ namespace BookManage
                 Console.WriteLine("\t2초 후에 메뉴로 돌아갑니다...");
                 Thread.Sleep(2000);
                 ViewMenu();
-            }
-
-            else
-            {
-                //예외처리
             }
         }
 
@@ -246,34 +305,68 @@ namespace BookManage
         {
             string studentID;
             string confirm;
-            print.InputIDMsg("책을 연장할 회원");
-            studentID = Console.ReadLine();
 
+            while(true)
+            {
+                print.InputIDMsg("책을 연장할 회원");
+                studentID = Console.ReadLine();
+                if(errorCheck.MemberID(studentID) == false)
+                {
+                    break;
+                }
+                print.RegisterErrorMsg("학번");
+            }
+            
             memberListIndex = memberList.FindIndex(member => member.StudentId.Equals(studentID));
+            if (memberListIndex == -1) //입력받은 학번에 해당하는 회원 없을때
+            {
+                while (true)
+                {
+                    print.ErrorMsg("존재하지않는회원");
+                    menuSelect = Console.ReadLine();
+                    if (errorCheck.Number(menuSelect, "선택") == false)
+                    {
+                        break;
+                    }
+                    print.MenuErrorMsg("2지선다오류");
+                }
+                switch (int.Parse(menuSelect))
+                {
+                    case REINPUT:
+                        Extension();
+                        break;
+                    case PREV:
+                        RentMenu();
+                        break;
+                }
+            }
             bookListIndex = bookList.FindIndex(book =>
             memberList[memberListIndex].RentBook.Equals(book.BookName));
 
-            print.ExtensionMsg(bookList[bookListIndex].BookName);
-            confirm = Console.ReadLine();
-
+            while(true)
+            {
+                print.ExtensionMsg(bookList[bookListIndex].BookName);
+                confirm = Console.ReadLine();
+                if(errorCheck.Confirm(confirm) == false)
+                {
+                    break;
+                }
+                print.MenuErrorMsg("Y/N오류");
+            }
+            
             if (confirm == "Y" || confirm == "y")
             {
                 memberList[memberListIndex].DueDate = "2018-04-30";
                 bookList[bookListIndex].Count = bookList[bookListIndex].Count + 1;
                 print.CompleteMsg("연장 완료");
-                ViewMenu();
+                RentMenu();
             }
 
             else if (confirm == "N" || confirm == "n")
             {
                 Console.WriteLine("\t2초 후에 메뉴로 돌아갑니다...");
                 Thread.Sleep(2000);
-                ViewMenu();
-            }
-
-            else
-            {
-                //예외처리
+                RentMenu();
             }
         }
 
