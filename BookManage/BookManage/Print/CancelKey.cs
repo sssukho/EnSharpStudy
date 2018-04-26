@@ -20,7 +20,6 @@ namespace BookManage
             string inputString = null;
             StringBuilder buffer = new StringBuilder();
             ConsoleKeyInfo key = Console.ReadKey(true);
-          
             while (key.Key != ConsoleKey.Enter && key.Key != ConsoleKey.Escape)
             {
                 Console.Write(key.KeyChar);
