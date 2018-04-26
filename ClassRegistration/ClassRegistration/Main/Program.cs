@@ -10,10 +10,7 @@ namespace ClassRegistration
     {
         static void Main(string[] args)
         {
-            Console.Clear();
-
-            Print print = new Print();
-            print.Menu("수강신청 강의검색");
+            new Menu();
         }
     }
 }

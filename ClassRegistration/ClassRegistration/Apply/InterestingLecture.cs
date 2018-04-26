@@ -6,7 +6,36 @@ using System.Threading.Tasks;
 
 namespace ClassRegistration
 {
-    class ShoppingLecture
+    enum LectureSearch { EXIT, DEPARTMENT, LECTURE_INDEX, LECTURE_NAME, YEAR, PROFESSOR, INTERESTING_LECTURE }
+    class InterestingLecture
     {
+        Menu menu;
+        List<InterestingLectureVO> interestingLectureList;
+
+        public InterestingLecture(Menu menu, List<InterestingLectureVO> interstingLectureList)
+        {
+            this.menu = menu;
+            this.interestingLectureList = interstingLectureList;
+        }
+
+        public void SearchLecture(int searchType)
+        {
+
+        }
+
+        public void AddLecture()
+        {
+
+        }
+
+        public void RemoveLecture()
+        {
+
+        }
+
+        public void JoinInterstingLecture()
+        {
+
+        }
     }
 }

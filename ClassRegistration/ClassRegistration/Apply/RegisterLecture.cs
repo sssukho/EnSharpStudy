@@ -8,5 +8,30 @@ namespace ClassRegistration
 {
     class RegisterLecture
     {
+
+        public RegisterLecture()
+        {
+
+        }
+
+        public void SearchLecture(int searchType)
+        {
+
+        }
+
+        public void AddLecture()
+        {
+
+        }
+
+        public void RemoveLecture()
+        {
+
+        }
+
+        public void JoinRegisterLecture()
+        {
+
+        }
     }
 }

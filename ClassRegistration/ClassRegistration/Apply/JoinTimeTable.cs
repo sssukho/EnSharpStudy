@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassRegistration
 {
-    class MagicNumber
+    class JoinTimeTable
     {
     }
 }
