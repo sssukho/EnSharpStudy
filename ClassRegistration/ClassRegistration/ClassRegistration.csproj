@@ -47,12 +47,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Function\AddLecture.cs" />
+    <Compile Include="ErrorCheck\ErrorCheck.cs" />
+    <Compile Include="Function\JoinLecture.cs" />
+    <Compile Include="Function\LoadExcel.cs" />
+    <Compile Include="Main\Menu.cs" />
+    <Compile Include="UI\Print.cs" />
+    <Compile Include="Main\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Apply\RegisterLecture.cs" />
+    <Compile Include="Function\RemoveLecture.cs" />
+    <Compile Include="Function\SearchLecture.cs" />
+    <Compile Include="Apply\ShoppingLecture.cs" />
+    <Compile Include="Apply\ViewTimeTable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
