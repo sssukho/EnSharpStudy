@@ -11,6 +11,7 @@ namespace ClassRegistration
     {
         Menu menu;
         List<InterestingLectureVO> interestingLectureList;
+        List<LectureListVO> lectureList;
         AddLecture addLecture;
         JoinLecture joinLecture;
         RemoveLecture removeLecture;
@@ -19,10 +20,11 @@ namespace ClassRegistration
         ErrorCheck errorCheck;
         
 
-        public InterestingLecture(Menu menu, List<InterestingLectureVO> interestingLectureList, AddLecture addLecture, JoinLecture joinLecture, RemoveLecture removeLecture, SearchLecture searchLecture, Print print, ErrorCheck errorCheck)
+        public InterestingLecture(Menu menu, List<InterestingLectureVO> interestingLectureList, List<LectureListVO> lectureList, AddLecture addLecture, JoinLecture joinLecture, RemoveLecture removeLecture, SearchLecture searchLecture, Print print, ErrorCheck errorCheck)
         {
             this.menu = menu;
             this.interestingLectureList = interestingLectureList;
+            this.lectureList = lectureList;
             this.addLecture = addLecture;
             this.joinLecture = joinLecture;
             this.removeLecture = removeLecture;
@@ -37,7 +39,7 @@ namespace ClassRegistration
             switch(searchType)
             {
                 case (int)SearchBy.DEPARTMENT:
-                    searchLecture.SearchDepartment();
+                    searchLecture.SearchDepartment(lectureList);
                     break;
 
                 case (int)SearchBy.LECTURE_INDEX:

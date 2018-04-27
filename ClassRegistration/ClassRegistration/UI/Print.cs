@@ -106,16 +106,30 @@ namespace ClassRegistration
             Console.Write("입력 >> ");
         }
 
+        public void ListForm()
+        {
+            Console.SetWindowSize(150, 40);
+            Console.WriteLine();
+            Console.WriteLine("   개설학과전공   학수번호   분반            교과목명        이수구분 학년 학점  요일및강의시간       강의실       교수명                  강의언어");
+            Console.WriteLine("   -------------------------------------------------------------------------------------------------------------------------------------------------");
+        }
+
         public void InputMsg(string type)
         {
             Console.Clear();
             Console.Write("\n\n\t{0}를(을) 입력해주세요 : ", type);
         }
 
-        public void ShowLecture(Array LectureList)
+        public void ShowLecture(List<LectureListVO> foundLectures)
         {
             Console.Clear();
-            Console.WriteLine("\n\n\t");
+            const string format = "{0, -9} {1, -8} {2, -7} {3, -23} {4, 5} {5, 3} {6, 4} {7, 14} {8, 10} {9, 21} {10, 5}";
+            ListForm();
+            for(int i = 0; i  < foundLectures.Count; i++)
+            {
+                string output = string.Format(format, foundLectures[i].Department, foundLectures[i].LectureIndex, foundLectures[i].ClassIndex, foundLectures[i].LectureName, foundLectures[i].Division, foundLectures[i].Year, foundLectures[i].Grade, foundLectures[i].Time, foundLectures[i].Classroom, foundLectures[i].Professor, foundLectures[i].Language);
+                Console.WriteLine(output);
+            }
         }
     }
 }

@@ -23,6 +23,7 @@ namespace ClassRegistration
         Print print;
         List<InterestingLectureVO> interestingLectureList;
         List<RegisteredLectureVO> registeredLectureList;
+        List<LectureListVO> lectureList;
         ConsoleKeyInfo input;
 
         public Menu()
@@ -36,9 +37,9 @@ namespace ClassRegistration
             print = new Print();
             interestingLectureList = new List<InterestingLectureVO>();
             registeredLectureList = new List<RegisteredLectureVO>();
-            registerLecture = new RegisterLecture(this, registeredLectureList);
-            interestingLecture = new InterestingLecture(this, interestingLectureList, addLecture, joinLecture, removeLecture, searchLecture, print, errorCheck);
-
+            lectureList = new LoadExcel().AddData();
+            registerLecture = new RegisterLecture(this, registeredLectureList, lectureList, addLecture, joinLecture, removeLecture, searchLecture, print, errorCheck);
+            interestingLecture = new InterestingLecture(this, interestingLectureList, lectureList, addLecture, joinLecture, removeLecture, searchLecture, print, errorCheck);
             MainMenu();
         }
 
