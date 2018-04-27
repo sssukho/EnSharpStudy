@@ -30,11 +30,11 @@ namespace ClassRegistration
         {
             joinTimeTable = new JoinTimeTable();
             errorCheck = new ErrorCheck();
-            addLecture = new AddLecture();
+            print = new Print();
+            addLecture = new AddLecture(print, errorCheck);
             joinLecture = new JoinLecture();
             removeLecture = new RemoveLecture();
-            searchLecture = new SearchLecture();
-            print = new Print();
+            searchLecture = new SearchLecture(print, errorCheck);
             interestingLectureList = new List<InterestingLectureVO>();
             registeredLectureList = new List<RegisteredLectureVO>();
             lectureList = new LoadExcel().AddData();
@@ -43,28 +43,15 @@ namespace ClassRegistration
             MainMenu();
         }
 
-        public Menu(List<InterestingLectureVO> interestingLectureList)
-        {
-            this.interestingLectureList = interestingLectureList;
-            MainMenu();
-        }
-
-        public Menu(List<RegisteredLectureVO> registeredLectureList)
-        {
-            this.registeredLectureList = registeredLectureList;
-            MainMenu();
-        }
-
         public void MainMenu()
         {
-            
             print.Menu("메인");
             input = Console.ReadKey();
 
             switch (int.Parse(input.KeyChar.ToString()))
             {
                 case (int)MainSelect.INTERSTING_LECTURE:
-                    InterstingLectureMenu();
+                    InterstingLectureMenu(interestingLectureList);
                     break;
 
                 case (int)MainSelect.REGISTER_LECTURE:
@@ -81,8 +68,10 @@ namespace ClassRegistration
             }
         }
 
-        public void InterstingLectureMenu()
+        public void InterstingLectureMenu(List<InterestingLectureVO> inputInterestingLectureList)
         {
+            this.interestingLectureList = inputInterestingLectureList;
+
             print.Menu("관심과목");
             input = Console.ReadKey();
 

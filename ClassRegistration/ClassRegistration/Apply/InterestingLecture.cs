@@ -18,7 +18,9 @@ namespace ClassRegistration
         SearchLecture searchLecture;
         Print print;
         ErrorCheck errorCheck;
-        
+
+        int currentGrade = 0;
+        bool error;
 
         public InterestingLecture(Menu menu, List<InterestingLectureVO> interestingLectureList, List<LectureListVO> lectureList, AddLecture addLecture, JoinLecture joinLecture, RemoveLecture removeLecture, SearchLecture searchLecture, Print print, ErrorCheck errorCheck)
         {
@@ -31,7 +33,6 @@ namespace ClassRegistration
             this.searchLecture = searchLecture;
             this.print = print;
             this.errorCheck = errorCheck;
-            
         }
 
         public void SearchLecture(int searchType)
@@ -66,7 +67,14 @@ namespace ClassRegistration
 
         public void AddLecture()
         {
-
+            List<InterestingLectureVO> afterAddList;
+            afterAddList = addLecture.AddLectureInList(lectureList, interestingLectureList);
+            print.ShowLecture(afterAddList);
+            /*
+            if (afterAddList.Count == interestingLectureList.Count)
+                menu.InterstingLectureMenu(interestingLectureList);
+            else
+                print.ShowLecture(afterAddList);*/
         }
 
         public void RemoveLecture()

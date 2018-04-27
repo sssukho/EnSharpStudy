@@ -10,13 +10,16 @@ namespace ClassRegistration
 {
     class SearchLecture
     {
-        public SearchLecture()
+        Print print;
+        ErrorCheck errorCheck;
+        public SearchLecture(Print print, ErrorCheck errorCheck)
         {
+            this.print = print;
+            this.errorCheck = errorCheck;
         }
 
         public void SearchDepartment(List<LectureListVO> lectureList)
         {
-            Print print = new Print();
             string inputDepartment;
 
             print.InputMsg("개설학과 전공");
