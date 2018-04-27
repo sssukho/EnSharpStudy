@@ -50,7 +50,6 @@
     <Compile Include="Function\AddLecture.cs" />
     <Compile Include="ErrorCheck\ErrorCheck.cs" />
     <Compile Include="Function\JoinLecture.cs" />
-    <Compile Include="Function\LoadExcel.cs" />
     <Compile Include="Apply\JoinTimeTable.cs" />
     <Compile Include="VO\InterestingLectureVO.cs" />
     <Compile Include="Main\Menu.cs" />

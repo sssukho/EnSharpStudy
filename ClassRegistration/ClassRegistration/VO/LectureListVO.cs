@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassRegistration
 {
-    class Program
+    class LectureList
     {
-        static void Main(string[] args)
-        {
-            Console.Clear();
-            new Menu();
-        }
     }
 }

@@ -106,6 +106,16 @@ namespace ClassRegistration
             Console.Write("입력 >> ");
         }
 
+        public void InputMsg(string type)
+        {
+            Console.Clear();
+            Console.Write("\n\n\t{0}를(을) 입력해주세요 : ", type);
+        }
 
+        public void ShowLecture(Array LectureList)
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t");
+        }
     }
 }

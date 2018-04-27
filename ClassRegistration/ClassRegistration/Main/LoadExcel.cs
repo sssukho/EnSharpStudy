@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassRegistration
 {
-    class Program
+    class LoadExcel
     {
-        static void Main(string[] args)
-        {
-            Console.Clear();
-            new Menu();
-        }
     }
 }

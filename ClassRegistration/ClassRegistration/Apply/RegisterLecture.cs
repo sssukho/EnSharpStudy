@@ -6,17 +6,21 @@ using System.Threading.Tasks;
 
 namespace ClassRegistration
 {
+
     class RegisterLecture
     {
+        Menu menu;
+        List<RegisteredLectureVO> registeredLectureList;
 
-        public RegisterLecture()
+        public RegisterLecture(Menu menu, List<RegisteredLectureVO> registeredLectureList)
         {
-
+            this.menu = menu;
+            this.registeredLectureList = registeredLectureList;
         }
 
         public void SearchLecture(int searchType)
         {
-
+            
         }
 
         public void AddLecture()

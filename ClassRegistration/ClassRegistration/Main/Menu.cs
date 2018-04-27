@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace ClassRegistration
 {
-    enum MainSelect{ EXIT, INTERSTING_LECTURE, REGISTER_LECTURE, JOIN_TIMETABLE }
+    enum MainSelect { EXIT, INTERSTING_LECTURE, REGISTER_LECTURE, JOIN_TIMETABLE }
     enum ApplyLecture { EXIT, SEARCH_LECTURE, ADD_LECTURE, REMOVE_LECTURE, JOIN_LECTURE }
-    
+    enum SearchBy { EXIT, DEPARTMENT, LECTURE_INDEX, LECTURE_NAME, YEAR, PROFESSOR, INTERESTING_LECTURE }
+
     class Menu
     {
         RegisterLecture registerLecture;
-        InterestingLecture interstingLecture;
+        InterestingLecture interestingLecture;
         JoinTimeTable joinTimeTable;
         ErrorCheck errorCheck;
         AddLecture addLecture;
         JoinLecture joinLecture;
-        LoadExcel loadExcel;
         RemoveLecture removeLecture;
         SearchLecture searchLecture;
         Print print;
@@ -31,14 +31,13 @@ namespace ClassRegistration
             errorCheck = new ErrorCheck();
             addLecture = new AddLecture();
             joinLecture = new JoinLecture();
-            loadExcel = new LoadExcel();
             removeLecture = new RemoveLecture();
             searchLecture = new SearchLecture();
             print = new Print();
             interestingLectureList = new List<InterestingLectureVO>();
             registeredLectureList = new List<RegisteredLectureVO>();
-            registerLecture = new RegisterLecture();
-            interstingLecture = new InterestingLecture(this, interestingLectureList);
+            registerLecture = new RegisterLecture(this, registeredLectureList);
+            interestingLecture = new InterestingLecture(this, interestingLectureList, addLecture, joinLecture, removeLecture, searchLecture, print, errorCheck);
 
             MainMenu();
         }
@@ -57,6 +56,7 @@ namespace ClassRegistration
 
         public void MainMenu()
         {
+            
             print.Menu("메인");
             input = Console.ReadKey();
 
@@ -92,15 +92,15 @@ namespace ClassRegistration
                     break;
 
                 case (int)ApplyLecture.ADD_LECTURE:
-                    interstingLecture.AddLecture();
+                    interestingLecture.AddLecture();
                     break;
 
                 case (int)ApplyLecture.REMOVE_LECTURE:
-                    interstingLecture.RemoveLecture();
+                    interestingLecture.RemoveLecture();
                     break;
 
                 case (int)ApplyLecture.JOIN_LECTURE:
-                    interstingLecture.JoinInterstingLecture();
+                    interestingLecture.JoinInterstingLecture();
                     break;
 
                 case (int)ApplyLecture.EXIT:
@@ -115,10 +115,9 @@ namespace ClassRegistration
             input = Console.ReadKey();
 
             int searchType = int.Parse(input.KeyChar.ToString());
-            interstingLecture.SearchLecture(searchType);
+            interestingLecture.SearchLecture(searchType);
         }
-
-
+        
         public void RegisterLectureMenu()
         {
             print.Menu("수강신청");
