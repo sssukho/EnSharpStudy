@@ -65,6 +65,7 @@ namespace ClassRegistration
             print.ShowLecture(foundList);
             print.PreviousMsg();
             Console.ReadLine();
+
         }
 
         public void SearchByProfessor(List<LectureListVO> lectureList)
@@ -79,7 +80,7 @@ namespace ClassRegistration
             Console.ReadLine();
         }
 
-        public void SearchInterstingLecture(List<LectureListVO> lectureList)
+        public void SearchInterstingLecture(List<LectureListVO> lectureList, List<InterestingLectureVO> interestingLectureList)
         {
 
         }

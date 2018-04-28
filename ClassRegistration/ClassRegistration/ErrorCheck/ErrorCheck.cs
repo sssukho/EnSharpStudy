@@ -69,8 +69,16 @@ namespace ClassRegistration
             return false;
         }
 
-        public bool IsValidTime(List<RegisteredLectureVO> registeredLectureList, string inputClassIndex)
+        public bool IsValidTime(List<RegisteredLectureVO> registeredLectureList, List<LectureListVO> foundLectureList, string inputClassIndex)
         {
+            string findTime = foundLectureList.Find(lecture =>
+            lecture.ClassIndex.Equals(inputClassIndex)).Time.ToString();
+
+            if (registeredLectureList.Exists(lecture =>
+             lecture.Time.Equals(findTime)) == true)
+            {
+                return true;
+            }
             return false;
         }
     }

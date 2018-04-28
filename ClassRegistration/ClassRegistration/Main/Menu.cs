@@ -45,7 +45,7 @@ namespace ClassRegistration
 
         public void MainMenu()
         {
-            print.Menu("메인");
+            print.MainMenu();
             input = Console.ReadKey();
 
             switch (int.Parse(input.KeyChar.ToString()))
@@ -74,6 +74,8 @@ namespace ClassRegistration
 
             print.Menu("관심과목");
             input = Console.ReadKey();
+            if (input.Key == ConsoleKey.Escape)
+                MainMenu();
 
             switch(int.Parse(input.KeyChar.ToString()))
             {
@@ -103,6 +105,8 @@ namespace ClassRegistration
         {
             print.Menu("관심과목 강의검색");
             input = Console.ReadKey();
+            if (input.Key == ConsoleKey.Escape)
+                InterstingLectureMenu(inputInterestingLectureList);
 
             int searchType = int.Parse(input.KeyChar.ToString());
             interestingLecture.SearchLecture(searchType, inputInterestingLectureList);
@@ -150,6 +154,8 @@ namespace ClassRegistration
         {
             print.Menu("시간표 조회");
             input = Console.ReadKey();
+            if (input.Key == ConsoleKey.Escape)
+                MainMenu();
         }
     }
 }

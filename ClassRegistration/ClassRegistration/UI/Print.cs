@@ -9,23 +9,24 @@ namespace ClassRegistration
 {
     class Print
     {
+        public void MainMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
+            Console.WriteLine("\t|                                  관심 과목 담기 : 1번                                       |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  수강 신청 : 2번                                            |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  시간표 조회 : 3번                                          |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
+            Console.WriteLine("\t----------------------------------------------------------------------------------------------\n");
+            Console.Write("입력 >> ");
+        }
         public void Menu(string menuType)
         {
            switch(menuType)
             {
-                case "메인":
-                    Console.Clear();
-                    Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
-                    Console.WriteLine("\t|                                  관심 과목 담기 : 1번                                       |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  수강 신청 : 2번                                            |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  시간표 조회 : 3번                                          |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
-                    Console.WriteLine("\t----------------------------------------------------------------------------------------------\n");
-                    break;
-
                 case "관심과목":
                     Console.Clear();
                     Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
@@ -122,13 +123,13 @@ namespace ClassRegistration
 
         public void PreviousMsg()
         {
-            Console.WriteLine("이전 메뉴로 돌아가려면 ESC");
+            Console.WriteLine("\n(이전 메뉴로 돌아가려면 Enter)");
         }
 
         public void ErrorMsg(string type)
         {
             Console.Clear();
-            Console.WriteLine("\n\n\t{0} 입니다.", type);
+            Console.WriteLine("\n\n{0} 입니다.", type);
             Console.WriteLine("2초 후에 이전 메뉴로 돌아갑니다..");
             Thread.Sleep(2000);
         }
@@ -136,8 +137,8 @@ namespace ClassRegistration
         public void CompleteMsg(string type)
         {
             Console.WriteLine("\n\n{0} 완료되었습니다!", type);
-            Console.WriteLine("\t2초 후에 이전 메뉴로 돌아갑니다..");
-            Thread.Sleep(2000);
+            PreviousMsg();
+            Console.ReadLine();
         }
 
         public void ShowLecture(List<LectureListVO> foundLectures)
@@ -163,6 +164,21 @@ namespace ClassRegistration
         }
 
         public void ShowLecture(List<InterestingLectureVO> foundLectures)
+        {
+            Console.Clear();
+            const string format = "{0, -9} {1, -8} {2, -6} {3, -20} {4, -8} {5, -3} {6, -4} {7, -14} {8, -10} {9, -21} {10, -5}";
+
+            ListForm();
+
+            for (int i = 0; i < foundLectures.Count; i++)
+            {
+                string output = string.Format(format, foundLectures[i].Department, foundLectures[i].LectureIndex, foundLectures[i].ClassIndex, foundLectures[i].LectureName.ToString().TrimEnd(), foundLectures[i].Division, foundLectures[i].Year, foundLectures[i].Grade, foundLectures[i].Time, foundLectures[i].Classroom, foundLectures[i].Professor, foundLectures[i].Language);
+                Console.WriteLine(output);
+            }
+            Console.WriteLine("-------------------------------------------------------------------------------------------------------------------------------------------------");
+        }
+
+        public void ShowLecture(List<RegisteredLectureVO> foundLectures)
         {
             Console.Clear();
             const string format = "{0, -9} {1, -8} {2, -6} {3, -20} {4, -8} {5, -3} {6, -4} {7, -14} {8, -10} {9, -21} {10, -5}";

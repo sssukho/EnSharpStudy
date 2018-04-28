@@ -37,6 +37,8 @@ namespace ClassRegistration
             //관심과목 리스트에서 삭제
             interestingLectureList.RemoveAll(lecture => lecture.LectureIndex.Equals(inputLectureIndex));
 
+            print.ShowLecture(interestingLectureList);
+            print.CompleteMsg("관심과목 삭제");
             return interestingLectureList;
         }
     }

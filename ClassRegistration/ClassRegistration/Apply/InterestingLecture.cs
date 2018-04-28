@@ -74,7 +74,6 @@ namespace ClassRegistration
                 menu.InterstingLectureMenu(interestingLectureList);
             else
                 menu.InterstingLectureMenu(afterAddList);
-
         }
 
         public void RemoveLecture(List<InterestingLectureVO> inputInterestingLectureList)
@@ -86,13 +85,16 @@ namespace ClassRegistration
             if (afterRemoveList.Count != interestingLectureList.Count)
                 menu.InterstingLectureMenu(interestingLectureList);
             else
-                print.ShowLecture(afterRemoveList); //메뉴로
-
+                menu.InterstingLectureMenu(afterRemoveList); 
         }
 
         public void JoinInterstingLecture(List<InterestingLectureVO> inputInterestingLectureList)
         {
             this.interestingLectureList = inputInterestingLectureList;
+            print.ShowLecture(inputInterestingLectureList);
+            print.PreviousMsg();
+            Console.ReadLine();
+            menu.InterstingLectureMenu(interestingLectureList);
         }
     }
 }
