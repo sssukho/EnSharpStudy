@@ -32,56 +32,67 @@ namespace ClassRegistration
             this.errorCheck = errorCheck;
         }
 
-        public void SearchLecture(int searchType)
+        public void SearchLecture(int searchType, List<InterestingLectureVO> inputInterestingLectureList)
         {
+            this.interestingLectureList = inputInterestingLectureList;
             switch(searchType)
             {
                 case (int)SearchBy.DEPARTMENT:
-                    searchLecture.SearchDepartment(lectureList);
+                    searchLecture.SearchByDepartment(lectureList);
                     break;
 
                 case (int)SearchBy.LECTURE_INDEX:
-                    searchLecture.SearchLectureIndex(lectureList);
+                    searchLecture.SearchByLectureIndex(lectureList);
                     break;
 
                 case (int)SearchBy.LECTURE_NAME:
-                    searchLecture.SearchLectureName(lectureList);
+                    searchLecture.SearchByLectureName(lectureList);
                     break;
 
                 case (int)SearchBy.YEAR:
-                    searchLecture.SearchYear(lectureList);
+                    searchLecture.SearchByYear(lectureList);
                     break;
 
                 case (int)SearchBy.PROFESSOR:
-                    searchLecture.SearchProfessor(lectureList);
+                    searchLecture.SearchByProfessor(lectureList);
                     break;
 
                 case (int)SearchBy.EXIT:
                     Environment.Exit(0);
                     break;
             }
+            menu.SearchInterstingLectureMenu(inputInterestingLectureList);
         }
 
-        public void AddLecture()
+        public void AddLecture(List<InterestingLectureVO> inputInterestingLectureList)
         {
+            this.interestingLectureList = inputInterestingLectureList;
             List<InterestingLectureVO> afterAddList;
             afterAddList = addLecture.AddLectureInList(lectureList, interestingLectureList);
-            
-            
+
             if (afterAddList.Count == interestingLectureList.Count)
                 menu.InterstingLectureMenu(interestingLectureList);
             else
-                print.ShowLecture(afterAddList);
-        }
-
-        public void RemoveLecture()
-        {
+                menu.InterstingLectureMenu(afterAddList);
 
         }
 
-        public void JoinInterstingLecture()
+        public void RemoveLecture(List<InterestingLectureVO> inputInterestingLectureList)
         {
+            this.interestingLectureList = inputInterestingLectureList;
+            List<InterestingLectureVO> afterRemoveList;
+            afterRemoveList = removeLecture.RemoveLectureList(lectureList, interestingLectureList);
 
+            if (afterRemoveList.Count != interestingLectureList.Count)
+                menu.InterstingLectureMenu(interestingLectureList);
+            else
+                print.ShowLecture(afterRemoveList); //메뉴로
+
+        }
+
+        public void JoinInterstingLecture(List<InterestingLectureVO> inputInterestingLectureList)
+        {
+            this.interestingLectureList = inputInterestingLectureList;
         }
     }
 }

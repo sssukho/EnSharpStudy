@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Excel = Microsoft.Office.Interop.Excel;
-
 
 namespace ClassRegistration
 {
@@ -21,7 +19,7 @@ namespace ClassRegistration
             this.errorCheck = errorCheck;
         }
 
-        public void SearchDepartment(List<LectureListVO> lectureList)
+        public void SearchByDepartment(List<LectureListVO> lectureList)
         {
             print.ShowLecture(lectureList);
             print.InputMsg("개설학과 전공");
@@ -29,46 +27,56 @@ namespace ClassRegistration
 
             List<LectureListVO> foundList = lectureList.FindAll(lecture => lecture.Department.Equals(input));
             print.ShowLecture(foundList);
+            print.PreviousMsg();
+            Console.ReadLine();
         }
 
-        public void SearchLectureIndex(List<LectureListVO> lectureList)
+        public void SearchByLectureIndex(List<LectureListVO> lectureList)
         {
-            Console.Clear();
+            print.ShowLecture(lectureList);
             print.InputMsg("학수번호");
             input = Console.ReadLine(); //errocheck
 
             List<LectureListVO> foundList = lectureList.FindAll(lecture => lecture.LectureIndex.Equals(input));
             print.ShowLecture(foundList);
+            print.PreviousMsg();
+            Console.ReadLine();
         }
 
-        public void SearchLectureName(List<LectureListVO> lectureList)
+        public void SearchByLectureName(List<LectureListVO> lectureList)
         {
-            Console.Clear();
+            print.ShowLecture(lectureList);
             print.InputMsg("교과목명");
-            input = Console.ReadLine();
+            input = Console.ReadLine(); //errorCheck
 
             List<LectureListVO> foundList = lectureList.FindAll(lecture => lecture.LectureName.Equals(input));
             print.ShowLecture(foundList);
+            print.PreviousMsg();
+            Console.ReadLine();
         }
 
-        public void SearchYear(List<LectureListVO> lectureList)
+        public void SearchByYear(List<LectureListVO> lectureList)
         {
-            Console.Clear();
+            print.ShowLecture(lectureList);
             print.InputMsg("학년");
-            input = Console.ReadLine();
+            input = Console.ReadLine(); //errorCheck
 
             List<LectureListVO> foundList = lectureList.FindAll(lecture => lecture.Year.Equals(input));
             print.ShowLecture(foundList);
+            print.PreviousMsg();
+            Console.ReadLine();
         }
 
-        public void SearchProfessor(List<LectureListVO> lectureList)
+        public void SearchByProfessor(List<LectureListVO> lectureList)
         {
-            Console.Clear();
+            print.ShowLecture(lectureList);
             print.InputMsg("교수명");
-            input = Console.ReadLine();
+            input = Console.ReadLine(); //errorCheck
 
             List<LectureListVO> foundList = lectureList.FindAll(lecture => lecture.Professor.Equals(input));
             print.ShowLecture(foundList);
+            print.PreviousMsg();
+            Console.ReadLine();
         }
 
         public void SearchInterstingLecture(List<LectureListVO> lectureList)

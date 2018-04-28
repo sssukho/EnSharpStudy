@@ -19,6 +19,7 @@ namespace ClassRegistration
             this.errorCheck = errorCheck;
         }
 
+        //다른과 학수번호 중복되는거 추가해야함
         public List<InterestingLectureVO> AddLectureInList(List<LectureListVO> lectureList, List<InterestingLectureVO> interestingLectureList)
         {
             Console.Clear();
@@ -59,10 +60,12 @@ namespace ClassRegistration
                 return interestingLectureList;
             }
 
+            //관심과목 리스트에 추가
             LectureListVO newLecture = foundList.Find(lecture => lecture.ClassIndex.Equals(inputClassIndex));
             interestingLectureList.Add(new InterestingLectureVO(newLecture.Department, newLecture.LectureIndex, newLecture.ClassIndex, 
                 newLecture.LectureName, newLecture.Division, newLecture.Year, newLecture.Grade, newLecture.Time, newLecture.Classroom, newLecture.Professor, newLecture.Language));
 
+            print.ShowLecture(interestingLectureList);
             print.CompleteMsg("관심과목 추가");
             return interestingLectureList;
         }

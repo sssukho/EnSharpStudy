@@ -33,7 +33,7 @@ namespace ClassRegistration
             print = new Print();
             addLecture = new AddLecture(print, errorCheck);
             joinLecture = new JoinLecture();
-            removeLecture = new RemoveLecture();
+            removeLecture = new RemoveLecture(print, errorCheck);
             searchLecture = new SearchLecture(print, errorCheck);
             interestingLectureList = new List<InterestingLectureVO>();
             registeredLectureList = new List<RegisteredLectureVO>();
@@ -78,19 +78,19 @@ namespace ClassRegistration
             switch(int.Parse(input.KeyChar.ToString()))
             {
                 case (int)ApplyLecture.SEARCH_LECTURE:
-                    SearchInterstingLectureMenu();
+                    SearchInterstingLectureMenu(inputInterestingLectureList);
                     break;
 
                 case (int)ApplyLecture.ADD_LECTURE:
-                    interestingLecture.AddLecture();
+                    interestingLecture.AddLecture(inputInterestingLectureList);
                     break;
 
                 case (int)ApplyLecture.REMOVE_LECTURE:
-                    interestingLecture.RemoveLecture();
+                    interestingLecture.RemoveLecture(inputInterestingLectureList);
                     break;
 
                 case (int)ApplyLecture.JOIN_LECTURE:
-                    interestingLecture.JoinInterstingLecture();
+                    interestingLecture.JoinInterstingLecture(inputInterestingLectureList);
                     break;
 
                 case (int)ApplyLecture.EXIT:
@@ -99,13 +99,13 @@ namespace ClassRegistration
             }
         }
 
-        public void SearchInterstingLectureMenu()
+        public void SearchInterstingLectureMenu(List<InterestingLectureVO> inputInterestingLectureList)
         {
             print.Menu("관심과목 강의검색");
             input = Console.ReadKey();
 
             int searchType = int.Parse(input.KeyChar.ToString());
-            interestingLecture.SearchLecture(searchType);
+            interestingLecture.SearchLecture(searchType, inputInterestingLectureList);
         }
         
         public void RegisterLectureMenu()

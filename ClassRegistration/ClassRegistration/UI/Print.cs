@@ -107,8 +107,6 @@ namespace ClassRegistration
             Console.Write("입력 >> ");
         }
 
-        
-
         public void ListForm()
         {
             Console.SetWindowSize(160, 40);
@@ -122,18 +120,22 @@ namespace ClassRegistration
             Console.Write("\n{0}를(을) 입력해주세요 : ", type);
         }
 
+        public void PreviousMsg()
+        {
+            Console.WriteLine("이전 메뉴로 돌아가려면 ESC");
+        }
+
         public void ErrorMsg(string type)
         {
             Console.Clear();
             Console.WriteLine("\n\n\t{0} 입니다.", type);
-            Console.WriteLine("\t2초 후에 이전 메뉴로 돌아갑니다..");
+            Console.WriteLine("2초 후에 이전 메뉴로 돌아갑니다..");
             Thread.Sleep(2000);
         }
 
         public void CompleteMsg(string type)
         {
-            Console.Clear();
-            Console.WriteLine("\n\n\t{0} 완료되었습니다!", type);
+            Console.WriteLine("\n\n{0} 완료되었습니다!", type);
             Console.WriteLine("\t2초 후에 이전 메뉴로 돌아갑니다..");
             Thread.Sleep(2000);
         }
