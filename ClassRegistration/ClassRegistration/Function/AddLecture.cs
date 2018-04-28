@@ -35,7 +35,7 @@ namespace ClassRegistration
 
             print.ShowLecture(lectureList);
             print.InputMsg("학수번호");
-
+            
             inputLectureIndex = Console.ReadLine(); //입력 양식 체크
 
             error = errorCheck.IsValidLecture(interestingLectureList, inputLectureIndex);
@@ -49,6 +49,7 @@ namespace ClassRegistration
             List<LectureListVO> foundList = lectureList.FindAll(lecture => lecture.LectureIndex.Equals(inputLectureIndex));
             print.ShowLecture(foundList);
 
+            print.InputMsg("분반");
             inputClassIndex = Console.ReadLine(); //입력 양식 체크
             
             error = errorCheck.IsValidTime(interestingLectureList, foundList, inputClassIndex);

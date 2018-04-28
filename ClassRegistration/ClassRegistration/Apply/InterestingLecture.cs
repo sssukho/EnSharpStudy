@@ -18,10 +18,7 @@ namespace ClassRegistration
         SearchLecture searchLecture;
         Print print;
         ErrorCheck errorCheck;
-
-        int currentGrade = 0;
-        bool error;
-
+        
         public InterestingLecture(Menu menu, List<InterestingLectureVO> interestingLectureList, List<LectureListVO> lectureList, AddLecture addLecture, JoinLecture joinLecture, RemoveLecture removeLecture, SearchLecture searchLecture, Print print, ErrorCheck errorCheck)
         {
             this.menu = menu;
@@ -44,19 +41,19 @@ namespace ClassRegistration
                     break;
 
                 case (int)SearchBy.LECTURE_INDEX:
-                    searchLecture.SearchLectureIndex();
+                    searchLecture.SearchLectureIndex(lectureList);
                     break;
 
                 case (int)SearchBy.LECTURE_NAME:
-                    searchLecture.SearchLectureName();
+                    searchLecture.SearchLectureName(lectureList);
                     break;
 
                 case (int)SearchBy.YEAR:
-                    searchLecture.SearchYear();
+                    searchLecture.SearchYear(lectureList);
                     break;
 
                 case (int)SearchBy.PROFESSOR:
-                    searchLecture.SearchProfessor();
+                    searchLecture.SearchProfessor(lectureList);
                     break;
 
                 case (int)SearchBy.EXIT:
@@ -69,12 +66,12 @@ namespace ClassRegistration
         {
             List<InterestingLectureVO> afterAddList;
             afterAddList = addLecture.AddLectureInList(lectureList, interestingLectureList);
-            print.ShowLecture(afterAddList);
-            /*
+            
+            
             if (afterAddList.Count == interestingLectureList.Count)
                 menu.InterstingLectureMenu(interestingLectureList);
             else
-                print.ShowLecture(afterAddList);*/
+                print.ShowLecture(afterAddList);
         }
 
         public void RemoveLecture()

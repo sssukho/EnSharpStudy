@@ -10,20 +10,19 @@ namespace ClassRegistration
     {
         //한번에 묶는거 생각해볼것 제네릭으로
         /*
-        public bool IsValidGrade(List<Object> inputList)
+        public bool IsValidGrade<T>(List<T> inputList)
         {
             int currentGrade = 0;
             
-            foreach(var item in inputList.)
-            {
-                currentGrade = currentGrade + int.Parse(item.)
-            }
             if(inputList.GetType() is List<InterestingLectureVO>)
             {
-                foreach (var item in inputList)
+                
+                for(int i = 0; i < inputList.Count; i++)
                 {
-                    currentGrade = currentGrade + int.Parse(item.Grade.ToString());
+                    int grade;
+                    grade = int.Parse(inputList.ToString(lecture=>lecture.)
                 }
+                
 
                 if (currentGrade > 24)
                     return true;
