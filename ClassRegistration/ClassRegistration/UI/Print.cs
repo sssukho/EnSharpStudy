@@ -11,6 +11,7 @@ namespace ClassRegistration
     {
         public void MainMenu()
         {
+            Console.SetWindowSize(110, 20);
             Console.Clear();
             Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
             Console.WriteLine("\t|                                  관심 과목 담기 : 1번                                       |");
@@ -25,11 +26,13 @@ namespace ClassRegistration
         }
         public void Menu(string menuType)
         {
-           switch(menuType)
+            Console.SetWindowSize(110, 30);
+            switch (menuType)
             {
                 case "관심과목":
                     Console.Clear();
-                    Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
+                    Console.WriteLine("\n\n\t\t                           관심과목담기 메뉴");
+                    Console.WriteLine("\n\t----------------------------------------------------------------------------------------------");
                     Console.WriteLine("\t|                                  강의 검색 : 1번                                            |");
                     Console.WriteLine("\t|                                                                                             |");
                     Console.WriteLine("\t|                                  강의 추가 : 2번                                            |");
@@ -44,7 +47,8 @@ namespace ClassRegistration
 
                 case "수강신청":
                     Console.Clear();
-                    Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
+                    Console.WriteLine("\n\n\t\t                           수강신청 메뉴");
+                    Console.WriteLine("\n\t----------------------------------------------------------------------------------------------");
                     Console.WriteLine("\t|                                  강의 검색 : 1번                                            |");
                     Console.WriteLine("\t|                                                                                             |");
                     Console.WriteLine("\t|                                  강의 추가 : 2번                                            |");
@@ -59,7 +63,8 @@ namespace ClassRegistration
 
                 case "관심과목 강의검색":
                     Console.Clear();
-                    Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
+                    Console.WriteLine("\n\n\t\t                           관심과목 강의검색");
+                    Console.WriteLine("\n\t----------------------------------------------------------------------------------------------");
                     Console.WriteLine("\t|                                  개설학과 전공으로 검색 : 1번                               |");
                     Console.WriteLine("\t|                                                                                             |");
                     Console.WriteLine("\t|                                  학수번호로 검색 : 2번                                      |");
@@ -76,7 +81,8 @@ namespace ClassRegistration
 
                 case "수강신청 강의검색":
                     Console.Clear();
-                    Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
+                    Console.WriteLine("\n\n\t\t                           수강신청 강의검색");
+                    Console.WriteLine("\n\t----------------------------------------------------------------------------------------------");
                     Console.WriteLine("\t|                                  개설학과 전공으로 검색 : 1번                               |");
                     Console.WriteLine("\t|                                                                                             |");
                     Console.WriteLine("\t|                                  학수번호로 검색 : 2번                                      |");
@@ -95,7 +101,8 @@ namespace ClassRegistration
 
                 case "시간표 조회":
                     Console.Clear();
-                    Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
+                    Console.WriteLine("\n\n\t\t                           시간표 조회 메뉴");
+                    Console.WriteLine("\n\t----------------------------------------------------------------------------------------------");
                     Console.WriteLine("\t|                                  수강신청한 시간표 출력하기 : 1번                           |");
                     Console.WriteLine("\t|                                                                                             |");
                     Console.WriteLine("\t|                                  엑셀로 저장하기 : 2번                                      |");
@@ -112,8 +119,8 @@ namespace ClassRegistration
         {
             Console.SetWindowSize(160, 40);
             Console.WriteLine();
-            Console.WriteLine("개설학과전공   학수번호  분반   교과목명                    이수구분 학년 학점  요일및강의시간       강의실       교수명                  강의언어");
-            Console.WriteLine("-------------------------------------------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine("개설학과전공     학수번호 분반  교과목명                         이수구분 학년학점 요일및강의시간                강의실        교수명              강의언어");
+            Console.WriteLine("-------------------------------------------------------------------------------------------------------------------------------------------------------------");
         }
 
         public void InputMsg(string type)
@@ -144,53 +151,58 @@ namespace ClassRegistration
         public void ShowLecture(List<LectureListVO> foundLectures)
         {
             Console.Clear();
-            const string format = "{0, -9} {1, -8} {2, -6} {3, -20} {4, -8} {5, -3} {6, -4} {7, -14} {8, -10} {9, -21} {10, -5}";
-            
             ListForm();
-            
+
             for (int i = 0; i  < foundLectures.Count; i++)
             {
-                //string lectureName = foundLectures[i].LectureName.ToString();
-                //lectureNameSize = Encoding.Default.GetBytes(foundLectures[i].LectureName.ToString()).Length;
-                //dateSize = Encoding.Default.GetBytes(foundLectures[i].Time.ToString()).Length;
-                //classroomSize = Encoding.Default.GetBytes(foundLectures[i].Classroom.ToString()).Length;
-                //professorSize = Encoding.Default.GetBytes(foundLectures[i].Professor.ToString()).Length;
-                //languageSize = Encoding.Default.GetBytes(foundLectures[i].Language.ToString()).Length;
-
-                string output = string.Format(format, foundLectures[i].Department, foundLectures[i].LectureIndex, foundLectures[i].ClassIndex, foundLectures[i].LectureName.ToString().TrimEnd(), foundLectures[i].Division, foundLectures[i].Year, foundLectures[i].Grade, foundLectures[i].Time, foundLectures[i].Classroom, foundLectures[i].Professor, foundLectures[i].Language);
-                Console.WriteLine(output);
+                if (foundLectures[i].Classroom == null)
+                    foundLectures[i].Classroom = " ";
+                Console.Write("{0}  {1}  {2}   {3} {4}  {5}  {6}  {7}  {8}  {9}  {10}", SetForm(foundLectures[i].Department.ToString(), 16), foundLectures[i].LectureIndex, foundLectures[i].ClassIndex, SetForm(foundLectures[i].LectureName.ToString(), 32), foundLectures[i].Division, foundLectures[i].Year, foundLectures[i].Grade, SetForm(foundLectures[i].Time.ToString(),29), SetForm(foundLectures[i].Classroom.ToString(), 11), SetForm(foundLectures[i].Professor.ToString(), 22), foundLectures[i].Language);
+                Console.WriteLine();
             }
-            Console.WriteLine("-------------------------------------------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine("-------------------------------------------------------------------------------------------------------------------------------------------------------------");
         }
 
         public void ShowLecture(List<InterestingLectureVO> foundLectures)
         {
             Console.Clear();
-            const string format = "{0, -9} {1, -8} {2, -6} {3, -20} {4, -8} {5, -3} {6, -4} {7, -14} {8, -10} {9, -21} {10, -5}";
-
             ListForm();
 
             for (int i = 0; i < foundLectures.Count; i++)
             {
-                string output = string.Format(format, foundLectures[i].Department, foundLectures[i].LectureIndex, foundLectures[i].ClassIndex, foundLectures[i].LectureName.ToString().TrimEnd(), foundLectures[i].Division, foundLectures[i].Year, foundLectures[i].Grade, foundLectures[i].Time, foundLectures[i].Classroom, foundLectures[i].Professor, foundLectures[i].Language);
-                Console.WriteLine(output);
+                if (foundLectures[i].Classroom == null)
+                    foundLectures[i].Classroom = " ";
+                Console.Write("{0}  {1}  {2}  {3}  {4}  {5}  {6}  {7}  {8}  {9}  {10}", SetForm(foundLectures[i].Department.ToString(), 16), foundLectures[i].LectureIndex, foundLectures[i].ClassIndex, SetForm(foundLectures[i].LectureName.ToString(), 32), foundLectures[i].Division, foundLectures[i].Year, foundLectures[i].Grade, SetForm(foundLectures[i].Time.ToString(), 29), SetForm(foundLectures[i].Classroom.ToString(), 11), SetForm(foundLectures[i].Professor.ToString(), 22), foundLectures[i].Language);
+                Console.WriteLine();
             }
-            Console.WriteLine("-------------------------------------------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine("-------------------------------------------------------------------------------------------------------------------------------------------------------------");
         }
 
         public void ShowLecture(List<RegisteredLectureVO> foundLectures)
         {
             Console.Clear();
-            const string format = "{0, -9} {1, -8} {2, -6} {3, -20} {4, -8} {5, -3} {6, -4} {7, -14} {8, -10} {9, -21} {10, -5}";
-
             ListForm();
-
-            for (int i = 0; i < foundLectures.Count; i++)
+            for(int i = 0; i < foundLectures.Count; i++)
             {
-                string output = string.Format(format, foundLectures[i].Department, foundLectures[i].LectureIndex, foundLectures[i].ClassIndex, foundLectures[i].LectureName.ToString().TrimEnd(), foundLectures[i].Division, foundLectures[i].Year, foundLectures[i].Grade, foundLectures[i].Time, foundLectures[i].Classroom, foundLectures[i].Professor, foundLectures[i].Language);
-                Console.WriteLine(output);
+                if (foundLectures[i].Classroom == null)
+                    foundLectures[i].Classroom = " ";
+                Console.Write("{0}  {1}  {2}  {3}  {4}  {5}  {6}  {7}  {8}  {9}  {10}", SetForm(foundLectures[i].Department.ToString(), 16), foundLectures[i].LectureIndex, foundLectures[i].ClassIndex, SetForm(foundLectures[i].LectureName.ToString(), 32), foundLectures[i].Division, foundLectures[i].Year, foundLectures[i].Grade, SetForm(foundLectures[i].Time.ToString(), 29), SetForm(foundLectures[i].Classroom.ToString(), 11), SetForm(foundLectures[i].Professor.ToString(), 22), foundLectures[i].Language);
+                Console.WriteLine();
             }
-            Console.WriteLine("-------------------------------------------------------------------------------------------------------------------------------------------------");
+            Console.WriteLine("-------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        }
+
+        public string SetForm(string input, int letterSize)
+        {
+            int inputSize = Encoding.Default.GetBytes(input).Length;
+            if (inputSize != letterSize)
+            {
+                for(int i = inputSize; i < letterSize; i ++)
+                {
+                    input = input + " ";
+                }
+            }
+            return input;
         }
     }
 }

@@ -25,10 +25,10 @@ namespace ClassRegistration
 
         public bool IsValidGrade(List<RegisteredLectureVO> registeredLectureList)
         {
-            int currentGrade = 0;
+            double currentGrade = 0;
             foreach (var item in registeredLectureList)
             {
-                currentGrade = currentGrade + int.Parse(item.Grade.ToString());
+                currentGrade = currentGrade + double.Parse(item.Grade.ToString());
             }
 
             if (currentGrade > 21)

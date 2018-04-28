@@ -70,7 +70,7 @@ namespace ClassRegistration
             List<InterestingLectureVO> afterAddList;
             afterAddList = addLecture.AddLectureInList(lectureList, interestingLectureList);
 
-            if (afterAddList.Count == interestingLectureList.Count)
+            if (afterAddList.Count == interestingLectureList.Count) //add가 제대로 안되었을때
                 menu.InterstingLectureMenu(interestingLectureList);
             else
                 menu.InterstingLectureMenu(afterAddList);
@@ -82,7 +82,7 @@ namespace ClassRegistration
             List<InterestingLectureVO> afterRemoveList;
             afterRemoveList = removeLecture.RemoveLectureList(lectureList, interestingLectureList);
 
-            if (afterRemoveList.Count != interestingLectureList.Count)
+            if (afterRemoveList.Count == interestingLectureList.Count) //remove 제대로 안되었을때
                 menu.InterstingLectureMenu(interestingLectureList);
             else
                 menu.InterstingLectureMenu(afterRemoveList); 

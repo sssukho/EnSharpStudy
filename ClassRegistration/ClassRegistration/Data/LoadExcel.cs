@@ -30,8 +30,10 @@ namespace ClassRegistration
 
             for (int i = 1; i < 167; i++)
             {
+
                 lectureList.Add(new LectureListVO(data.GetValue(i, 1), data.GetValue(i, 2), data.GetValue(i, 3), data.GetValue(i, 4), data.GetValue(i, 5), data.GetValue(i, 6), data.GetValue(i, 7), data.GetValue(i, 8), data.GetValue(i, 9), data.GetValue(i, 10), data.GetValue(i, 11)));
             }
+           
             excelApp.Workbooks.Close();
             excelApp.Quit();
             return lectureList;

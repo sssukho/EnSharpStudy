@@ -80,9 +80,11 @@ namespace ClassRegistration
             Console.ReadLine();
         }
 
-        public void SearchInterstingLecture(List<LectureListVO> lectureList, List<InterestingLectureVO> interestingLectureList)
+        public void SearchInterstingLecture(List<InterestingLectureVO> interestingLectureList)
         {
-
+            print.ShowLecture(interestingLectureList);
+            print.PreviousMsg();
+            Console.ReadLine();
         }
     }
 }

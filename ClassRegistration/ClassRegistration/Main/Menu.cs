@@ -55,7 +55,7 @@ namespace ClassRegistration
                     break;
 
                 case (int)MainSelect.REGISTER_LECTURE:
-                    RegisterLectureMenu();
+                    RegisterLectureMenu(registeredLectureList);
                     break;
 
                 case (int)MainSelect.JOIN_TIMETABLE:
@@ -77,22 +77,22 @@ namespace ClassRegistration
             if (input.Key == ConsoleKey.Escape)
                 MainMenu();
 
-            switch(int.Parse(input.KeyChar.ToString()))
+            switch (int.Parse(input.KeyChar.ToString()))
             {
                 case (int)ApplyLecture.SEARCH_LECTURE:
-                    SearchInterstingLectureMenu(inputInterestingLectureList);
+                    SearchInterstingLectureMenu(interestingLectureList);
                     break;
 
                 case (int)ApplyLecture.ADD_LECTURE:
-                    interestingLecture.AddLecture(inputInterestingLectureList);
+                    interestingLecture.AddLecture(interestingLectureList);
                     break;
 
                 case (int)ApplyLecture.REMOVE_LECTURE:
-                    interestingLecture.RemoveLecture(inputInterestingLectureList);
+                    interestingLecture.RemoveLecture(interestingLectureList);
                     break;
 
                 case (int)ApplyLecture.JOIN_LECTURE:
-                    interestingLecture.JoinInterstingLecture(inputInterestingLectureList);
+                    interestingLecture.JoinInterstingLecture(interestingLectureList);
                     break;
 
                 case (int)ApplyLecture.EXIT:
@@ -103,6 +103,7 @@ namespace ClassRegistration
 
         public void SearchInterstingLectureMenu(List<InterestingLectureVO> inputInterestingLectureList)
         {
+            this.interestingLectureList = inputInterestingLectureList;
             print.Menu("관심과목 강의검색");
             input = Console.ReadKey();
             if (input.Key == ConsoleKey.Escape)
@@ -111,28 +112,32 @@ namespace ClassRegistration
             int searchType = int.Parse(input.KeyChar.ToString());
             interestingLecture.SearchLecture(searchType, inputInterestingLectureList);
         }
-        
-        public void RegisterLectureMenu()
+
+        public void RegisterLectureMenu(List<RegisteredLectureVO> inputRegisteredLectureList)
         {
+            this.registeredLectureList = inputRegisteredLectureList;
+
             print.Menu("수강신청");
             input = Console.ReadKey();
+            if (input.Key == ConsoleKey.Escape)
+                MainMenu();
 
             switch (int.Parse(input.KeyChar.ToString()))
             {
                 case (int)ApplyLecture.SEARCH_LECTURE:
-                    SearchRegisterLectureMenu();
+                    SearchRegisterLectureMenu(registeredLectureList);
                     break;
 
                 case (int)ApplyLecture.ADD_LECTURE:
-                    registerLecture.AddLecture();
+                    registerLecture.AddLecture(registeredLectureList);
                     break;
 
                 case (int)ApplyLecture.REMOVE_LECTURE:
-                    registerLecture.RemoveLecture();
+                    registerLecture.RemoveLecture(registeredLectureList);
                     break;
 
                 case (int)ApplyLecture.JOIN_LECTURE:
-                    registerLecture.JoinRegisterLecture();
+                    registerLecture.JoinRegisterLecture(registeredLectureList);
                     break;
 
                 case (int)ApplyLecture.EXIT:
@@ -141,13 +146,16 @@ namespace ClassRegistration
             }
         }
 
-        public void SearchRegisterLectureMenu()
+        public void SearchRegisterLectureMenu(List<RegisteredLectureVO> inputRegisteredLectureList)
         {
+            this.registeredLectureList = inputRegisteredLectureList;
             print.Menu("수강신청 강의검색");
             input = Console.ReadKey();
+            if (input.Key == ConsoleKey.Escape)
+                RegisterLectureMenu(registeredLectureList);
 
             int searchType = int.Parse(input.KeyChar.ToString());
-            registerLecture.SearchLecture(searchType);
+            registerLecture.SearchLecture(searchType, registeredLectureList, interestingLectureList);
         }
 
         public void JoinMenu()

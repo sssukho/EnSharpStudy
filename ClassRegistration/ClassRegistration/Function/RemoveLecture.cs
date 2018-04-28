@@ -41,5 +41,28 @@ namespace ClassRegistration
             print.CompleteMsg("관심과목 삭제");
             return interestingLectureList;
         }
+
+        public List<RegisteredLectureVO> RemoveLectureList(List<LectureListVO> lectureList, List<RegisteredLectureVO> registeredLectureList)
+        {
+            string inputLectureIndex;
+
+            print.ShowLecture(registeredLectureList);
+            print.InputMsg("학수번호");
+            inputLectureIndex = Console.ReadLine();
+
+            error = errorCheck.IsValidLecture(registeredLectureList, inputLectureIndex);
+            if (error == false) //장바구니에 없는 강의
+            {
+                print.ErrorMsg("관심과목 리스트에 없는 강의");
+                return registeredLectureList;
+            }
+
+            //관심과목 리스트에서 삭제
+            registeredLectureList.RemoveAll(lecture => lecture.LectureIndex.Equals(inputLectureIndex));
+
+            print.ShowLecture(registeredLectureList);
+            print.CompleteMsg("수강신청한 과목 삭제");
+            return registeredLectureList;
+        }
     }
 }

@@ -116,7 +116,7 @@ namespace ClassRegistration
                 newLecture.LectureName, newLecture.Division, newLecture.Year, newLecture.Grade, newLecture.Time, newLecture.Classroom, newLecture.Professor, newLecture.Language));
 
             print.ShowLecture(registeredLectureList);
-            print.CompleteMsg("관심과목 추가");
+            print.CompleteMsg("수강신청 추가");
             return registeredLectureList;
         }
     }

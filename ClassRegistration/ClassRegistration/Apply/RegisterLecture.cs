@@ -33,24 +33,73 @@ namespace ClassRegistration
             this.errorCheck = errorCheck;
         }
 
-        public void SearchLecture(int searchType)
+        public void SearchLecture(int searchType, List<RegisteredLectureVO> inputRegisteredLectureList, List<InterestingLectureVO> inputInterestingLectureList)
         {
-            
+            this.registeredLectureList = inputRegisteredLectureList;
+            switch(searchType)
+            {
+                case (int)SearchBy.DEPARTMENT:
+                    searchLecture.SearchByDepartment(lectureList);
+                    break;
+
+                case (int)SearchBy.LECTURE_INDEX:
+                    searchLecture.SearchByLectureIndex(lectureList);
+                    break;
+
+                case (int)SearchBy.LECTURE_NAME:
+                    searchLecture.SearchByLectureName(lectureList);
+                    break;
+
+                case (int)SearchBy.YEAR:
+                    searchLecture.SearchByYear(lectureList);
+                    break;
+
+                case (int)SearchBy.PROFESSOR:
+                    searchLecture.SearchByProfessor(lectureList);
+                    break;
+
+                case (int)SearchBy.INTERESTING_LECTURE:
+                    searchLecture.SearchInterstingLecture(inputInterestingLectureList);
+                    break;
+
+                case (int)SearchBy.EXIT:
+                    Environment.Exit(0);
+                    break;
+            }
+            menu.SearchRegisterLectureMenu(inputRegisteredLectureList);
         }
 
-        public void AddLecture()
+        public void AddLecture(List<RegisteredLectureVO> inputRegisteredLectureList)
         {
+            this.registeredLectureList = inputRegisteredLectureList;
+            List<RegisteredLectureVO> afterAddList;
+            afterAddList = addLecture.AddLectureInList(lectureList, registeredLectureList);
 
+            if (afterAddList.Count == registeredLectureList.Count)
+                menu.RegisterLectureMenu(registeredLectureList);
+            else
+                menu.RegisterLectureMenu(afterAddList);
         }
 
-        public void RemoveLecture()
+        public void RemoveLecture(List<RegisteredLectureVO> inputRegisteredLectureList)
         {
+            this.registeredLectureList = inputRegisteredLectureList;
+            List<RegisteredLectureVO> afterRemoveList;
+            afterRemoveList = removeLecture.RemoveLectureList(lectureList, registeredLectureList);
 
+            if (afterRemoveList.Count == registeredLectureList.Count)
+                menu.RegisterLectureMenu(registeredLectureList);
+            else
+                menu.RegisterLectureMenu(afterRemoveList);
         }
 
-        public void JoinRegisterLecture()
+        public void JoinRegisterLecture(List<RegisteredLectureVO> inputRegisteredLectureList)
         {
-
+            this.registeredLectureList = inputRegisteredLectureList;
+            print.ShowLecture(inputRegisteredLectureList);
+            print.PreviousMsg();
+            Console.ReadLine();
+            menu.RegisterLectureMenu(registeredLectureList);
         }
     }
 }
