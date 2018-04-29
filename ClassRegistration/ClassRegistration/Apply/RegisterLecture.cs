@@ -85,7 +85,7 @@ namespace ClassRegistration
         {
             this.registeredLectureList = inputRegisteredLectureList;
             List<RegisteredLectureVO> afterRemoveList;
-            afterRemoveList = removeLecture.RemoveLectureList(lectureList, registeredLectureList);
+            afterRemoveList = removeLecture.RemoveFromLectureList(lectureList, registeredLectureList);
 
             if (afterRemoveList.Count == registeredLectureList.Count)
                 menu.RegisterLectureMenu(registeredLectureList);
@@ -96,9 +96,7 @@ namespace ClassRegistration
         public void JoinRegisterLecture(List<RegisteredLectureVO> inputRegisteredLectureList)
         {
             this.registeredLectureList = inputRegisteredLectureList;
-            print.ShowLecture(inputRegisteredLectureList);
-            print.PreviousMsg();
-            Console.ReadLine();
+            joinLecture.JoinLectureList(inputRegisteredLectureList);
             menu.RegisterLectureMenu(registeredLectureList);
         }
     }

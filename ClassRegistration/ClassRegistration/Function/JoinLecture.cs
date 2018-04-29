@@ -11,5 +11,39 @@ namespace ClassRegistration
     /// </summary>
     class JoinLecture
     {
+        Print print;
+        ErrorCheck errorCheck;
+
+        public JoinLecture(Print print, ErrorCheck errorCheck)
+        {
+            this.print = print;
+            this.errorCheck = errorCheck;
+        }
+
+        public void JoinLectureList(List<InterestingLectureVO> interestingLectureList)
+        {
+            print.ShowLecture(interestingLectureList);
+            print.PreviousMsg();
+            Console.ReadLine();
+        }
+
+        public void JoinLectureList(List<RegisteredLectureVO> registeredLectureList)
+        {
+            print.ShowLecture(registeredLectureList);
+            print.PreviousMsg();
+            Console.ReadLine();
+        }
+
+        public void JoinTimeTable(List<RegisteredLectureVO> registeredLectureList)
+        {
+            print.ShowTimeTable(registeredLectureList);
+            print.PreviousMsg();
+            Console.ReadLine();
+        }
+
+        public void ExportExcel(List<RegisteredLectureVO> registeredLectureList)
+        {
+
+        }
     }
 }

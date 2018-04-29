@@ -19,7 +19,7 @@ namespace ClassRegistration
             this.errorCheck = errorCheck;
         }
 
-        public List<InterestingLectureVO> RemoveLectureList(List<LectureListVO> lectureList, List<InterestingLectureVO> interestingLectureList)
+        public List<InterestingLectureVO> RemoveFromLectureList(List<LectureListVO> lectureList, List<InterestingLectureVO> interestingLectureList)
         {
             string inputLectureIndex;
 
@@ -42,7 +42,7 @@ namespace ClassRegistration
             return interestingLectureList;
         }
 
-        public List<RegisteredLectureVO> RemoveLectureList(List<LectureListVO> lectureList, List<RegisteredLectureVO> registeredLectureList)
+        public List<RegisteredLectureVO> RemoveFromLectureList(List<LectureListVO> lectureList, List<RegisteredLectureVO> registeredLectureList)
         {
             string inputLectureIndex;
 

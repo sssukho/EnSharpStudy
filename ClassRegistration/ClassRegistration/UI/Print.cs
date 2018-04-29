@@ -153,11 +153,11 @@ namespace ClassRegistration
             Console.Clear();
             ListForm();
 
-            for (int i = 0; i  < foundLectures.Count; i++)
+            for (int i = 0; i < foundLectures.Count; i++)
             {
                 if (foundLectures[i].Classroom == null)
                     foundLectures[i].Classroom = " ";
-                Console.Write("{0}  {1}  {2}   {3} {4}  {5}  {6}  {7}  {8}  {9}  {10}", SetForm(foundLectures[i].Department.ToString(), 16), foundLectures[i].LectureIndex, foundLectures[i].ClassIndex, SetForm(foundLectures[i].LectureName.ToString(), 32), foundLectures[i].Division, foundLectures[i].Year, foundLectures[i].Grade, SetForm(foundLectures[i].Time.ToString(),29), SetForm(foundLectures[i].Classroom.ToString(), 11), SetForm(foundLectures[i].Professor.ToString(), 22), foundLectures[i].Language);
+                Console.Write("{0}  {1}  {2}   {3} {4}  {5}  {6}  {7}  {8}  {9}  {10}", SetForm(foundLectures[i].Department.ToString(), 16), foundLectures[i].LectureIndex, foundLectures[i].ClassIndex, SetForm(foundLectures[i].LectureName.ToString(), 32), foundLectures[i].Division, foundLectures[i].Year, foundLectures[i].Grade, SetForm(foundLectures[i].Time.ToString(), 29), SetForm(foundLectures[i].Classroom.ToString(), 11), SetForm(foundLectures[i].Professor.ToString(), 22), foundLectures[i].Language);
                 Console.WriteLine();
             }
             Console.WriteLine("-------------------------------------------------------------------------------------------------------------------------------------------------------------");
@@ -182,7 +182,7 @@ namespace ClassRegistration
         {
             Console.Clear();
             ListForm();
-            for(int i = 0; i < foundLectures.Count; i++)
+            for (int i = 0; i < foundLectures.Count; i++)
             {
                 if (foundLectures[i].Classroom == null)
                     foundLectures[i].Classroom = " ";
@@ -197,9 +197,22 @@ namespace ClassRegistration
             int inputSize = Encoding.Default.GetBytes(input).Length;
             if (inputSize != letterSize)
             {
-                for(int i = inputSize; i < letterSize; i ++)
+                for (int i = inputSize; i < letterSize; i++)
                 {
                     input = input + " ";
+                }
+            }
+            return input;
+        }
+
+        public string SetTimeTableForm(string input, int letterSize)
+        {
+            int inputSize = Encoding.Default.GetBytes(input).Length;
+            if(inputSize != letterSize)
+            {
+                for (int i = inputSize; i < letterSize; i++)
+                {
+                    input = " " + input;
                 }
             }
             return input;
@@ -208,33 +221,111 @@ namespace ClassRegistration
         public void ShowTimeTable(List<RegisteredLectureVO> registeredLectureList)
         {
             Console.Clear();
+            Console.SetWindowSize(180, 30);
+            //객체 생성 구조 바꿔야함
+            List<RegisteredLectureVO> monday = new List<RegisteredLectureVO>();
+            List<RegisteredLectureVO> tuesday = new List<RegisteredLectureVO>();
+            List<RegisteredLectureVO> wednesday = new List<RegisteredLectureVO>();
+            List<RegisteredLectureVO> thursday = new List<RegisteredLectureVO>();
+            List<RegisteredLectureVO> friday = new List<RegisteredLectureVO>();
+            string time;
 
-            const string timeFormat = "{0, -16} {1, -21} {2, -21} {3, -21} {4, -21} {5, -21}";
+            foreach (var item in registeredLectureList)
+            {
+                time = item.Time.ToString();
+                if (time.Contains("월"))
+                    monday.Add(item);
+                if (time.Contains("화"))
+                    tuesday.Add(item);
+                if (time.Contains("수"))
+                    wednesday.Add(item);
+                if (time.Contains("목"))
+                    thursday.Add(item);
+                if (time.Contains("금"))
+                    friday.Add(item);
+            }
 
-            string row1 = string.Format(timeFormat, "09:00~09:30 |");
-            string row2 = string.Format(timeFormat, "09:30~10:00 |");
-            string row3 = string.Format(timeFormat, "10:00~10:30 |");
-            string row4 = string.Format(timeFormat, "10:30~11:00 |");
-            string row5 = string.Format(timeFormat, "11:00~11:30 |");
-            string row6 = string.Format(timeFormat, "11:30~12:00 |");
-            string row7 = string.Format(timeFormat, "12:00~12:30 |");
-            string row8 = string.Format(timeFormat, "12:30~13:00 |");
-            string row9 = string.Format(timeFormat, "13:00~13:30 |");
-            string row10 = string.Format(timeFormat, "13:30~14:00 |");
-            string row11 = string.Format(timeFormat, "14:00~14:30 |");
-            string row12 = string.Format(timeFormat, "14:30~15:00 |");
-            string row13 = string.Format(timeFormat, "15:00~15:30 |");
-            string row14 = string.Format(timeFormat, "15:30~16:00 |");
-            string row15 = string.Format(timeFormat, "16:00~16:30 |");
-            string row16 = string.Format(timeFormat, "16:30~17:00 |");
-            string row17 = string.Format(timeFormat, "17:00~17:30 |");
-            string row18 = string.Format(timeFormat, "17:30~18:00 |");
-            string row19 = string.Format(timeFormat, "18:00~18:30 |");
-            string row20 = string.Format(timeFormat, "18:30~19:00 |");
-            string row21 = string.Format(timeFormat, "19:00~19:30 |");
-            string row22 = string.Format(timeFormat, "19:30~20:00 |");
+            string[] row = new string[22];
+            row[0] = "09:00-09:30 |";
+            row[1] = "09:30-10:00 |";
+            row[2] = "10:00-10:30 |";
+            row[3] = "10:30-11:00 |";
+            row[4] = "11:00-11:30 |";
+            row[5] = "11:30-12:00 |";
+            row[6] = "12:00-12:30 |";
+            row[7] = "12:30-13:00 |";
+            row[8] = "13:00-13:30 |";
+            row[9] = "13:30-14:00 |";
+            row[10] = "14:00-14:30 |";
+            row[11] = "14:30-15:00 |";
+            row[12] = "15:00-15:30 |";
+            row[13] = "15:30-16:00 |";
+            row[14] = "16:00-16:30 |";
+            row[15] = "16:30-17:00 |";
+            row[16] = "17:00-17:30 |";
+            row[17] = "17:30-18:00 |";
+            row[18] = "18:00-18:30 |";
+            row[19] = "18:30-19:00 |";
+            row[20] = "19:00-19:30 |";
+            row[21] = "19:30-20:00 |";
 
-            registeredLectureList.
+            Console.WriteLine("              월                      화                      수                        목                        금");
+            for(int i = 0; i < 22; i++)
+            {
+                Console.Write(SetForm(row[i], 14));
+                PrintLecture(row[i], monday, tuesday, wednesday, thursday, friday);
+                Console.WriteLine();
+            }
+        }
+
+        public void PrintLecture(string time, List<RegisteredLectureVO> monday, List<RegisteredLectureVO> tuesday, List<RegisteredLectureVO> wednesday, List<RegisteredLectureVO> thursday, List<RegisteredLectureVO> friday)
+        {
+            //한글자인 경우 구분 해야함
+            string itemTime;
+            foreach (var item in monday)
+            {
+                itemTime = item.Time.ToString().Remove(0, 2).Remove(5);
+                if(time.Remove(11).Contains(itemTime))
+                {
+                    Console.Write(SetForm(item.LectureName.ToString(), 22));
+                }
+            }
+                
+            foreach (var item in tuesday)
+            {
+                itemTime = item.Time.ToString().Remove(0, 2).Remove(5);
+                if (time.Remove(11).Contains(itemTime))
+                {
+                    Console.Write(SetTimeTableForm(item.LectureName.ToString(), 44));
+                }
+            }
+                
+            foreach(var item in wednesday)
+            {
+                itemTime = item.Time.ToString().Remove(0, 2).Remove(5);
+                if (time.Remove(11).Contains(itemTime))
+                {
+                    Console.Write(SetTimeTableForm(item.LectureName.ToString(), 46));
+                }
+            }
+                
+            foreach(var item in thursday)
+            {
+                itemTime = item.Time.ToString().Remove(0, 2).Remove(5);
+                if (time.Remove(11).Contains(itemTime))
+                {
+                    Console.Write(SetTimeTableForm(item.LectureName.ToString(), 48));
+                }
+            }
+                
+            foreach(var item in friday)
+            {
+                itemTime = item.Time.ToString().Remove(0, 2).Remove(5);
+                if (time.Remove(11).Contains(itemTime))
+                {
+                    Console.Write(SetTimeTableForm(item.LectureName.ToString(), 50));
+                }
+            }
         }
     }
 }

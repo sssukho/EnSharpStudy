@@ -80,7 +80,7 @@ namespace ClassRegistration
         {
             this.interestingLectureList = inputInterestingLectureList;
             List<InterestingLectureVO> afterRemoveList;
-            afterRemoveList = removeLecture.RemoveLectureList(lectureList, interestingLectureList);
+            afterRemoveList = removeLecture.RemoveFromLectureList(lectureList, interestingLectureList);
 
             if (afterRemoveList.Count == interestingLectureList.Count) //remove 제대로 안되었을때
                 menu.InterstingLectureMenu(interestingLectureList);
@@ -91,9 +91,7 @@ namespace ClassRegistration
         public void JoinInterstingLecture(List<InterestingLectureVO> inputInterestingLectureList)
         {
             this.interestingLectureList = inputInterestingLectureList;
-            print.ShowLecture(inputInterestingLectureList);
-            print.PreviousMsg();
-            Console.ReadLine();
+            joinLecture.JoinLectureList(inputInterestingLectureList);
             menu.InterstingLectureMenu(interestingLectureList);
         }
     }

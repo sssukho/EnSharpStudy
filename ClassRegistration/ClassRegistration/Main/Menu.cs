@@ -9,6 +9,7 @@ namespace ClassRegistration
     enum MainSelect { EXIT, INTERSTING_LECTURE, REGISTER_LECTURE, JOIN_TIMETABLE }
     enum ApplyLecture { EXIT, SEARCH_LECTURE, ADD_LECTURE, REMOVE_LECTURE, JOIN_LECTURE }
     enum SearchBy { EXIT, DEPARTMENT, LECTURE_INDEX, LECTURE_NAME, YEAR, PROFESSOR, INTERESTING_LECTURE }
+    enum JoinTimetable { EXIT, JOIN_TIMETABLE, EXPORT_EXCEL }
 
     class Menu
     {
@@ -28,18 +29,18 @@ namespace ClassRegistration
 
         public Menu()
         {
-            joinTimeTable = new JoinTimeTable();
             errorCheck = new ErrorCheck();
             print = new Print();
             addLecture = new AddLecture(print, errorCheck);
-            joinLecture = new JoinLecture();
             removeLecture = new RemoveLecture(print, errorCheck);
             searchLecture = new SearchLecture(print, errorCheck);
+            joinLecture = new JoinLecture(print, errorCheck);
             interestingLectureList = new List<InterestingLectureVO>();
             registeredLectureList = new List<RegisteredLectureVO>();
             lectureList = new LoadExcel().AddData();
             registerLecture = new RegisterLecture(this, registeredLectureList, lectureList, addLecture, joinLecture, removeLecture, searchLecture, print, errorCheck);
             interestingLecture = new InterestingLecture(this, interestingLectureList, lectureList, addLecture, joinLecture, removeLecture, searchLecture, print, errorCheck);
+            joinTimeTable = new JoinTimeTable(this, registeredLectureList, joinLecture, print, errorCheck);
             MainMenu();
         }
 
@@ -164,6 +165,21 @@ namespace ClassRegistration
             input = Console.ReadKey();
             if (input.Key == ConsoleKey.Escape)
                 MainMenu();
+
+            switch (int.Parse(input.KeyChar.ToString()))
+            {
+                case (int)JoinTimetable.JOIN_TIMETABLE:
+                    joinTimeTable.JoinRegisteredTimeTable(registeredLectureList);
+                    break;
+
+                case (int)JoinTimetable.EXPORT_EXCEL:
+                    joinTimeTable.ExportExcel(registeredLectureList);
+                    break;
+
+                case (int)JoinTimetable.EXIT:
+                    Environment.Exit(0);
+                    break;
+            }
         }
     }
 }
