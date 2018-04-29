@@ -8,5 +8,9 @@ namespace ClassRegistration
 {
     class JoinTimeTable
     {
+        
+
+       
+
     }
 }

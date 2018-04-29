@@ -204,5 +204,37 @@ namespace ClassRegistration
             }
             return input;
         }
+
+        public void ShowTimeTable(List<RegisteredLectureVO> registeredLectureList)
+        {
+            Console.Clear();
+
+            const string timeFormat = "{0, -16} {1, -21} {2, -21} {3, -21} {4, -21} {5, -21}";
+
+            string row1 = string.Format(timeFormat, "09:00~09:30 |");
+            string row2 = string.Format(timeFormat, "09:30~10:00 |");
+            string row3 = string.Format(timeFormat, "10:00~10:30 |");
+            string row4 = string.Format(timeFormat, "10:30~11:00 |");
+            string row5 = string.Format(timeFormat, "11:00~11:30 |");
+            string row6 = string.Format(timeFormat, "11:30~12:00 |");
+            string row7 = string.Format(timeFormat, "12:00~12:30 |");
+            string row8 = string.Format(timeFormat, "12:30~13:00 |");
+            string row9 = string.Format(timeFormat, "13:00~13:30 |");
+            string row10 = string.Format(timeFormat, "13:30~14:00 |");
+            string row11 = string.Format(timeFormat, "14:00~14:30 |");
+            string row12 = string.Format(timeFormat, "14:30~15:00 |");
+            string row13 = string.Format(timeFormat, "15:00~15:30 |");
+            string row14 = string.Format(timeFormat, "15:30~16:00 |");
+            string row15 = string.Format(timeFormat, "16:00~16:30 |");
+            string row16 = string.Format(timeFormat, "16:30~17:00 |");
+            string row17 = string.Format(timeFormat, "17:00~17:30 |");
+            string row18 = string.Format(timeFormat, "17:30~18:00 |");
+            string row19 = string.Format(timeFormat, "18:00~18:30 |");
+            string row20 = string.Format(timeFormat, "18:30~19:00 |");
+            string row21 = string.Format(timeFormat, "19:00~19:30 |");
+            string row22 = string.Format(timeFormat, "19:30~20:00 |");
+
+            registeredLectureList.
+        }
     }
 }
