@@ -26,14 +26,13 @@ namespace ClassRegistration
         public void JoinRegisteredTimeTable(List<RegisteredLectureVO> registeredLectureList)
         {
             joinLecture.JoinTimeTable(registeredLectureList);
-            print.PreviousMsg();
-            Console.WriteLine();
             menu.JoinMenu();
         }
 
         public void ExportExcel(List<RegisteredLectureVO> registeredLectureList)
         {
             joinLecture.ExportExcel(registeredLectureList);
+            menu.JoinMenu();
         }
     }
 }

@@ -269,7 +269,7 @@ namespace ClassRegistration
             row[20] = "19:00-19:30 |";
             row[21] = "19:30-20:00 |";
 
-            Console.WriteLine("              월                      화                      수                        목                        금");
+            Console.WriteLine("              월                      화                      수                     목                        금");
             for(int i = 0; i < 22; i++)
             {
                 Console.Write(SetForm(row[i], 14));
