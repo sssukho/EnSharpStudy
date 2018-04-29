@@ -37,7 +37,14 @@ namespace ClassRegistration
             print.ShowLecture(lectureList);
             print.InputMsg("학수번호");
             
-            inputLectureIndex = Console.ReadLine(); //입력 양식 체크
+            inputLectureIndex = Console.ReadLine();
+
+            error = errorCheck.IsValidPattern(inputLectureIndex, "lectureIndex");
+            if (error == true)
+            {
+                print.ErrorMsg("잘못된 양식의 학수번호");
+                return interestingLectureList;
+            }
 
             error = errorCheck.IsValidLecture(interestingLectureList, inputLectureIndex);
             if (error == true)
@@ -51,8 +58,15 @@ namespace ClassRegistration
             print.ShowLecture(foundList);
 
             print.InputMsg("분반");
-            inputClassIndex = Console.ReadLine(); //입력 양식 체크
-            
+            inputClassIndex = Console.ReadLine();
+
+            error = errorCheck.IsValidPattern(inputClassIndex, "classIndex");
+            if(error == true)
+            {
+                print.ErrorMsg("잘못된 양식의 분반");
+                return interestingLectureList;
+            }
+
             error = errorCheck.IsValidTime(interestingLectureList, foundList, inputClassIndex);
             if(error == true)
             {
@@ -89,6 +103,13 @@ namespace ClassRegistration
 
             inputLectureIndex = Console.ReadLine(); //입력 양식 체크
 
+            error = errorCheck.IsValidPattern(inputLectureIndex, "lectureIndex");
+            if(error == true)
+            {
+                print.ErrorMsg("잘못된 양식의 학수번호");
+                return registeredLectureList;
+            }
+
             error = errorCheck.IsValidLecture(registeredLectureList, inputLectureIndex);
             if (error == true)
             {
@@ -102,6 +123,13 @@ namespace ClassRegistration
 
             print.InputMsg("분반");
             inputClassIndex = Console.ReadLine(); //입력 양식 체크
+
+            error = errorCheck.IsValidPattern(inputClassIndex, "classIndex");
+            if(error == true)
+            {
+                print.ErrorMsg("잘못된 양식의 분반");
+                return registeredLectureList;
+            }
 
             error = errorCheck.IsValidTime(registeredLectureList, foundList, inputClassIndex);
             if (error == true)

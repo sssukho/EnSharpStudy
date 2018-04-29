@@ -12,6 +12,7 @@ namespace ClassRegistration
         ErrorCheck errorCheck;
 
         string input;
+        bool error;
 
         public SearchLecture(Print print, ErrorCheck errorCheck)
         {
@@ -23,7 +24,14 @@ namespace ClassRegistration
         {
             print.ShowLecture(lectureList);
             print.InputMsg("개설학과 전공");
-            input = Console.ReadLine(); //errorcheck
+            input = Console.ReadLine();
+            error = errorCheck.IsValidPattern(input, "department");
+            if(error == true)
+            {
+                print.PreviousMsg();
+                Console.ReadLine();
+                return;
+            }
 
             List<LectureListVO> foundList = lectureList.FindAll(lecture => lecture.Department.Equals(input));
             print.ShowLecture(foundList);
@@ -35,7 +43,14 @@ namespace ClassRegistration
         {
             print.ShowLecture(lectureList);
             print.InputMsg("학수번호");
-            input = Console.ReadLine(); //errocheck
+            input = Console.ReadLine();
+            error = errorCheck.IsValidPattern(input, "lectureIndex");
+            if(error == true)
+            {
+                print.PreviousMsg();
+                Console.ReadLine();
+                return;
+            }
 
             List<LectureListVO> foundList = lectureList.FindAll(lecture => lecture.LectureIndex.Equals(input));
             print.ShowLecture(foundList);
@@ -47,7 +62,14 @@ namespace ClassRegistration
         {
             print.ShowLecture(lectureList);
             print.InputMsg("교과목명");
-            input = Console.ReadLine(); //errorCheck
+            input = Console.ReadLine();
+            error = errorCheck.IsValidPattern(input, "lectureName");
+            if(error == true)
+            {
+                print.PreviousMsg();
+                Console.ReadLine();
+                return;
+            }
 
             List<LectureListVO> foundList = lectureList.FindAll(lecture => lecture.LectureName.Equals(input));
             print.ShowLecture(foundList);
@@ -59,20 +81,33 @@ namespace ClassRegistration
         {
             print.ShowLecture(lectureList);
             print.InputMsg("학년");
-            input = Console.ReadLine(); //errorCheck
+            input = Console.ReadLine();
+            error = errorCheck.IsValidPattern(input, "grade");
+            if(error == true)
+            {
+                print.PreviousMsg();
+                Console.ReadLine();
+                return;
+            }
 
             List<LectureListVO> foundList = lectureList.FindAll(lecture => lecture.Year.Equals(input));
             print.ShowLecture(foundList);
             print.PreviousMsg();
             Console.ReadLine();
-
         }
 
         public void SearchByProfessor(List<LectureListVO> lectureList)
         {
             print.ShowLecture(lectureList);
             print.InputMsg("교수명");
-            input = Console.ReadLine(); //errorCheck
+            input = Console.ReadLine();
+            error = errorCheck.IsValidPattern(input, "professor");
+            if(error == true)
+            {
+                print.PreviousMsg();
+                Console.ReadLine();
+                return;
+            }
 
             List<LectureListVO> foundList = lectureList.FindAll(lecture => lecture.Professor.Equals(input));
             print.ShowLecture(foundList);
@@ -82,6 +117,11 @@ namespace ClassRegistration
 
         public void SearchInterstingLecture(List<InterestingLectureVO> interestingLectureList)
         {
+            if(interestingLectureList == null)
+            {
+                print.ErrorMsg("비어있는 관심과목 리스트");
+                return;
+            }
             print.ShowLecture(interestingLectureList);
             print.PreviousMsg();
             Console.ReadLine();

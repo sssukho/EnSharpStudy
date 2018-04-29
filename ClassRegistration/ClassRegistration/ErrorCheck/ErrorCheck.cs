@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace ClassRegistration
 {
     class ErrorCheck
     {
-        //한번에 묶는거 생각해볼것 제네릭으로
+        MatchCollection mc;
+        
         public bool IsValidGrade(List<InterestingLectureVO> interestingLectureList)
         {
             double currentGrade = 0;
@@ -79,6 +81,47 @@ namespace ClassRegistration
             {
                 return true;
             }
+            return false;
+        }
+
+        public bool IsValidPattern(string input, string type)
+        {
+            string pattern = "";
+            switch(type)
+            {
+                case "lectureIndex":
+                    pattern = @"^[0]{1}[0-1]{1}[0-9]{4}$";
+                    break;
+
+                case "classIndex":
+                    pattern = @"^[0]{1}[0-9]{2}$";
+                    break;
+
+                case "department":
+                    pattern = @"^[가-힣]{6}$";
+                    break;
+
+                case "lectureName":
+                    pattern = @"^[가-힣a-zA-Z:+()#1]{4,21}$";
+                    break;
+
+                case "grade":
+                    pattern = @"^[1-4]{1}$";
+                    break;
+
+                case "professor":
+                    pattern = @"^[가-힣a-zA-Z]{22}";
+                    break;
+            }
+            return JudgePatternError(input, pattern);
+        }
+
+        public bool JudgePatternError(string input, string pattern)
+        {
+            mc = Regex.Matches(input, pattern);
+            if (mc.Count == 0)
+                return true;
+            
             return false;
         }
     }

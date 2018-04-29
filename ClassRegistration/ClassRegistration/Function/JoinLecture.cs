@@ -52,6 +52,7 @@ namespace ClassRegistration
             xlWorkBook = xlApp.Workbooks.Add(misValue);
 
             xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
+            xlWorkSheet.Cells[1, 1] = "시간";
             xlWorkSheet.Cells[1, 2] = "월";
             xlWorkSheet.Cells[1, 3] = "화";
             xlWorkSheet.Cells[1, 4] = "수";
@@ -80,15 +81,12 @@ namespace ClassRegistration
             xlWorkSheet.Cells[22, 1] = "19:00-19:30";
             xlWorkSheet.Cells[23, 1] = "19:30-20:00";
 
-            //Convert.ToString(dataTable.Rows[i][columnName])
-            string data = xlWorkSheet.Cells[1, 2].Value2;
-            Console.WriteLine(data);
-
             List<RegisteredLectureVO> monday = new List<RegisteredLectureVO>();
             List<RegisteredLectureVO> tuesday = new List<RegisteredLectureVO>();
             List<RegisteredLectureVO> wednesday = new List<RegisteredLectureVO>();
             List<RegisteredLectureVO> thursday = new List<RegisteredLectureVO>();
             List<RegisteredLectureVO> friday = new List<RegisteredLectureVO>();
+
             string time;
 
             foreach (var item in registeredLectureList)
@@ -111,10 +109,10 @@ namespace ClassRegistration
                xlWorkSheet = SetTable(xlWorkSheet, xlWorkSheet.Cells[i, 1].Value2, i, monday, tuesday, wednesday, thursday, friday);
             }
 
+            //document 디렉토리에 저장됨.
             xlWorkBook.SaveAs("2018-1학기시간표.xlsx", misValue, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue,
                 Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
-            //document 디렉토리에 저장됨.
-
+            
             xlApp.Workbooks.Close();
             xlApp.Quit();
 
@@ -122,7 +120,6 @@ namespace ClassRegistration
             print.CompleteMsg("Document 폴더에 파일 저장");
         }
 
-        
         public Excel.Worksheet SetTable(Excel.Worksheet xlWorkSheet, string time, int index, List<RegisteredLectureVO> monday, List<RegisteredLectureVO> tuesday, List<RegisteredLectureVO> wednesday, List<RegisteredLectureVO> thursday, List<RegisteredLectureVO> friday)
         {
             string itemTime;

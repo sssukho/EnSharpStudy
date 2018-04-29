@@ -26,6 +26,12 @@ namespace ClassRegistration
             print.ShowLecture(interestingLectureList);
             print.InputMsg("학수번호");
             inputLectureIndex = Console.ReadLine();
+            error = errorCheck.IsValidPattern(inputLectureIndex, "lectureIndex");
+            if (error == true)
+            {
+                print.ErrorMsg("잘못된 양식의 학수번호");
+                return interestingLectureList;
+            }
 
             error = errorCheck.IsValidLecture(interestingLectureList, inputLectureIndex);
             if(error == false) //장바구니에 없는 강의
@@ -49,6 +55,12 @@ namespace ClassRegistration
             print.ShowLecture(registeredLectureList);
             print.InputMsg("학수번호");
             inputLectureIndex = Console.ReadLine();
+            error = errorCheck.IsValidPattern(inputLectureIndex, "lectureIndex");
+            if (error == true)
+            {
+                print.ErrorMsg("잘못된 양식의 학수번호");
+                return registeredLectureList;
+            }
 
             error = errorCheck.IsValidLecture(registeredLectureList, inputLectureIndex);
             if (error == false) //장바구니에 없는 강의
