@@ -11,14 +11,16 @@ namespace ClassRegistration
         Menu menu;
         List<RegisteredLectureVO> registeredLectureList;
         JoinLecture joinLecture;
+        Export export;
         Print print;
         ErrorCheck errorCheck;
 
-        public JoinTimeTable(Menu menu, List<RegisteredLectureVO> registeredLectureList, JoinLecture joinLecture, Print print, ErrorCheck errorCheck)
+        public JoinTimeTable(Menu menu, List<RegisteredLectureVO> registeredLectureList, JoinLecture joinLecture, Export export, Print print, ErrorCheck errorCheck)
         {
             this.menu = menu;
             this.registeredLectureList = registeredLectureList;
             this.joinLecture = joinLecture;
+            this.export = export;
             this.print = print;
             this.errorCheck = errorCheck;
         }
@@ -31,7 +33,7 @@ namespace ClassRegistration
 
         public void ExportExcel(List<RegisteredLectureVO> registeredLectureList)
         {
-            joinLecture.ExportExcel(registeredLectureList);
+            export.ExportExcel(registeredLectureList);
             menu.JoinMenu();
         }
     }

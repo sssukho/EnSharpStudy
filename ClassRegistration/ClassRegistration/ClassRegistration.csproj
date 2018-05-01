@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Function\Export.cs" />
     <Compile Include="Function\AddLecture.cs" />
     <Compile Include="ErrorCheck\ErrorCheck.cs" />
     <Compile Include="Function\JoinLecture.cs" />

@@ -69,16 +69,24 @@ namespace ClassRegistration
             menu.SearchRegisterLectureMenu(inputRegisteredLectureList);
         }
 
-        public void AddLecture(List<RegisteredLectureVO> inputRegisteredLectureList)
+        public List<RegisteredLectureVO> AddLecture(List<RegisteredLectureVO> inputRegisteredLectureList)
         {
             this.registeredLectureList = inputRegisteredLectureList;
             List<RegisteredLectureVO> afterAddList;
             afterAddList = addLecture.AddLectureInList(lectureList, registeredLectureList);
 
             if (afterAddList.Count == registeredLectureList.Count)
+            {
                 menu.RegisterLectureMenu(registeredLectureList);
+                return inputRegisteredLectureList;
+            }
+
             else
+            {
                 menu.RegisterLectureMenu(afterAddList);
+                return inputRegisteredLectureList;
+            }
+                
         }
 
         public void RemoveLecture(List<RegisteredLectureVO> inputRegisteredLectureList)

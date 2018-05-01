@@ -72,6 +72,7 @@ namespace ClassRegistration
 
             if (afterAddList.Count == interestingLectureList.Count) //add가 제대로 안되었을때
                 menu.InterstingLectureMenu(interestingLectureList);
+            
             else
                 menu.InterstingLectureMenu(afterAddList);
         }
@@ -84,8 +85,9 @@ namespace ClassRegistration
 
             if (afterRemoveList.Count == interestingLectureList.Count) //remove 제대로 안되었을때
                 menu.InterstingLectureMenu(interestingLectureList);
+              
             else
-                menu.InterstingLectureMenu(afterRemoveList); 
+                menu.InterstingLectureMenu(afterRemoveList);
         }
 
         public void JoinInterstingLecture(List<InterestingLectureVO> inputInterestingLectureList)

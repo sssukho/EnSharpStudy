@@ -10,7 +10,7 @@ namespace ClassRegistration
     {
         static void Main(string[] args)
         {
-            Console.Clear();
+            Console.Clear();   
             new Menu();
         }
     }

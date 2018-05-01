@@ -10,6 +10,7 @@ namespace ClassRegistration
     enum ApplyLecture { EXIT, SEARCH_LECTURE, ADD_LECTURE, REMOVE_LECTURE, JOIN_LECTURE }
     enum SearchBy { EXIT, DEPARTMENT, LECTURE_INDEX, LECTURE_NAME, YEAR, PROFESSOR, INTERESTING_LECTURE }
     enum JoinTimetable { EXIT, JOIN_TIMETABLE, EXPORT_EXCEL }
+    enum FormType { MONDAY = 22, TUESDAY = 44, WEDNESDAY = 46, THURSDAY = 48, FRIDAY = 52 }
 
     class Menu
     {
@@ -19,6 +20,7 @@ namespace ClassRegistration
         ErrorCheck errorCheck;
         AddLecture addLecture;
         JoinLecture joinLecture;
+        Export export;
         RemoveLecture removeLecture;
         SearchLecture searchLecture;
         Print print;
@@ -27,20 +29,23 @@ namespace ClassRegistration
         List<LectureListVO> lectureList;
         ConsoleKeyInfo input;
 
+        bool error;
+
         public Menu()
         {
             errorCheck = new ErrorCheck();
-            print = new Print();
+            print = new Print(new List<RegisteredLectureVO>(), new List<RegisteredLectureVO>(), new List<RegisteredLectureVO>(), new List<RegisteredLectureVO>(), new List<RegisteredLectureVO>());
             addLecture = new AddLecture(print, errorCheck);
             removeLecture = new RemoveLecture(print, errorCheck);
             searchLecture = new SearchLecture(print, errorCheck);
             joinLecture = new JoinLecture(print, errorCheck);
+            export = new Export(print, new List<RegisteredLectureVO>(), new List<RegisteredLectureVO>(), new List<RegisteredLectureVO>(), new List<RegisteredLectureVO>(), new List<RegisteredLectureVO>());
             interestingLectureList = new List<InterestingLectureVO>();
             registeredLectureList = new List<RegisteredLectureVO>();
             lectureList = new LoadExcel().AddData();
             registerLecture = new RegisterLecture(this, registeredLectureList, lectureList, addLecture, joinLecture, removeLecture, searchLecture, print, errorCheck);
             interestingLecture = new InterestingLecture(this, interestingLectureList, lectureList, addLecture, joinLecture, removeLecture, searchLecture, print, errorCheck);
-            joinTimeTable = new JoinTimeTable(this, registeredLectureList, joinLecture, print, errorCheck);
+            joinTimeTable = new JoinTimeTable(this, registeredLectureList, joinLecture, export, print, errorCheck);
             MainMenu();
         }
 
@@ -48,6 +53,13 @@ namespace ClassRegistration
         {
             print.MainMenu();
             input = Console.ReadKey();
+            error = errorCheck.IsValidInputKey(input.KeyChar.ToString(), "mainMenu");
+            if(error == true)
+            {
+                print.ErrorMsg("없는 항목");
+                MainMenu();
+                return;
+            }
 
             switch (int.Parse(input.KeyChar.ToString()))
             {
@@ -77,6 +89,14 @@ namespace ClassRegistration
             input = Console.ReadKey();
             if (input.Key == ConsoleKey.Escape)
                 MainMenu();
+
+            error = errorCheck.IsValidInputKey(input.KeyChar.ToString(), "lectureMenu");
+            if(error == true)
+            {
+                print.ErrorMsg("없는 항목");
+                InterstingLectureMenu(interestingLectureList);
+                return;
+            }
 
             switch (int.Parse(input.KeyChar.ToString()))
             {
@@ -110,6 +130,14 @@ namespace ClassRegistration
             if (input.Key == ConsoleKey.Escape)
                 InterstingLectureMenu(inputInterestingLectureList);
 
+            error = errorCheck.IsValidInputKey(input.KeyChar.ToString(), "interstingLectureSearchMenu");
+            if(error == true)
+            {
+                print.ErrorMsg("없는 항목");
+                SearchInterstingLectureMenu(interestingLectureList);
+                return;
+            }
+
             int searchType = int.Parse(input.KeyChar.ToString());
             interestingLecture.SearchLecture(searchType, inputInterestingLectureList);
         }
@@ -123,6 +151,13 @@ namespace ClassRegistration
             if (input.Key == ConsoleKey.Escape)
                 MainMenu();
 
+            error = errorCheck.IsValidInputKey(input.KeyChar.ToString(), "lectureMenu");
+            if (error == true)
+            {
+                print.ErrorMsg("없는 항목");
+                RegisterLectureMenu(registeredLectureList);
+                return;
+            }
             switch (int.Parse(input.KeyChar.ToString()))
             {
                 case (int)ApplyLecture.SEARCH_LECTURE:
@@ -154,6 +189,14 @@ namespace ClassRegistration
             input = Console.ReadKey();
             if (input.Key == ConsoleKey.Escape)
                 RegisterLectureMenu(registeredLectureList);
+
+            error = errorCheck.IsValidInputKey(input.KeyChar.ToString(), "interstingLectureSearchMenu");
+            if (error == true)
+            {
+                print.ErrorMsg("없는 항목");
+                SearchRegisterLectureMenu(registeredLectureList);
+                return;
+            }
 
             int searchType = int.Parse(input.KeyChar.ToString());
             registerLecture.SearchLecture(searchType, registeredLectureList, interestingLectureList);

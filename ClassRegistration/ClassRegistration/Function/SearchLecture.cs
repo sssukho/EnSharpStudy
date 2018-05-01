@@ -28,12 +28,14 @@ namespace ClassRegistration
             error = errorCheck.IsValidPattern(input, "department");
             if(error == true)
             {
-                print.PreviousMsg();
-                Console.ReadLine();
+                print.ErrorMsg("잘못된 양식의 개설학과전공");
                 return;
             }
 
+           // List<LectureListVO> foundList = lectureList.FindAll(lecture => lecture.Department.ToString().Any);
+
             List<LectureListVO> foundList = lectureList.FindAll(lecture => lecture.Department.Equals(input));
+            
             print.ShowLecture(foundList);
             print.PreviousMsg();
             Console.ReadLine();
@@ -47,8 +49,7 @@ namespace ClassRegistration
             error = errorCheck.IsValidPattern(input, "lectureIndex");
             if(error == true)
             {
-                print.PreviousMsg();
-                Console.ReadLine();
+                print.ErrorMsg("잘못된 양식의 학수번호");
                 return;
             }
 
@@ -66,8 +67,7 @@ namespace ClassRegistration
             error = errorCheck.IsValidPattern(input, "lectureName");
             if(error == true)
             {
-                print.PreviousMsg();
-                Console.ReadLine();
+                print.ErrorMsg("잘못된 양식의 교과목명");
                 return;
             }
 
@@ -85,8 +85,7 @@ namespace ClassRegistration
             error = errorCheck.IsValidPattern(input, "grade");
             if(error == true)
             {
-                print.PreviousMsg();
-                Console.ReadLine();
+                print.ErrorMsg("잘못된 양식의 학년");
                 return;
             }
 
@@ -102,10 +101,10 @@ namespace ClassRegistration
             print.InputMsg("교수명");
             input = Console.ReadLine();
             error = errorCheck.IsValidPattern(input, "professor");
-            if(error == true)
+
+            if (error == true)
             {
-                print.PreviousMsg();
-                Console.ReadLine();
+                print.ErrorMsg("잘못된 양식의 교수명");
                 return;
             }
 

@@ -19,7 +19,7 @@ namespace ClassRegistration
                 currentGrade = currentGrade + double.Parse(item.Grade.ToString());
             }
 
-            if (currentGrade > 24)
+            if (currentGrade >= 24)
                 return true;
 
             return false;
@@ -33,7 +33,7 @@ namespace ClassRegistration
                 currentGrade = currentGrade + double.Parse(item.Grade.ToString());
             }
 
-            if (currentGrade > 21)
+            if (currentGrade >= 21)
                 return true;
 
             return false;
@@ -57,7 +57,6 @@ namespace ClassRegistration
             return false;
         }
 
-        //하루만 겹치는 거 추가 수정할 것
         public bool IsValidTime(List<InterestingLectureVO> interestingLectureList, List<LectureListVO> foundLectureList, string inputClassIndex)
         {
             string findTime = foundLectureList.Find(lecture =>
@@ -84,6 +83,42 @@ namespace ClassRegistration
             return false;
         }
 
+        public bool IsValidInputKey(string input, string type)
+        {
+            if(type.Equals("mainMenu"))
+            {
+                if (input.Equals("1") || input.Equals("2") || input.Equals("3") || input.Equals("0"))
+                    return false;
+                return true;
+            }
+
+            else if(type.Equals("lectureMenu"))
+            {
+                if (input.Equals("1") || input.Equals("2") || input.Equals("3") || input.Equals("4") ||
+                    input.Equals("0"))
+                    return false;
+                return true;
+            }
+
+            else if(type.Equals("interstingLectureSearchMenu")) //1,2,3,4,5,0
+            {
+                if (input.Equals("1") || input.Equals("2") || input.Equals("3") || input.Equals("4") ||
+                    input.Equals("5") || input.Equals("0"))
+                    return false;
+                return true;
+            }
+
+            else if(type.Equals("registerLectureSearchMenu"))
+            {
+                if (input.Equals("1") || input.Equals("2") || input.Equals("3") || input.Equals("4") ||
+                    input.Equals("5") || input.Equals("6") || input.Equals("0"))
+                    return false;
+                return true;
+            }
+
+            return false;
+        }
+
         public bool IsValidPattern(string input, string type)
         {
             string pattern = "";
@@ -98,7 +133,7 @@ namespace ClassRegistration
                     break;
 
                 case "department":
-                    pattern = @"^[가-힣]{6}$";
+                    pattern = @"^[가-힣]{6,8}$";
                     break;
 
                 case "lectureName":
@@ -110,7 +145,7 @@ namespace ClassRegistration
                     break;
 
                 case "professor":
-                    pattern = @"^[가-힣a-zA-Z]{22}";
+                    pattern = @"^[가-힣a-zA-Z]{2,22}";
                     break;
             }
             return JudgePatternError(input, pattern);
