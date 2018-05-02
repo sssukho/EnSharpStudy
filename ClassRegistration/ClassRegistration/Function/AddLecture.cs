@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace ClassRegistration
 {
+    /// <기능>
+    /// 1. 관심과목 리스트에 추가
+    /// 2. 수강신청 리스트에 추가
+    /// 3. 동일 시간 및 학점 초과 예외처리
+    /// 4. 학수번호 검색시 동일 과목에 다른 학과 과목이 있으면 학과명을 입력받아서 처리
+    /// </기능>
     class AddLecture
     {
         Print print;
@@ -19,6 +25,7 @@ namespace ClassRegistration
             this.errorCheck = errorCheck;
         }
 
+        //관심과목 추가
         public List<InterestingLectureVO> AddLectureInList(List<LectureListVO> lectureList, List<InterestingLectureVO> interestingLectureList)
         {
             Console.Clear();
@@ -51,14 +58,14 @@ namespace ClassRegistration
                 return interestingLectureList;
             }
 
-            //일치하는 학수번호 강의 리스트 출력
+            //일치하는 학수번호 강의 리스트 복사후 출력
             List<LectureListVO> foundList = lectureList.FindAll(lecture => lecture.LectureIndex.Equals(inputLectureIndex));
             print.ShowLecture(foundList);
 
-            //학수번호 같은데 전공이 다른 과목 분
-
+            //학수번호 같은데 전공이 다른 과목 분리 
             if (CheckAnotherDepartment(foundList) == true)
             {
+                //학과별로 새로운 리스트에 넣어줌
                 List<LectureListVO> computerEngineering = foundList.FindAll(lecture => lecture.Department.Equals("컴퓨터공학과"));
                 List<LectureListVO> informationProtection = foundList.FindAll(lecture => lecture.Department.Equals("정보보호학과")); ;
                 List<LectureListVO> digitalContents = foundList.FindAll(lecture => lecture.Department.Equals("디지털콘텐츠학과"));
@@ -142,8 +149,11 @@ namespace ClassRegistration
             List<LectureListVO> foundList = lectureList.FindAll(lecture => lecture.LectureIndex.Equals(inputLectureIndex));
             print.ShowLecture(foundList);
 
+
+            //학수번호 같은데 전공이 다른 과목 분리 
             if (CheckAnotherDepartment(foundList) == true)
             {
+                //학과별로 새로운 리스트에 넣어줌
                 List<LectureListVO> computerEngineering = foundList.FindAll(lecture => lecture.Department.Equals("컴퓨터공학과"));
                 List<LectureListVO> informationProtection = foundList.FindAll(lecture => lecture.Department.Equals("정보보호학과")); ;
                 List<LectureListVO> digitalContents = foundList.FindAll(lecture => lecture.Department.Equals("디지털콘텐츠학과"));
@@ -376,6 +386,7 @@ namespace ClassRegistration
                     print.ErrorMsg("학점 초과");
                     return registeredLectureList;
                 }
+
                 //리스트에 이미 시간이 중복되는 강의가 있는지
                 error = errorCheck.IsValidTime(registeredLectureList, computerEngineering, inputClassIndex);
                 if (error == true)
@@ -384,7 +395,7 @@ namespace ClassRegistration
                     return registeredLectureList;
                 }
 
-                //관심과목 리스트에 추가
+                //수강신청 리스트에 추가
                 LectureListVO newLecture = computerEngineering.Find(lecture => lecture.ClassIndex.Equals(inputClassIndex));
                 registeredLectureList.Add(new RegisteredLectureVO(newLecture.Department, newLecture.LectureIndex,
                     newLecture.ClassIndex, newLecture.LectureName, newLecture.Division, newLecture.Year,
@@ -458,7 +469,7 @@ namespace ClassRegistration
                     return registeredLectureList;
                 }
 
-                //관심과목 리스트에 추가
+                //수강신청 리스트에 추가
                 LectureListVO newLecture = digitalContents.Find(lecture => lecture.ClassIndex.Equals(inputClassIndex));
                 registeredLectureList.Add(new RegisteredLectureVO(newLecture.Department, newLecture.LectureIndex,
                     newLecture.ClassIndex, newLecture.LectureName, newLecture.Division, newLecture.Year,
@@ -495,7 +506,7 @@ namespace ClassRegistration
                     return registeredLectureList;
                 }
 
-                //관심과목 리스트에 추가
+                //수강신청 리스트에 추가
                 LectureListVO newLecture = softWare.Find(lecture => lecture.ClassIndex.Equals(inputClassIndex));
                 registeredLectureList.Add(new RegisteredLectureVO(newLecture.Department, newLecture.LectureIndex,
                     newLecture.ClassIndex, newLecture.LectureName, newLecture.Division, newLecture.Year,
