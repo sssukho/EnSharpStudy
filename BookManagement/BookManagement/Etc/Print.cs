@@ -19,12 +19,27 @@ namespace BookManagement
 
         public static Print GetInstance()
         {
-            if (print == null)
-            {
-                print = new Print();
-            }
+            if (print == null) print = new Print();
 
             return print;
+        }
+
+        public void LoginUI()
+        {
+            Console.SetWindowSize(40, 20);
+            Console.Clear();
+            Console.WriteLine("=================================");
+            Console.WriteLine("||                              ||");
+            Console.WriteLine("||                              ||");
+            Console.WriteLine("||                              ||");
+            Console.WriteLine("||                              ||");
+            Console.WriteLine("||       도서관리프로그램       ||");
+            Console.WriteLine("||                              ||");
+            Console.WriteLine("||                              ||");
+            Console.WriteLine("||                              ||");
+            Console.WriteLine("||   (로그인하려면 엔터키...)   ||");
+            Console.WriteLine("=================================");
+            Console.ReadLine();
         }
 
         public void CompleteMsg(string type) //기능 에러없이 완료했을 경우
@@ -227,6 +242,7 @@ namespace BookManagement
             Console.Write("\n\t메뉴 번호 입력 : ");
         }
 
+        /*
         public Member MemberRegister(MemberManagement memberManagement) //while로 틀린 항목 다시 입력하게
         {
             string name, studentId, gender, phoneNumber, email, address;
@@ -542,7 +558,7 @@ namespace BookManagement
 
             Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
             Console.ReadLine();
-        }
+        }*/
     }
 }
 

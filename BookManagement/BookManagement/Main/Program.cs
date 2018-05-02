@@ -10,6 +10,7 @@ namespace BookManagement
     {
         static void Main(string[] args)
         {
+            new Login();
         }
     }
 }
