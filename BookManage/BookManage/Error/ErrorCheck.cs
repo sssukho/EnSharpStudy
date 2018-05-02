@@ -11,10 +11,10 @@ namespace BookManage
     class ErrorCheck
     {
         public static ErrorCheck errorCheck;
-      
+
         MatchCollection mc;
         string pattern;
-       
+
         public ErrorCheck(){ }
 
         public static ErrorCheck GetInstance() //싱글톤구조
@@ -26,7 +26,7 @@ namespace BookManage
             return errorCheck;
         }
 
-        public bool MemberName(string input) 
+        public bool MemberName(string input)
         {
             pattern = @"^[가-힣]{2,4}$";
             return Judgement(input, pattern);
@@ -39,7 +39,7 @@ namespace BookManage
         }
 
         public bool MemberGender(string input)
-        { 
+        {
             pattern = @"^[남|여]{1}$";
             return Judgement(input, pattern);
         }
@@ -70,7 +70,7 @@ namespace BookManage
 
         public bool BookName(string input)
         {
-            pattern = @"^[가-힣a-zA-Z0-9]{1,16}$";
+            pattern = @"^[가-힣a-zA-Z0-9]{1,30}$";
             return Judgement(input, pattern);
         }
 
