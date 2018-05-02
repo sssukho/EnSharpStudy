@@ -102,7 +102,7 @@ namespace BookManagement
             switch (type)
             {
                 case "메인메뉴":
-                    pattern = @"[1-4]{1}$";
+                    pattern = @"[1-3]{1}|[0]{1}$";
                     break;
 
                 case "5지선다":

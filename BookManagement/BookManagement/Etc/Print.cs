@@ -131,6 +131,7 @@ namespace BookManagement
         public void Menu(string type)
         {
             Console.Clear();
+            Console.SetWindowSize(130, 40);
             switch (type)
             {
                 case "메인":
