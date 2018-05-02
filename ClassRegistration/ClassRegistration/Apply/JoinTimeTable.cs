@@ -25,14 +25,12 @@ namespace ClassRegistration
             this.errorCheck = errorCheck;
         }
 
-        //콘솔 상에서 시간표 출력
         public void JoinRegisteredTimeTable(List<RegisteredLectureVO> registeredLectureList)
         {
             joinLecture.JoinTimeTable(registeredLectureList);
             menu.JoinMenu();
         }
 
-        //엑셀로 내보내기
         public void ExportExcel(List<RegisteredLectureVO> registeredLectureList)
         {
             export.ExportExcel(registeredLectureList);

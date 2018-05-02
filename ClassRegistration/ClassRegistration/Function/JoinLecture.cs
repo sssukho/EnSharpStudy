@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 
 namespace ClassRegistration
 {
-    /// <기능>
-    /// 1. 관심 과목 리스트 조회
-    /// 2. 수강신청 과목 리스트 조회
-    /// 3. 수강신청 과목 시간표로 조회
-    /// </기능>
+    /// <summary>
+    /// 관심과목 및 수강신청한 강의 조회
+    /// </summary>
     class JoinLecture
     {
         Print print;
@@ -24,7 +22,6 @@ namespace ClassRegistration
             this.errorCheck = errorCheck;
         }
 
-        //관심과목 리스트 조회
         public void JoinLectureList(List<InterestingLectureVO> interestingLectureList)
         {
             print.ShowLecture(interestingLectureList);
@@ -32,7 +29,6 @@ namespace ClassRegistration
             Console.ReadLine();
         }
 
-        //수강신청 리스트 조회
         public void JoinLectureList(List<RegisteredLectureVO> registeredLectureList)
         {
             print.ShowLecture(registeredLectureList);
@@ -40,7 +36,6 @@ namespace ClassRegistration
             Console.ReadLine();
         }
 
-        //수강신청한 강의들 시간표로 출력
         public void JoinTimeTable(List<RegisteredLectureVO> registeredLectureList)
         {
             print.ShowTimeTable(registeredLectureList);

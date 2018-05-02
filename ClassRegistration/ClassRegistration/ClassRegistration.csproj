@@ -53,12 +53,12 @@
     <Compile Include="Function\JoinLecture.cs" />
     <Compile Include="Apply\JoinTimeTable.cs" />
     <Compile Include="Data\LectureListVO.cs" />
-    <Compile Include="Function\LoadExcel.cs" />
+    <Compile Include="Data\LoadExcel.cs" />
     <Compile Include="Data\InterestingLectureVO.cs" />
-    <Compile Include="Menu\Menu.cs" />
+    <Compile Include="Main\Menu.cs" />
     <Compile Include="Data\RegisteredLectureVO.cs" />
-    <Compile Include="Print\Print.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="UI\Print.cs" />
+    <Compile Include="Main\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Apply\RegisterLecture.cs" />
     <Compile Include="Function\RemoveLecture.cs" />

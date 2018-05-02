@@ -32,7 +32,6 @@ namespace ClassRegistration
             this.errorCheck = errorCheck;
         }
 
-        //강의 검색
         public void SearchLecture(int searchType, List<InterestingLectureVO> inputInterestingLectureList)
         {
             this.interestingLectureList = inputInterestingLectureList;
@@ -65,7 +64,6 @@ namespace ClassRegistration
             menu.SearchInterstingLectureMenu(inputInterestingLectureList);
         }
 
-        //강의 추가
         public void AddLecture(List<InterestingLectureVO> inputInterestingLectureList)
         {
             this.interestingLectureList = inputInterestingLectureList;
@@ -79,7 +77,6 @@ namespace ClassRegistration
                 menu.InterstingLectureMenu(afterAddList);
         }
 
-        //강의 삭제
         public void RemoveLecture(List<InterestingLectureVO> inputInterestingLectureList)
         {
             this.interestingLectureList = inputInterestingLectureList;
@@ -93,7 +90,6 @@ namespace ClassRegistration
                 menu.InterstingLectureMenu(afterRemoveList);
         }
 
-        //강의 조회
         public void JoinInterstingLecture(List<InterestingLectureVO> inputInterestingLectureList)
         {
             this.interestingLectureList = inputInterestingLectureList;

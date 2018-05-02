@@ -224,7 +224,7 @@ namespace ClassRegistration
             int inputSize = Encoding.Default.GetBytes(input).Length;
             if (inputSize != letterSize)
             {
-                for (int i = inputSize; i <= letterSize; i++)
+                for (int i = inputSize; i < letterSize; i++)
                 {
                     input = " " + input;
                 }
@@ -314,7 +314,7 @@ namespace ClassRegistration
             int backtime;
             int tablefrontime;
             int tablebacktime;
-
+            
             for (int j = 0; j < monday.Count; j++)
             {
                 if (monday[j].Time.ToString().Length.Equals(12)) //하루인경우
@@ -360,7 +360,7 @@ namespace ClassRegistration
                         PrintLecture(frontime, backtime, tablefrontime, tablebacktime, monday, j, (int)FormType.MONDAY);
                     }
 
-                    if (timeDiff.Hours == 2) //2시간짜리 강의
+                    if(timeDiff.Hours == 2) //2시간짜리 강의
                     {
                         PrintLecture(frontime, backtime, tablefrontime, tablebacktime, monday, j, (int)FormType.MONDAY);
                     }
@@ -378,42 +378,18 @@ namespace ClassRegistration
                     tablefrontime = int.Parse(tableFrontTime.Remove(2, 1));
                     tablebacktime = int.Parse(tableBackTime.Remove(2, 1));
 
-                    
-                    string day = monday[j].Time.ToString().Remove(0, 14).Remove(1);
-                    if (day.Equals("월"))
+                    DateTime backTime = Convert.ToDateTime("2018-01-01 " + itemBackTime);
+                    DateTime frontTime = Convert.ToDateTime("2018-01-01 " + itemFrontTime);
+                    TimeSpan timeDiff = backTime - frontTime;
+
+                    if (timeDiff.Hours == 1 && timeDiff.Minutes == 30) //1시간반짜리 강의
                     {
-                        DateTime backTime = Convert.ToDateTime("2018-01-01 " + itemBackTime);
-                        DateTime frontTime = Convert.ToDateTime("2018-01-01 " + itemFrontTime);
-                        TimeSpan timeDiff = backTime - frontTime;
+                        PrintLecture(frontime, backtime, tablefrontime, tablebacktime, monday, j, (int)FormType.MONDAY);
+                    }
 
-                        if (timeDiff.Hours == 1 && timeDiff.Minutes == 30) //1시간반짜리 강의
-                        {
-                            PrintLecture(frontime, backtime, tablefrontime, tablebacktime, monday, j, (int)FormType.MONDAY);
-                        }
-
-                        if (timeDiff.Hours == 2)
-                        {
-                            PrintLecture(frontime, backtime, tablefrontime, tablebacktime, monday, j, (int)FormType.MONDAY);
-                        }
-
-                        itemFrontTime = monday[j].Time.ToString().Remove(0, 2).Remove(5);
-                        itemBackTime = monday[j].Time.ToString().Remove(0, 8).Remove(5);
-                        tableFrontTime = row.Remove(5);
-                        tableBackTime = row.Remove(0, 6).Remove(5, 2);
-
-                        frontime = int.Parse(itemFrontTime.Remove(2, 1));
-                        backtime = int.Parse(itemBackTime.Remove(2, 1));
-                        tablefrontime = int.Parse(tableFrontTime.Remove(2, 1));
-                        tablebacktime = int.Parse(tableBackTime.Remove(2, 1));
-
-                        backTime = Convert.ToDateTime("2018-01-01 " + itemBackTime);
-                        frontTime = Convert.ToDateTime("2018-01-01 " + itemFrontTime);
-                        timeDiff = backTime - frontTime;
-
-                        if (timeDiff.Hours == 1 && timeDiff.Minutes == 30) //1시간반짜리 강의
-                        {
-                            PrintLecture(frontime, backtime, tablefrontime, tablebacktime, monday, j, (int)FormType.MONDAY);
-                        }
+                    if(timeDiff.Hours == 2)
+                    {
+                        PrintLecture(frontime, backtime, tablefrontime, tablebacktime, monday, j, (int)FormType.MONDAY);
                     }
                 }
             }
@@ -453,13 +429,13 @@ namespace ClassRegistration
                         PrintLecture(frontime, backtime, tablefrontime, tablebacktime, tuesday, j, (int)FormType.TUESDAY);
                     }
 
-                    if (timeDiff.Hours == 2) //2시간
+                    if(timeDiff.Hours == 2) //2시간
                     {
                         PrintLecture(frontime, backtime, tablefrontime, tablebacktime, tuesday, j, (int)FormType.TUESDAY);
                     }
                 }
 
-                if (tuesday[j].Time.ToString().Length.Equals(26)) //삼일
+                if(tuesday[j].Time.ToString().Length.Equals(26)) //삼일
                 {
                     itemFrontTime = tuesday[j].Time.ToString().Remove(0, 15).Remove(5);
                     itemBackTime = tuesday[j].Time.ToString().Remove(0, 21);
@@ -483,44 +459,6 @@ namespace ClassRegistration
                     if (timeDiff.Hours == 2) //2시간
                     {
                         PrintLecture(frontime, backtime, tablefrontime, tablebacktime, tuesday, j, (int)FormType.TUESDAY);
-                    }
-
-                    
-                    string day = tuesday[j].Time.ToString().Remove(0, 14).Remove(1);
-                    if (day.Equals("화"))
-                    {
-                        backTime = Convert.ToDateTime("2018-01-01 " + itemBackTime);
-                        frontTime = Convert.ToDateTime("2018-01-01 " + itemFrontTime);
-                        timeDiff = backTime - frontTime;
-
-                        if (timeDiff.Hours == 1 && timeDiff.Minutes == 30) //1시간반짜리 강의
-                        {
-                            PrintLecture(frontime, backtime, tablefrontime, tablebacktime, tuesday, j, (int)FormType.TUESDAY);
-                        }
-
-                        if (timeDiff.Hours == 2)
-                        {
-                            PrintLecture(frontime, backtime, tablefrontime, tablebacktime, tuesday, j, (int)FormType.TUESDAY);
-                        }
-
-                        itemFrontTime = tuesday[j].Time.ToString().Remove(0, 2).Remove(5);
-                        itemBackTime = tuesday[j].Time.ToString().Remove(0, 8).Remove(5);
-                        tableFrontTime = row.Remove(5);
-                        tableBackTime = row.Remove(0, 6).Remove(5, 2);
-
-                        frontime = int.Parse(itemFrontTime.Remove(2, 1));
-                        backtime = int.Parse(itemBackTime.Remove(2, 1));
-                        tablefrontime = int.Parse(tableFrontTime.Remove(2, 1));
-                        tablebacktime = int.Parse(tableBackTime.Remove(2, 1));
-
-                        backTime = Convert.ToDateTime("2018-01-01 " + itemBackTime);
-                        frontTime = Convert.ToDateTime("2018-01-01 " + itemFrontTime);
-                        timeDiff = backTime - frontTime;
-
-                        if (timeDiff.Hours == 1 && timeDiff.Minutes == 30) //1시간반짜리 강의
-                        {
-                            PrintLecture(frontime, backtime, tablefrontime, tablebacktime, tuesday, j, (int)FormType.TUESDAY);
-                        }
                     }
                 }
             }
@@ -582,7 +520,7 @@ namespace ClassRegistration
                         PrintLecture(frontime, backtime, tablefrontime, tablebacktime, wednesday, j, (int)FormType.WEDNESDAY);
                     }
 
-                    if (timeDiff.Hours == 2) //2시간
+                    if(timeDiff.Hours == 2) //2시간
                     {
                         PrintLecture(frontime, backtime, tablefrontime, tablebacktime, wednesday, j, (int)FormType.WEDNESDAY);
                     }
@@ -609,47 +547,9 @@ namespace ClassRegistration
                         PrintLecture(frontime, backtime, tablefrontime, tablebacktime, wednesday, j, (int)FormType.WEDNESDAY);
                     }
 
-                    if (timeDiff.Hours == 2)
+                    if(timeDiff.Hours == 2)
                     {
                         PrintLecture(frontime, backtime, tablefrontime, tablebacktime, wednesday, j, (int)FormType.WEDNESDAY);
-                    }
-
-                    
-                    string day = wednesday[j].Time.ToString().Remove(0, 14).Remove(1);
-                    if (day.Equals("수"))
-                    {
-                        backTime = Convert.ToDateTime("2018-01-01 " + itemBackTime);
-                        frontTime = Convert.ToDateTime("2018-01-01 " + itemFrontTime);
-                        timeDiff = backTime - frontTime;
-
-                        if (timeDiff.Hours == 1 && timeDiff.Minutes == 30) //1시간반짜리 강의
-                        {
-                            PrintLecture(frontime, backtime, tablefrontime, tablebacktime, wednesday, j, (int)FormType.WEDNESDAY);
-                        }
-
-                        if (timeDiff.Hours == 2)
-                        {
-                            PrintLecture(frontime, backtime, tablefrontime, tablebacktime, wednesday, j, (int)FormType.WEDNESDAY);
-                        }
-
-                        itemFrontTime = wednesday[j].Time.ToString().Remove(0, 2).Remove(5);
-                        itemBackTime = wednesday[j].Time.ToString().Remove(0, 8).Remove(5);
-                        tableFrontTime = row.Remove(5);
-                        tableBackTime = row.Remove(0, 6).Remove(5, 2);
-
-                        frontime = int.Parse(itemFrontTime.Remove(2, 1));
-                        backtime = int.Parse(itemBackTime.Remove(2, 1));
-                        tablefrontime = int.Parse(tableFrontTime.Remove(2, 1));
-                        tablebacktime = int.Parse(tableBackTime.Remove(2, 1));
-
-                        backTime = Convert.ToDateTime("2018-01-01 " + itemBackTime);
-                        frontTime = Convert.ToDateTime("2018-01-01 " + itemFrontTime);
-                        timeDiff = backTime - frontTime;
-
-                        if (timeDiff.Hours == 1 && timeDiff.Minutes == 30) //1시간반짜리 강의
-                        {
-                            PrintLecture(frontime, backtime, tablefrontime, tablebacktime, wednesday, j, (int)FormType.WEDNESDAY);
-                        }
                     }
                 }
             }
@@ -719,44 +619,6 @@ namespace ClassRegistration
                     if (timeDiff.Hours == 2) //2시간짜리
                     {
                         PrintLecture(frontime, backtime, tablefrontime, tablebacktime, thursday, j, (int)FormType.THURSDAY);
-                    }
-
-                    
-                    string day = thursday[j].Time.ToString().Remove(0, 14).Remove(1);
-                    if (day.Equals("수"))
-                    {
-                        backTime = Convert.ToDateTime("2018-01-01 " + itemBackTime);
-                        frontTime = Convert.ToDateTime("2018-01-01 " + itemFrontTime);
-                        timeDiff = backTime - frontTime;
-
-                        if (timeDiff.Hours == 1 && timeDiff.Minutes == 30) //1시간반짜리 강의
-                        {
-                            PrintLecture(frontime, backtime, tablefrontime, tablebacktime, thursday, j, (int)FormType.THURSDAY);
-                        }
-
-                        if (timeDiff.Hours == 2)
-                        {
-                            PrintLecture(frontime, backtime, tablefrontime, tablebacktime, thursday, j, (int)FormType.THURSDAY);
-                        }
-
-                        itemFrontTime = thursday[j].Time.ToString().Remove(0, 2).Remove(5);
-                        itemBackTime = thursday[j].Time.ToString().Remove(0, 8).Remove(5);
-                        tableFrontTime = row.Remove(5);
-                        tableBackTime = row.Remove(0, 6).Remove(5, 2);
-
-                        frontime = int.Parse(itemFrontTime.Remove(2, 1));
-                        backtime = int.Parse(itemBackTime.Remove(2, 1));
-                        tablefrontime = int.Parse(tableFrontTime.Remove(2, 1));
-                        tablebacktime = int.Parse(tableBackTime.Remove(2, 1));
-
-                        backTime = Convert.ToDateTime("2018-01-01 " + itemBackTime);
-                        frontTime = Convert.ToDateTime("2018-01-01 " + itemFrontTime);
-                        timeDiff = backTime - frontTime;
-
-                        if (timeDiff.Hours == 1 && timeDiff.Minutes == 30) //1시간반짜리 강의
-                        {
-                            PrintLecture(frontime, backtime, tablefrontime, tablebacktime, monday, j, (int)FormType.THURSDAY);
-                        }
                     }
                 }
             }
@@ -849,44 +711,6 @@ namespace ClassRegistration
                     {
                         PrintLecture(frontime, backtime, tablefrontime, tablebacktime, friday, j, (int)FormType.FRIDAY);
                     }
-
-                    
-                    string day = friday[j].Time.ToString().Remove(0, 14).Remove(1);
-                    if (day.Equals("수"))
-                    {
-                        backTime = Convert.ToDateTime("2018-01-01 " + itemBackTime);
-                        frontTime = Convert.ToDateTime("2018-01-01 " + itemFrontTime);
-                        timeDiff = backTime - frontTime;
-
-                        if (timeDiff.Hours == 1 && timeDiff.Minutes == 30) //1시간반짜리 강의
-                        {
-                            PrintLecture(frontime, backtime, tablefrontime, tablebacktime, friday, j, (int)FormType.FRIDAY);
-                        }
-
-                        if (timeDiff.Hours == 2)
-                        {
-                            PrintLecture(frontime, backtime, tablefrontime, tablebacktime, friday, j, (int)FormType.FRIDAY);
-                        }
-
-                        itemFrontTime = monday[j].Time.ToString().Remove(0, 2).Remove(5);
-                        itemBackTime = monday[j].Time.ToString().Remove(0, 8).Remove(5);
-                        tableFrontTime = row.Remove(5);
-                        tableBackTime = row.Remove(0, 6).Remove(5, 2);
-
-                        frontime = int.Parse(itemFrontTime.Remove(2, 1));
-                        backtime = int.Parse(itemBackTime.Remove(2, 1));
-                        tablefrontime = int.Parse(tableFrontTime.Remove(2, 1));
-                        tablebacktime = int.Parse(tableBackTime.Remove(2, 1));
-
-                        backTime = Convert.ToDateTime("2018-01-01 " + itemBackTime);
-                        frontTime = Convert.ToDateTime("2018-01-01 " + itemFrontTime);
-                        timeDiff = backTime - frontTime;
-
-                        if (timeDiff.Hours == 1 && timeDiff.Minutes == 30) //1시간반짜리 강의
-                        {
-                            PrintLecture(frontime, backtime, tablefrontime, tablebacktime, friday, j, (int)FormType.FRIDAY);
-                        }
-                    }
                 }
             }
         }
@@ -897,7 +721,7 @@ namespace ClassRegistration
             {
                 if (backTime == tableBackTime)
                     Console.Write(SetTimeTableForm(day[index].Classroom.ToString(), formNum));
-
+                
                 else
                     Console.Write(SetTimeTableForm(day[index].LectureName.ToString(), formNum));
             }

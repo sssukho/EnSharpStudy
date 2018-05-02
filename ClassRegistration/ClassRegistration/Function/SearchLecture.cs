@@ -6,15 +6,6 @@ using System.Threading.Tasks;
 
 namespace ClassRegistration
 {
-    /// <기능>
-    /// 1. 개설학과 전공으로 강의 검색
-    /// 2. 강의명으로 검색
-    /// 3. 학수번호로 검색
-    /// 4. 학년으로 검색
-    /// 5. 교수명으로 검색
-    /// 6. 관심과목으로 검색
-    /// </기능>
-    
     class SearchLecture
     {
         Print print;
@@ -29,7 +20,6 @@ namespace ClassRegistration
             this.errorCheck = errorCheck;
         }
 
-        //개설학과 전공으로 검색
         public void SearchByDepartment(List<LectureListVO> lectureList)
         {
             print.ShowLecture(lectureList);
@@ -42,6 +32,8 @@ namespace ClassRegistration
                 return;
             }
 
+           // List<LectureListVO> foundList = lectureList.FindAll(lecture => lecture.Department.ToString().Any);
+
             List<LectureListVO> foundList = lectureList.FindAll(lecture => lecture.Department.Equals(input));
             
             print.ShowLecture(foundList);
@@ -49,7 +41,6 @@ namespace ClassRegistration
             Console.ReadLine();
         }
 
-        //학수번호로 검색
         public void SearchByLectureIndex(List<LectureListVO> lectureList)
         {
             print.ShowLecture(lectureList);
@@ -68,7 +59,6 @@ namespace ClassRegistration
             Console.ReadLine();
         }
 
-        //강의명으로 검색
         public void SearchByLectureName(List<LectureListVO> lectureList)
         {
             print.ShowLecture(lectureList);
@@ -87,7 +77,6 @@ namespace ClassRegistration
             Console.ReadLine();
         }
 
-        //학년으로 검색
         public void SearchByYear(List<LectureListVO> lectureList)
         {
             print.ShowLecture(lectureList);
@@ -106,7 +95,6 @@ namespace ClassRegistration
             Console.ReadLine();
         }
 
-        //교수명으로 검색
         public void SearchByProfessor(List<LectureListVO> lectureList)
         {
             print.ShowLecture(lectureList);
@@ -126,7 +114,6 @@ namespace ClassRegistration
             Console.ReadLine();
         }
 
-        //관심과목으로 검색
         public void SearchInterstingLecture(List<InterestingLectureVO> interestingLectureList)
         {
             if(interestingLectureList == null)

@@ -7,9 +7,6 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace ClassRegistration
 {
-    /// <기능>
-    /// 1. 수강 신청한 강의 토대로 엑셀 새로운 파일로 내보내기
-    /// </기능>
     class Export
     {
         Print print;

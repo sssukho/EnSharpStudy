@@ -18,7 +18,8 @@ namespace ClassRegistration
         SearchLecture searchLecture;
         Print print;
         ErrorCheck errorCheck;
-        
+
+
         public RegisterLecture(Menu menu, List<RegisteredLectureVO> registeredLectureList, List<LectureListVO> lectureList, AddLecture addLecture, JoinLecture joinLecture, RemoveLecture removeLecture, SearchLecture searchLecture, Print print, ErrorCheck errorCheck)
         {
             this.menu = menu;
@@ -32,7 +33,6 @@ namespace ClassRegistration
             this.errorCheck = errorCheck;
         }
 
-        //수강신청 메뉴중 단순 강의 검색
         public void SearchLecture(int searchType, List<RegisteredLectureVO> inputRegisteredLectureList, List<InterestingLectureVO> inputInterestingLectureList)
         {
             this.registeredLectureList = inputRegisteredLectureList;
@@ -69,7 +69,6 @@ namespace ClassRegistration
             menu.SearchRegisterLectureMenu(inputRegisteredLectureList);
         }
 
-        //수강신청 메뉴중 강의 추가
         public List<RegisteredLectureVO> AddLecture(List<RegisteredLectureVO> inputRegisteredLectureList)
         {
             this.registeredLectureList = inputRegisteredLectureList;
@@ -90,7 +89,6 @@ namespace ClassRegistration
                 
         }
 
-        //수강신청 메뉴중 강의 삭제
         public void RemoveLecture(List<RegisteredLectureVO> inputRegisteredLectureList)
         {
             this.registeredLectureList = inputRegisteredLectureList;
@@ -103,7 +101,6 @@ namespace ClassRegistration
                 menu.RegisterLectureMenu(afterRemoveList);
         }
 
-        //수강신청 메뉴중 강의 조회
         public void JoinRegisterLecture(List<RegisteredLectureVO> inputRegisteredLectureList)
         {
             this.registeredLectureList = inputRegisteredLectureList;
