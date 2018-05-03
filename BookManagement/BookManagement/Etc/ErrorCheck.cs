@@ -143,7 +143,7 @@ namespace BookManagement
             return false;
         }
 
-        public bool IsValidRegister(MySqlDataReader dataReader)
+        public bool IsValidChange(MySqlDataReader dataReader)
         {
             if (dataReader.RecordsAffected == -1)
                 return false;
@@ -156,8 +156,15 @@ namespace BookManagement
             if (dataReader.RecordsAffected == -1)
                 return false;
 
-            
             return true;
+        }
+
+        public bool IsValidMember(MySqlDataReader dataReader)
+        {
+            if (dataReader.HasRows)
+                return true;
+            else
+                return false;
         }
     }
 }

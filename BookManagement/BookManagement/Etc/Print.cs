@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using MySql.Data.MySqlClient;
 
 namespace BookManagement
 {
@@ -26,7 +27,7 @@ namespace BookManagement
 
         public void LoginUI()
         {
-            Console.SetWindowSize(40, 20);
+            Console.SetWindowSize(35, 17);
             Console.Clear();
             Console.WriteLine("=================================");
             Console.WriteLine("||                              ||");
@@ -45,18 +46,18 @@ namespace BookManagement
         public void CompleteMsg(string type) //기능 에러없이 완료했을 경우
         {
             Console.WriteLine("\n\n\t{0} 되었습니다.", type);
-            Console.WriteLine("이전 메뉴로 돌아가려면 엔터...");
+            Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
             Console.ReadLine();
         }
 
         public void ErrorMsg(string type) //에러가 난곳에서 스트링 타입으로 인자를 받아서 어떤 에러인지 분류
         {
-            Console.WriteLine("{0} 실패입니다...", type);
-            Console.WriteLine("이전 메뉴로 돌아가려면 엔터...");
+            Console.WriteLine("\n\n\t{0} 실패입니다...", type);
+            Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
             Console.ReadLine();
         }
 
-        public void RegisterErrorMsg(string type) //등록 및 편집시 잘못 입력하면 뜨는 오류 메시지
+        public void FormErrorMsg(string type) //등록 및 편집시 잘못 입력하면 뜨는 오류 메시지
         {
             Console.WriteLine("\n\n\t{0} 양식에 맞게 작성해주세요.", type);
             Thread.Sleep(1000);
@@ -117,7 +118,7 @@ namespace BookManagement
         public void Menu(string type)
         {
             Console.Clear();
-            Console.SetWindowSize(130, 40);
+            Console.SetWindowSize(110, 25);
             switch (type)
             {
                 case "메인":
@@ -241,7 +242,7 @@ namespace BookManagement
                 if (errorCheck.MemberID(id) == false)
                     break;
                 
-                RegisterErrorMsg("학번");
+                FormErrorMsg("학번");
             }
 
             while (true)
@@ -252,7 +253,7 @@ namespace BookManagement
                 if (errorCheck.MemberPassword(password) == false)//미리 설정해둔 정규식에 맞으면 bool 타입 false 반환
                     break;
 
-                RegisterErrorMsg("이름");
+                FormErrorMsg("이름");
             }
 
             while (true)
@@ -263,7 +264,7 @@ namespace BookManagement
                 if (errorCheck.MemberName(name) == false)//미리 설정해둔 정규식에 맞으면 bool 타입 false 반환
                     break;
 
-                RegisterErrorMsg("이름");
+                FormErrorMsg("이름");
             }
 
             while (true)
@@ -272,7 +273,7 @@ namespace BookManagement
                 gender = Console.ReadLine();
                 if (errorCheck.MemberGender(gender) == false)
                     break;
-                RegisterErrorMsg("성별");
+                FormErrorMsg("성별");
             }
 
             while (true)
@@ -281,7 +282,7 @@ namespace BookManagement
                 phoneNumber = Console.ReadLine();
                 if (errorCheck.MemberPhone(phoneNumber) == false)
                     break;
-                RegisterErrorMsg("핸드폰 번호");
+                FormErrorMsg("핸드폰 번호");
             }
 
             while (true)
@@ -291,7 +292,7 @@ namespace BookManagement
 
                 if (errorCheck.MemberEmail(email) == false)
                     break;
-                RegisterErrorMsg("이메일");
+                FormErrorMsg("이메일");
             }
 
             while (true)
@@ -301,26 +302,25 @@ namespace BookManagement
                 if (errorCheck.MemberAddress(address) == false)
                     break;
                 
-                RegisterErrorMsg("주소");
+                FormErrorMsg("주소");
             }
 
-            MemberVO newMember = new MemberVO(id, password, name, gender, phoneNumber, email, address, "기본값", "기본값");
+            MemberVO newMember = new MemberVO(id, password, name, gender, phoneNumber, email, address, "없음", "없음");
             return newMember;
         }
-
-        /*
+        
         public void Search(string type)
         {
             Console.Clear();
             Console.Write("\n\n\t{0}을(를) 입력해주세요 : ", type);
         }
 
-        public void MemberInfo(Member inputMember)
+        public void MemberInfo(MemberVO inputMember)
         {
             Console.Clear();
             Console.WriteLine("\n\n\t---------------------------------검색한 회원 기존 정보--------------------------------");
-            Console.WriteLine("\n\t이름 : {0}", inputMember.Name);
-            Console.WriteLine("\t학번 : {0}", inputMember.StudentId);
+            Console.WriteLine("\n\t아이디 : {0}", inputMember.Id);
+            Console.WriteLine("\t학번 : {0}", inputMember.Name);
             Console.WriteLine("\t성별 : {0}", inputMember.Gender);
             Console.WriteLine("\t핸드폰 번호 : {0}", inputMember.PhoneNumber);
             Console.WriteLine("\t주소 : {0}", inputMember.Address);
@@ -330,7 +330,7 @@ namespace BookManagement
 
             Console.Write("\n\n\t이전으로 돌아가려면 엔터...");
             Console.ReadLine();
-        }*/
+        }
 
         //기본 기능은 주소/핸드폰 번호만 수정 가능
         public MemberVO EditMember(MemberVO inputMember)
@@ -338,8 +338,8 @@ namespace BookManagement
             string phoneNumber, address;
             Console.Clear();
             Console.WriteLine("\n\n\t---------------------------------수정할 회원 기존 정보--------------------------------");
-            Console.WriteLine("\n\t이름 : {0}", inputMember.Name);
-            Console.WriteLine("\t학번 : {0}", inputMember.Id);
+            Console.WriteLine("\n\t아이디 : {0}", inputMember.Id);
+            Console.WriteLine("\t이름 : {0}", inputMember.Name);
             Console.WriteLine("\t성별 : {0}", inputMember.Gender);
             Console.WriteLine("\t핸드폰 번호 : {0}", inputMember.PhoneNumber);
             Console.WriteLine("\t이메일 주소 : {0}", inputMember.Email);
@@ -354,7 +354,7 @@ namespace BookManagement
                 if (errorCheck.MemberPhone(phoneNumber) == false)
                     break;
 
-                RegisterErrorMsg("핸드폰 번호");
+                FormErrorMsg("핸드폰 번호");
             }
 
             while (true)
@@ -364,41 +364,45 @@ namespace BookManagement
                 if (errorCheck.MemberAddress(address) == false)
                     break;
 
-                RegisterErrorMsg("주소");
+                FormErrorMsg("주소");
             }
             inputMember.PhoneNumber = phoneNumber;
             inputMember.Address = address;
             return inputMember;
         }
-        /*
-        public void MemberDelete(Member inputMember)
+        
+        public void DeleteMember(MemberVO inputMember)
         {
             Console.Clear();
             Console.WriteLine("\n\n\t---------------------------------삭제할 회원 기존 정보--------------------------------");
-            Console.WriteLine("\n\t이름 : {0}", inputMember.Name);
-            Console.WriteLine("\t학번 : {0}", inputMember.StudentId);
+            Console.WriteLine("\n\t아이디 : {0}", inputMember.Id);
+            Console.WriteLine("\t이름 : {0}", inputMember.Name);
             Console.WriteLine("\t성별 : {0}", inputMember.Gender);
             Console.WriteLine("\t핸드폰 번호 : {0}", inputMember.PhoneNumber);
+            Console.WriteLine("\t이메일 : {0}", inputMember.Email);
             Console.WriteLine("\t주소 : {0}", inputMember.Address + "\n");
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
             Console.Write("\n\n\t정말로 삭제하시겠습니까? (Y/N) : ");
         }
-
-        public void AllMember(List<Member> MemberList)
+        
+        public void PrintMembers(MySqlDataReader dataReader)
         {
             Console.Clear();
             Console.WriteLine("\n\n\t---------------------------------회원 명단--------------------------------");
-            Console.WriteLine("\t   이름   |   학번   |   성별   |   휴대폰번호   |   이메일   |   주소   |   대출한 책   |   반납일   ");
+            Console.WriteLine("\t아이디  |  이름   | 성별 |   휴대폰번호   |   이메일   |   주소   |   대출한 책   |   반납일   ");
 
-            foreach (var item in MemberList)
+            while (dataReader.Read())
             {
-                Console.WriteLine("\n\t   {0}      {1}      {2}      {3}      {4}      {5}      {6}      {7}",
-                    item.Name, item.StudentId, item.Gender, item.PhoneNumber, item.Email, item.Address, item.RentBook, item.DueDate);
+                Console.WriteLine("\n\t{0}      {1}      {2}      {3}      {4}      {5}      {6}      {7}",
+                    dataReader["id"].ToString(), dataReader["name"].ToString(), dataReader["gender"].ToString(),
+                    dataReader["phoneNumber"].ToString(), dataReader["email"].ToString(), dataReader["address"].ToString(),
+                    dataReader["rentbook"].ToString(), dataReader["duedate"].ToString());
             }
             Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
             Console.ReadLine();
         }
 
+        /*
         public Book BookRegister(BookManagement bookManagement)
         {
             string bookName, publisher, author, price, count;

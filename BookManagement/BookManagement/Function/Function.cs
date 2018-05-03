@@ -78,7 +78,7 @@ namespace BookManagement
             command = new MySqlCommand(sqlQuery, connect);
             dataReader = command.ExecuteReader();
 
-            if (errorCheck.IsValidRegister(dataReader) == FAILED) //등록 에러
+            if (errorCheck.IsValidChange(dataReader) == FAILED) //등록 에러
             {
                 dataReader.Close();
                 connect.Close();
@@ -96,16 +96,18 @@ namespace BookManagement
 
         public void EditMember()
         {
-            logOnMember = print.EditMember(logOnMember);
+            MemberVO foundMember = SearchMember("editSearch");
+
+            foundMember = print.EditMember(foundMember);
             databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
             connect = new MySqlConnection(databaseConnect);  // conncet MySQL
             connect.Open(); // open MySQL
 
-            sqlQuery = "update member set phoneNumber ='" + logOnMember.PhoneNumber + "', address ='" + logOnMember.Address + "' where id='" + logOnMember.Id + "';";
+            sqlQuery = "update member set phoneNumber ='" + foundMember.PhoneNumber + "', address ='" + foundMember.Address + "' where id='" + foundMember.Id + "';";
             command = new MySqlCommand(sqlQuery, connect);
             dataReader = command.ExecuteReader();
 
-            if (errorCheck.IsValidRegister(dataReader) == FAILED) //등록 에러
+            if (errorCheck.IsValidChange(dataReader) == FAILED) //편집 에러
             {
                 dataReader.Close();
                 connect.Close();
@@ -123,12 +125,99 @@ namespace BookManagement
 
         public void RemoveMember()
         {
+            string confirm;
 
+            MemberVO foundMember = SearchMember("removeSearch");
+            print.DeleteMember(foundMember);
+
+            confirm = Console.ReadLine();
+            if (errorCheck.Confirm(confirm))
+            {
+                print.ErrorMsg("y와 n을 제외한 키를 누르셨습니다.");
+                menu.MemberManagementMenu();
+                return;
+            }
+
+            databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
+            connect = new MySqlConnection(databaseConnect);  // conncet MySQL
+            connect.Open(); // open MySQL
+
+            sqlQuery = "delete from member where id='" + foundMember.Id + "';";
+            command = new MySqlCommand(sqlQuery, connect);
+            dataReader = command.ExecuteReader();
+
+            if (errorCheck.IsValidChange(dataReader) == FAILED) //편집 에러
+            {
+                dataReader.Close();
+                connect.Close();
+                print.ErrorMsg("회원 삭제");
+                menu.MemberManagementMenu();
+                return;
+            }
+
+            dataReader.Close();
+            connect.Close();
+            print.CompleteMsg("회원 삭제 완료");
+            menu.MemberManagementMenu();
+            return;
+        }
+
+        public MemberVO SearchMember(string searchType)
+        {
+            string searchID;
+            if(searchType.Equals("editSearch")) print.Search("정보를 편집할 회원의 아이디");
+            if (searchType.Equals("removeSearch")) print.Search("삭제할 회원의 아이디");
+            if (searchType.Equals("justSearch")) print.Search("검색할 회원의 아이디");
+            searchID = Console.ReadLine();
+
+            databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
+            connect = new MySqlConnection(databaseConnect);  // conncet MySQL
+            connect.Open(); // open MySQL
+
+            sqlQuery = "select * from member where id='" + searchID + "';";
+            command = new MySqlCommand(sqlQuery, connect);
+            dataReader = command.ExecuteReader();
+            dataReader.Read();
+
+            if (errorCheck.IsValidMember(dataReader) == FAILED) //검색 에러
+            {
+                dataReader.Close();
+                connect.Close();
+                print.ErrorMsg("존재하는 회원 찾기");
+                if (searchType.Equals("justSearch")) menu.MemberManagementMenu();
+                return null;
+            }
+
+            MemberVO foundMember = new MemberVO(dataReader["id"].ToString(), dataReader["password"].ToString(),
+                    dataReader["name"].ToString(), dataReader["gender"].ToString(), dataReader["phoneNumber"].ToString(),
+                    dataReader["email"].ToString(), dataReader["address"].ToString(), dataReader["rentbook"].ToString(), dataReader["duedate"].ToString());
+
+            if (searchType.Equals("justSearch"))
+            {
+                print.MemberInfo(foundMember);
+                menu.MemberManagementMenu();
+            }
+
+            dataReader.Close();
+            connect.Close();
+
+            return foundMember;
         }
 
         public void PrintMembers()
         {
+            databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
+            connect = new MySqlConnection(databaseConnect);  // conncet MySQL
+            connect.Open(); // open MySQL
 
+            sqlQuery = "select * from member;";
+            command = new MySqlCommand(sqlQuery, connect);
+            dataReader = command.ExecuteReader();
+
+            print.PrintMembers(dataReader);
+            dataReader.Close();
+            connect.Close();
+            menu.MemberManagementMenu();
         }
 
         public void RegisterBook()

@@ -16,7 +16,6 @@ namespace BookManagement
         Print print;
         ErrorCheck errorCheck;
         Function function;
-        MemberVO logOnMember;
 
         ConsoleKeyInfo menuSelect;
         bool error;
@@ -68,12 +67,15 @@ namespace BookManagement
                     return;
 
                 case (int)MemberMenu.REMOVE_MEMBER:
+                    function.RemoveMember();
                     return;
 
                 case (int)MemberMenu.SEARCH_MEMBER:
+                    function.SearchMember("justSearch");
                     return;
 
                 case (int)MemberMenu.PRINT_MEMBERS:
+                    function.PrintMembers();
                     return;
 
                 case (int)MemberMenu.EXIT:
