@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="VO\BookVO.cs" />
     <Compile Include="Etc\ErrorCheck.cs" />
     <Compile Include="Function\Function.cs" />
     <Compile Include="Main\Login.cs" />

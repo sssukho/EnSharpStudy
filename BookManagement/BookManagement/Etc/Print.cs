@@ -52,7 +52,7 @@ namespace BookManagement
 
         public void ErrorMsg(string type) //에러가 난곳에서 스트링 타입으로 인자를 받아서 어떤 에러인지 분류
         {
-            Console.WriteLine("\n\n\t{0} 실패입니다...", type);
+            Console.WriteLine("\n\n\t{0} 오류입니다...", type);
             Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
             Console.ReadLine();
         }
@@ -68,9 +68,6 @@ namespace BookManagement
         {
             switch (type)
             {
-                case "":
-                    Console.Write("\n\n\t1과 2만");
-                    break;
                 case "메인메뉴":
                     Console.Write("\n\n\t1 ~ 3과 0만");
                     break;
@@ -231,7 +228,7 @@ namespace BookManagement
         }
 
 
-        public MemberVO MemberRegister() //while로 틀린 항목 다시 입력하게
+        public MemberVO RegisterMember() //while로 틀린 항목 다시 입력하게
         {
             string id, password, name, gender, phoneNumber, email, address;
             Console.Clear();
@@ -241,7 +238,7 @@ namespace BookManagement
                 id = Console.ReadLine();
                 if (errorCheck.MemberID(id) == false)
                     break;
-                
+
                 FormErrorMsg("학번");
             }
 
@@ -301,14 +298,14 @@ namespace BookManagement
                 address = Console.ReadLine();
                 if (errorCheck.MemberAddress(address) == false)
                     break;
-                
+
                 FormErrorMsg("주소");
             }
 
             MemberVO newMember = new MemberVO(id, password, name, gender, phoneNumber, email, address, "없음", "없음");
             return newMember;
         }
-        
+
         public void Search(string type)
         {
             Console.Clear();
@@ -370,7 +367,7 @@ namespace BookManagement
             inputMember.Address = address;
             return inputMember;
         }
-        
+
         public void DeleteMember(MemberVO inputMember)
         {
             Console.Clear();
@@ -384,7 +381,7 @@ namespace BookManagement
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
             Console.Write("\n\n\t정말로 삭제하시겠습니까? (Y/N) : ");
         }
-        
+
         public void PrintMembers(MySqlDataReader dataReader)
         {
             Console.Clear();
@@ -402,81 +399,67 @@ namespace BookManagement
             Console.ReadLine();
         }
 
-        /*
-        public Book BookRegister(BookManagement bookManagement)
+        public BookVO RegisterBook()
         {
-            string bookName, publisher, author, price, count;
+            string name;
+            string author;
+            string publisher;
+            string count;
 
             Console.Clear();
             while (true)
             {
                 Console.Write("\n\n\t도서 제목 입력(16자이내) : ");
-                bookName = CancelKey.ReadLineWithCancel();
-                if (bookName == null) bookManagement.ViewMenu();
-                if (errorCheck.BookName(bookName) == false)
-                {
+                name = Console.ReadLine();
+                if (errorCheck.BookName(name) == false)
                     break;
-                }
-                RegisterErrorMsg("도서제목");
+
+                FormErrorMsg("도서제목");
             }
-            while (true)
-            {
-                Console.Write("\n\n\t출판사 입력(8자이내) : ");
-                publisher = CancelKey.ReadLineWithCancel();
-                if (publisher == null) BookRegister(bookManagement);
-                if (errorCheck.BookName(publisher) == false)
-                {
-                    break;
-                }
-                RegisterErrorMsg("출판사명");
-            }
+
             while (true)
             {
                 Console.Write("\n\n\t저자 입력(10자이내) : ");
-                author = CancelKey.ReadLineWithCancel();
-                if (author == null) BookRegister(bookManagement);
+                author = Console.ReadLine();
                 if (errorCheck.BookAuthor(author) == false)
-                {
                     break;
-                }
-                RegisterErrorMsg("저자");
+
+                FormErrorMsg("저자");
             }
+
             while (true)
             {
-                Console.Write("\n\n\t가격 입력(예:50000원) : ");
-                price = CancelKey.ReadLineWithCancel();
-                if (price == null) BookRegister(bookManagement);
-                if (errorCheck.BookPrice(price) == false)
-                {
+                Console.Write("\n\n\t출판사 입력(8자이내) : ");
+                publisher = Console.ReadLine();
+                if (errorCheck.BookName(publisher) == false)
                     break;
-                }
-                RegisterErrorMsg("가격");
+
+                FormErrorMsg("출판사명");
             }
+
             while (true)
             {
                 Console.Write("\n\n\t수량 입력(숫자만 입력) : ");
-                count = CancelKey.ReadLineWithCancel();
-                if (count == null) BookRegister(bookManagement);
+                count = Console.ReadLine();
                 if (errorCheck.BookCount(count) == false)
-                {
                     break;
-                }
-                RegisterErrorMsg("수량");
+
+                FormErrorMsg("수량");
             }
-            Book newBook = new Book(bookName, publisher, author, price, int.Parse(count));
+            BookVO newBook = new BookVO(name, author, publisher, int.Parse(count));
 
             return newBook;
         }
 
-        public Book BookEdit(Book inputBook, BookManagement bookManagement)
+
+        public BookVO EditBook(BookVO inputBook)
         {
             string count;
             Console.Clear();
             Console.WriteLine("\n\n\t---------------------------------수정할 도서 기존 정보--------------------------------");
-            Console.WriteLine("\t도서 제목 : {0}", inputBook.BookName);
+            Console.WriteLine("\t도서 제목 : {0}", inputBook.Name);
             Console.WriteLine("\t출판사 : {0}", inputBook.Publisher);
             Console.WriteLine("\t저자 : {0}", inputBook.Author);
-            Console.WriteLine("\t도서 가격 : {0}", inputBook.Price);
             Console.WriteLine("\t수량 : {0}", inputBook.Count + "\n");
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
 
@@ -484,41 +467,37 @@ namespace BookManagement
             while (true)
             {
                 Console.Write("\n\t수량을 입력해주세요 : ");
-                count = CancelKey.ReadLineWithCancel();
-                if (count == null) bookManagement.Edit(bookManagement);
+                count = Console.ReadLine();
                 if (errorCheck.BookCount(count) == false)
-                {
                     break;
-                }
-                RegisterErrorMsg("수량");
+
+                FormErrorMsg("수량");
             }
             inputBook.Count = int.Parse(count);
             return inputBook;
         }
 
-        public void BookDelete(Book inputBook)
+        public void RemoveBook(BookVO inputBook)
         {
             Console.Clear();
 
             Console.WriteLine("\n\n\t---------------------------------삭제할 도서 기존 정보--------------------------------");
-            Console.WriteLine("\t도서 제목 : {0}", inputBook.BookName);
+            Console.WriteLine("\t도서 제목 : {0}", inputBook.Name);
             Console.WriteLine("\t출판사 : {0}", inputBook.Publisher);
             Console.WriteLine("\t저자 : {0}", inputBook.Author);
-            Console.WriteLine("\t도서 가격 : {0}", inputBook.Price);
             Console.WriteLine("\t수량 : {0}", inputBook.Count + "\n");
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
 
             Console.Write("\n\n\t정말로 삭제하시겠습니까? (Y/N) : ");
         }
 
-        public void BookSearch(Book inputBook)
+        public void BookInfo(BookVO inputBook)
         {
             Console.Clear();
             Console.WriteLine("\n\n\t---------------------------------검색한 도서 기존 정보--------------------------------");
-            Console.WriteLine("\t도서 제목 : {0}", inputBook.BookName);
+            Console.WriteLine("\t도서 제목 : {0}", inputBook.Name);
             Console.WriteLine("\t출판사 : {0}", inputBook.Publisher);
             Console.WriteLine("\t저자 : {0}", inputBook.Author);
-            Console.WriteLine("\t도서 가격 : {0}", inputBook.Price);
             Console.WriteLine("\t수량 : {0}", inputBook.Count + "\n");
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
 
@@ -526,30 +505,21 @@ namespace BookManagement
             Console.ReadLine();
         }
 
-        public void AllBook(List<Book> inputBookList)
+        public void PrintBooks(MySqlDataReader dataReader)
         {
-            if (inputBookList.Count == 0)
-            {
-                Console.Clear();
-                Console.WriteLine("\n\n\t등록된 도서가 존재하지 않습니다.");
-                Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
-                Console.ReadLine();
-                return;
-            }
-
             Console.Clear();
             Console.WriteLine("\n\n\t---------------------------------도서 명단--------------------------------");
-            Console.WriteLine("\t   도서명   |   출판사   |   저자   |   가격   |   수량");
+            Console.WriteLine("\t   도서명   |   저자   |   출판사   |   수량");
 
-            foreach (var item in inputBookList)
+            while (dataReader.Read())
             {
-                Console.WriteLine("\n\t   {0}      {1}      {2}      {3}      {4}",
-                    item.BookName, item.Publisher, item.Author, item.Price, item.Count);
+                Console.WriteLine("\n\t   {0}      {1}      {2}      {3} ",
+                   dataReader["name"].ToString(), dataReader["author"].ToString(), dataReader["publisher"].ToString(), int.Parse(dataReader["count"].ToString()));
             }
 
             Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
             Console.ReadLine();
-        }*/
+        }
     }
 }
 

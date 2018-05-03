@@ -10,6 +10,7 @@ namespace BookManagement
     enum MemberMenu { EXIT, REGISTER_MEMBER, EDIT_MEMBER, REMOVE_MEMBER, SEARCH_MEMBER, PRINT_MEMBERS }
     enum BookMenu { EXIT, REGISTER_BOOK, EDIT_BOOK, REMOVE_BOOK, SEARCH_BOOK, PRINT_BOOKS }
     enum SearchType { EXIT, SERARCH_BY_NAME, SEARCH_BY_PUBLISHER, SEARCH_BY_AUTHOR }
+    enum BookRent { EXIT, RENT_BOOK, RETURN_BOOK, EXTENSION_BOOK}
 
     class Menu
     {
@@ -90,18 +91,23 @@ namespace BookManagement
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)BookMenu.REGISTER_BOOK:
+                    function.RegisterBook();
                     return;
 
                 case (int)BookMenu.EDIT_BOOK:
+                    BookEditMenu();
                     return;
 
                 case (int)BookMenu.REMOVE_BOOK:
+                    BookRemoveMenu();
                     return;
 
                 case (int)BookMenu.SEARCH_BOOK:
+                    BookSearchMenu();
                     return;
 
                 case (int)BookMenu.PRINT_BOOKS:
+                    function.PrintBooks();
                     return;
 
                 case (int)BookMenu.EXIT:
@@ -110,18 +116,21 @@ namespace BookManagement
             }
         }
 
-        public void BookModifyMenu()
+        public void BookEditMenu()
         {
             MenuInput("도서수정", "도서수정검색메뉴");
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)SearchType.SERARCH_BY_NAME:
+                    function.EditBook("도서명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_PUBLISHER:
+                    function.EditBook("출판사명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_AUTHOR:
+                    function.EditBook("저자명");
                     return;
 
                 case (int)SearchType.EXIT:
@@ -136,12 +145,15 @@ namespace BookManagement
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)SearchType.SERARCH_BY_NAME:
+                    function.RemoveBook("도서명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_PUBLISHER:
+                    function.RemoveBook("출판사명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_AUTHOR:
+                    function.RemoveBook("저자명");
                     return;
 
                 case (int)SearchType.EXIT:
@@ -156,12 +168,15 @@ namespace BookManagement
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)SearchType.SERARCH_BY_NAME:
+                    function.SearchBook("justSearch", "도서명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_PUBLISHER:
+                    function.SearchBook("justSearch", "출판사명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_AUTHOR:
+                    function.SearchBook("justSearch", "저자명");
                     return;
 
                 case (int)SearchType.EXIT:
@@ -175,16 +190,19 @@ namespace BookManagement
             MenuInput("도서대여", "도서대여메뉴");
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
-                case (int)SearchType.SERARCH_BY_NAME:
+                case (int)BookRent.RENT_BOOK:
+                    
                     return;
 
-                case (int)SearchType.SEARCH_BY_PUBLISHER:
+                case (int)BookRent.RETURN_BOOK:
+                    
                     return;
 
-                case (int)SearchType.SEARCH_BY_AUTHOR:
+                case (int)BookRent.EXTENSION_BOOK:
+                    
                     return;
 
-                case (int)SearchType.EXIT:
+                case (int)BookRent.EXIT:
                     Environment.Exit(0);
                     return;
             }
@@ -196,12 +214,15 @@ namespace BookManagement
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)SearchType.SERARCH_BY_NAME:
+                    function.RentBook("도서명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_PUBLISHER:
+                    function.RentBook("출판사명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_AUTHOR:
+                    function.RentBook("저자명");
                     return;
 
                 case (int)SearchType.EXIT:
@@ -237,7 +258,7 @@ namespace BookManagement
                         return;
 
                     case "도서수정검색메뉴":
-                        BookModifyMenu();
+                        BookEditMenu();
                         return;
 
                     case "도서삭제검색메뉴":

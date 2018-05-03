@@ -75,7 +75,7 @@ namespace BookManagement
 
         public bool BookName(string input)
         {
-            pattern = @"^[가-힣a-zA-Z0-9]{1,30}$";
+            pattern = @"^[가-힣a-zA-Z0-9|!@#$%^&*()]{1,30}$";
             return Judgement(input, pattern);
         }
 
@@ -91,15 +91,9 @@ namespace BookManagement
             return Judgement(input, pattern);
         }
 
-        public bool BookPrice(string input)
-        {
-            pattern = @"^[1-9]{1}([0-9]){3,4}[원]{1}$";
-            return Judgement(input, pattern);
-        }
-
         public bool BookCount(string input)
         {
-            pattern = @"^[0-9]{1}$";
+            pattern = @"^[0-9]{1,2}$";
             return Judgement(input, pattern);
         }
 
@@ -160,6 +154,14 @@ namespace BookManagement
         }
 
         public bool IsValidMember(MySqlDataReader dataReader)
+        {
+            if (dataReader.HasRows)
+                return true;
+            else
+                return false;
+        }
+
+        public bool IsValidBook(MySqlDataReader dataReader)
         {
             if (dataReader.HasRows)
                 return true;

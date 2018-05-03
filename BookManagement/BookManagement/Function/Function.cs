@@ -65,7 +65,7 @@ namespace BookManagement
         public void RegisterMember()
         {
             MemberVO newMember;
-            newMember = print.MemberRegister();
+            newMember = print.RegisterMember();
 
             databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
             connect = new MySqlConnection(databaseConnect);  // conncet MySQL
@@ -133,7 +133,7 @@ namespace BookManagement
             confirm = Console.ReadLine();
             if (errorCheck.Confirm(confirm))
             {
-                print.ErrorMsg("y와 n을 제외한 키를 누르셨습니다.");
+                print.FormErrorMsg("삭제 여부");
                 menu.MemberManagementMenu();
                 return;
             }
@@ -165,9 +165,20 @@ namespace BookManagement
         public MemberVO SearchMember(string searchType)
         {
             string searchID;
-            if(searchType.Equals("editSearch")) print.Search("정보를 편집할 회원의 아이디");
-            if (searchType.Equals("removeSearch")) print.Search("삭제할 회원의 아이디");
-            if (searchType.Equals("justSearch")) print.Search("검색할 회원의 아이디");
+
+            switch (searchType)
+            {
+                case "editSearch":
+                    print.Search("정보를 편집할 회원의 아이디");
+                    break;
+                case "removeSearch":
+                    print.Search("삭제할 회원의 아이디");
+                    break;
+                case "justSearch":
+                    print.Search("검색할 회원의 아이디");
+                    break;
+            }
+
             searchID = Console.ReadLine();
 
             databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
@@ -222,35 +233,250 @@ namespace BookManagement
 
         public void RegisterBook()
         {
+            BookVO newBook;
+            newBook = print.RegisterBook();
 
+            databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
+            connect = new MySqlConnection(databaseConnect);  // conncet MySQL
+            connect.Open(); // open MySQL 
+
+            sqlQuery = "insert into book values('" + newBook.Name + "', '" + newBook.Author + "', '"
+                + newBook.Publisher + "', " + newBook.Count + ");";
+            command = new MySqlCommand(sqlQuery, connect);
+            dataReader = command.ExecuteReader();
+
+            if (errorCheck.IsValidChange(dataReader) == FAILED) //등록 에러
+            {
+                dataReader.Close();
+                connect.Close();
+                print.ErrorMsg("도서 등록");
+                menu.BookManagementMenu();
+                return;
+            }
+
+            dataReader.Close();
+            connect.Close();
+            print.CompleteMsg("도서 등록 완료");
+            menu.BookManagementMenu();
+            return;
         }
 
-        public void EditBook()
+        public void EditBook(string searchBy)
         {
+            BookVO foundBook = SearchBook("editSearch", searchBy);
+            if (foundBook == null)
+            {
+                menu.BookManagementMenu();
+                return;
+            }
 
+            foundBook = print.EditBook(foundBook);
+
+            databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
+            connect = new MySqlConnection(databaseConnect);  // conncet MySQL
+            connect.Open(); // open MySQL
+
+            sqlQuery = "update book set count ='" + foundBook.Count + "' where name='" + foundBook.Name + "';";
+            command = new MySqlCommand(sqlQuery, connect);
+            dataReader = command.ExecuteReader();
+
+            if (errorCheck.IsValidChange(dataReader) == FAILED) //편집 에러
+            {
+                dataReader.Close();
+                connect.Close();
+                print.ErrorMsg("도서 정보 수정");
+                menu.BookManagementMenu();
+                return;
+            }
+
+            dataReader.Close();
+            connect.Close();
+            print.CompleteMsg("도서 정보 수정 완료");
+            menu.BookManagementMenu();
+            return;
         }
 
-        public void RemoveBook()
+        public void RemoveBook(string searchBy)
         {
+            string confirm;
 
+            BookVO foundBook = SearchBook("removeSearch", searchBy);
+            if(foundBook == null)
+            {
+                menu.BookManagementMenu();
+                return;
+            }
+            print.RemoveBook(foundBook);
+            confirm = Console.ReadLine();
+            if(errorCheck.Confirm(confirm))
+            {
+                print.FormErrorMsg("삭제 여부");
+                menu.BookManagementMenu();
+            }
+
+            databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
+            connect = new MySqlConnection(databaseConnect);  // conncet MySQL
+            connect.Open(); // open MySQL
+
+            sqlQuery = "delete from book where name ='" + foundBook.Name + "';";
+            command = new MySqlCommand(sqlQuery, connect);
+            dataReader = command.ExecuteReader();
+
+            if (errorCheck.IsValidChange(dataReader) == FAILED) //편집 에러
+            {
+                dataReader.Close();
+                connect.Close();
+                print.ErrorMsg("도서 정보 삭제");
+                menu.BookManagementMenu();
+                return;
+            }
+
+            dataReader.Close();
+            connect.Close();
+            print.CompleteMsg("도서 정보 삭제 완료");
+            menu.BookManagementMenu();
+            return;
         }
 
-        public void SearchBook(int searchType)
+        public BookVO SearchBook(string searchType, string searchBy)
         {
+            string searchName;
+            string searchAuthor;
+            string searchPublisher;
 
+            if (searchBy.Equals("도서명"))
+            {
+                switch (searchType)
+                {
+                    case "editSearch":
+                        print.Search("편집할 책 이름");
+                        break;
+                    case "removeSearch":
+                        print.Search("삭제할 책의 이름");
+                        break;
+                    case "justSearch":
+                        print.Search("검색할 책 이름");
+                        break;
+                }
+                searchName = Console.ReadLine();
+                if (errorCheck.BookName(searchName))
+                {
+                    print.FormErrorMsg("도서제목");
+                    menu.BookManagementMenu();
+                }
+
+                sqlQuery = "select * from book where name='" + searchName + "';";
+            }
+
+            else if (searchBy.Equals("출판사명"))
+            {
+                switch (searchType)
+                {
+                    case "editSearch":
+                        print.Search("편집할 책 출판사명");
+                        break;
+                    case "removeSearch":
+                        print.Search("삭제할 책의 출판사명");
+                        break;
+                    case "justSearch":
+                        print.Search("검색할 책 출판사명");
+                        break;
+                }
+
+                searchPublisher = Console.ReadLine();
+                if(errorCheck.BookPublisher(searchPublisher))
+                {
+                    print.FormErrorMsg("출판사명");
+                    menu.BookManagementMenu();
+                }
+
+                sqlQuery = "select * from book where publisher='" + searchPublisher + "';";
+            }
+
+            else if (searchBy.Equals("저자명"))
+            {
+                switch(searchType)
+                {
+                    case "editSearch":
+                        print.Search("편집할 책 저자명");
+                        break;
+                    case "removeSearch":
+                        print.Search("삭제할 책의 저자명");
+                        break;
+                    case "justSearch":
+                        print.Search("검색할 책 저자명");
+                        break;
+                }
+
+                searchAuthor = Console.ReadLine();
+                if (errorCheck.BookAuthor("저자명"))
+                {
+                    print.FormErrorMsg("저자명");
+                    menu.BookManagementMenu();
+                }
+
+                sqlQuery = "select * from book where author='" + searchAuthor + "';";
+            }
+
+            databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
+            connect = new MySqlConnection(databaseConnect);  // conncet MySQL
+            connect.Open(); // open MySQL
+            
+            command = new MySqlCommand(sqlQuery, connect);
+            dataReader = command.ExecuteReader();
+            dataReader.Read();
+
+            if (errorCheck.IsValidMember(dataReader) == FAILED) //검색 에러
+            {
+                dataReader.Close();
+                connect.Close();
+                print.ErrorMsg("존재하는 도서 찾기");
+                if (searchType.Equals("justSearch")) menu.BookManagementMenu();
+                return null;
+            }
+
+            BookVO foundBook = new BookVO(dataReader["name"].ToString(), dataReader["author"].ToString(),
+                    dataReader["publisher"].ToString(), int.Parse(dataReader["count"].ToString()));
+
+            if (searchType.Equals("justSearch"))
+            {
+                print.BookInfo(foundBook);
+                menu.BookManagementMenu();
+            }
+
+            dataReader.Close();
+            connect.Close();
+
+            return foundBook;
         }
 
         public void PrintBooks()
         {
+            databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
+            connect = new MySqlConnection(databaseConnect);  // conncet MySQL
+            connect.Open(); // open MySQL
 
+            sqlQuery = "select * from book;";
+            command = new MySqlCommand(sqlQuery, connect);
+            dataReader = command.ExecuteReader();
+
+            print.PrintBooks(dataReader);
+            dataReader.Close();
+            connect.Close();
+            menu.BookManagementMenu();
         }
 
-        public void RentBook()
+        public void RentBook(string searchBy)
         {
 
         }
 
         public void ReturnBook()
+        {
+
+        }
+
+        public void ExtensionBook()
         {
 
         }
