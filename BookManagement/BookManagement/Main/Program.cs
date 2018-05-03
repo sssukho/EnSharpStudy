@@ -10,7 +10,7 @@ namespace BookManagement
     {
         static void Main(string[] args)
         {
-            new Login();
+            new Login().LoginToMenu();
         }
     }
 }

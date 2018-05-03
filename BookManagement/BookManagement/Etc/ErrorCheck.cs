@@ -31,6 +31,11 @@ namespace BookManagement
             return Judgement(input, pattern);
         }
 
+        public bool MemberPassword(string input)
+        {
+            return false;
+        }
+
         public bool MemberID(string input)
         {
             pattern = @"^[0-9]{6,8}$";
@@ -99,18 +104,24 @@ namespace BookManagement
 
         public bool IsValidMenuInput(ConsoleKeyInfo input, string type)
         {
+            if (type.Contains("관리메뉴"))
+                type = "관리메뉴";
+
+            if (type.Contains("검색메뉴"))
+                type = "검색메뉴";
+
             switch (type)
             {
                 case "메인메뉴":
-                    pattern = @"[1-3]{1}|[0]{1}$";
+                    pattern = @"[0-3]{1}$";
                     break;
 
-                case "5지선다":
-                    pattern = @"[1-5]{1}$";
+                case "관리메뉴":
+                    pattern = @"[0-5]{1}$";
                     break;
 
-                case "7지선다":
-                    pattern = @"[1-7]{1}$";
+                case "검색메뉴":
+                    pattern = @"[0-3]{1}$";
                     break;
 
                 case "선택":

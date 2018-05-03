@@ -20,23 +20,12 @@ namespace BookManagement
         {
         }
 
-        public void ConnectDB()
+       public bool IsAuthenticateLogin(string id, string password)
         {
             databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
             connect = new MySqlConnection(databaseConnect);  // conncet MySQL
+            connect.Open(); // open MySQL 
 
-            connect.Open(); // open MySQL      
-        }
-
-        public void CloseDB()
-        {
-            dataReader.Close();
-            connect.Close();
-        }
-
-       public bool IsAuthenticateLogin(string id, string password)
-        {
-            ConnectDB();
             sqlQuery = "select id, password from member where id='" + id + "' and password='" + password + "';";
             command = new MySqlCommand(sqlQuery, connect);
             dataReader = command.ExecuteReader();
@@ -47,32 +36,55 @@ namespace BookManagement
 
             if (serverID.Equals(id) && serverPWD.Equals(password))
             {
-                CloseDB();
+                dataReader.Close();
+                connect.Close();
                 return true;
             }
 
-            CloseDB();
+            dataReader.Close();
+            connect.Close();
             return false;
         }
 
-        public void RegisterMemberQuery(string[] input, int type)
+        public bool RegisterMemberQuery(MemberVO newMember)
         {
+            databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
+            connect = new MySqlConnection(databaseConnect);  // conncet MySQL
+            connect.Open(); // open MySQL 
 
+            sqlQuery = "insert into member values('" + newMember.Id + "', '" + newMember.Password + "', '" 
+                + newMember.Name + "', '" + newMember.Gender + "', '" + newMember.PhoneNumber + "', '"
+                + newMember.Email + "', '" + newMember.Address + "', '" + newMember.RentBook + "', '"
+                + newMember.DueDate + "');";
+            command = new MySqlCommand(sqlQuery, connect);
+            dataReader = command.ExecuteReader();
+            dataReader.Close();
+
+            if (dataReader.RecordsAffected == -1) //이미 존재하고 있는 아이디일때
+            {
+                dataReader.Close();
+                connect.Close();
+                return false;
+            }
+
+            dataReader.Close();
+            connect.Close();
+            return true;
         }
 
         public void ModifyQuery(string[] input, int type)
         {
-
+            //update
         }
 
         public void SearchByBookNameQuery(string input, int type)
         {
-
+            //select * from book where name ='" + bookName "';
         }
 
         public void SearchByPublisherQuery(string input)
         {
-
+            //select
         }
 
         public void SearchByAuthor(string input)

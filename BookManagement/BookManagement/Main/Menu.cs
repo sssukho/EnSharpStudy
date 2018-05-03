@@ -9,29 +9,26 @@ namespace BookManagement
     enum InitialMenu { EXIT, MEMBER_MANAGEMENT, BOOK_MANAGEMENT, BOOK_RENT }
     enum MemberMenu { EXIT, REGISTER_MEMBER, MODIFY_MEMBER, REMOVE_MEMBER, SEARCH_MEMBER, PRINT_MEMBERS }
     enum BookMenu { EXIT, REGISTER_BOOK, MODIFY_BOOK, REMOVE_BOOK, SEARCH_BOOK, PRINT_BOOKS }
-    enum BookFindMenu { EXIT, SERARCH_BY_NAME, SEARCH_BY_PUBLISHER, SEARCH_BY_AUTHOR }
+    enum SearchType { EXIT, SERARCH_BY_NAME, SEARCH_BY_PUBLISHER, SEARCH_BY_AUTHOR }
 
     class Menu
     {
         Print print;
         ErrorCheck errorCheck;
+        Function function;
+        Query query;
 
         ConsoleKeyInfo menuSelect;
         bool error;
 
-        public Menu()
+        public Menu(Print print, Query query)
         {
-            this.print = Print.GetInstance(); //Print객체가 있으면 생성하지 않고 없으면 생성하는 메소드
+            this.print = print;
+            this.query = query;
             this.errorCheck = ErrorCheck.GetInstance();
+            this.function = new Function(this, query);
             MainMenu();
         }
-
-        public Menu(string MemberID)
-        {
-
-        }
-
-       
 
         public void MainMenu()
         {
@@ -41,30 +38,30 @@ namespace BookManagement
             {
                 case (int)InitialMenu.MEMBER_MANAGEMENT:
                     MemberManagementMenu();
-                    break;
+                    return;
 
                 case (int)InitialMenu.BOOK_MANAGEMENT:
                     BookManagementMenu();
-                    break;
+                    return;
 
                 case (int)InitialMenu.BOOK_RENT:
                     BookRentMenu();
-                    break;
+                    return;
 
                 case (int)InitialMenu.EXIT:
                     Environment.Exit(0);
-                    break;
+                    return;
             }
-
         }
 
         public void MemberManagementMenu()
         {
-            MenuInput("회원관리", "관리메뉴");
+            MenuInput("회원관리", "회원관리메뉴");
 
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)MemberMenu.REGISTER_MEMBER:
+                    function.RegisterMember();
                     return;
 
                 case (int)MemberMenu.MODIFY_MEMBER:
@@ -87,7 +84,7 @@ namespace BookManagement
 
         public void BookManagementMenu()
         {
-            MenuInput("도서관리", "관리메뉴");
+            MenuInput("도서관리", "도서관리메뉴");
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)BookMenu.REGISTER_BOOK:
@@ -113,19 +110,19 @@ namespace BookManagement
 
         public void BookModifyMenu()
         {
-            MenuInput("도서수정", "검색메뉴");
+            MenuInput("도서수정", "도서수정검색메뉴");
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
-                case (int)BookFindMenu.SERARCH_BY_NAME:
+                case (int)SearchType.SERARCH_BY_NAME:
                     return;
 
-                case (int)BookFindMenu.SEARCH_BY_PUBLISHER:
+                case (int)SearchType.SEARCH_BY_PUBLISHER:
                     return;
 
-                case (int)BookFindMenu.SEARCH_BY_AUTHOR:
+                case (int)SearchType.SEARCH_BY_AUTHOR:
                     return;
 
-                case (int)BookFindMenu.EXIT:
+                case (int)SearchType.EXIT:
                     Environment.Exit(0);
                     return;
             }
@@ -133,19 +130,19 @@ namespace BookManagement
 
         public void BookRemoveMenu()
         {
-            MenuInput("도서삭제", "검색메뉴");
+            MenuInput("도서삭제", "도서삭제검색메뉴");
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
-                case (int)BookFindMenu.SERARCH_BY_NAME:
+                case (int)SearchType.SERARCH_BY_NAME:
                     return;
 
-                case (int)BookFindMenu.SEARCH_BY_PUBLISHER:
+                case (int)SearchType.SEARCH_BY_PUBLISHER:
                     return;
 
-                case (int)BookFindMenu.SEARCH_BY_AUTHOR:
+                case (int)SearchType.SEARCH_BY_AUTHOR:
                     return;
 
-                case (int)BookFindMenu.EXIT:
+                case (int)SearchType.EXIT:
                     Environment.Exit(0);
                     return;
             }
@@ -153,19 +150,19 @@ namespace BookManagement
 
         public void BookSearchMenu()
         {
-            MenuInput("도서검색", "검색메뉴");
+            MenuInput("도서검색", "도서검색메뉴");
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
-                case (int)BookFindMenu.SERARCH_BY_NAME:
+                case (int)SearchType.SERARCH_BY_NAME:
                     return;
 
-                case (int)BookFindMenu.SEARCH_BY_PUBLISHER:
+                case (int)SearchType.SEARCH_BY_PUBLISHER:
                     return;
 
-                case (int)BookFindMenu.SEARCH_BY_AUTHOR:
+                case (int)SearchType.SEARCH_BY_AUTHOR:
                     return;
 
-                case (int)BookFindMenu.EXIT:
+                case (int)SearchType.EXIT:
                     Environment.Exit(0);
                     return;
             }
@@ -173,19 +170,19 @@ namespace BookManagement
 
         public void BookRentMenu()
         {
-            MenuInput("도서대여", "검색메뉴");
+            MenuInput("도서대여", "도서대여메뉴");
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
-                case (int)BookFindMenu.SERARCH_BY_NAME:
+                case (int)SearchType.SERARCH_BY_NAME:
                     return;
 
-                case (int)BookFindMenu.SEARCH_BY_PUBLISHER:
+                case (int)SearchType.SEARCH_BY_PUBLISHER:
                     return;
 
-                case (int)BookFindMenu.SEARCH_BY_AUTHOR:
+                case (int)SearchType.SEARCH_BY_AUTHOR:
                     return;
 
-                case (int)BookFindMenu.EXIT:
+                case (int)SearchType.EXIT:
                     Environment.Exit(0);
                     return;
             }
@@ -193,19 +190,19 @@ namespace BookManagement
 
         public void BookRentSearchMenu()
         {
-            MenuInput("대여검색", "검색메뉴");
+            MenuInput("대여검색", "도서대여검색메뉴");
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
-                case (int)BookFindMenu.SERARCH_BY_NAME:
+                case (int)SearchType.SERARCH_BY_NAME:
                     return;
 
-                case (int)BookFindMenu.SEARCH_BY_PUBLISHER:
+                case (int)SearchType.SEARCH_BY_PUBLISHER:
                     return;
 
-                case (int)BookFindMenu.SEARCH_BY_AUTHOR:
+                case (int)SearchType.SEARCH_BY_AUTHOR:
                     return;
 
-                case (int)BookFindMenu.EXIT:
+                case (int)SearchType.EXIT:
                     Environment.Exit(0);
                     return;
             }
@@ -237,8 +234,24 @@ namespace BookManagement
                         BookManagementMenu();
                         return;
 
+                    case "도서수정검색메뉴":
+                        BookModifyMenu();
+                        return;
+
+                    case "도서삭제검색메뉴":
+                        BookRemoveMenu();
+                        return;
+
+                    case "도서검색검색메뉴":
+                        BookSearchMenu();
+                        return;
+
                     case "도서대여메뉴":
                         BookRentMenu();
+                        return;
+
+                    case "도서대여검색메뉴":
+                        BookRentSearchMenu();
                         return;
                 }
             }

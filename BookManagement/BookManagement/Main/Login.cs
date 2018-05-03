@@ -8,26 +8,35 @@ namespace BookManagement
 {
     class Login
     { //패스워드 별처리 할 것
+        Print print;
+        Query query;
+
         public Login()
+        {
+            print = new Print();
+            query = new Query();
+        }
+
+        public void LoginToMenu()
         {
             string id;
             string password;
 
-            new Print().LoginUI();
-            
-            Console.Write("아이디 ▶ ");
-            id = Console.ReadLine();
-            Console.Write("\n\n패스워드 ▶ ");
-            password = Console.ReadLine();
+            print.LoginUI();
 
-            if(new Query().IsAuthenticateLogin(id,password) == true)
+            Console.Write("아이디 ▶ "); id = Console.ReadLine();
+            Console.Write("\n\n패스워드 ▶ "); password = Console.ReadLine();
+
+            if (query.IsAuthenticateLogin(id, password) == true)
             {
-                new Menu();
+                new Menu(print, query);
             }
 
             else
             {
                 Console.WriteLine("로그인 실패");
+                LoginToMenu();
+                return;
             }
         }
     }

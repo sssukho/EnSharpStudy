@@ -51,23 +51,9 @@ namespace BookManagement
 
         public void ErrorMsg(string type) //에러가 난곳에서 스트링 타입으로 인자를 받아서 어떤 에러인지 분류
         {
-            switch (type)
-            {
-                case "존재하지않는회원":
-                    Console.WriteLine("\n\n\t사용자가 존재하지 않습니다.");
-                    break;
-
-                case "존재하지않는도서":
-                    Console.WriteLine("\n\n\t도서가 존재하지 않습니다.");
-                    break;
-
-                case "수량오류":
-                    Console.WriteLine("\n\n\t도서 수량이 없습니다.");
-                    break;
-            }
-            Console.WriteLine("\n\t다시 입력 : 1번");
-            Console.WriteLine("\t이전 메뉴로 : 2번");
-            Console.Write("\t입력(1~2) : ");
+            Console.WriteLine("{0} 실패입니다...", type);
+            Console.WriteLine("이전 메뉴로 돌아가려면 엔터...");
+            Console.ReadLine();
         }
 
         public void RegisterErrorMsg(string type) //등록 및 편집시 잘못 입력하면 뜨는 오류 메시지
@@ -243,82 +229,86 @@ namespace BookManagement
             Console.Write("\n\t메뉴 번호 입력 : ");
         }
 
-        /*
-        public Member MemberRegister(MemberManagement memberManagement) //while로 틀린 항목 다시 입력하게
+
+        public MemberVO MemberRegister() //while로 틀린 항목 다시 입력하게
         {
-            string name, studentId, gender, phoneNumber, email, address;
+            string id, password, name, gender, phoneNumber, email, address, rentbook, duedate;
             Console.Clear();
             while (true)
             {
-                Console.Write("\n\n\t이름 입력 (4자리 이내) : ");
-                name = CancelKey.ReadLineWithCancel();
-                if (name == null) memberManagement.ViewMenu();//입력중간에 ESC키 입력하면 바로 이전 메뉴로 나감
-                if (errorCheck.MemberName(name) == false)//미리 설정해둔 정규식에 맞으면 bool 타입 false 반환
-                {
-                    break;
-                }
-                RegisterErrorMsg("이름");
-            }
-            while (true)
-            {
                 Console.Write("\n\n\t학번 입력 (6~8자리 이내) : ");
-                studentId = CancelKey.ReadLineWithCancel();
-                if (studentId == null) MemberRegister(memberManagement); //입력중간에 ESC키 입력하면 입력 양식 가장 위로 올라감 
-                if (errorCheck.MemberID(studentId) == false)
-                {
+                id = Console.ReadLine();
+                if (errorCheck.MemberID(id) == false)
                     break;
-                }
+                
                 RegisterErrorMsg("학번");
             }
+
+            while (true)
+            {
+                Console.Write("\n\n\t비밀번호 입력 (12자리 이내) : ");
+                password = Console.ReadLine();
+
+                if (errorCheck.MemberPassword(password) == false)//미리 설정해둔 정규식에 맞으면 bool 타입 false 반환
+                    break;
+
+                RegisterErrorMsg("이름");
+            }
+
+            while (true)
+            {
+                Console.Write("\n\n\t이름 입력 (4자리 이내) : ");
+                name = Console.ReadLine();
+
+                if (errorCheck.MemberName(name) == false)//미리 설정해둔 정규식에 맞으면 bool 타입 false 반환
+                    break;
+
+                RegisterErrorMsg("이름");
+            }
+
             while (true)
             {
                 Console.Write("\n\n\t성별 입력 (남/여): ");
-                gender = CancelKey.ReadLineWithCancel();
-                if (gender == null) MemberRegister(memberManagement);
+                gender = Console.ReadLine();
                 if (errorCheck.MemberGender(gender) == false)
-                {
                     break;
-                }
                 RegisterErrorMsg("성별");
             }
+
             while (true)
             {
                 Console.Write("\n\n\t핸드폰 번호 입력(010-1234-5678 형식) : ");
-                phoneNumber = CancelKey.ReadLineWithCancel();
-                if (phoneNumber == null) MemberRegister(memberManagement);
+                phoneNumber = Console.ReadLine();
                 if (errorCheck.MemberPhone(phoneNumber) == false)
-                {
                     break;
-                }
                 RegisterErrorMsg("핸드폰 번호");
             }
+
             while (true)
             {
                 Console.Write("\n\n\t이메일 입력 : ");
-                email = CancelKey.ReadLineWithCancel();
-                if (email == null) MemberRegister(memberManagement);
+                email = Console.ReadLine();
+
                 if (errorCheck.MemberEmail(email) == false)
-                {
                     break;
-                }
                 RegisterErrorMsg("이메일");
             }
+
             while (true)
             {
                 Console.Write("\n\n\t주소 입력 : ");
-                address = CancelKey.ReadLineWithCancel();
-                if (address == null) MemberRegister(memberManagement);
+                address = Console.ReadLine();
                 if (errorCheck.MemberAddress(address) == false)
-                {
                     break;
-                }
+                
                 RegisterErrorMsg("주소");
             }
 
-            Member newMember = new Member(name, studentId, gender, phoneNumber, email, address, "", "");
+            MemberVO newMember = new MemberVO(id, password, name, gender, phoneNumber, email, address, "기본값", "기본값");
             return newMember;
         }
 
+        /*
         public void Search(string type)
         {
             Console.Clear();
