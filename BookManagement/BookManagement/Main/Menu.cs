@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace BookManagement
 {
     enum InitialMenu { EXIT, MEMBER_MANAGEMENT, BOOK_MANAGEMENT, BOOK_RENT }
-    enum MemberMenu { EXIT, REGISTER_MEMBER, MODIFY_MEMBER, REMOVE_MEMBER, SEARCH_MEMBER, PRINT_MEMBERS }
-    enum BookMenu { EXIT, REGISTER_BOOK, MODIFY_BOOK, REMOVE_BOOK, SEARCH_BOOK, PRINT_BOOKS }
+    enum MemberMenu { EXIT, REGISTER_MEMBER, EDIT_MEMBER, REMOVE_MEMBER, SEARCH_MEMBER, PRINT_MEMBERS }
+    enum BookMenu { EXIT, REGISTER_BOOK, EDIT_BOOK, REMOVE_BOOK, SEARCH_BOOK, PRINT_BOOKS }
     enum SearchType { EXIT, SERARCH_BY_NAME, SEARCH_BY_PUBLISHER, SEARCH_BY_AUTHOR }
 
     class Menu
@@ -16,17 +16,16 @@ namespace BookManagement
         Print print;
         ErrorCheck errorCheck;
         Function function;
-        Query query;
+        MemberVO logOnMember;
 
         ConsoleKeyInfo menuSelect;
         bool error;
 
-        public Menu(Print print, Query query)
+        public Menu(Print print, Function function)
         {
             this.print = print;
-            this.query = query;
+            this.function = new Function(this);
             this.errorCheck = ErrorCheck.GetInstance();
-            this.function = new Function(this, query);
             MainMenu();
         }
 
@@ -64,7 +63,8 @@ namespace BookManagement
                     function.RegisterMember();
                     return;
 
-                case (int)MemberMenu.MODIFY_MEMBER:
+                case (int)MemberMenu.EDIT_MEMBER:
+                    function.EditMember();
                     return;
 
                 case (int)MemberMenu.REMOVE_MEMBER:
@@ -90,7 +90,7 @@ namespace BookManagement
                 case (int)BookMenu.REGISTER_BOOK:
                     return;
 
-                case (int)BookMenu.MODIFY_BOOK:
+                case (int)BookMenu.EDIT_BOOK:
                     return;
 
                 case (int)BookMenu.REMOVE_BOOK:

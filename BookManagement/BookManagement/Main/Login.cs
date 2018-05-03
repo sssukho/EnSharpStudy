@@ -9,12 +9,12 @@ namespace BookManagement
     class Login
     { //패스워드 별처리 할 것
         Print print;
-        Query query;
+        Function function;
 
         public Login()
         {
             print = new Print();
-            query = new Query();
+            function = new Function();
         }
 
         public void LoginToMenu()
@@ -27,10 +27,8 @@ namespace BookManagement
             Console.Write("아이디 ▶ "); id = Console.ReadLine();
             Console.Write("\n\n패스워드 ▶ "); password = Console.ReadLine();
 
-            if (query.IsAuthenticateLogin(id, password) == true)
-            {
-                new Menu(print, query);
-            }
+            if (function.IsAuthenticateLogin(id, password) == true)
+                new Menu(print, function);
 
             else
             {

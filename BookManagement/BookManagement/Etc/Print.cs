@@ -45,8 +45,8 @@ namespace BookManagement
         public void CompleteMsg(string type) //기능 에러없이 완료했을 경우
         {
             Console.WriteLine("\n\n\t{0} 되었습니다.", type);
-            Console.WriteLine("\t2초 후에 메뉴로 돌아갑니다...");
-            Thread.Sleep(2000);
+            Console.WriteLine("이전 메뉴로 돌아가려면 엔터...");
+            Console.ReadLine();
         }
 
         public void ErrorMsg(string type) //에러가 난곳에서 스트링 타입으로 인자를 받아서 어떤 에러인지 분류
@@ -232,7 +232,7 @@ namespace BookManagement
 
         public MemberVO MemberRegister() //while로 틀린 항목 다시 입력하게
         {
-            string id, password, name, gender, phoneNumber, email, address, rentbook, duedate;
+            string id, password, name, gender, phoneNumber, email, address;
             Console.Clear();
             while (true)
             {
@@ -330,51 +330,47 @@ namespace BookManagement
 
             Console.Write("\n\n\t이전으로 돌아가려면 엔터...");
             Console.ReadLine();
-        }
+        }*/
 
         //기본 기능은 주소/핸드폰 번호만 수정 가능
-        public Member MemberEdit(Member inputMember, MemberManagement memberManagement)
+        public MemberVO EditMember(MemberVO inputMember)
         {
             string phoneNumber, address;
             Console.Clear();
             Console.WriteLine("\n\n\t---------------------------------수정할 회원 기존 정보--------------------------------");
             Console.WriteLine("\n\t이름 : {0}", inputMember.Name);
-            Console.WriteLine("\t학번 : {0}", inputMember.StudentId);
+            Console.WriteLine("\t학번 : {0}", inputMember.Id);
             Console.WriteLine("\t성별 : {0}", inputMember.Gender);
             Console.WriteLine("\t핸드폰 번호 : {0}", inputMember.PhoneNumber);
             Console.WriteLine("\t이메일 주소 : {0}", inputMember.Email);
             Console.WriteLine("\t주소 : {0}", inputMember.Address + "\n");
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
-
             Console.WriteLine("\n\n\t---------------------------------수정할 회원 정보 입력--------------------------------");
+
             while (true)
             {
                 Console.Write("\n\t핸드폰 번호 입력(010-1234-5678 형식) : ");
-                phoneNumber = CancelKey.ReadLineWithCancel();
-                if (phoneNumber == null) memberManagement.Edit(memberManagement);
+                phoneNumber = Console.ReadLine();
                 if (errorCheck.MemberPhone(phoneNumber) == false)
-                {
                     break;
-                }
+
                 RegisterErrorMsg("핸드폰 번호");
             }
+
             while (true)
             {
                 Console.Write("\n\n\t주소 입력(동/리까지 입력) : ");
-                address = CancelKey.ReadLineWithCancel();
-                if (address == null) MemberEdit(inputMember, memberManagement);
+                address = Console.ReadLine();
                 if (errorCheck.MemberAddress(address) == false)
-                {
                     break;
-                }
+
                 RegisterErrorMsg("주소");
             }
             inputMember.PhoneNumber = phoneNumber;
             inputMember.Address = address;
-
             return inputMember;
         }
-
+        /*
         public void MemberDelete(Member inputMember)
         {
             Console.Clear();

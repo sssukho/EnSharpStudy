@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using MySql.Data.MySqlClient;
 
 namespace BookManagement
 {
@@ -140,6 +141,23 @@ namespace BookManagement
                 return true;
             }
             return false;
+        }
+
+        public bool IsValidRegister(MySqlDataReader dataReader)
+        {
+            if (dataReader.RecordsAffected == -1)
+                return false;
+
+            return true;
+        }
+
+        public bool IsValidEdit(MySqlDataReader dataReader)
+        {
+            if (dataReader.RecordsAffected == -1)
+                return false;
+
+            
+            return true;
         }
     }
 }
