@@ -191,15 +191,15 @@ namespace BookManagement
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)BookRent.RENT_BOOK:
-                    
+                    BookRentSearchMenu();
                     return;
 
                 case (int)BookRent.RETURN_BOOK:
-                    
+                    function.ReturnBook();
                     return;
 
                 case (int)BookRent.EXTENSION_BOOK:
-                    
+                    function.ExtensionBook();
                     return;
 
                 case (int)BookRent.EXIT:

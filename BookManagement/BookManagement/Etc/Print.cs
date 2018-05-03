@@ -86,10 +86,10 @@ namespace BookManagement
             Console.Clear();
         }
 
-        public void ReturnErrorMsg()
+        public void RentErrorMsg(string name, string bookName)
         {
             Console.Clear();
-            Console.WriteLine("\n\n\t해당 회원은 빌려간 책을 먼저 반납해야 합니다.");
+            Console.WriteLine("\n\n\t{0}님 께서는 빌려가신 <{1}>을 먼저 반납해야 합니다.", name, bookName);
             Console.WriteLine("\n\t반납하러 가기 : 1번");
             Console.WriteLine("\t이전 메뉴로 : 2번");
             Console.Write("\t입력(1~2) : ");
@@ -99,6 +99,14 @@ namespace BookManagement
         {
             Console.Clear();
             Console.Write("\n\n\t" + type + "의 학번을 입력해주세요(8자리 이내) : ");
+        }
+
+        public void NotInStockMsg()
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t해당 도서의 재고가 없습니다.");
+            Console.WriteLine("\t이전 메뉴로 돌아가려면 ESC");
+            Console.ReadLine();
         }
 
         public void ReturnMsg(string type)
@@ -227,7 +235,6 @@ namespace BookManagement
             Console.Write("\n\t메뉴 번호 입력 : ");
         }
 
-
         public MemberVO RegisterMember() //while로 틀린 항목 다시 입력하게
         {
             string id, password, name, gender, phoneNumber, email, address;
@@ -302,7 +309,7 @@ namespace BookManagement
                 FormErrorMsg("주소");
             }
 
-            MemberVO newMember = new MemberVO(id, password, name, gender, phoneNumber, email, address, "없음", "없음");
+            MemberVO newMember = new MemberVO(id, password, name, gender, phoneNumber, email, address, "없음", "없음", 3);
             return newMember;
         }
 
@@ -323,6 +330,7 @@ namespace BookManagement
             Console.WriteLine("\t주소 : {0}", inputMember.Address);
             Console.WriteLine("\t현재 대출한 책 : {0}", inputMember.RentBook);
             Console.WriteLine("\t반납 예정일 : {0}", inputMember.DueDate + "\n");
+            Console.WriteLine("\t연장 가능횟수 : {0}", inputMember.ExtensionCount + "\n");
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
 
             Console.Write("\n\n\t이전으로 돌아가려면 엔터...");
@@ -386,14 +394,14 @@ namespace BookManagement
         {
             Console.Clear();
             Console.WriteLine("\n\n\t---------------------------------회원 명단--------------------------------");
-            Console.WriteLine("\t아이디  |  이름   | 성별 |   휴대폰번호   |   이메일   |   주소   |   대출한 책   |   반납일   ");
+            Console.WriteLine("\t아이디  |  이름   | 성별 |   휴대폰번호   |   이메일   |   주소   |   대출한 책   |   반납일   |    연장 가능횟수    |");
 
             while (dataReader.Read())
             {
-                Console.WriteLine("\n\t{0}      {1}      {2}      {3}      {4}      {5}      {6}      {7}",
+                Console.WriteLine("\n\t{0}      {1}      {2}      {3}      {4}      {5}      {6}      {7}      {8}",
                     dataReader["id"].ToString(), dataReader["name"].ToString(), dataReader["gender"].ToString(),
                     dataReader["phoneNumber"].ToString(), dataReader["email"].ToString(), dataReader["address"].ToString(),
-                    dataReader["rentbook"].ToString(), dataReader["duedate"].ToString());
+                    dataReader["rentbook"].ToString(), dataReader["duedate"].ToString(), dataReader["extensionCount"].ToString());
             }
             Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
             Console.ReadLine();
@@ -503,6 +511,19 @@ namespace BookManagement
 
             Console.Write("\n\n\t이전으로 돌아가려면 엔터...");
             Console.ReadLine();
+        }
+
+        public void CheckRentBook(BookVO inputBook)
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t---------------------------------검색한 도서 기존 정보--------------------------------");
+            Console.WriteLine("\t도서 제목 : {0}", inputBook.Name);
+            Console.WriteLine("\t출판사 : {0}", inputBook.Publisher);
+            Console.WriteLine("\t저자 : {0}", inputBook.Author);
+            Console.WriteLine("\t수량 : {0}", inputBook.Count + "\n");
+            Console.WriteLine("\t--------------------------------------------------------------------------------------");
+
+            Console.Write("\n\n\t해당 도서를 빌리시겠습니까?(Y/N) : ");
         }
 
         public void PrintBooks(MySqlDataReader dataReader)

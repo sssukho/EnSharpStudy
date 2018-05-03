@@ -49,9 +49,7 @@ namespace BookManagement
 
             if (serverID.Equals(id) && serverPWD.Equals(password))
             {
-                logOnMember = new MemberVO(dataReader["id"].ToString(), dataReader["password"].ToString(),
-                    dataReader["name"].ToString(), dataReader["gender"].ToString(), dataReader["phoneNumber"].ToString(),
-                    dataReader["email"].ToString(), dataReader["address"].ToString(), dataReader["rentbook"].ToString(), dataReader["duedate"].ToString());
+                SaveLogOnMember(dataReader);
                 dataReader.Close();
                 connect.Close();
                 return true;
@@ -60,6 +58,13 @@ namespace BookManagement
             dataReader.Close();
             connect.Close();
             return false;
+        }
+
+        public void SaveLogOnMember(MySqlDataReader dataReader)
+        {
+            logOnMember = new MemberVO(dataReader["id"].ToString(), dataReader["password"].ToString(),
+                   dataReader["name"].ToString(), dataReader["gender"].ToString(), dataReader["phoneNumber"].ToString(),
+                   dataReader["email"].ToString(), dataReader["address"].ToString(), dataReader["rentbook"].ToString(), dataReader["duedate"].ToString(), 3);
         }
 
         public void RegisterMember()
@@ -74,7 +79,7 @@ namespace BookManagement
             sqlQuery = "insert into member values('" + newMember.Id + "', '" + newMember.Password + "', '"
                 + newMember.Name + "', '" + newMember.Gender + "', '" + newMember.PhoneNumber + "', '"
                 + newMember.Email + "', '" + newMember.Address + "', '" + newMember.RentBook + "', '"
-                + newMember.DueDate + "');";
+                + newMember.DueDate +"', '" + newMember.ExtensionCount + "');";
             command = new MySqlCommand(sqlQuery, connect);
             dataReader = command.ExecuteReader();
 
@@ -133,7 +138,7 @@ namespace BookManagement
             confirm = Console.ReadLine();
             if (errorCheck.Confirm(confirm))
             {
-                print.FormErrorMsg("삭제 여부");
+                print.MenuErrorMsg("Y/N오류");
                 menu.MemberManagementMenu();
                 return;
             }
@@ -201,7 +206,7 @@ namespace BookManagement
 
             MemberVO foundMember = new MemberVO(dataReader["id"].ToString(), dataReader["password"].ToString(),
                     dataReader["name"].ToString(), dataReader["gender"].ToString(), dataReader["phoneNumber"].ToString(),
-                    dataReader["email"].ToString(), dataReader["address"].ToString(), dataReader["rentbook"].ToString(), dataReader["duedate"].ToString());
+                    dataReader["email"].ToString(), dataReader["address"].ToString(), dataReader["rentbook"].ToString(), dataReader["duedate"].ToString(), 3);
 
             if (searchType.Equals("justSearch"))
             {
@@ -310,7 +315,7 @@ namespace BookManagement
             confirm = Console.ReadLine();
             if(errorCheck.Confirm(confirm))
             {
-                print.FormErrorMsg("삭제 여부");
+                print.MenuErrorMsg("Y/N오류");
                 menu.BookManagementMenu();
             }
 
@@ -357,6 +362,9 @@ namespace BookManagement
                     case "justSearch":
                         print.Search("검색할 책 이름");
                         break;
+                    case "rentBook":
+                        print.Search("대여할 책 이름");
+                        break;
                 }
                 searchName = Console.ReadLine();
                 if (errorCheck.BookName(searchName))
@@ -380,6 +388,9 @@ namespace BookManagement
                         break;
                     case "justSearch":
                         print.Search("검색할 책 출판사명");
+                        break;
+                    case "rentBook":
+                        print.Search("대여할 책 출판사명");
                         break;
                 }
 
@@ -405,6 +416,9 @@ namespace BookManagement
                         break;
                     case "justSearch":
                         print.Search("검색할 책 저자명");
+                        break;
+                    case "rentBook":
+                        print.Search("대여할 책 저자명");
                         break;
                 }
 
@@ -441,7 +455,7 @@ namespace BookManagement
             if (searchType.Equals("justSearch"))
             {
                 print.BookInfo(foundBook);
-                menu.BookManagementMenu();
+                menu.BookSearchMenu();
             }
 
             dataReader.Close();
@@ -468,7 +482,97 @@ namespace BookManagement
 
         public void RentBook(string searchBy)
         {
+            ConsoleKeyInfo input;
+            BookVO foundBook = SearchBook("rentBook", searchBy);
+            if (foundBook == null)
+            {
+                menu.BookRentSearchMenu();
+                return;
+            }
+           
+            if(foundBook.Count == 0) //빌릴 책의 수량이 없는 경우
+            {
+                print.NotInStockMsg();
+                menu.BookRentSearchMenu();
+                return;
+            }
 
+            if(logOnMember.RentBook != "없음") //빌려간 책이 있는 경우
+            {
+                while(true)
+                {
+                    print.RentErrorMsg(logOnMember.Name, logOnMember.RentBook);
+                    input = Console.ReadKey();
+                    if (errorCheck.IsValidMenuInput(input, "선택") == FAILED)
+                        break;
+                }
+
+                if(input.KeyChar.ToString().Equals("1"))
+                {
+                    ReturnBook();
+                    return;
+                }
+                menu.BookRentSearchMenu();
+                return;
+            }
+
+            print.CheckRentBook(foundBook);
+            while(true) //제대로 입력할때까지 반복
+            {
+                input = Console.ReadKey();
+                if (errorCheck.Confirm(input.KeyChar.ToString()) == false)
+                    break;
+
+                print.MenuErrorMsg("Y/N오류");
+            }
+
+            if (input.KeyChar.ToString().Equals("N")) //대여 안함
+            {
+                menu.BookRentSearchMenu();
+                return;
+            }
+
+            //대여함
+            databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
+            connect = new MySqlConnection(databaseConnect);  // conncet MySQL
+            connect.Open(); // open MySQL
+
+            sqlQuery = "update member set rentbook ='" + foundBook.Name + "', duedate ='" + "2018-05-11" + "' where id='" + logOnMember.Id + "';";
+            command = new MySqlCommand(sqlQuery, connect);
+            dataReader = command.ExecuteReader();
+
+            if (errorCheck.IsValidChange(dataReader) == FAILED)
+            {
+                dataReader.Close();
+                connect.Close();
+                print.ErrorMsg("대여");
+                menu.BookRentSearchMenu();
+                return;
+            }
+            dataReader.Close();
+            connect.Close();
+
+            connect = new MySqlConnection(databaseConnect);  // conncet MySQL
+            connect.Open(); // open MySQL
+
+            foundBook.Count = foundBook.Count - 1;
+            sqlQuery = "update book set count ='" + foundBook.Count + "' where name='" + foundBook.Name + "';";
+            command = new MySqlCommand(sqlQuery, connect);
+            dataReader = command.ExecuteReader();
+
+            if(errorCheck.IsValidChange(dataReader) == FAILED)
+            {
+                dataReader.Close();
+                connect.Close();
+                print.ErrorMsg("도서 수량 정보 갱신");
+                menu.BookRentSearchMenu();
+                return;
+            }
+
+            dataReader.Close();
+            connect.Close();
+            print.CompleteMsg("해당 도서 대여");
+            menu.BookRentMenu();
         }
 
         public void ReturnBook()

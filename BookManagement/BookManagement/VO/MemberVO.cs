@@ -17,8 +17,9 @@ namespace BookManagement
         string address;
         string rentBook;
         string dueDate;
+        int extensionCount;
 
-        public MemberVO(string id, string password, string name, string gender, string phoneNumber, string email, string address, string rentBook, string dueDate)
+        public MemberVO(string id, string password, string name, string gender, string phoneNumber, string email, string address, string rentBook, string dueDate, int extensionCount)
         {
             this.id = id;
             this.password = password;
@@ -29,6 +30,7 @@ namespace BookManagement
             this.address = address;
             this.rentBook = rentBook;
             this.dueDate = dueDate;
+            this.extensionCount = extensionCount;
         }
 
         public string Id
@@ -82,6 +84,12 @@ namespace BookManagement
         {
             get { return dueDate; }
             set { dueDate = value; }
+        }
+
+        public int ExtensionCount
+        {
+            get { return extensionCount; }
+            set { extensionCount = value; }
         }
     }
 }
