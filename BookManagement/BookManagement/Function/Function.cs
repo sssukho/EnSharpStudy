@@ -33,6 +33,19 @@ namespace BookManagement
             this.menu = menu;
         }
 
+        public void OpenDB()
+        {
+            databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
+            connect = new MySqlConnection(databaseConnect);  // conncet MySQL
+            connect.Open(); // open MySQL 
+        }
+        
+        public void CloseDB()
+        {
+            dataReader.Close();
+            connect.Close();
+        }
+
         public bool IsAuthenticateLogin(string id, string password)
         {
             databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
@@ -526,7 +539,7 @@ namespace BookManagement
                 print.MenuErrorMsg("Y/N오류");
             }
 
-            if (input.KeyChar.ToString().Equals("N")) //대여 안함
+            if (input.KeyChar.ToString().Equals("N") || input.KeyChar.ToString().Equals("n")) //대여 안함
             {
                 menu.BookRentSearchMenu();
                 return;
@@ -540,6 +553,9 @@ namespace BookManagement
             sqlQuery = "update member set rentbook ='" + foundBook.Name + "', duedate ='" + "2018-05-11" + "' where id='" + logOnMember.Id + "';";
             command = new MySqlCommand(sqlQuery, connect);
             dataReader = command.ExecuteReader();
+            dataReader.Read();
+            logOnMember.RentBook = foundBook.Name;
+            logOnMember.DueDate = "2089-05-11";
 
             if (errorCheck.IsValidChange(dataReader) == FAILED)
             {
@@ -573,16 +589,120 @@ namespace BookManagement
             connect.Close();
             print.CompleteMsg("해당 도서 대여");
             menu.BookRentMenu();
+            return;
         }
 
         public void ReturnBook()
         {
+            ConsoleKeyInfo input;
+            if(logOnMember.RentBook.Equals("없음"))
+            {
+                print.ErrorMsg("반납할 책이 없는");
+                menu.BookRentMenu();
+                return;
+            }
+            OpenDB();
+            sqlQuery = "select * from book where name = '" + logOnMember.RentBook + "';";
+            command = new MySqlCommand(sqlQuery, connect);
+            dataReader = command.ExecuteReader();
+            dataReader.Read();
+            print.CheckReturnBook(dataReader);
+            CloseDB();
 
+            while(true)
+            {
+                input = Console.ReadKey();
+                if (errorCheck.Confirm(input.KeyChar.ToString()))
+                {
+                    print.MenuErrorMsg("Y/N오류");
+                }
+                break;
+            }
+
+            if(input.KeyChar.ToString() == "n" || input.KeyChar.ToString() == "N")
+            {
+                menu.BookRentMenu();
+                return;
+            }
+           
+            OpenDB();
+            sqlQuery = "update member set rentbook = '없음', duedate = '없음', extensionCount = 2 where id='" + logOnMember.Id + "';";
+            command = new MySqlCommand(sqlQuery, connect);
+            dataReader = command.ExecuteReader();
+        
+
+            if (errorCheck.IsValidChange(dataReader) == FAILED) 
+            {
+                CloseDB();
+                print.ErrorMsg("회원 정보 갱신");
+                menu.BookRentMenu();
+                return;
+            }
+            CloseDB();
+
+            OpenDB();
+            sqlQuery = "select count from book where name='" + logOnMember.RentBook + "';";
+            command = new MySqlCommand(sqlQuery, connect);
+            dataReader = command.ExecuteReader();
+            dataReader.Read();
+            int bookCount = int.Parse(dataReader["count"].ToString());
+            CloseDB();
+
+            bookCount = bookCount + 1;
+
+            OpenDB();
+            sqlQuery = "update book set count=" + bookCount + "where name='" + logOnMember.RentBook + "';";
+            command = new MySqlCommand(sqlQuery, connect);
+            CloseDB();
+            logOnMember.RentBook = "없음";
+            logOnMember.DueDate = "없음";
+            logOnMember.ExtensionCount = 2;
+
+            menu.BookRentMenu();
         }
 
         public void ExtensionBook()
         {
+            ConsoleKeyInfo input;
 
+            if(logOnMember.ExtensionCount == 0)
+            {
+                print.ExtensionErrorMsg();
+                menu.BookRentMenu();
+                return;
+            }
+
+            if (logOnMember.RentBook.Equals("없음"))
+            {
+                print.NoExtensionErrorMsg();
+                menu.BookRentMenu();
+                return;
+            }
+
+            if(logOnMember.DueDate.Equals("2018-05-11"))
+            {
+                sqlQuery = "update member set duedate = '2018-05-18', extensionCount = 1 where id = '" + logOnMember.Id + "';";
+                logOnMember.DueDate = "2018-05-18";
+                logOnMember.ExtensionCount = 1;
+                OpenDB();
+                command = new MySqlCommand(sqlQuery, connect);
+                dataReader = command.ExecuteReader();
+                CloseDB();
+            }
+
+            else if(logOnMember.DueDate.Equals("2018-05-18"))
+            {
+                sqlQuery = "update member set duedate = '2018-05-25', extensionCount = 0 where id = '" + logOnMember.Id + "';";
+                logOnMember.DueDate = "2018-05-25";
+                logOnMember.ExtensionCount = 0;
+                OpenDB();
+                command = new MySqlCommand(sqlQuery, connect);
+                dataReader = command.ExecuteReader();
+                CloseDB();
+            }
+
+            print.CompleteMsg("연장");
+            menu.BookRentMenu();
         }
     }
 }

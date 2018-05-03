@@ -52,7 +52,22 @@ namespace BookManagement
 
         public void ErrorMsg(string type) //에러가 난곳에서 스트링 타입으로 인자를 받아서 어떤 에러인지 분류
         {
+            Console.Clear();
             Console.WriteLine("\n\n\t{0} 오류입니다...", type);
+            Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
+            Console.ReadLine();
+        }
+
+        public void ExtensionErrorMsg()
+        {
+            Console.WriteLine("\n\n\t연장횟수 초과했습니다.");
+            Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
+            Console.ReadLine();
+        }
+
+        public void NoExtensionErrorMsg()
+        {
+            Console.WriteLine("\n\n\t연장할 도서가 없습니다.");
             Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
             Console.ReadLine();
         }
@@ -95,12 +110,6 @@ namespace BookManagement
             Console.Write("\t입력(1~2) : ");
         }
 
-        public void InputIDMsg(string type)
-        {
-            Console.Clear();
-            Console.Write("\n\n\t" + type + "의 학번을 입력해주세요(8자리 이내) : ");
-        }
-
         public void NotInStockMsg()
         {
             Console.Clear();
@@ -109,10 +118,10 @@ namespace BookManagement
             Console.ReadLine();
         }
 
-        public void ReturnMsg(string type)
+        public void ReturnMsg(string bookName)
         {
             Console.Clear();
-            Console.Write("\n\n\t" + type + " 을 반납하시겠습니까? (Y/N) : ");
+            Console.Write("\n\n\t" + bookName + " 을 반납하시겠습니까? (Y/N) : ");
         }
 
         public void ExtensionMsg(string type)
@@ -309,7 +318,7 @@ namespace BookManagement
                 FormErrorMsg("주소");
             }
 
-            MemberVO newMember = new MemberVO(id, password, name, gender, phoneNumber, email, address, "없음", "없음", 3);
+            MemberVO newMember = new MemberVO(id, password, name, gender, phoneNumber, email, address, "없음", "없음", 2);
             return newMember;
         }
 
@@ -459,7 +468,6 @@ namespace BookManagement
             return newBook;
         }
 
-
         public BookVO EditBook(BookVO inputBook)
         {
             string count;
@@ -516,7 +524,7 @@ namespace BookManagement
         public void CheckRentBook(BookVO inputBook)
         {
             Console.Clear();
-            Console.WriteLine("\n\n\t---------------------------------검색한 도서 기존 정보--------------------------------");
+            Console.WriteLine("\n\n\t---------------------------------대여할 도서 기존 정보--------------------------------");
             Console.WriteLine("\t도서 제목 : {0}", inputBook.Name);
             Console.WriteLine("\t출판사 : {0}", inputBook.Publisher);
             Console.WriteLine("\t저자 : {0}", inputBook.Author);
@@ -524,6 +532,18 @@ namespace BookManagement
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
 
             Console.Write("\n\n\t해당 도서를 빌리시겠습니까?(Y/N) : ");
+        }
+
+        public void CheckReturnBook(MySqlDataReader dataReader)
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t---------------------------------반납할 도서 기존 정보--------------------------------");
+            Console.WriteLine("\t도서 제목 : {0}", dataReader["name"].ToString());
+            Console.WriteLine("\t출판사 : {0}", dataReader["publisher"].ToString());
+            Console.WriteLine("\t저자 : {0}", dataReader["author"] + "\n");
+            Console.WriteLine("\t--------------------------------------------------------------------------------------");
+
+            Console.Write("\n\n\t해당 도서를 반납하시겠습니까?(Y/N) : ");
         }
 
         public void PrintBooks(MySqlDataReader dataReader)

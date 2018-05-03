@@ -119,6 +119,10 @@ namespace BookManagement
                     pattern = @"[0-3]{1}$";
                     break;
 
+                case "도서대여메뉴":
+                    pattern = @"[0-3]{1}$";
+                    break;
+
                 case "선택":
                     pattern = @"[1-2]{1}$";
                     break;
