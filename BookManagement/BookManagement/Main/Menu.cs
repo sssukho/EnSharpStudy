@@ -16,16 +16,18 @@ namespace BookManagement
     {
         Print print;
         ErrorCheck errorCheck;
-        Function function;
+        MemberManagement memberManagement;
+        BookManagement bookManagement;
 
         ConsoleKeyInfo menuSelect;
         bool error;
 
-        public Menu(Print print, Function function)
+        public Menu(Print print)
         {
             this.print = print;
-            this.function = new Function(this);
             this.errorCheck = ErrorCheck.GetInstance();
+            memberManagement = new MemberManagement(this);
+            bookManagement = new BookManagement(this);
             MainMenu();
         }
 
@@ -60,23 +62,23 @@ namespace BookManagement
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)MemberMenu.REGISTER_MEMBER:
-                    function.RegisterMember();
+                    memberManagement.RegisterMember();
                     return;
 
                 case (int)MemberMenu.EDIT_MEMBER:
-                    function.EditMember();
+                    memberManagement.EditMember();
                     return;
 
                 case (int)MemberMenu.REMOVE_MEMBER:
-                    function.RemoveMember();
+                    memberManagement.RemoveMember();
                     return;
 
                 case (int)MemberMenu.SEARCH_MEMBER:
-                    function.SearchMember("justSearch");
+                    memberManagement.SearchMember("justSearch");
                     return;
 
                 case (int)MemberMenu.PRINT_MEMBERS:
-                    function.PrintMembers();
+                    memberManagement.PrintMembers();
                     return;
 
                 case (int)MemberMenu.EXIT:
@@ -91,7 +93,7 @@ namespace BookManagement
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)BookMenu.REGISTER_BOOK:
-                    function.RegisterBook();
+                    bookManagement.RegisterBook();
                     return;
 
                 case (int)BookMenu.EDIT_BOOK:
@@ -107,7 +109,7 @@ namespace BookManagement
                     return;
 
                 case (int)BookMenu.PRINT_BOOKS:
-                    function.PrintBooks();
+                    bookManagement.PrintBooks();
                     return;
 
                 case (int)BookMenu.EXIT:
@@ -122,15 +124,15 @@ namespace BookManagement
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)SearchType.SERARCH_BY_NAME:
-                    function.EditBook("도서명");
+                    bookManagement.EditBook("도서명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_PUBLISHER:
-                    function.EditBook("출판사명");
+                    bookManagement.EditBook("출판사명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_AUTHOR:
-                    function.EditBook("저자명");
+                    bookManagement.EditBook("저자명");
                     return;
 
                 case (int)SearchType.EXIT:
@@ -145,15 +147,15 @@ namespace BookManagement
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)SearchType.SERARCH_BY_NAME:
-                    function.RemoveBook("도서명");
+                    bookManagement.RemoveBook("도서명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_PUBLISHER:
-                    function.RemoveBook("출판사명");
+                    bookManagement.RemoveBook("출판사명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_AUTHOR:
-                    function.RemoveBook("저자명");
+                    bookManagement.RemoveBook("저자명");
                     return;
 
                 case (int)SearchType.EXIT:
@@ -168,15 +170,15 @@ namespace BookManagement
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)SearchType.SERARCH_BY_NAME:
-                    function.SearchBook("justSearch", "도서명");
+                    bookManagement.SearchBook("justSearch", "도서명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_PUBLISHER:
-                    function.SearchBook("justSearch", "출판사명");
+                    bookManagement.SearchBook("justSearch", "출판사명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_AUTHOR:
-                    function.SearchBook("justSearch", "저자명");
+                    bookManagement.SearchBook("justSearch", "저자명");
                     return;
 
                 case (int)SearchType.EXIT:
@@ -195,11 +197,11 @@ namespace BookManagement
                     return;
 
                 case (int)BookRent.RETURN_BOOK:
-                    function.ReturnBook();
+                    bookManagement.ReturnBook();
                     return;
 
                 case (int)BookRent.EXTENSION_BOOK:
-                    function.ExtensionBook();
+                    bookManagement.ExtensionBook();
                     return;
 
                 case (int)BookRent.EXIT:
@@ -214,15 +216,15 @@ namespace BookManagement
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)SearchType.SERARCH_BY_NAME:
-                    function.RentBook("도서명");
+                    bookManagement.RentBook("도서명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_PUBLISHER:
-                    function.RentBook("출판사명");
+                    bookManagement.RentBook("출판사명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_AUTHOR:
-                    function.RentBook("저자명");
+                    bookManagement.RentBook("저자명");
                     return;
 
                 case (int)SearchType.EXIT:

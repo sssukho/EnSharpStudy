@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using MySql.Data.MySqlClient;
 
+
 namespace BookManagement
 {
     class ErrorCheck
@@ -32,14 +33,15 @@ namespace BookManagement
             return Judgement(input, pattern);
         }
 
-        public bool MemberPassword(string input)
-        {
-            return false;
-        }
-
         public bool MemberID(string input)
         {
             pattern = @"^[0-9]{6,8}$";
+            return Judgement(input, pattern);
+        }
+
+        public bool MemberPassword(string input)
+        {
+            pattern = @"^[0-9]{4}$";
             return Judgement(input, pattern);
         }
 
@@ -174,3 +176,4 @@ namespace BookManagement
         }
     }
 }
+

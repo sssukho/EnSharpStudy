@@ -9,21 +9,15 @@ namespace BookManagement
 {
     class MemberManagement
     {
+        Print print;
+        ErrorCheck errorCheck;
+        Menu menu;
+
         String databaseConnect;
         MySqlConnection connect;
         MySqlDataReader dataReader;
         MySqlCommand command;
         String sqlQuery;
-
-        Print print;
-        ErrorCheck errorCheck;
-        Menu menu;
-        Query query;
-
-        public MemberManagement()
-        {
-
-        }
 
         public MemberManagement(Menu menu)
         {
@@ -31,7 +25,174 @@ namespace BookManagement
             errorCheck = ErrorCheck.GetInstance();
             this.menu = menu;
         }
+
+        public void SendQuery()
+        {
+            databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
+            connect = new MySqlConnection(databaseConnect);  // conncet MySQL
+            connect.Open(); // open MySQL 
+            command = new MySqlCommand(sqlQuery, connect);
+            dataReader = command.ExecuteReader();
             
-        
+        }
+
+        public void CloseDB()
+        {
+            dataReader.Close();
+            connect.Close();
+        }
+
+        public void RegisterMember()
+        {
+            MemberVO newMember;
+            newMember = print.RegisterMember();
+
+            sqlQuery = "select id from member;";
+            SendQuery();
+            
+            //id중복체크
+            while (dataReader.Read())
+            {
+                if (dataReader["id"].ToString().Equals(newMember.Id))
+                {
+                    CloseDB();
+                    print.ErrorMsg("중복 아이디");
+                    menu.MemberManagementMenu();
+                    return;
+                }
+            }
+
+            CloseDB();
+            sqlQuery = "insert into member values('" + newMember.Id + "', '" + newMember.Password + "', '"
+                + newMember.Name + "', '" + newMember.Gender + "', '" + newMember.PhoneNumber + "', '"
+                + newMember.Email + "', '" + newMember.Address + "', '" + newMember.RentBook + "', '"
+                + newMember.DueDate + "', '" + newMember.ExtensionCount + "');";
+
+            SendQuery();
+            dataReader.Read();
+            if (errorCheck.IsValidChange(dataReader) == false) //등록 에러
+            {
+                CloseDB();
+                print.ErrorMsg("회원 등록");
+                menu.MemberManagementMenu();
+                return;
+            }
+
+            CloseDB();
+            print.CompleteMsg("회원 등록 완료");
+            menu.MemberManagementMenu();
+            return;
+        }
+
+        public void EditMember()
+        {
+            MemberVO foundMember = SearchMember("editSearch");
+
+            foundMember = print.EditMember(foundMember);
+
+            sqlQuery = "update member set phoneNumber ='" + foundMember.PhoneNumber + "', address ='" + foundMember.Address + "' where id='" + foundMember.Id + "';";
+            SendQuery();
+            dataReader.Read();
+
+            if (errorCheck.IsValidChange(dataReader) == false) //편집 에러
+            {
+                CloseDB();
+                print.ErrorMsg("회원 정보 수정");
+                menu.MemberManagementMenu();
+                return;
+            }
+
+            CloseDB();
+            print.CompleteMsg("회원 정보 수정 완료");
+            menu.MemberManagementMenu();
+            return;
+        }
+
+        public void RemoveMember()
+        {
+            string confirm;
+
+            MemberVO foundMember = SearchMember("removeSearch");
+            print.DeleteMember(foundMember);
+
+            confirm = Console.ReadLine();
+            if (errorCheck.Confirm(confirm))
+            {
+                print.MenuErrorMsg("Y/N오류");
+                menu.MemberManagementMenu();
+                return;
+            }
+
+            sqlQuery = "delete from member where id='" + foundMember.Id + "';";
+            SendQuery();
+            dataReader.Read();
+
+            if (errorCheck.IsValidChange(dataReader) == false) //편집 에러
+            {
+                CloseDB();
+                print.ErrorMsg("회원 삭제");
+                menu.MemberManagementMenu();
+                return;
+            }
+
+            CloseDB();
+            print.CompleteMsg("회원 삭제 완료");
+            menu.MemberManagementMenu();
+            return;
+        }
+
+        public MemberVO SearchMember(string searchType)
+        {
+            string searchID;
+
+            switch (searchType)
+            {
+                case "editSearch":
+                    print.Search("정보를 편집할 회원의 아이디");
+                    break;
+                case "removeSearch":
+                    print.Search("삭제할 회원의 아이디");
+                    break;
+                case "justSearch":
+                    print.Search("검색할 회원의 아이디");
+                    break;
+            }
+
+            searchID = Console.ReadLine();
+
+            sqlQuery = "select * from member where id='" + searchID + "';";
+            SendQuery();
+            dataReader.Read();
+
+            if (errorCheck.IsValidMember(dataReader) == false) //검색 에러
+            {
+                CloseDB();
+                print.ErrorMsg("존재하는 회원 찾기");
+                if (searchType.Equals("justSearch")) menu.MemberManagementMenu();
+                return null;
+            }
+
+            MemberVO foundMember = new MemberVO(dataReader["id"].ToString(), dataReader["password"].ToString(),
+                    dataReader["name"].ToString(), dataReader["gender"].ToString(), dataReader["phoneNumber"].ToString(),
+                    dataReader["email"].ToString(), dataReader["address"].ToString(), dataReader["rentbook"].ToString(), dataReader["duedate"].ToString(), 3);
+
+            CloseDB();
+            if (searchType.Equals("justSearch"))
+            {
+                print.MemberInfo(foundMember);
+                menu.MemberManagementMenu();
+            }
+            return foundMember;
+        }
+
+        public void PrintMembers()
+        {
+            sqlQuery = "select * from member where id not in('관리자');";
+            SendQuery();
+
+            print.PrintMembers(dataReader);
+            CloseDB();
+            menu.MemberManagementMenu();
+        }
     }
 }

@@ -79,6 +79,13 @@ namespace BookManagement
             Console.Clear();
         }
 
+        public void LoginError()
+        {
+            Console.WriteLine("아이디와 비밀번호가 맞지 않습니다.");
+            Console.WriteLine("다시 입력하려면 엔터");
+            Console.ReadLine();
+        }
+
         public void MenuErrorMsg(string type)
         {
             switch (type)
@@ -136,110 +143,164 @@ namespace BookManagement
             switch (type)
             {
                 case "메인":
-                    Console.Clear();
-                    Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
-                    Console.WriteLine("\t|                                  회원 관리 메뉴 : 1번                                       |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  도서 관리 메뉴 : 2번                                       |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  도서 대여/연장 메뉴 : 3번                                  |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
-                    Console.WriteLine("\t----------------------------------------------------------------------------------------------\n");
+                    MainMenu();
                     break;
                 case "회원관리":
-                    Console.Clear();
-                    Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
-                    Console.WriteLine("\t|                                  회원 등록 : 1번                                            |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  회원 수정 : 2번                                            |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  회원 삭제 : 3번                                            |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  회원 검색 : 4번                                            |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  회원 명단 출력 : 5번                                       |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
-                    Console.WriteLine("\t----------------------------------------------------------------------------------------------\n");
+                    MemberManagementMenu();
                     break;
                 case "도서관리":
-                    Console.Clear();
-                    Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
-                    Console.WriteLine("\t|                                  도서 등록 : 1번                                            |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  도서 수정 : 2번                                            |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  도서 삭제 : 3번                                            |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  도서 검색 : 4번                                            |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  도서 명단 출력 : 5번                                       |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
-                    Console.WriteLine("\t----------------------------------------------------------------------------------------------\n");
+                    BookManagementMenu();
                     break;
                 case "도서수정":
-                    Console.Clear();
-                    Console.WriteLine("\n\n\t-------------------------------------수정할 도서 검색-----------------------------------------");
-                    Console.WriteLine("\t|                                  도서명으로 검색 : 1번                                        |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  출판사로 검색 : 2번                                        |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  작가로 검색 : 3번                                        |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
-                    Console.WriteLine("\t-----------------------------------------------------------------------------------------------\n");
+                    BookEditMenu();
                     break;
                 case "도서삭제":
-                    Console.Clear();
-                    Console.WriteLine("\n\n\t-------------------------------------삭제할 도서 검색------------------------------------------");
-                    Console.WriteLine("\t|                                  도서명으로 검색 : 1번                                        |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  출판사로 검색 : 2번                                        |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  작가로 검색 : 3번                                        |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
-                    Console.WriteLine("\t-----------------------------------------------------------------------------------------------\n");
+                    BookRemoveMenu();
                     break;
                 case "도서검색":
-                    Console.Clear();
-                    Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
-                    Console.WriteLine("\t|                                  도서명으로 검색 : 1번                                        |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  출판사로 검색 : 2번                                        |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  작가로 검색 : 3번                                        |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
-                    Console.WriteLine("\t----------------------------------------------------------------------------------------------\n");
+                    BookSearchMenu();
                     break;
                 case "도서대여":
-                    Console.Clear();
-                    Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
-                    Console.WriteLine("\t|                                  도서 대여 : 1번                                            |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  도서 반납 : 2번                                            |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  도서 반납 연장 : 3번                                       |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
-                    Console.WriteLine("\t----------------------------------------------------------------------------------------------\n");
+                    BookRentalMenu();
                     break;
                 case "대여검색":
-                    Console.Clear();
-                    Console.WriteLine("\n\n\t-------------------------------------대여할 도서 검색------------------------------------------");
-                    Console.WriteLine("\t|                                  도서명으로 검색 : 1번                                        |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  출판사로 검색 : 2번                                        |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  작가로 검색 : 3번                                        |");
-                    Console.WriteLine("\t|                                                                                             |");
-                    Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
-                    Console.WriteLine("\t-----------------------------------------------------------------------------------------------\n");
+                    BookRentalSearchMenu();
                     break;
             }
+        }
+
+        public void MainMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
+            Console.WriteLine("\t|                                  회원 관리 메뉴 : 1번                                       |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  도서 관리 메뉴 : 2번                                       |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  도서 대여/연장 메뉴 : 3번                                  |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
+            Console.WriteLine("\t----------------------------------------------------------------------------------------------\n");
+            Console.Write("\n\t로그아웃 ESC");
+            Console.Write("\n\t메뉴 번호 입력 : ");
+        }
+
+        public void MemberManagementMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
+            Console.WriteLine("\t|                                  회원 등록 : 1번                                            |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  회원 수정 : 2번                                            |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  회원 삭제 : 3번                                            |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  회원 검색 : 4번                                            |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  회원 명단 출력 : 5번                                       |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
+            Console.WriteLine("\t----------------------------------------------------------------------------------------------\n");
+            Console.WriteLine("\n\t이전 메뉴로 돌아가려면 ESC");
+            Console.Write("\n\t메뉴 번호 입력 : ");
+        }
+
+        public void BookManagementMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
+            Console.WriteLine("\t|                                  도서 등록 : 1번                                            |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  도서 수정 : 2번                                            |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  도서 삭제 : 3번                                            |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  도서 검색 : 4번                                            |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  도서 명단 출력 : 5번                                       |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
+            Console.WriteLine("\t----------------------------------------------------------------------------------------------\n");
+            Console.WriteLine("\n\t이전 메뉴로 돌아가려면 ESC");
+            Console.Write("\n\t메뉴 번호 입력 : ");
+        }
+
+        public void BookEditMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t-------------------------------------수정할 도서 검색-----------------------------------------");
+            Console.WriteLine("\t|                                  도서명으로 검색 : 1번                                        |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  출판사로 검색 : 2번                                        |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  작가로 검색 : 3번                                        |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
+            Console.WriteLine("\t-----------------------------------------------------------------------------------------------\n");
+            Console.WriteLine("\n\t이전 메뉴로 돌아가려면 ESC");
+            Console.Write("\n\t메뉴 번호 입력 : ");
+        }
+
+        public void BookRemoveMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t-------------------------------------삭제할 도서 검색------------------------------------------");
+            Console.WriteLine("\t|                                  도서명으로 검색 : 1번                                        |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  출판사로 검색 : 2번                                        |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  작가로 검색 : 3번                                        |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
+            Console.WriteLine("\t-----------------------------------------------------------------------------------------------\n");
+            Console.WriteLine("\n\t이전 메뉴로 돌아가려면 ESC");
+            Console.Write("\n\t메뉴 번호 입력 : ");
+        }
+
+        public void BookSearchMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
+            Console.WriteLine("\t|                                  도서명으로 검색 : 1번                                        |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  출판사로 검색 : 2번                                        |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  작가로 검색 : 3번                                        |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
+            Console.WriteLine("\t----------------------------------------------------------------------------------------------\n");
+            Console.WriteLine("\n\t이전 메뉴로 돌아가려면 ESC");
+            Console.Write("\n\t메뉴 번호 입력 : ");
+        }
+
+        public void BookRentalMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
+            Console.WriteLine("\t|                                  도서 대여 : 1번                                            |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  도서 반납 : 2번                                            |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  도서 반납 연장 : 3번                                       |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
+            Console.WriteLine("\t----------------------------------------------------------------------------------------------\n");
+            Console.WriteLine("\n\t이전 메뉴로 돌아가려면 ESC");
+            Console.Write("\n\t메뉴 번호 입력 : ");
+        }
+
+        public void BookRentalSearchMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t-------------------------------------대여할 도서 검색------------------------------------------");
+            Console.WriteLine("\t|                                  도서명으로 검색 : 1번                                        |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  출판사로 검색 : 2번                                        |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  작가로 검색 : 3번                                        |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
+            Console.WriteLine("\t-----------------------------------------------------------------------------------------------\n");
             Console.WriteLine("\n\t이전 메뉴로 돌아가려면 ESC");
             Console.Write("\n\t메뉴 번호 입력 : ");
         }
@@ -260,7 +321,7 @@ namespace BookManagement
 
             while (true)
             {
-                Console.Write("\n\n\t비밀번호 입력 (12자리 이내) : ");
+                Console.Write("\n\n\t비밀번호 입력 (숫자만 4자리) : ");
                 password = Console.ReadLine();
 
                 if (errorCheck.MemberPassword(password) == false)//미리 설정해둔 정규식에 맞으면 bool 타입 false 반환
@@ -282,7 +343,7 @@ namespace BookManagement
 
             while (true)
             {
-                Console.Write("\n\n\t성별 입력 (남/여): ");
+                Console.Write("\n\n\t성별 입력 (남자/여자): ");
                 gender = Console.ReadLine();
                 if (errorCheck.MemberGender(gender) == false)
                     break;
@@ -401,8 +462,9 @@ namespace BookManagement
 
         public void PrintMembers(MySqlDataReader dataReader)
         {
+            Console.SetWindowSize(160, 25);
             Console.Clear();
-            Console.WriteLine("\n\n\t---------------------------------회원 명단--------------------------------");
+            Console.WriteLine("\n\n\t---------------------------------------------회원 명단---------------------------------------------");
             Console.WriteLine("\t아이디  |  이름   | 성별 |   휴대폰번호   |   이메일   |   주소   |   대출한 책   |   반납일   |    연장 가능횟수    |");
 
             while (dataReader.Read())
@@ -510,6 +572,7 @@ namespace BookManagement
         public void BookInfo(BookVO inputBook)
         {
             Console.Clear();
+
             Console.WriteLine("\n\n\t---------------------------------검색한 도서 기존 정보--------------------------------");
             Console.WriteLine("\t도서 제목 : {0}", inputBook.Name);
             Console.WriteLine("\t출판사 : {0}", inputBook.Publisher);
@@ -540,7 +603,7 @@ namespace BookManagement
             Console.WriteLine("\n\n\t---------------------------------반납할 도서 기존 정보--------------------------------");
             Console.WriteLine("\t도서 제목 : {0}", dataReader["name"].ToString());
             Console.WriteLine("\t출판사 : {0}", dataReader["publisher"].ToString());
-            Console.WriteLine("\t저자 : {0}", dataReader["author"] + "\n");
+            Console.WriteLine("\t저자 : {0}", dataReader["Author"].ToString() + "\n");
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
 
             Console.Write("\n\n\t해당 도서를 반납하시겠습니까?(Y/N) : ");
@@ -548,16 +611,17 @@ namespace BookManagement
 
         public void PrintBooks(MySqlDataReader dataReader)
         {
+            Console.SetWindowSize(140, 25);
             Console.Clear();
-            Console.WriteLine("\n\n\t---------------------------------도서 명단--------------------------------");
-            Console.WriteLine("\t   도서명   |   저자   |   출판사   |   수량");
+            Console.WriteLine("\n\n\t--------------------------------------------도서 명단----------------------------------------------");
+            Console.WriteLine("\t    도서명       |          저자         |          출판사           |         수량");
 
-            while (dataReader.Read())
+            while(dataReader.Read())
             {
-                Console.WriteLine("\n\t   {0}      {1}      {2}      {3} ",
-                   dataReader["name"].ToString(), dataReader["author"].ToString(), dataReader["publisher"].ToString(), int.Parse(dataReader["count"].ToString()));
+                Console.WriteLine("\n\t   {0}           {1}            {2}               {3} ",
+                   dataReader["name"].ToString(), dataReader["author"].ToString(), dataReader["publisher"].ToString(), dataReader["count"].ToString());
             }
-
+                
             Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
             Console.ReadLine();
         }

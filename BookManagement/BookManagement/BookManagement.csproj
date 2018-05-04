@@ -60,10 +60,8 @@
   <ItemGroup>
     <Compile Include="Function\BookManagement.cs" />
     <Compile Include="Function\MemberManagement.cs" />
-    <Compile Include="Function\Query.cs" />
     <Compile Include="VO\BookVO.cs" />
-    <Compile Include="Etc\ErrorCheck.cs" />
-    <Compile Include="Function\Function.cs" />
+    <Compile Include="ErrorCheck\ErrorCheck.cs" />
     <Compile Include="Main\Login.cs" />
     <Compile Include="Main\Menu.cs" />
     <Compile Include="Etc\Print.cs" />
