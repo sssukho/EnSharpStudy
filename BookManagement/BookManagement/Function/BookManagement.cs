@@ -7,6 +7,16 @@ using MySql.Data.MySqlClient;
 
 namespace BookManagement
 {
+    /// <summary>
+    /// 도서관리 기능을 담당하는 클래스
+    /// 1. 도서 등록
+    /// 2. 도서 정보 수정
+    /// 3. 도서 정보 삭제
+    /// 4. 도서 일반 검색
+    /// 5. 도서 명단 출력
+    /// 6. 도서 대여 및 반납 기능
+    /// 7. 도서 연장
+    /// </summary>
     class BookManagement
     {
         Print print;
@@ -28,7 +38,7 @@ namespace BookManagement
 
         public void SendQuery()
         {
-            databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
+            databaseConnect = "Server=localhost;Database=bookmanage;Uid=study;Pwd=0000";
             connect = new MySqlConnection(databaseConnect);  // conncet MySQL
             connect.Open(); // open MySQL 
             command = new MySqlCommand(sqlQuery, connect);
@@ -269,7 +279,6 @@ namespace BookManagement
         public void RentBook(string searchBy)
         {
             ConsoleKeyInfo input;
-            int countBook;
             BookVO foundBook = SearchBook("rentBook", searchBy);
             if (dataReader == null)
             {
@@ -419,8 +428,6 @@ namespace BookManagement
 
         public void ExtensionBook()
         {
-            ConsoleKeyInfo input;
-
             if (Login.logOnMember.ExtensionCount == 0)
             {
                 print.ExtensionErrorMsg();

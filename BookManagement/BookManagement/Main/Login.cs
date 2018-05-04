@@ -7,6 +7,13 @@ using MySql.Data.MySqlClient;
 
 namespace BookManagement
 {
+    /// <summary>
+    /// Program.cs 을 실행하면 가장 맨 처음에 들려야 하는 클래스.
+    /// 로그인 인증 방식 : 기존 db에 저장되어 있는 아이디와 비밀번호 모두 같으면 인증.
+    /// logOnMember 변수 static 선언 이유 : 안드로이드 스튜디오에서 SharedPreferences
+    /// 처럼 로그인한 계정의 정보를 저장해두고 책 대여 및 반납 등의 기등을 수행하기 위해서.
+    /// (관리자 모드와 사용자 모드에서 사용자의 아이디 정보를 저장해서 사용하려고 했음)
+    /// </summary>
     class Login
     {
         Print print;
@@ -58,9 +65,10 @@ namespace BookManagement
             new Menu(print);
         }
 
-        public bool IsAuthenticateLogin(string id, string password) //로그인 클래스로
+        //로그인 인증
+        public bool IsAuthenticateLogin(string id, string password) 
         {
-            databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
+            databaseConnect = "Server=localhost;Database=bookmanage;Uid=study;Pwd=0000";
             connect = new MySqlConnection(databaseConnect);  // conncet MySQL
             connect.Open(); // open MySQL 
 

@@ -7,6 +7,14 @@ using MySql.Data.MySqlClient;
 
 namespace BookManagement
 {
+    /// <summary>
+    /// 회원관리 기능을 담당하는 클래스
+    /// 1. 회원 등록
+    /// 2. 회원 정보 수정
+    /// 3. 회원 삭제
+    /// 4. 회원 일반검색
+    /// 5. 회원 명단 출력
+    /// </summary>
     class MemberManagement
     {
         Print print;
@@ -26,14 +34,14 @@ namespace BookManagement
             this.menu = menu;
         }
 
+        //db연결 및 쿼리메시지 한번에 전송 메소드
         public void SendQuery()
         {
-            databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
+            databaseConnect = "Server=localhost;Database=bookmanage;Uid=study;Pwd=0000";
             connect = new MySqlConnection(databaseConnect);  // conncet MySQL
             connect.Open(); // open MySQL 
             command = new MySqlCommand(sqlQuery, connect);
             dataReader = command.ExecuteReader();
-            
         }
 
         public void CloseDB()
@@ -42,6 +50,7 @@ namespace BookManagement
             connect.Close();
         }
 
+        //회원등록
         public void RegisterMember()
         {
             MemberVO newMember;
@@ -84,6 +93,7 @@ namespace BookManagement
             return;
         }
 
+        //회원정보 수정
         public void EditMember()
         {
             MemberVO foundMember = SearchMember("editSearch");
@@ -108,6 +118,7 @@ namespace BookManagement
             return;
         }
 
+        //회원 정보 삭제
         public void RemoveMember()
         {
             string confirm;
@@ -141,6 +152,7 @@ namespace BookManagement
             return;
         }
 
+        //회원 검색
         public MemberVO SearchMember(string searchType)
         {
             string searchID;
@@ -185,6 +197,7 @@ namespace BookManagement
             return foundMember;
         }
 
+        //회원명단 출력
         public void PrintMembers()
         {
             sqlQuery = "select * from member where id not in('관리자');";

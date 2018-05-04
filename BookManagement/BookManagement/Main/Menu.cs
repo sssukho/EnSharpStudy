@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookManagement
 {
+    //메뉴 구성
     enum InitialMenu { EXIT, MEMBER_MANAGEMENT, BOOK_MANAGEMENT, BOOK_RENT }
     enum MemberMenu { EXIT, REGISTER_MEMBER, EDIT_MEMBER, REMOVE_MEMBER, SEARCH_MEMBER, PRINT_MEMBERS }
     enum BookMenu { EXIT, REGISTER_BOOK, EDIT_BOOK, REMOVE_BOOK, SEARCH_BOOK, PRINT_BOOKS }
@@ -233,6 +234,7 @@ namespace BookManagement
             }
         }
 
+        //메뉴 입력에서 예외처리 한번에 처리하기 위한 메소드
         public void MenuInput(string menuType, string errorCheckType)
         {
             print.Menu(menuType);
