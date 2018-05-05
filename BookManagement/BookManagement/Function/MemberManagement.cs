@@ -37,7 +37,7 @@ namespace BookManagement
         //db연결 및 쿼리메시지 한번에 전송 메소드
         public void SendQuery()
         {
-            databaseConnect = "Server=localhost;Database=bookmanage;Uid=study;Pwd=0000";
+            databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
             connect = new MySqlConnection(databaseConnect);  // conncet MySQL
             connect.Open(); // open MySQL 
             command = new MySqlCommand(sqlQuery, connect);

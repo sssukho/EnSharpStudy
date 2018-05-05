@@ -38,7 +38,7 @@ namespace BookManagement
 
         public void SendQuery()
         {
-            databaseConnect = "Server=localhost;Database=bookmanage;Uid=study;Pwd=0000";
+            databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
             connect = new MySqlConnection(databaseConnect);  // conncet MySQL
             connect.Open(); // open MySQL 
             command = new MySqlCommand(sqlQuery, connect);
