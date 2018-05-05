@@ -24,9 +24,10 @@ namespace ClassRegistration
         RemoveLecture removeLecture;
         SearchLecture searchLecture;
         Print print;
-        List<InterestingLectureVO> interestingLectureList;
-        List<RegisteredLectureVO> registeredLectureList;
-        List<LectureListVO> lectureList;
+        List<LectureVO> interestingLectureList;
+        List<LectureVO> registeredLectureList;
+        List<LectureVO> lectureList;
+        List<TimeTableLectureVO> timeTableLectureList;
         ConsoleKeyInfo input;
 
         bool error;
@@ -34,18 +35,19 @@ namespace ClassRegistration
         public Menu()
         {
             errorCheck = new ErrorCheck();
-            print = new Print(new List<RegisteredLectureVO>(), new List<RegisteredLectureVO>(), new List<RegisteredLectureVO>(), new List<RegisteredLectureVO>(), new List<RegisteredLectureVO>());
+            print = new Print();
             addLecture = new AddLecture(print, errorCheck);
             removeLecture = new RemoveLecture(print, errorCheck);
             searchLecture = new SearchLecture(print, errorCheck);
             joinLecture = new JoinLecture(print, errorCheck);
-            export = new Export(print, new List<RegisteredLectureVO>(), new List<RegisteredLectureVO>(), new List<RegisteredLectureVO>(), new List<RegisteredLectureVO>(), new List<RegisteredLectureVO>());
-            interestingLectureList = new List<InterestingLectureVO>();
-            registeredLectureList = new List<RegisteredLectureVO>();
+            export = new Export(print);
+            interestingLectureList = new List<LectureVO>();
+            registeredLectureList = new List<LectureVO>();
             lectureList = new LoadExcel().AddData();
             registerLecture = new RegisterLecture(this, registeredLectureList, lectureList, addLecture, joinLecture, removeLecture, searchLecture, print, errorCheck);
             interestingLecture = new InterestingLecture(this, interestingLectureList, lectureList, addLecture, joinLecture, removeLecture, searchLecture, print, errorCheck);
             joinTimeTable = new JoinTimeTable(this, registeredLectureList, joinLecture, export, print, errorCheck);
+            timeTableLectureList = new List<TimeTableLectureVO>();
             MainMenu();
         }
 
@@ -81,7 +83,7 @@ namespace ClassRegistration
             }
         }
 
-        public void InterstingLectureMenu(List<InterestingLectureVO> inputInterestingLectureList)
+        public void InterstingLectureMenu(List<LectureVO> inputInterestingLectureList)
         {
             this.interestingLectureList = inputInterestingLectureList;
 
@@ -122,7 +124,7 @@ namespace ClassRegistration
             }
         }
 
-        public void SearchInterstingLectureMenu(List<InterestingLectureVO> inputInterestingLectureList)
+        public void SearchInterstingLectureMenu(List<LectureVO> inputInterestingLectureList)
         {
             this.interestingLectureList = inputInterestingLectureList;
             print.Menu("관심과목 강의검색");
@@ -142,7 +144,7 @@ namespace ClassRegistration
             interestingLecture.SearchLecture(searchType, inputInterestingLectureList);
         }
 
-        public void RegisterLectureMenu(List<RegisteredLectureVO> inputRegisteredLectureList)
+        public void RegisterLectureMenu(List<LectureVO> inputRegisteredLectureList)
         {
             this.registeredLectureList = inputRegisteredLectureList;
 
@@ -182,7 +184,7 @@ namespace ClassRegistration
             }
         }
 
-        public void SearchRegisterLectureMenu(List<RegisteredLectureVO> inputRegisteredLectureList)
+        public void SearchRegisterLectureMenu(List<LectureVO> inputRegisteredLectureList)
         {
             this.registeredLectureList = inputRegisteredLectureList;
             print.Menu("수강신청 강의검색");
@@ -212,11 +214,11 @@ namespace ClassRegistration
             switch (int.Parse(input.KeyChar.ToString()))
             {
                 case (int)JoinTimetable.JOIN_TIMETABLE:
-                    joinTimeTable.JoinRegisteredTimeTable(registeredLectureList);
+                    joinTimeTable.JoinRegisteredTimeTable(lectureList, registeredLectureList, timeTableLectureList);
                     break;
 
                 case (int)JoinTimetable.EXPORT_EXCEL:
-                    joinTimeTable.ExportExcel(registeredLectureList);
+                    joinTimeTable.ExportExcel(registeredLectureList, timeTableLectureList);
                     break;
 
                 case (int)JoinTimetable.EXIT:

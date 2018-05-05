@@ -19,7 +19,7 @@ namespace ClassRegistration
             this.errorCheck = errorCheck;
         }
 
-        public List<InterestingLectureVO> RemoveFromLectureList(List<LectureListVO> lectureList, List<InterestingLectureVO> interestingLectureList)
+        public List<LectureVO> RemoveFromLectureList(List<LectureVO> lectureList, List<LectureVO> interestingLectureList)
         {
             string inputLectureIndex;
 
@@ -48,33 +48,6 @@ namespace ClassRegistration
             return interestingLectureList;
         }
 
-        public List<RegisteredLectureVO> RemoveFromLectureList(List<LectureListVO> lectureList, List<RegisteredLectureVO> registeredLectureList)
-        {
-            string inputLectureIndex;
-
-            print.ShowLecture(registeredLectureList);
-            print.InputMsg("학수번호");
-            inputLectureIndex = Console.ReadLine();
-            error = errorCheck.IsValidPattern(inputLectureIndex, "lectureIndex");
-            if (error == true)
-            {
-                print.ErrorMsg("잘못된 양식의 학수번호");
-                return registeredLectureList;
-            }
-
-            error = errorCheck.IsValidLecture(registeredLectureList, inputLectureIndex);
-            if (error == false) //장바구니에 없는 강의
-            {
-                print.ErrorMsg("관심과목 리스트에 없는 강의");
-                return registeredLectureList;
-            }
-
-            //관심과목 리스트에서 삭제
-            registeredLectureList.RemoveAll(lecture => lecture.LectureIndex.Equals(inputLectureIndex));
-
-            print.ShowLecture(registeredLectureList);
-            print.CompleteMsg("수강신청한 과목 삭제");
-            return registeredLectureList;
-        }
+      
     }
 }

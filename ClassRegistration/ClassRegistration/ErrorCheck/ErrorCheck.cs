@@ -11,35 +11,35 @@ namespace ClassRegistration
     {
         MatchCollection mc;
         
-        public bool IsValidGrade(List<InterestingLectureVO> interestingLectureList)
+        public bool IsValidGrade(List<LectureVO> inputLectureList, string type, double toGrade)
         {
             double currentGrade = 0;
-            foreach (var item in interestingLectureList)
+
+            foreach (var item in inputLectureList)
             {
                 currentGrade = currentGrade + double.Parse(item.Grade.ToString());
             }
 
-            if (currentGrade >= 24)
-                return true;
-
-            return false;
-        }
-
-        public bool IsValidGrade(List<RegisteredLectureVO> registeredLectureList)
-        {
-            double currentGrade = 0;
-            foreach (var item in registeredLectureList)
+            if(type.Equals("수강신청"))
             {
-                currentGrade = currentGrade + double.Parse(item.Grade.ToString());
+                if (currentGrade + toGrade > 21)
+                    return true;
+
+                return false;
             }
 
-            if (currentGrade >= 21)
-                return true;
+            else if (type.Equals("관심과목"))
+            {
+                if (currentGrade + toGrade > 24)
+                    return true;
 
-            return false;
+                return false;
+            }
+
+            return true;
         }
 
-        public bool IsValidLecture(List<InterestingLectureVO> interestingLectureList, string inputLectureIndex)
+        public bool IsValidLecture(List<LectureVO> interestingLectureList, string inputLectureIndex)
         {
             if (interestingLectureList.Exists(lecture =>
             lecture.LectureIndex.Equals(inputLectureIndex) == true))
@@ -48,34 +48,12 @@ namespace ClassRegistration
             return false;
         }
 
-        public bool IsValidLecture(List<RegisteredLectureVO> registeredLectureList, string inputLectureIndex)
-        {
-            if (registeredLectureList.Exists(lecture =>
-             lecture.LectureIndex.Equals(inputLectureIndex) == true))
-                return true;
-
-            return false;
-        }
-
-        public bool IsValidTime(List<InterestingLectureVO> interestingLectureList, List<LectureListVO> foundLectureList, string inputClassIndex)
+        public bool IsValidTime(List<LectureVO> interestingLectureList, List<LectureVO> foundLectureList, string inputClassIndex)
         {
             string findTime = foundLectureList.Find(lecture =>
             lecture.ClassIndex.Equals(inputClassIndex)).Time.ToString();
 
             if (interestingLectureList.Exists(lecture =>
-             lecture.Time.Equals(findTime)) == true)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public bool IsValidTime(List<RegisteredLectureVO> registeredLectureList, List<LectureListVO> foundLectureList, string inputClassIndex)
-        {
-            string findTime = foundLectureList.Find(lecture =>
-            lecture.ClassIndex.Equals(inputClassIndex)).Time.ToString();
-
-            if (registeredLectureList.Exists(lecture =>
              lecture.Time.Equals(findTime)) == true)
             {
                 return true;

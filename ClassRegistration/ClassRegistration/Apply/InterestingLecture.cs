@@ -10,8 +10,8 @@ namespace ClassRegistration
     class InterestingLecture
     {
         Menu menu;
-        List<InterestingLectureVO> interestingLectureList;
-        List<LectureListVO> lectureList;
+        List<LectureVO> interestingLectureList;
+        List<LectureVO> lectureList;
         AddLecture addLecture;
         JoinLecture joinLecture;
         RemoveLecture removeLecture;
@@ -19,7 +19,7 @@ namespace ClassRegistration
         Print print;
         ErrorCheck errorCheck;
         
-        public InterestingLecture(Menu menu, List<InterestingLectureVO> interestingLectureList, List<LectureListVO> lectureList, AddLecture addLecture, JoinLecture joinLecture, RemoveLecture removeLecture, SearchLecture searchLecture, Print print, ErrorCheck errorCheck)
+        public InterestingLecture(Menu menu, List<LectureVO> interestingLectureList, List<LectureVO> lectureList, AddLecture addLecture, JoinLecture joinLecture, RemoveLecture removeLecture, SearchLecture searchLecture, Print print, ErrorCheck errorCheck)
         {
             this.menu = menu;
             this.interestingLectureList = interestingLectureList;
@@ -32,7 +32,7 @@ namespace ClassRegistration
             this.errorCheck = errorCheck;
         }
 
-        public void SearchLecture(int searchType, List<InterestingLectureVO> inputInterestingLectureList)
+        public void SearchLecture(int searchType, List<LectureVO> inputInterestingLectureList)
         {
             this.interestingLectureList = inputInterestingLectureList;
             switch(searchType)
@@ -64,11 +64,11 @@ namespace ClassRegistration
             menu.SearchInterstingLectureMenu(inputInterestingLectureList);
         }
 
-        public void AddLecture(List<InterestingLectureVO> inputInterestingLectureList)
+        public void AddLecture(List<LectureVO> inputInterestingLectureList)
         {
             this.interestingLectureList = inputInterestingLectureList;
-            List<InterestingLectureVO> afterAddList;
-            afterAddList = addLecture.AddLectureInList(lectureList, interestingLectureList);
+            List<LectureVO> afterAddList;
+            afterAddList = addLecture.AddLectureInList(lectureList, interestingLectureList, "관심과목");
 
             if (afterAddList.Count == interestingLectureList.Count) //add가 제대로 안되었을때
                 menu.InterstingLectureMenu(interestingLectureList);
@@ -77,10 +77,10 @@ namespace ClassRegistration
                 menu.InterstingLectureMenu(afterAddList);
         }
 
-        public void RemoveLecture(List<InterestingLectureVO> inputInterestingLectureList)
+        public void RemoveLecture(List<LectureVO> inputInterestingLectureList)
         {
             this.interestingLectureList = inputInterestingLectureList;
-            List<InterestingLectureVO> afterRemoveList;
+            List<LectureVO> afterRemoveList;
             afterRemoveList = removeLecture.RemoveFromLectureList(lectureList, interestingLectureList);
 
             if (afterRemoveList.Count == interestingLectureList.Count) //remove 제대로 안되었을때
@@ -90,7 +90,7 @@ namespace ClassRegistration
                 menu.InterstingLectureMenu(afterRemoveList);
         }
 
-        public void JoinInterstingLecture(List<InterestingLectureVO> inputInterestingLectureList)
+        public void JoinInterstingLecture(List<LectureVO> inputInterestingLectureList)
         {
             this.interestingLectureList = inputInterestingLectureList;
             joinLecture.JoinLectureList(inputInterestingLectureList);

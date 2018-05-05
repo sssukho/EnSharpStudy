@@ -10,8 +10,8 @@ namespace ClassRegistration
     class RegisterLecture
     {
         Menu menu;
-        List<RegisteredLectureVO> registeredLectureList;
-        List<LectureListVO> lectureList;
+        List<LectureVO> registeredLectureList;
+        List<LectureVO> lectureList;
         AddLecture addLecture;
         JoinLecture joinLecture;
         RemoveLecture removeLecture;
@@ -20,7 +20,7 @@ namespace ClassRegistration
         ErrorCheck errorCheck;
 
 
-        public RegisterLecture(Menu menu, List<RegisteredLectureVO> registeredLectureList, List<LectureListVO> lectureList, AddLecture addLecture, JoinLecture joinLecture, RemoveLecture removeLecture, SearchLecture searchLecture, Print print, ErrorCheck errorCheck)
+        public RegisterLecture(Menu menu, List<LectureVO> registeredLectureList, List<LectureVO> lectureList, AddLecture addLecture, JoinLecture joinLecture, RemoveLecture removeLecture, SearchLecture searchLecture, Print print, ErrorCheck errorCheck)
         {
             this.menu = menu;
             this.registeredLectureList = registeredLectureList;
@@ -33,7 +33,7 @@ namespace ClassRegistration
             this.errorCheck = errorCheck;
         }
 
-        public void SearchLecture(int searchType, List<RegisteredLectureVO> inputRegisteredLectureList, List<InterestingLectureVO> inputInterestingLectureList)
+        public void SearchLecture(int searchType, List<LectureVO> inputRegisteredLectureList, List<LectureVO> inputInterestingLectureList)
         {
             this.registeredLectureList = inputRegisteredLectureList;
             switch(searchType)
@@ -69,11 +69,11 @@ namespace ClassRegistration
             menu.SearchRegisterLectureMenu(inputRegisteredLectureList);
         }
 
-        public List<RegisteredLectureVO> AddLecture(List<RegisteredLectureVO> inputRegisteredLectureList)
+        public List<LectureVO> AddLecture(List<LectureVO> inputRegisteredLectureList)
         {
             this.registeredLectureList = inputRegisteredLectureList;
-            List<RegisteredLectureVO> afterAddList;
-            afterAddList = addLecture.AddLectureInList(lectureList, registeredLectureList);
+            List<LectureVO> afterAddList;
+            afterAddList = addLecture.AddLectureInList(lectureList, registeredLectureList, "수강신청");
 
             if (afterAddList.Count == registeredLectureList.Count)
             {
@@ -89,10 +89,10 @@ namespace ClassRegistration
                 
         }
 
-        public void RemoveLecture(List<RegisteredLectureVO> inputRegisteredLectureList)
+        public void RemoveLecture(List<LectureVO> inputRegisteredLectureList)
         {
             this.registeredLectureList = inputRegisteredLectureList;
-            List<RegisteredLectureVO> afterRemoveList;
+            List<LectureVO> afterRemoveList;
             afterRemoveList = removeLecture.RemoveFromLectureList(lectureList, registeredLectureList);
 
             if (afterRemoveList.Count == registeredLectureList.Count)
@@ -101,7 +101,7 @@ namespace ClassRegistration
                 menu.RegisterLectureMenu(afterRemoveList);
         }
 
-        public void JoinRegisterLecture(List<RegisteredLectureVO> inputRegisteredLectureList)
+        public void JoinRegisterLecture(List<LectureVO> inputRegisteredLectureList)
         {
             this.registeredLectureList = inputRegisteredLectureList;
             joinLecture.JoinLectureList(inputRegisteredLectureList);
