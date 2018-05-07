@@ -85,6 +85,8 @@ namespace ClassRegistration
                 return inputLectureList;
             }
 
+            
+
             double toGrade = double.Parse(foundList[0].Grade);
 
             //추가직전에 학점초과 되는지 여부 체크

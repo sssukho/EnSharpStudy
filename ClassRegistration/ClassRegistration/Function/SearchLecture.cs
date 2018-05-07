@@ -32,8 +32,6 @@ namespace ClassRegistration
                 return;
             }
 
-           // List<LectureListVO> foundList = lectureList.FindAll(lecture => lecture.Department.ToString().Any);
-
             List<LectureVO> foundList = lectureList.FindAll(lecture => lecture.Department.Equals(input));
             
             print.ShowLecture(foundList);

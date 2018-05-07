@@ -55,7 +55,6 @@ namespace ClassRegistration
             xlWorkSheet.Cells[23, 1] = "19:30-20:00";
             xlWorkSheet.Cells[24, 1] = "20:00-20:30";
             xlWorkSheet.Cells[25, 1] = "20:30-21:00";
-
             
             xlWorkSheet = SetTable(xlWorkSheet, timeTableLectureList);
 
