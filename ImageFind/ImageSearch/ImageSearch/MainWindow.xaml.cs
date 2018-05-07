@@ -20,21 +20,19 @@ namespace ImageSearch
     /// </summary>
     public partial class MainWindow : Window
     {
-        MainControl mainControl = new MainControl();
-        ImageSearchControl imageSearchControl = new ImageSearchControl();
+        MainControl mainControl;
+        ImageSearchControl imageSearchControl;
+        RecentSearchControl recentSearchControl;
 
         public MainWindow()
         {
             InitializeComponent();
+            imageSearchControl = new ImageSearchControl(this);
+            recentSearchControl = new RecentSearchControl(this);
+
+            mainControl = new MainControl(this, imageSearchControl, recentSearchControl);
             MainGrid.Children.Add(mainControl);
-
-            mainControl.Btn_ImageSearch.Click += new RoutedEventHandler(Btn_ImageSearchClicked);
         }
 
-        public void Btn_ImageSearchClicked(object sender, RoutedEventArgs e)
-        {
-            MainGrid.Children.Clear();
-            MainGrid.Children.Add(imageSearchControl);
-        }
     }
 }

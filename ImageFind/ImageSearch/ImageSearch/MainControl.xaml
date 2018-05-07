@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
               d:DesignHeight="300" d:DesignWidth="300">
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="Btn_ImageSearch" Content="이미지 검색" HorizontalAlignment="Center" VerticalAlignment="Top" Width="196" Height="78" Margin="52,10,52,0" Click="Btn_ImageSearchClicked"/>
-        <Button x:Name="Btn_RecentWord" Content="최근 검색어" HorizontalAlignment="Center" VerticalAlignment="Top" Width="196" Height="78" Margin="52,128,52,0" Click="Btn_RecentClicked"/>
+        <Button Content="이미지 검색" HorizontalAlignment="Center" VerticalAlignment="Top" Width="196" Height="78" Margin="52,10,52,0" Click="Btn_ImageSearch_Click"/>
+        <Button Content="최근 검색어" HorizontalAlignment="Center" VerticalAlignment="Top" Width="196" Height="78" Margin="52,128,52,0" Click="Btn_Recent_Click"/>
     </Grid>
 </UserControl>

@@ -20,9 +20,22 @@ namespace ImageSearch
     /// </summary>
     public partial class ImageSearchControl : UserControl
     {
-        public ImageSearchControl()
+        MainWindow mainWindow;
+
+        public ImageSearchControl(MainWindow mainWindow)
         {
             InitializeComponent();
+            this.mainWindow = mainWindow;
+        }
+
+        public void Btn_Search_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        public void Btn_Back_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

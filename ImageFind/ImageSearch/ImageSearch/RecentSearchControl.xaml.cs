@@ -16,13 +16,15 @@ using System.Windows.Shapes;
 namespace ImageSearch
 {
     /// <summary>
-    /// RecentSearch.xaml에 대한 상호 작용 논리
+    /// RecentSearchControl.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class RecentSearch : UserControl
+    public partial class RecentSearchControl : UserControl
     {
-        public RecentSearch()
+        MainWindow mainWindow;
+        public RecentSearchControl(MainWindow mainWindow)
         {
             InitializeComponent();
+            this.mainWindow = mainWindow;
         }
     }
 }
