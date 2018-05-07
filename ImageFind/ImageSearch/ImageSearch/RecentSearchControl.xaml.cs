@@ -26,5 +26,7 @@ namespace ImageSearch
             InitializeComponent();
             this.mainWindow = mainWindow;
         }
+
+
     }
 }

@@ -34,5 +34,6 @@ namespace ImageSearch
             MainGrid.Children.Add(mainControl);
         }
 
+
     }
 }
