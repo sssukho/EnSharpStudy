@@ -16,13 +16,23 @@ using System.Windows.Shapes;
 namespace ImageSearch
 {
     /// <summary>
-    /// InputControl.xaml에 대한 상호 작용 논리
+    /// MainControl.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class InputControl : UserControl
+    public partial class MainControl : UserControl
     {
-        public InputControl()
+        public MainControl()
         {
             InitializeComponent();
+        }
+
+        public void Btn_ImageSearchClicked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public void Btn_RecentClicked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

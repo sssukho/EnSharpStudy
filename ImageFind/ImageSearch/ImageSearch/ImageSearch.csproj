@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{79FF5493-F00E-497D-8A38-9D43DD829AF6}</ProjectGuid>
+    <ProjectGuid>{D3A787D0-4756-4D1F-93AD-CE4F282FAAE6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>ImageSearch</RootNamespace>
     <AssemblyName>ImageSearch</AssemblyName>
@@ -39,6 +39,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -57,7 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="InputControl.xaml">
+    <Page Include="ImageSearchControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -73,8 +75,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InputControl.xaml.cs">
-      <DependentUpon>InputControl.xaml</DependentUpon>
+    <Compile Include="ImageSearchControl.xaml.cs">
+      <DependentUpon>ImageSearchControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainControl.xaml.cs">
       <DependentUpon>MainControl.xaml</DependentUpon>
@@ -111,6 +113,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
