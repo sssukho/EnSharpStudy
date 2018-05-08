@@ -24,11 +24,11 @@ namespace ImageSearch
     /// ImageSearchControl.xaml에 대한 상호 작용 논리
     /// </summary>
     public partial class ImageSearchControl : UserControl
-    {   
+    {
         MainWindow mainWindow;
         DBQuery dbQuery;
         ErrorCheck errorCheck;
-        
+
         string searchWord;
         string result;
 
@@ -42,21 +42,38 @@ namespace ImageSearch
 
         public void Btn_Search_Click(object sender, RoutedEventArgs e)
         {
+            Canvas.Children.Clear();
             searchWord = TextBox.GetLineText(0).ToString(); //50글자 제한
-            if(errorCheck.IsValidSearch(searchWord) == false)
+            if (errorCheck.IsValidSearch(searchWord) == false)
             {
                 MessageBox.Show("50글자 이내로 입력하셔야 합니다!");
                 TextBox.Clear();
             }
 
             result = HttpRequest(searchWord);
+            List<string> imageURL = ParsingJson(result);
+            BitmapImage bitmapImage;
 
-            textBox2.Text += result;
+            //Image[] image = new Image[10];
 
+            bitmapImage = LoadImage(imageURL[0]);
+
+            /*
+            for(int i = 0; i < 10; i++)
+            {
+                bitmapImage = LoadImage(imageURL[i]);
+                image[i].Source = bitmapImage;
+            }*/
+
+            Image image = new Image();
+            image.Source = bitmapImage;
+
+            Canvas.Children.Add(image);
             dbQuery.SaveLog(searchWord, DateTime.Now);
 
             //ImageItem image = new ImageItem();
             //imageView.Children.Add(image);
+            //< Image Stretch = "Fill" x: Name = "Img1" HorizontalAlignment = "Center" VerticalAlignment = "Center" Height = "100" Width = "100" />
         }
 
         public string HttpRequest(string searchWord)
@@ -78,7 +95,7 @@ namespace ImageSearch
             webRequest.ContentType = "application/json; charset=utf-8";
             webRequest.Method = "GET";
 
-            webResponse = (HttpWebResponse)webRequest.GetResponse(); 
+            webResponse = (HttpWebResponse)webRequest.GetResponse();
             Stream stream = webResponse.GetResponseStream();
             StreamReader reader = new StreamReader(stream, Encoding.GetEncoding("EUC-KR"), true);
             result = reader.ReadToEnd();
@@ -91,16 +108,29 @@ namespace ImageSearch
 
         public List<string> ParsingJson(string json)
         {
-            List<string> imageUrl = new List<string>();
+            List<string> imageURL = new List<string>();
             JObject obj = JObject.Parse(json);
             JArray array = JArray.Parse(obj["documents"].ToString());
             foreach (JObject item in array)
             {
-                imageUrl.Add(item["image_url"].ToString());
+                imageURL.Add(item["image_url"].ToString());
             }
-            return imageUrl;
+            return imageURL;
         }
 
+        public BitmapImage LoadImage(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+                return null;
+            WebClient wc = new WebClient();
+            Byte[] MyData = wc.DownloadData(url);
+            wc.Dispose();
+            BitmapImage bimgTemp = new BitmapImage();
+            bimgTemp.BeginInit();
+            bimgTemp.StreamSource = new MemoryStream(MyData);
+            bimgTemp.EndInit();
+            return bimgTemp;
+        }
     }
 }
 

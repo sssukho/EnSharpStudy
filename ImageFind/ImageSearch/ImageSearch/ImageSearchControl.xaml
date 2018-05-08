@@ -17,8 +17,9 @@
         </ComboBox>
 
         <ScrollViewer HorizontalAlignment="Left" Height="222" VerticalAlignment="Top" Width="260" Margin="10,68,0,0">
-            <TextBox x:Name="textBox2" Height="180" Width="235"/>
-            
+            <Canvas x:Name="Canvas" HorizontalAlignment="Center" VerticalAlignment="Center" Width="180" Height="178" >
+                <Image x:Name="Img" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" Canvas.Left="-9" Canvas.Top="-10"/>
+            </Canvas>
         </ScrollViewer>
 
     </Grid>

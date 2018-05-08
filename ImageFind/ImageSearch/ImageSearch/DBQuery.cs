@@ -39,9 +39,10 @@ namespace ImageSearch
                 if (dataReader["searchWord"].ToString().Equals(searchWord))
                 {
                     dataReader.Close();
-                    sqlQuery = "update log set searchWord='" + searchWord + "', searchTime='" + dateTime.ToString() + "');";
+                    sqlQuery = "update log set searchWord='" + searchWord + "', searchTime='" + dateTime.ToString() + "';";
                     command = new MySqlCommand(sqlQuery, connect);
                     command.ExecuteReader();
+                    dataReader.Close();
                     break;
                 }
             }
