@@ -17,7 +17,8 @@
         </ComboBox>
         
         <ScrollViewer HorizontalAlignment="Left" Height="222" VerticalAlignment="Top" Width="260" Margin="10,68,0,0">
-            <WrapPanel x:Name="wp" Height="180" Width="235"/>
+            <WrapPanel x:Name="wrapPanel" Height="180" Width="235"/>
+            
         </ScrollViewer>
 
     </Grid>
