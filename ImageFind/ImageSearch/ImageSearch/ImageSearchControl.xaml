@@ -8,16 +8,16 @@
                        d:DesignHeight="300" d:DesignWidth="300">
     <Grid HorizontalAlignment="Center">
         <Button x:Name="Btn_Back" Content="뒤로" HorizontalAlignment="Left" VerticalAlignment="Top" Width="46" Height="43" Margin="10,10,0,0" />
-        <TextBox x:Name="TextBox" HorizontalAlignment="Left" Height="43" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="158" Margin="61,10,0,0"/>
+        <TextBox x:Name="TextBox" HorizontalAlignment="Left" Height="43" TextWrapping="Wrap" VerticalAlignment="Top" Width="158" Margin="61,10,0,0"/>
         <Button Content="검색" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" Margin="224,10,0,0" Height="43" Click="Btn_Search_Click"/>
         <ComboBox x:Name="ComboBox" VerticalAlignment="Top" Width="80" Height="20" Margin="0,63,0,0">
             <ComboBoxItem x:Name="View10Contents" Height="20" Width="80">10개보기</ComboBoxItem>
             <ComboBoxItem x:Name="View20Contents" Height="20" Width="80">20개보기</ComboBoxItem>
             <ComboBoxItem x:Name="View30Contents" Height="20" Width="80">30개보기</ComboBoxItem>
         </ComboBox>
-        
+
         <ScrollViewer HorizontalAlignment="Left" Height="222" VerticalAlignment="Top" Width="260" Margin="10,68,0,0">
-            <WrapPanel x:Name="wrapPanel" Height="180" Width="235"/>
+            <TextBox x:Name="textBox2" Height="180" Width="235"/>
             
         </ScrollViewer>
 

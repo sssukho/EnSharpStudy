@@ -75,6 +75,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DBQuery.cs" />
+    <Compile Include="ErrorCheck.cs" />
     <Compile Include="RecentSearchControl.xaml.cs">
       <DependentUpon>RecentSearchControl.xaml</DependentUpon>
     </Compile>

@@ -24,30 +24,33 @@ namespace ImageSearch
         ImageSearchControl imageSearchControl;
         RecentSearchControl recentSearchControl;
 
-        public MainControl()
-        {
-            InitializeComponent();
-        }
-
         public MainControl(MainWindow mainWindow, ImageSearchControl imageSearchControl, RecentSearchControl recentSearchControl)
         {
             InitializeComponent();
             this.mainWindow = mainWindow;
             this.imageSearchControl = imageSearchControl;
             this.recentSearchControl = recentSearchControl;
+
+            imageSearchControl.Btn_Back.Click += Btn_Back_Click;
         }
         
         public void Btn_ImageSearch_Click(object sender, RoutedEventArgs e)
         {
             mainWindow.MainGrid.Children.Clear();
             mainWindow.MainGrid.Children.Add(imageSearchControl);
-            imageSearchControl.wrapPanel.Children.Clear();
+            //imageSearchControl.wrapPanel.Children.Clear();
         }
 
         public void Btn_Recent_Click(object sender, RoutedEventArgs e)
         {
             mainWindow.MainGrid.Children.Clear();
             mainWindow.MainGrid.Children.Add(recentSearchControl);
+        }
+
+        public void Btn_Back_Click(object sender, RoutedEventArgs e)
+        {
+            mainWindow.MainGrid.Children.Clear();
+            mainWindow.MainGrid.Children.Add(this);
         }
     }
 }
