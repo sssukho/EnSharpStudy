@@ -24,29 +24,26 @@ namespace ImageSearch
         private const string API_KEY = "d86fb82fdd12eb178d7a1d73ae1a3158";
 
         MainWindow mainWindow;
+        DBQuery dbQuery;
+
         string searchWord;
 
         public ImageSearchControl(MainWindow mainWindow)
         {
             InitializeComponent();
             this.mainWindow = mainWindow;
+            dbQuery = DBQuery.GetInstance();
         }
 
         public void Btn_Search_Click(object sender, RoutedEventArgs e)
         {
             searchWord = TextBox.GetLineText(0);
-            DBQuery dbQuery = DBQuery.GetInstance();
-
+            
             dbQuery.SaveLog(searchWord, DateTime.Now);
 
 
             //ImageItem image = new ImageItem();
             //wrapPanel.Children.Add(image);
-        }
-
-        public void Btn_Back_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

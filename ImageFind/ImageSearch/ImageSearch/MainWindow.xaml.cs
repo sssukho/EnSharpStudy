@@ -32,8 +32,15 @@ namespace ImageSearch
 
             mainControl = new MainControl(this, imageSearchControl, recentSearchControl);
             MainGrid.Children.Add(mainControl);
+
+            imageSearchControl.Btn_Back.Click += Btn_Back_Click;
         }
 
+        public void Btn_Back_Click(object sender, RoutedEventArgs e)
+        {
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(mainControl);
+        }
 
     }
 }

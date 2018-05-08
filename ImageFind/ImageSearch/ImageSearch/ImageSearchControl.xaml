@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
                        d:DesignHeight="300" d:DesignWidth="300">
     <Grid HorizontalAlignment="Center">
-        <Button Content="뒤로" HorizontalAlignment="Left" VerticalAlignment="Top" Width="46" Height="43" Margin="10,10,0,0" Click="Btn_Back_Click"/>
+        <Button x:Name="Btn_Back" Content="뒤로" HorizontalAlignment="Left" VerticalAlignment="Top" Width="46" Height="43" Margin="10,10,0,0" />
         <TextBox x:Name="TextBox" HorizontalAlignment="Left" Height="43" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="158" Margin="61,10,0,0"/>
         <Button Content="검색" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" Margin="224,10,0,0" Height="43" Click="Btn_Search_Click"/>
         <ComboBox x:Name="ComboBox" VerticalAlignment="Top" Width="80" Height="20" Margin="0,63,0,0">
