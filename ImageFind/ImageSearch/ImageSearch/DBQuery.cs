@@ -39,11 +39,12 @@ namespace ImageSearch
                 if (dataReader["searchWord"].ToString().Equals(searchWord))
                 {
                     dataReader.Close();
-                    sqlQuery = "update log set searchWord='" + searchWord + "', searchTime='" + dateTime.ToString() + "';";
+                    sqlQuery = "update log set searchWord='" + searchWord + "', searchTime='" + dateTime.ToString() + "' where searchWord='" + searchWord + "';";
                     command = new MySqlCommand(sqlQuery, connect);
                     command.ExecuteReader();
                     dataReader.Close();
-                    break;
+                    connect.Close();
+                    return;
                 }
             }
             dataReader.Close();
@@ -65,17 +66,25 @@ namespace ImageSearch
             connect.Close();
         }
 
-        public MySqlDataReader GetLog()
+        public Dictionary<string,string> GetLog()
         {
+            Dictionary<string, string> log = new Dictionary<string, string>();
             connect = new MySqlConnection(databaseConnect);  // conncet MySQL
             connect.Open(); // open MySQL 
 
             sqlQuery = "select searchWord, searchTime from log;";
             command = new MySqlCommand(sqlQuery, connect);
             dataReader = command.ExecuteReader();
+            while(dataReader.Read())
+            {
+                log.Add(dataReader["searchWord"].ToString(), dataReader["searchTime"].ToString());
+                
+            }
+
+            dataReader.Close();
             connect.Close();
 
-            return dataReader;
+            return log;
         }
     }
 }

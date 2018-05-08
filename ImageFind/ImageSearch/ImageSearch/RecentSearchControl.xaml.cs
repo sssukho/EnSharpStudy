@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MySql.Data.MySqlClient;
 
 namespace ImageSearch
 {
@@ -21,12 +22,33 @@ namespace ImageSearch
     public partial class RecentSearchControl : UserControl
     {
         MainWindow mainWindow;
+        DBQuery dbQuery;
+        ErrorCheck errorCheck;
+
         public RecentSearchControl(MainWindow mainWindow)
         {
             InitializeComponent();
             this.mainWindow = mainWindow;
+            this.dbQuery = DBQuery.GetInstance();
+            this.errorCheck = ErrorCheck.GetInstance();
         }
 
+        public void Btn_GetLog_Click(object sender, RoutedEventArgs e)
+        {
+            Dictionary<string, string> log;
+            log = dbQuery.GetLog();
+            foreach (var item in log)
+            {
+                textBox.AppendText(item.Key + "      " + item.Value + Environment.NewLine);
+                
+            }
+        }
 
+        public void Btn_RemoveLog_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            dbQuery.RemoveLog();
+        }
     }
 }

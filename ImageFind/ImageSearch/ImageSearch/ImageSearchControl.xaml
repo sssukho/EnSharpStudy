@@ -18,7 +18,16 @@
 
         <ScrollViewer HorizontalAlignment="Left" Height="222" VerticalAlignment="Top" Width="260" Margin="10,68,0,0">
             <Canvas x:Name="Canvas" HorizontalAlignment="Center" VerticalAlignment="Center" Width="180" Height="178" >
-                <Image x:Name="Img" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" Canvas.Left="-9" Canvas.Top="-10"/>
+                <Image x:Name="Img1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="-10"/>
+                <Image x:Name="Img2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="120"/>
+                <Image x:Name="Img3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="220"/>
+                <Image x:Name="Img4" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="320"/>
+                <Image x:Name="Img5" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="420"/>
+                <Image x:Name="Img6" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="520"/>
+                <Image x:Name="Img7" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="620"/>
+                <Image x:Name="Img8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="720"/>
+                <Image x:Name="Img9" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="820"/>
+                <Image x:Name="Img10" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="920"/>
             </Canvas>
         </ScrollViewer>
 

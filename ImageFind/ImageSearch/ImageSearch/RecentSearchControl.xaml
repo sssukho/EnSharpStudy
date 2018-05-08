@@ -6,7 +6,15 @@
              xmlns:local="clr-namespace:ImageSearch"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+    
+    <Grid HorizontalAlignment="Center">
+        <Button x:Name="Btn_Back" Content="뒤로" HorizontalAlignment="Left" VerticalAlignment="Top" Width="46" Height="43" Margin="10,10,0,0" />
+        <Button Content="기록삭제" HorizontalAlignment="Center" VerticalAlignment="Top" Width="60" Margin="210,10,14,0" Height="43" Click="Btn_RemoveLog_Click"/>
+        <Button Content="검색기록" HorizontalAlignment="Center" VerticalAlignment="Top" Width="60" Margin="109,10,115,0" Height="43" Click="Btn_GetLog_Click"/>
+        <ScrollViewer x:Name="ScrollView" HorizontalAlignment="Left" Height="222" VerticalAlignment="Top" Width="260" Margin="10,68,0,0">
+            <Canvas x:Name="Canvas_Test" HorizontalAlignment="Center" VerticalAlignment="Center" Width="230" Height="178" >
+                <TextBox x:Name="textBox" HorizontalAlignment="Center" VerticalAlignment="Top" Width="230"/>
+            </Canvas>
+        </ScrollViewer>
     </Grid>
 </UserControl>

@@ -44,36 +44,27 @@ namespace ImageSearch
         {
             Canvas.Children.Clear();
             searchWord = TextBox.GetLineText(0).ToString(); //50글자 제한
+
             if (errorCheck.IsValidSearch(searchWord) == false)
             {
                 MessageBox.Show("50글자 이내로 입력하셔야 합니다!");
                 TextBox.Clear();
+                return;
             }
-
+            /*
             result = HttpRequest(searchWord);
             List<string> imageURL = ParsingJson(result);
+
             BitmapImage bitmapImage;
-
-            //Image[] image = new Image[10];
-
             bitmapImage = LoadImage(imageURL[0]);
 
-            /*
-            for(int i = 0; i < 10; i++)
-            {
-                bitmapImage = LoadImage(imageURL[i]);
-                image[i].Source = bitmapImage;
-            }*/
+            Img1.Source = bitmapImage;
+            
 
-            Image image = new Image();
-            image.Source = bitmapImage;
+            Img2.Source = LoadImage(imageURL[1]);
+            Canvas.Children.Add(Img2);*/
 
-            Canvas.Children.Add(image);
             dbQuery.SaveLog(searchWord, DateTime.Now);
-
-            //ImageItem image = new ImageItem();
-            //imageView.Children.Add(image);
-            //< Image Stretch = "Fill" x: Name = "Img1" HorizontalAlignment = "Center" VerticalAlignment = "Center" Height = "100" Width = "100" />
         }
 
         public string HttpRequest(string searchWord)
@@ -133,7 +124,3 @@ namespace ImageSearch
         }
     }
 }
-
-
-// 
-// <WrapPanel x:Name="wrapPanel" Height="180" Width="235"/>

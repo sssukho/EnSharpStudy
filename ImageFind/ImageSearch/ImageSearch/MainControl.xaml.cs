@@ -32,6 +32,7 @@ namespace ImageSearch
             this.recentSearchControl = recentSearchControl;
 
             imageSearchControl.Btn_Back.Click += Btn_Back_Click;
+            recentSearchControl.Btn_Back.Click += Btn_Back_Click;
         }
         
         public void Btn_ImageSearch_Click(object sender, RoutedEventArgs e)
