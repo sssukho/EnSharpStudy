@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ImageSearch"
              mc:Ignorable="d" 
                        d:DesignHeight="300" d:DesignWidth="300">
-    <Grid HorizontalAlignment="Center">
+    <Grid HorizontalAlignment="Center" x:Name="imageSearchGrid">
         <Button x:Name="Btn_Back" Content="뒤로" HorizontalAlignment="Left" VerticalAlignment="Top" Width="46" Height="43" Margin="10,10,0,0" />
         <TextBox x:Name="TextBox" HorizontalAlignment="Left" Height="43" TextWrapping="Wrap" VerticalAlignment="Top" Width="158" Margin="61,10,0,0"/>
         <Button Content="검색" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" Margin="224,10,0,0" Height="43" Click="Btn_Search_Click"/>
@@ -16,20 +16,9 @@
             <ComboBoxItem x:Name="View30Contents" Height="20" Width="80">30개보기</ComboBoxItem>
         </ComboBox>
 
-        <ScrollViewer HorizontalAlignment="Left" Height="222" VerticalAlignment="Top" Width="260" Margin="10,68,0,0">
-            <Canvas x:Name="Canvas" HorizontalAlignment="Center" VerticalAlignment="Center" Width="180" Height="178" >
-                <Image x:Name="Img1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="-10"/>
-                <Image x:Name="Img2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="120"/>
-                <Image x:Name="Img3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="220"/>
-                <Image x:Name="Img4" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="320"/>
-                <Image x:Name="Img5" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="420"/>
-                <Image x:Name="Img6" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="520"/>
-                <Image x:Name="Img7" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="620"/>
-                <Image x:Name="Img8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="720"/>
-                <Image x:Name="Img9" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="820"/>
-                <Image x:Name="Img10" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" MaxWidth="100" MaxHeight="100" Canvas.Left="-9" Canvas.Top="920"/>
-            </Canvas>
+        <ScrollViewer x:Name="scrollViewer" CanContentScroll="True" HorizontalAlignment="Center" Height="212" VerticalAlignment="Top" Width="269" Margin="0,88,0,0" VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="stackPanel" CanVerticallyScroll="True" Orientation="Vertical" Width="260" Height="212" >
+            </StackPanel>
         </ScrollViewer>
-
     </Grid>
 </UserControl>

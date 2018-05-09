@@ -39,7 +39,6 @@ namespace ImageSearch
         {
             mainWindow.MainGrid.Children.Clear();
             mainWindow.MainGrid.Children.Add(imageSearchControl);
-            //imageSearchControl.wrapPanel.Children.Clear();
         }
 
         public void Btn_Recent_Click(object sender, RoutedEventArgs e)

@@ -41,8 +41,9 @@ namespace ImageSearch
         }
 
         public void Btn_Search_Click(object sender, RoutedEventArgs e)
-        {
-            Canvas.Children.Clear();
+        { 
+            
+            stackPanel.Children.Clear();
             searchWord = TextBox.GetLineText(0).ToString(); //50글자 제한
 
             if (errorCheck.IsValidSearch(searchWord) == false)
@@ -51,22 +52,45 @@ namespace ImageSearch
                 TextBox.Clear();
                 return;
             }
-            /*
+
+            if(ComboBox.SelectedValue == null)
+            {
+                MessageBox.Show("콤보박스에서 항목을 선택하셔야 합니다!");
+                return;
+            }
+
             result = HttpRequest(searchWord);
             List<string> imageURL = ParsingJson(result);
 
-            BitmapImage bitmapImage;
-            bitmapImage = LoadImage(imageURL[0]);
+            //10개 일때
+            if (View10Contents.IsSelected)
+            {
+                if (imageURL.Count < 10)
+                    PrintImage(imageURL.Count, imageURL);
+                PrintImage(10, imageURL);
+            }
 
-            Img1.Source = bitmapImage;
-            
+            //20개 일때
+            if (ComboBox.Items.Contains("20개"))
+            {
+                if (imageURL.Count < 20)
+                    PrintImage(imageURL.Count, imageURL);
+                PrintImage(20, imageURL);
+            }
 
-            Img2.Source = LoadImage(imageURL[1]);
-            Canvas.Children.Add(Img2);*/
+            //30개 일때
+            if (ComboBox.Items.Contains("30개"))
+            {
+                if (imageURL.Count < 30)
+                    PrintImage(imageURL.Count, imageURL);
+                PrintImage(30, imageURL);
+            }
 
+            ScrollViewer.SetVerticalScrollBarVisibility(scrollViewer, ScrollBarVisibility.Visible);
             dbQuery.SaveLog(searchWord, DateTime.Now);
         }
 
+        
         public string HttpRequest(string searchWord)
         {
             HttpWebRequest webRequest;
@@ -121,6 +145,20 @@ namespace ImageSearch
             bimgTemp.StreamSource = new MemoryStream(MyData);
             bimgTemp.EndInit();
             return bimgTemp;
+        }
+
+        public void PrintImage(int count, List<string> imageURL)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                Image image = new Image()
+                {
+                    Source = LoadImage(imageURL[i]),
+                    Height = 150,
+                    Width = 150
+                };
+                stackPanel.Children.Add(image);
+            }
         }
     }
 }
