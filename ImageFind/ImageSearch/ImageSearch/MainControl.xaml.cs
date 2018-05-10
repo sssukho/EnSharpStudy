@@ -52,7 +52,8 @@ namespace ImageSearch
             mainWindow.MainGrid.Children.Clear();
             imageSearchControl.TextBox.Clear();
             imageSearchControl.stackPanel.Children.Clear();
-            recentSearchControl.recentSearchGrid.Children.Clear();
+
+            recentSearchControl.textBox.Clear();
             mainWindow.MainGrid.Children.Add(this);
         }
     }

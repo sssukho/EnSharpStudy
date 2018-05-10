@@ -28,6 +28,7 @@ namespace ImageSearch
         MainWindow mainWindow;
         DBQuery dbQuery;
         ErrorCheck errorCheck;
+        Image image;
 
         string searchWord;
         string result;
@@ -38,11 +39,11 @@ namespace ImageSearch
             this.mainWindow = mainWindow;
             dbQuery = DBQuery.GetInstance();
             errorCheck = ErrorCheck.GetInstance();
+            
         }
 
         public void Btn_Search_Click(object sender, RoutedEventArgs e)
         {
-           //clear해야함
             searchWord = TextBox.GetLineText(0).ToString(); //50글자 제한
 
             if (errorCheck.IsValidSearch(searchWord) == false)
@@ -60,7 +61,7 @@ namespace ImageSearch
 
             result = HttpRequest(searchWord);
             List<string> imageURL = ParsingJson(result);
-
+            
             //10개 일때
             if (View10Contents.IsSelected)
             {
@@ -71,7 +72,7 @@ namespace ImageSearch
 
             //20개 일때
             if (View20Contents.IsSelected)
-            {
+            {   
                 if (imageURL.Count < 20)
                     PrintImage(imageURL.Count, imageURL);
                 PrintImage(20, imageURL);
@@ -79,7 +80,7 @@ namespace ImageSearch
 
             //30개 일때
             if (View30Contents.IsSelected)
-            {
+            {   
                 if (imageURL.Count < 30)
                     PrintImage(imageURL.Count, imageURL);
                 PrintImage(30, imageURL);
@@ -137,6 +138,10 @@ namespace ImageSearch
             if (string.IsNullOrEmpty(url))
                 return null;
             WebClient wc = new WebClient();
+            if(wc.DownloadData(url) == null)
+            {
+               
+            }
             Byte[] MyData = wc.DownloadData(url);     //원격서버에서 404 찾을 수 없음 오류
             wc.Dispose();
             BitmapImage bimgTemp = new BitmapImage();
@@ -150,24 +155,35 @@ namespace ImageSearch
         {
             for (int i = 0; i < count; i++)
             {
-                Image image = new Image()
+                image = new Image()
                 {
                     Source = LoadImage(imageURL[i]),
                     Height = 400,
-                    Width = 260
+                    Width = 260                    
                 };
+                image.PreviewMouseDown += MouseDoubleClicked;
                 stackPanel.Children.Add(image);
             }
         }
 
         public void MouseDoubleClicked(object sender, MouseButtonEventArgs e)
         {
-            FullSizeImage fullSizeImage = new FullSizeImage();
-            StackPanel newImage = stackPanel;
-            newImage.Height = 650;
-            newImage.Width = 525;
-            fullSizeImage.Content = newImage;
-            fullSizeImage.Show();
+            if(e.ClickCount ==2)
+            {
+                Image i = (Image)e.Source;
+                Image newImage = new Image()
+                {
+                    Source = i.Source
+                };
+
+                FullSizeImage fullSizeImage = new FullSizeImage()
+                {
+                    Content = newImage,
+                    Owner = Application.Current.MainWindow
+                };
+                
+                fullSizeImage.ShowDialog();
+            }
         }
     }
 }
