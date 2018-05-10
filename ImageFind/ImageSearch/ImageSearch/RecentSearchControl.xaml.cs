@@ -46,6 +46,7 @@ namespace ImageSearch
         public void Btn_RemoveLog_Click(object sender, RoutedEventArgs e)
         {
             dbQuery.RemoveLog();
+            textBox.Clear();
         }
     }
 }

@@ -20,7 +20,6 @@ namespace ImageSearch
 
         public bool IsValidSearch(string searchWord)
         {
-
             if (searchWord.Length > 50 || string.IsNullOrEmpty(searchWord) || string.IsNullOrWhiteSpace(searchWord))
                 return false;
 

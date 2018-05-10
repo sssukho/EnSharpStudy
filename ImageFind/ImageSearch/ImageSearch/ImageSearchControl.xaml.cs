@@ -39,16 +39,15 @@ namespace ImageSearch
             this.mainWindow = mainWindow;
             dbQuery = DBQuery.GetInstance();
             errorCheck = ErrorCheck.GetInstance();
-            
         }
 
         public void Btn_Search_Click(object sender, RoutedEventArgs e)
         {
+            stackPanel.Children.Clear();
             searchWord = TextBox.GetLineText(0).ToString(); //50글자 제한
-
             if (errorCheck.IsValidSearch(searchWord) == false)
             {
-                MessageBox.Show("50글자 이내로 입력하셔야 합니다!");
+                MessageBox.Show("50글자 이내로 입력 하셔야 되거나 공백을 입력하시면 안됩니다!");
                 TextBox.Clear();
                 return;
             }
@@ -61,35 +60,37 @@ namespace ImageSearch
 
             result = HttpRequest(searchWord);
             List<string> imageURL = ParsingJson(result);
-            
+
             //10개 일때
             if (View10Contents.IsSelected)
             {
                 if (imageURL.Count < 10)
                     PrintImage(imageURL.Count, imageURL);
-                PrintImage(10, imageURL);
+                else
+                    PrintImage(10, imageURL);
             }
 
             //20개 일때
             if (View20Contents.IsSelected)
-            {   
+            {
                 if (imageURL.Count < 20)
                     PrintImage(imageURL.Count, imageURL);
-                PrintImage(20, imageURL);
+                else
+                    PrintImage(20, imageURL);
             }
 
             //30개 일때
             if (View30Contents.IsSelected)
-            {   
+            {
                 if (imageURL.Count < 30)
                     PrintImage(imageURL.Count, imageURL);
-                PrintImage(30, imageURL);
+                else
+                    PrintImage(30, imageURL);
             }
 
             ScrollViewer.SetVerticalScrollBarVisibility(scrollViewer, ScrollBarVisibility.Visible);
             dbQuery.SaveLog(searchWord, DateTime.Now);
         }
-
 
         public string HttpRequest(string searchWord)
         {
@@ -103,7 +104,7 @@ namespace ImageSearch
 
             StringBuilder getParam = new StringBuilder();
 
-            getParam.Append("?query=" + WebUtility.UrlEncode(searchWord));
+            getParam.Append("?query=" + HttpUtility.UrlEncode(searchWord));
 
             webRequest = (HttpWebRequest)WebRequest.Create(URL + getParam);
             webRequest.Headers.Add("Authorization", HEADER);
@@ -133,34 +134,36 @@ namespace ImageSearch
             return imageURL;
         }
 
-        public BitmapImage LoadImage(string url)
+        
+        public Image LoadImage(string url)
         {
             if (string.IsNullOrEmpty(url))
                 return null;
-            WebClient wc = new WebClient();
-            if(wc.DownloadData(url) == null)
+
+            Image newImage = new Image()
             {
-               
-            }
-            Byte[] MyData = wc.DownloadData(url);     //원격서버에서 404 찾을 수 없음 오류
-            wc.Dispose();
+                Height = 400,
+                Width = 260
+            };
+
             BitmapImage bimgTemp = new BitmapImage();
             bimgTemp.BeginInit();
-            bimgTemp.StreamSource = new MemoryStream(MyData);
+            bimgTemp.UriSource = new Uri(url, UriKind.RelativeOrAbsolute);
             bimgTemp.EndInit();
-            return bimgTemp;
+            newImage.Source = bimgTemp;
+            return newImage;
         }
-        
+
         public void PrintImage(int count, List<string> imageURL)
         {
+            if(count == 0)
+            {
+                MessageBox.Show("검색결과가 없습니다!");
+            }
+
             for (int i = 0; i < count; i++)
             {
-                image = new Image()
-                {
-                    Source = LoadImage(imageURL[i]),
-                    Height = 400,
-                    Width = 260                    
-                };
+                image = LoadImage(imageURL[i]);
                 image.PreviewMouseDown += MouseDoubleClicked;
                 stackPanel.Children.Add(image);
             }
@@ -168,7 +171,7 @@ namespace ImageSearch
 
         public void MouseDoubleClicked(object sender, MouseButtonEventArgs e)
         {
-            if(e.ClickCount ==2)
+            if (e.ClickCount == 2)
             {
                 Image i = (Image)e.Source;
                 Image newImage = new Image()
@@ -181,7 +184,6 @@ namespace ImageSearch
                     Content = newImage,
                     Owner = Application.Current.MainWindow
                 };
-                
                 fullSizeImage.ShowDialog();
             }
         }
