@@ -16,9 +16,11 @@
             <ComboBoxItem x:Name="View30Contents" Height="20" Width="80">30개보기</ComboBoxItem>
         </ComboBox>
 
-        <ScrollViewer x:Name="scrollViewer" CanContentScroll="True" HorizontalAlignment="Center" Height="212" VerticalAlignment="Top" Width="269" Margin="0,88,0,0" VerticalScrollBarVisibility="Auto">
-            <StackPanel x:Name="stackPanel" CanVerticallyScroll="True" Orientation="Vertical" Width="260" Height="212" >
-            </StackPanel>
-        </ScrollViewer>
+        <ContentControl MouseDoubleClick="MouseDoubleClicked" >
+            <ScrollViewer x:Name="scrollViewer" CanContentScroll="True" HorizontalAlignment="Center" Height="400" VerticalAlignment="Top" Width="300" Margin="0,88,0,0" VerticalScrollBarVisibility="Auto">
+                <StackPanel x:Name="stackPanel" CanVerticallyScroll="True" Orientation="Vertical" Width="260" Height="400" >
+                </StackPanel>
+            </ScrollViewer>
+        </ContentControl>
     </Grid>
 </UserControl>

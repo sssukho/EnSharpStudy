@@ -76,9 +76,16 @@
     </ApplicationDefinition>
     <Compile Include="DBQuery.cs" />
     <Compile Include="ErrorCheck.cs" />
+    <Compile Include="FullSizeImage.xaml.cs">
+      <DependentUpon>FullSizeImage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RecentSearchControl.xaml.cs">
       <DependentUpon>RecentSearchControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="FullSizeImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ImageSearchControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

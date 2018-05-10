@@ -1,0 +1,15 @@
+﻿<Window x:Class="ImageSearch.FullSizeImage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageSearch"
+        mc:Ignorable="d"
+        Title="사진보기" Height="800" Width="1000">
+    <Grid x:Name="FullSizeImageGrid">
+        <ScrollViewer x:Name="scrollViewer" CanContentScroll="True" HorizontalAlignment="Center" Height="650" VerticalAlignment="Top" Width="525" Margin="0,88,0,0" VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="stackPanel" CanVerticallyScroll="True" Orientation="Vertical" Width="650" Height="525" >
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

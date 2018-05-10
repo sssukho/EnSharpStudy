@@ -41,9 +41,8 @@ namespace ImageSearch
         }
 
         public void Btn_Search_Click(object sender, RoutedEventArgs e)
-        { 
-            
-            stackPanel.Children.Clear();
+        {
+           //clear해야함
             searchWord = TextBox.GetLineText(0).ToString(); //50글자 제한
 
             if (errorCheck.IsValidSearch(searchWord) == false)
@@ -53,7 +52,7 @@ namespace ImageSearch
                 return;
             }
 
-            if(ComboBox.SelectedValue == null)
+            if (ComboBox.SelectedValue == null)
             {
                 MessageBox.Show("콤보박스에서 항목을 선택하셔야 합니다!");
                 return;
@@ -71,7 +70,7 @@ namespace ImageSearch
             }
 
             //20개 일때
-            if (ComboBox.Items.Contains("20개"))
+            if (View20Contents.IsSelected)
             {
                 if (imageURL.Count < 20)
                     PrintImage(imageURL.Count, imageURL);
@@ -79,7 +78,7 @@ namespace ImageSearch
             }
 
             //30개 일때
-            if (ComboBox.Items.Contains("30개"))
+            if (View30Contents.IsSelected)
             {
                 if (imageURL.Count < 30)
                     PrintImage(imageURL.Count, imageURL);
@@ -90,7 +89,7 @@ namespace ImageSearch
             dbQuery.SaveLog(searchWord, DateTime.Now);
         }
 
-        
+
         public string HttpRequest(string searchWord)
         {
             HttpWebRequest webRequest;
@@ -138,7 +137,7 @@ namespace ImageSearch
             if (string.IsNullOrEmpty(url))
                 return null;
             WebClient wc = new WebClient();
-            Byte[] MyData = wc.DownloadData(url);
+            Byte[] MyData = wc.DownloadData(url);     //원격서버에서 404 찾을 수 없음 오류
             wc.Dispose();
             BitmapImage bimgTemp = new BitmapImage();
             bimgTemp.BeginInit();
@@ -146,7 +145,7 @@ namespace ImageSearch
             bimgTemp.EndInit();
             return bimgTemp;
         }
-
+        
         public void PrintImage(int count, List<string> imageURL)
         {
             for (int i = 0; i < count; i++)
@@ -154,11 +153,21 @@ namespace ImageSearch
                 Image image = new Image()
                 {
                     Source = LoadImage(imageURL[i]),
-                    Height = 150,
-                    Width = 150
+                    Height = 400,
+                    Width = 260
                 };
                 stackPanel.Children.Add(image);
             }
+        }
+
+        public void MouseDoubleClicked(object sender, MouseButtonEventArgs e)
+        {
+            FullSizeImage fullSizeImage = new FullSizeImage();
+            StackPanel newImage = stackPanel;
+            newImage.Height = 650;
+            newImage.Width = 525;
+            fullSizeImage.Content = newImage;
+            fullSizeImage.Show();
         }
     }
 }
