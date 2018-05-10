@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LibraryManagement
 {
-    class Menu
+    class MemberMenu
     {
     }
 }
