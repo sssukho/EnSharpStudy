@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace SearchImage
 {
     /// <summary>
-    /// MainControl.xaml에 대한 상호 작용 논리
+    /// 가장 첫 화면의 UserControl 화면
     /// </summary>
     public partial class MainControl : UserControl
     {
@@ -31,6 +31,8 @@ namespace SearchImage
             this.imageSearchControl = imageSearchControl;
             this.recentSearchControl = recentSearchControl;
 
+            //이미지 검색 화면에서의 뒤로가기와 최근 검색어 화면에서의 뒤로가기 버튼의 이벤트는 메인 컨트롤에서 이루어지고 있음.
+            //두 화면에서의 뒤로가기 자체가 모두 메인컨트롤로 돌아오는 것이기 때문에 메인 컨트롤에서 걸어주고 있음.
             imageSearchControl.Btn_Back.Click += Btn_Back_Click;
             recentSearchControl.Btn_Back.Click += Btn_Back_Click;
         }

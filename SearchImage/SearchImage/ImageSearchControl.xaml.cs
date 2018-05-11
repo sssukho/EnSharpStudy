@@ -21,7 +21,7 @@ using System.IO;
 namespace SearchImage
 {
     /// <summary>
-    /// ImageSearchControl.xaml에 대한 상호 작용 논리
+    /// 이미지 검색 화면 이벤트 처리 등등
     /// </summary>
     public partial class ImageSearchControl : UserControl
     {
@@ -52,6 +52,7 @@ namespace SearchImage
                 return;
             }
 
+            //콤보박스에서 개수 설정
             if (ComboBox.SelectedValue == null)
             {
                 MessageBox.Show("콤보박스에서 항목을 선택하셔야 합니다!");
@@ -61,7 +62,7 @@ namespace SearchImage
             result = HttpRequest(searchWord);
             List<string> imageURL = ParsingJson(result);
 
-            //10개 일때
+            //콤보박스 10개 설정시 검색결과가 10개 미만일 경우 모든 이미지 출력
             if (View10Contents.IsSelected)
             {
                 if (imageURL.Count < 10)
@@ -70,7 +71,7 @@ namespace SearchImage
                     PrintImage(10, imageURL);
             }
 
-            //20개 일때
+            //콤보박스 20개 설정시 검색결과가 20개 미만일 경우 모든 이미지 출력
             if (View20Contents.IsSelected)
             {
                 if (imageURL.Count < 20)
@@ -79,7 +80,7 @@ namespace SearchImage
                     PrintImage(20, imageURL);
             }
 
-            //30개 일때
+            //콤보박스 30개 설정시 검색결과가 30개 미만일 경우 모든 이미지 출력
             if (View30Contents.IsSelected)
             {
                 if (imageURL.Count < 30)
@@ -92,6 +93,8 @@ namespace SearchImage
             dbQuery.SaveLog(searchWord, DateTime.Now);
         }
 
+        //카카오 API 이용하여 GET 방식으로 Request 메시지 보내고
+        //stream을 이용하여 Response 받음
         public string HttpRequest(string searchWord)
         {
             HttpWebRequest webRequest;
@@ -122,6 +125,7 @@ namespace SearchImage
             return result;
         }
 
+        //json형태로 받아온 string 값을 썸네일의 URL을 파싱하여 리턴
         public List<string> ParsingJson(string json)
         {
             List<string> imageURL = new List<string>();
@@ -129,12 +133,12 @@ namespace SearchImage
             JArray array = JArray.Parse(obj["documents"].ToString());
             foreach (JObject item in array)
             {
-                imageURL.Add(item["image_url"].ToString());
+                imageURL.Add(item["thumbnail_url"].ToString());
             }
             return imageURL;
         }
 
-
+        //인자로 들어오는 url을 비트맵 이미지를 이용하여 변환시켜 이미지 객체.Source에 바로 할당하여 이미지 객체 리턴
         public Image LoadImage(string url)
         {
             if (string.IsNullOrEmpty(url))
@@ -154,6 +158,7 @@ namespace SearchImage
             return newImage;
         }
 
+        //각각의 이미지 객체에 더블클릭 이벤트를 걸어주고 stackpanel에 추가시켜줌.
         public void PrintImage(int count, List<string> imageURL)
         {
             if (count == 0)
@@ -169,14 +174,17 @@ namespace SearchImage
             }
         }
 
+        //이벤트 발생된 곳의 source(위치)를  형번환을 통해 새로운 이미지 객체에 그 위치를 할당해준다.
+        //새 이미지 객체를 생성하는 이유는 기존에 있는 이미지는 기존 stackPanel과 종속관계에 있기 때문이다.
+        //새롭게 생성한 window의 내용(Content)에 더블클릭 이벤트가 발생한 이미지를 넣어주어 가장 맨위로 띄운다.(ShowDialog 메소드 이용)   
         public void MouseDoubleClicked(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
             {
-                Image i = (Image)e.Source;
+                Image imagePosition = (Image)e.Source;
                 Image newImage = new Image()
                 {
-                    Source = i.Source
+                    Source = imagePosition.Source
                 };
 
                 ImageWindow imageWindow= new ImageWindow()

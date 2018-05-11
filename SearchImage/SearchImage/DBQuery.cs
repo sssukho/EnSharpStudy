@@ -7,6 +7,10 @@ using MySql.Data.MySqlClient;
 
 namespace SearchImage
 {
+    /// <summary>
+    /// 검색시에 검색어와 시간 저장 및 db에 있는 log 테이블에서의
+    /// 
+    /// </summary>
     class DBQuery
     {
         private static DBQuery dbQuery;
@@ -25,10 +29,12 @@ namespace SearchImage
             return dbQuery;
         }
 
+        /// <param name="searchWord"> 검색어 </param>
+        /// <param name="dateTime"> 검색어를 쓰고 검색 버튼을 누른 시간</param>
         public void SaveLog(string searchWord, DateTime dateTime)
         {
-            connect = new MySqlConnection(databaseConnect);  // conncet MySQL
-            connect.Open(); // open MySQL 
+            connect = new MySqlConnection(databaseConnect); 
+            connect.Open();
 
             sqlQuery = "select searchWord from log where searchWord='" + searchWord + "';";
             command = new MySqlCommand(sqlQuery, connect);
@@ -54,10 +60,11 @@ namespace SearchImage
             connect.Close();
         }
 
+
         public void RemoveLog()
         {
-            connect = new MySqlConnection(databaseConnect);  // conncet MySQL
-            connect.Open(); // open MySQL 
+            connect = new MySqlConnection(databaseConnect); 
+            connect.Open();
 
             sqlQuery = "delete from log";
             command = new MySqlCommand(sqlQuery, connect);
@@ -69,8 +76,8 @@ namespace SearchImage
         public Dictionary<string, string> GetLog()
         {
             Dictionary<string, string> log = new Dictionary<string, string>();
-            connect = new MySqlConnection(databaseConnect);  // conncet MySQL
-            connect.Open(); // open MySQL 
+            connect = new MySqlConnection(databaseConnect); 
+            connect.Open();
 
             sqlQuery = "select searchWord, searchTime from log;";
             command = new MySqlCommand(sqlQuery, connect);
