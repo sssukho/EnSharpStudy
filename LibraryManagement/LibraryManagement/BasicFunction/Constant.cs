@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LibraryManagement
+namespace LibraryManagement.BasicFunction
 {
-    class DAO
+    class Constant
     {
     }
 }

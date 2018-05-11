@@ -61,12 +61,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="BasicFunction\DAO.cs" />
+    <Compile Include="Menu\AdminMenu.cs" />
+    <Compile Include="Management\BookManagement.cs" />
+    <Compile Include="Menu\MemberMenu.cs" />
+    <Compile Include="VO\BookVO.cs" />
+    <Compile Include="BasicFunction\ErrorCheck.cs" />
+    <Compile Include="Main\Login.cs" />
+    <Compile Include="Management\MemberManagement.cs" />
+    <Compile Include="VO\MemberVO.cs" />
+    <Compile Include="BasicFunction\Print.cs" />
+    <Compile Include="Main\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
