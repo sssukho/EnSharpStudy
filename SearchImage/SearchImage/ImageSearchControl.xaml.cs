@@ -47,7 +47,7 @@ namespace SearchImage
             searchWord = TextBox.GetLineText(0).ToString(); //50글자 제한
             if (errorCheck.IsValidSearch(searchWord) == false)
             {
-                MessageBox.Show("50글자 이내로 입력 하셔야 되거나 공백을 입력하시면 안됩니다!");
+                MessageBox.Show("50글자 이내로 입력하셔야 되고 공백과 한글자로 된 특수기호를 입력하시면 안됩니다!");
                 TextBox.Clear();
                 return;
             }

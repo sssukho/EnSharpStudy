@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace SearchImage
 {
@@ -22,6 +23,16 @@ namespace SearchImage
         {
             if (searchWord.Length > 50 || string.IsNullOrEmpty(searchWord) || string.IsNullOrWhiteSpace(searchWord))
                 return false;
+
+            string pattern = @"^[~|!|@|#|$|%|^|&|*|(|)|_|+|`|-|=|{|}]{1}$";
+            //string pattern = @"^[~|!|@|#|$|%|^|&|*|(|)|_|+|'|-|=|{|}]{1}$";
+
+            if(searchWord.Equals("~") || searchWord.Equals("!") || searchWord.Equals("@") || searchWord.Equals("#") || searchWord.Equals("$") || searchWord.Equals("%") || searchWord.Equals("^")
+                || searchWord.Equals("&") || searchWord.Equals("*") || searchWord.Equals("(") || searchWord.Equals(")") || searchWord.Equals("_") || searchWord.Equals("+") || searchWord.Equals("`")
+                || searchWord.Equals("=") || searchWord.Equals("-"))
+            {
+                return false;
+            }
 
             return true;
         }
