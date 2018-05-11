@@ -13,12 +13,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Newtonsoft.Json.Linq;
+using System.Xml;
 using System.Web;
 using System.Net;
 using System.IO;
-using System.Xml;
 
-namespace ImageSearch
+namespace SearchImage
 {
     /// <summary>
     /// ImageSearchControl.xaml에 대한 상호 작용 논리
@@ -134,7 +134,7 @@ namespace ImageSearch
             return imageURL;
         }
 
-        
+
         public Image LoadImage(string url)
         {
             if (string.IsNullOrEmpty(url))
@@ -156,7 +156,7 @@ namespace ImageSearch
 
         public void PrintImage(int count, List<string> imageURL)
         {
-            if(count == 0)
+            if (count == 0)
             {
                 MessageBox.Show("검색결과가 없습니다!");
             }
@@ -179,12 +179,12 @@ namespace ImageSearch
                     Source = i.Source
                 };
 
-                FullSizeImage fullSizeImage = new FullSizeImage()
+                ImageWindow imageWindow= new ImageWindow()
                 {
                     Content = newImage,
                     Owner = Application.Current.MainWindow
                 };
-                fullSizeImage.ShowDialog();
+                imageWindow.ShowDialog();
             }
         }
     }

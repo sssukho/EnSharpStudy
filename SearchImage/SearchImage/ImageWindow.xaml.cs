@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ImageSearch
+namespace SearchImage
 {
     /// <summary>
-    /// FullSizeImage.xaml에 대한 상호 작용 논리
+    /// ImageWindow.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class FullSizeImage : Window
+    public partial class ImageWindow : Window
     {
-        public FullSizeImage()
+        public ImageWindow()
         {
             InitializeComponent();
         }

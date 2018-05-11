@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 
-namespace ImageSearch
+namespace SearchImage
 {
     class DBQuery
     {
@@ -66,7 +66,7 @@ namespace ImageSearch
             connect.Close();
         }
 
-        public Dictionary<string,string> GetLog()
+        public Dictionary<string, string> GetLog()
         {
             Dictionary<string, string> log = new Dictionary<string, string>();
             connect = new MySqlConnection(databaseConnect);  // conncet MySQL
@@ -75,10 +75,10 @@ namespace ImageSearch
             sqlQuery = "select searchWord, searchTime from log;";
             command = new MySqlCommand(sqlQuery, connect);
             dataReader = command.ExecuteReader();
-            while(dataReader.Read())
+
+            while (dataReader.Read())
             {
                 log.Add(dataReader["searchWord"].ToString(), dataReader["searchTime"].ToString());
-                
             }
 
             dataReader.Close();

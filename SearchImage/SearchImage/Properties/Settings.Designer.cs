@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ImageSearch.Properties
+namespace SearchImage.Properties
 {
 
 
