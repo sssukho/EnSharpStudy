@@ -112,12 +112,8 @@ namespace LibraryManagement
         //회원명단 출력
         public void PrintMembers()
         {
-            sqlQuery = "select * from member where id not in('관리자');";
-            SendQuery();
-
-            print.PrintMembers(dataReader);
-            CloseDB();
-            menu.MemberManagementMenu();
+            print.PrintMembers(dao.SelectAll("member", "id", "not in('관리자');"););
+            adminMenu.MemberManagementMenu();
         }
     }
 }
