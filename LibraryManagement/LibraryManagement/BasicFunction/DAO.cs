@@ -52,36 +52,76 @@ namespace LibraryManagement
             connect.Close();
         }
 
-        //Insert statement
-        public void Insert(string tableName, string value)
+        public void SendQuery(string query)
         {
-            sqlQuery = "insert into " + tableName + " values" + value;
+            command = new MySqlCommand(query, connect);
+            dataReader = command.ExecuteReader();
+        }
+
+        //Insert statement
+        public void Insert(MemberVO inputMember)
+        {
+            sqlQuery = "insert into member values('" + inputMember.Id + "', '" + inputMember.Password + "', '"
+                + inputMember.Name + "', '" + inputMember.Gender + "', '" + inputMember.PhoneNumber + "', '"
+                + inputMember.Email + "', '" + inputMember.Address + "', '" + inputMember.RentBook + "', '"
+                + inputMember.DueDate + "', '" + inputMember.ExtensionCount + "');";
+
+            SendQuery(sqlQuery);
+            dataReader.Close();
         }
 
         //Update statement
         public void Update(string tableName, string fieldName, string value, string primaryField, string toChangeField)
         {
             sqlQuery = "update " + tableName + " set " + fieldName + "='" + value + "' where " + primaryField + "='" + toChangeField + "';";
+            dataReader.Close();
         }
 
         //Delete statement
         public void Delete(string tableName, string primaryField, string toChangeValue)
         {
             sqlQuery = "delete from " + tableName + " where " + primaryField + "='" + toChangeValue + "';";
+            dataReader.Close();
         }
 
         //Select statement
-        public List<BookVO> Select(List<BookVO> memberList)
+        public MemberVO Select(string id)
         {
+            sqlQuery = "select * from member where id='" + id + "';";
+            SendQuery(sqlQuery);
+            dataReader.Read();
+            MemberVO selectedMember = new MemberVO(dataReader["id"].ToString(), dataReader["password"].ToString(),
+                    dataReader["name"].ToString(), dataReader["gender"].ToString(), dataReader["phoneNumber"].ToString(),
+                    dataReader["email"].ToString(), dataReader["address"].ToString(), dataReader["rentbook"].ToString(), dataReader["duedate"].ToString(), 3);
+            dataReader.Close();
 
-            return null;
+            return selectedMember;
+        }
+
+        public MySqlDataReader SelectAll(string tableName, string primaryKey, string condition)
+        {
+            sqlQuery = "select * from " + tableName + " where " + primaryKey + " " + condition;
+            SendQuery(sqlQuery);
+            return dataReader;
+        }
+
+        public bool IsMemberDulplicated(string id)
+        {
+            sqlQuery = "select id from member where id='"+ id +"';";
+            SendQuery(sqlQuery);
+            if (dataReader.FieldCount == 0)
+            {
+                dataReader.Close();
+                return false;
+            }
+            dataReader.Close();
+            return true;
         }
 
         public string Select(string id, string password)
         {
             sqlQuery = "select * from member where id='" + id + "' and password='" + password + "';";
-            command = new MySqlCommand(sqlQuery, connect);
-            dataReader = command.ExecuteReader();
+            SendQuery(sqlQuery);
 
             if (dataReader.FieldCount == 0)
             {

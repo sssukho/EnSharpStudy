@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace LibraryManagement
 {
@@ -18,10 +21,11 @@ namespace LibraryManagement
     /// </summary>
     class BookManagement
     {
+        
         Print print;
         ErrorCheck errorCheck;
         AdminMenu adminMenu;
-
+        /*
         public BookManagement(AdminMenu adminMenu)
         {
             print = Print.GetInstance();
@@ -29,27 +33,13 @@ namespace LibraryManagement
             this.adminMenu = adminMenu;
         }
 
-        public void SendQuery()
-        {
-            databaseConnect = "Server=localhost;Database=bookmanage;Uid=root;Pwd=0000";
-            connect = new MySqlConnection(databaseConnect);  // conncet MySQL
-            connect.Open(); // open MySQL 
-            command = new MySqlCommand(sqlQuery, connect);
-            dataReader = command.ExecuteReader();
-        }
-
-        public void CloseDB()
-        {
-            dataReader.Close();
-            connect.Close();
-        }
-
         public void RegisterBook()
         {
+            //도서 검색한 결과에서 가져와야함
             BookVO newBook;
-            newBook = print.RegisterBook();
+            
 
-            sqlQuery = "insert into book values('" + newBook.Name + "', '" + newBook.Author + "', '"
+            /*sqlQuery = "insert into book values('" + newBook.Name + "', '" + newBook.Author + "', '"
                 + newBook.Publisher + "', " + newBook.Count + ");";
             SendQuery();
             while (dataReader.Read())
@@ -71,13 +61,13 @@ namespace LibraryManagement
                 return;
             }
 
-            CloseDB();
-            print.CompleteMsg("도서 등록 완료");
-            menu.BookManagementMenu();
-            return;
-        }
+            CloseDB();*/
+           // print.CompleteMsg("도서 등록 완료");
+           // adminMenu.BookManagementMenu();
+           // return;
+       // }
 
-
+    /*
         public void EditBook(string searchBy)
         {
             BookVO foundBook = SearchBook("editSearch", searchBy);
@@ -456,5 +446,48 @@ namespace LibraryManagement
             print.CompleteMsg("연장");
             menu.BookRentMenu();
         }
+
+        public string HttpRequest(string searchWord)
+        {
+            HttpWebRequest webRequest;
+            HttpWebResponse webResponse;
+
+            string API_KEY = "d86fb82fdd12eb178d7a1d73ae1a3158";
+            string HEADER = "KakaoAK " + API_KEY;
+            string URL = string.Format("https://dapi.kakao.com/v2/search/image.json");
+            string result;
+
+            StringBuilder getParam = new StringBuilder();
+            
+            getParam.Append("?query=" + WebUtility.UrlEncode(searchWord));
+
+            webRequest = (HttpWebRequest)WebRequest.Create(URL + getParam);
+            webRequest.Headers.Add("Authorization", HEADER);
+            webRequest.ContentType = "application/json; charset=utf-8";
+            webRequest.Method = "GET";
+
+            webResponse = (HttpWebResponse)webRequest.GetResponse();
+            Stream stream = webResponse.GetResponseStream();
+            StreamReader reader = new StreamReader(stream, Encoding.GetEncoding("EUC-KR"), true);
+            result = reader.ReadToEnd();
+            reader.Close();
+            stream.Close();
+            webResponse.Close();
+
+            return result;
+        }
+
+        //json형태로 받아온 string 값을 썸네일의 URL을 파싱하여 리턴
+        public List<string> ParsingJson(string json)
+        {
+            List<string> imageURL = new List<string>();
+            JObject obj = JObject.Parse(json);
+            JArray array = JArray.Parse(obj["documents"].ToString());
+            foreach (JObject item in array)
+            {
+                imageURL.Add(item["thumbnail_url"].ToString());
+            }
+            return imageURL;
+        }*/
     }
 }

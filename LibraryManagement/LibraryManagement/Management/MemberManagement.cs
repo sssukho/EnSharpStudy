@@ -112,7 +112,7 @@ namespace LibraryManagement
         //회원명단 출력
         public void PrintMembers()
         {
-            print.PrintMembers(dao.SelectAll("member", "id", "not in('관리자');"););
+            print.PrintMembers(dao.SelectAll("member", "id", "not in('관리자');"));
             adminMenu.MemberManagementMenu();
         }
     }

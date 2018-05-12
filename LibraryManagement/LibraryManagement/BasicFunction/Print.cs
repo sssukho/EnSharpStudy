@@ -446,7 +446,7 @@ namespace LibraryManagement
             Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
             Console.ReadLine();
         }
-
+        /*
         public BookVO RegisterBook()
         {
             string name;
@@ -497,7 +497,7 @@ namespace LibraryManagement
             BookVO newBook = new BookVO(name, author, publisher, int.Parse(count));
 
             return newBook;
-        }
+        }*/
 
         public void MemberInfo(MemberVO inputMember)
         {

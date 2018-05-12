@@ -8,6 +8,7 @@ namespace LibraryManagement
 {
     class MemberMenu
     {
+        enum UserMenu { EXIT, RENT_EXTENSION, SEARCH_BOOK, PRINT_BOOKS }
         DAO dao;
 
         public MemberMenu(DAO dao)

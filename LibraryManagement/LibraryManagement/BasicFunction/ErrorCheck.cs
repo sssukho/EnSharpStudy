@@ -137,5 +137,37 @@ namespace LibraryManagement
             }
             return false;
         }
+
+        public bool IsValidChange(MySqlDataReader dataReader)
+        {
+            if (dataReader.RecordsAffected == -1)
+                return false;
+
+            return true;
+        }
+
+        public bool IsValidEdit(MySqlDataReader dataReader)
+        {
+            if (dataReader.RecordsAffected == -1)
+                return false;
+
+            return true;
+        }
+
+        public bool IsValidMember(MySqlDataReader dataReader)
+        {
+            if (dataReader.HasRows)
+                return true;
+            else
+                return false;
+        }
+
+        public bool IsValidBook(MySqlDataReader dataReader)
+        {
+            if (dataReader.HasRows)
+                return true;
+            else
+                return false;
+        }
     }
 }
