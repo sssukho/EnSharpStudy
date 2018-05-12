@@ -8,6 +8,7 @@ namespace LibraryManagement
 {
     class BookVO
     {
+        private int index;
         private string name;
         private string author;
         private string price;
@@ -15,10 +16,11 @@ namespace LibraryManagement
         private string publishDate;
         private int count;
         private string isbn;
-        private string explanation;
+        private string description;
 
-        public BookVO(string name, string author, string price, string publisher, string publishDate, int count, string isbn, string explanation)
+        public BookVO(int index, string name, string author, string price, string publisher, string publishDate, int count, string isbn, string description)
         {
+            this.index = index;
             this.name = name;
             this.author = author;
             this.price = price;
@@ -26,7 +28,13 @@ namespace LibraryManagement
             this.publishDate = publishDate;
             this.count = count;
             this.isbn = isbn;
-            this.explanation = explanation;
+            this.description = description;
+        }
+
+        public int Index
+        {
+            get { return index; }
+            set { index = value; }
         }
 
         public string Name
@@ -71,10 +79,10 @@ namespace LibraryManagement
             set { isbn = value; }
         }
 
-        public string Explanation
+        public string Description
         {
-            get { return explanation; }
-            set { explanation = value; }
+            get { return description; }
+            set { description = value; }
         }
     }
 }

@@ -162,9 +162,9 @@ namespace LibraryManagement
                 return false;
         }
 
-        public bool IsValidBook(MySqlDataReader dataReader)
+        public bool IsValidBook(List<BookVO> inputBookList)
         {
-            if (dataReader.HasRows)
+            if (inputBookList.Count > 0)
                 return true;
             else
                 return false;

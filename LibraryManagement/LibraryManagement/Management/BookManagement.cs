@@ -21,24 +21,40 @@ namespace LibraryManagement
     /// </summary>
     class BookManagement
     {
-        
         Print print;
         ErrorCheck errorCheck;
         AdminMenu adminMenu;
-        /*
-        public BookManagement(AdminMenu adminMenu)
+        DAO dao;
+
+        List<BookVO> bookList;
+        string clientID = "GpbWEBciTaEoY0H5w4Ci";
+        string clientSecret = "1OzWZ3NUCH";
+        
+        public BookManagement(AdminMenu adminMenu, DAO dao)
         {
             print = Print.GetInstance();
             errorCheck = ErrorCheck.GetInstance();
             this.adminMenu = adminMenu;
+            bookList = new List<BookVO>();
+            this.dao = dao;
         }
 
-        public void RegisterBook()
+        public void RegisterBook(string searchBy)
         {
             //도서 검색한 결과에서 가져와야함
-            BookVO newBook;
-            
+            BookVO foundBook = SearchBook("registerSearch", searchBy);
+            if(foundBook == null)
+            {
+                //adminMenu.BookRegisterMenu();
+                return;
+            }
 
+            print.BookInfo(foundBook);
+            string registerCheck = Console.ReadLine();
+            if(registerCheck.ToUpper().Equals("Y"))
+            {
+                //등록하는것.
+            }
             /*sqlQuery = "insert into book values('" + newBook.Name + "', '" + newBook.Author + "', '"
                 + newBook.Publisher + "', " + newBook.Count + ");";
             SendQuery();
@@ -62,12 +78,12 @@ namespace LibraryManagement
             }
 
             CloseDB();*/
-           // print.CompleteMsg("도서 등록 완료");
-           // adminMenu.BookManagementMenu();
-           // return;
-       // }
+            print.CompleteMsg("도서 등록 완료");
+            adminMenu.BookManagementMenu();
+            return;
+        }
 
-    /*
+    
         public void EditBook(string searchBy)
         {
             BookVO foundBook = SearchBook("editSearch", searchBy);
@@ -147,11 +163,14 @@ namespace LibraryManagement
             {
                 switch (searchType)
                 {
+                    case "registerSearch":
+                        print.Search("등록할 책 이름");
+                        break;
                     case "editSearch":
                         print.Search("편집할 책 이름");
                         break;
                     case "removeSearch":
-                        print.Search("삭제할 책의 이름");
+                        print.Search("삭제할 책 이름");
                         break;
                     case "justSearch":
                         print.Search("검색할 책 이름");
@@ -165,10 +184,10 @@ namespace LibraryManagement
                 if (errorCheck.BookName(searchName))
                 {
                     print.FormErrorMsg("도서제목");
-                    menu.BookManagementMenu();
+                    adminMenu.BookManagementMenu();
                 }
 
-                sqlQuery = "select * from book where name='" + searchName + "';";
+                bookList = dao.SelectAll(bookList, searchBy, searchName);
             }
 
             else if (searchBy.Equals("출판사명"))
@@ -193,10 +212,10 @@ namespace LibraryManagement
                 if (errorCheck.BookPublisher(searchPublisher))
                 {
                     print.FormErrorMsg("출판사명");
-                    menu.BookManagementMenu();
+                    adminMenu.BookManagementMenu();
                 }
 
-                sqlQuery = "select * from book where publisher='" + searchPublisher + "';";
+                bookList = dao.SelectAll(bookList, searchBy, searchPublisher);
             }
 
             else if (searchBy.Equals("저자명"))
@@ -221,32 +240,21 @@ namespace LibraryManagement
                 if (errorCheck.BookAuthor("저자명"))
                 {
                     print.FormErrorMsg("저자명");
-                    menu.BookManagementMenu();
+                    adminMenu.BookManagementMenu();
                 }
 
-                sqlQuery = "select * from book where author='" + searchAuthor + "';";
+                bookList = dao.SelectAll(bookList, searchBy, searchAuthor);
             }
-            SendQuery();
-            dataReader.Read();
 
-            if (errorCheck.IsValidBook(dataReader) == false) //검색 에러
+            if (errorCheck.IsValidBook(bookList) == false) //검색 에러
             {
-                CloseDB();
                 print.ErrorMsg("존재하는 도서 찾기");
-                if (searchType.Equals("justSearch")) menu.BookManagementMenu();
+                if (searchType.Equals("justSearch")) adminMenu.BookManagementMenu();
                 return null;
             }
 
-            BookVO foundBook = new BookVO(dataReader["name"].ToString(), dataReader["author"].ToString(),
-                dataReader["publisher"].ToString(), int.Parse(dataReader["count"].ToString()));
-            if (searchType.Equals("justSearch"))
-            {
-                print.BookInfo(foundBook);
-                menu.BookSearchMenu();
-            }
-
-            CloseDB();
-            return foundBook;
+            print.PrintBooks(bookList);
+            return null;
         }
 
         public void PrintBooks()
@@ -449,45 +457,49 @@ namespace LibraryManagement
 
         public string HttpRequest(string searchWord)
         {
-            HttpWebRequest webRequest;
-            HttpWebResponse webResponse;
+           
 
-            string API_KEY = "d86fb82fdd12eb178d7a1d73ae1a3158";
-            string HEADER = "KakaoAK " + API_KEY;
-            string URL = string.Format("https://dapi.kakao.com/v2/search/image.json");
-            string result;
+            string query = "열혈C언어"; // 검색할 문자열
+            string url = string.Format("https://openapi.naver.com/v1/search/book.json"); // 결과가 JSON 포맷
 
-            StringBuilder getParam = new StringBuilder();
-            
-            getParam.Append("?query=" + WebUtility.UrlEncode(searchWord));
+            StringBuilder getParams = new StringBuilder();
+            getParams.Append("?query=" + WebUtility.UrlEncode(query));
 
-            webRequest = (HttpWebRequest)WebRequest.Create(URL + getParam);
-            webRequest.Headers.Add("Authorization", HEADER);
-            webRequest.ContentType = "application/json; charset=utf-8";
-            webRequest.Method = "GET";
 
-            webResponse = (HttpWebResponse)webRequest.GetResponse();
-            Stream stream = webResponse.GetResponseStream();
-            StreamReader reader = new StreamReader(stream, Encoding.GetEncoding("EUC-KR"), true);
-            result = reader.ReadToEnd();
-            reader.Close();
-            stream.Close();
-            webResponse.Close();
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url + getParams);
+            request.Headers.Add("X-Naver-Client-Id", clientID); // 클라이언트 아이디
+            request.Headers.Add("X-Naver-Client-Secret", clientSecret);       // 클라이언트 시크릿
 
-            return result;
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            string status = response.StatusCode.ToString();
+            if (status == "OK")
+            {
+                Stream stream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(stream, Encoding.UTF8);
+                string text = reader.ReadToEnd();
+                return text;
+            }
+            return null;
         }
 
         //json형태로 받아온 string 값을 썸네일의 URL을 파싱하여 리턴
-        public List<string> ParsingJson(string json)
+        public List<BookVO> ParsingJson(string json, List<BookVO> bookList)
         {
-            List<string> imageURL = new List<string>();
+            bookList.Clear();
             JObject obj = JObject.Parse(json);
-            JArray array = JArray.Parse(obj["documents"].ToString());
+            JArray array = JArray.Parse(obj["item"].ToString()); //검색어와 일치하는 부분은 태그로 감싸져있음
+
+            obj = JObject.Parse(array.ToString());
+
             foreach (JObject item in array)
             {
-                imageURL.Add(item["thumbnail_url"].ToString());
+                BookVO newBook = new BookVO(0, item["title"].ToString(), item["author"].ToString(), item["price"].ToString(),
+                    item["publisher"].ToString(), item["pubdate"].ToString(), 5, item["isbn"].ToString(), item["description"].ToString());
+
+                bookList.Add(newBook);
             }
-            return imageURL;
-        }*/
+
+            return bookList;
+        }
     }
 }

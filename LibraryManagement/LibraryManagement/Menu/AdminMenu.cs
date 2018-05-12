@@ -24,8 +24,8 @@ namespace LibraryManagement
         public AdminMenu(DAO dao)
         {
             this.dao = dao;
-            this.memberManagement = new MemberManagement(this);
-            this.bookManagement = new BookManagement(this);
+            this.memberManagement = new MemberManagement(this, dao);
+            this.bookManagement = new BookManagement(this, dao);
             this.dbManagement = new DBManagement(this);
             print = Print.GetInstance();
             errorCheck = ErrorCheck.GetInstance();
@@ -90,7 +90,7 @@ namespace LibraryManagement
                     return;
             }
         }
-
+        
         public void BookManagementMenu()
         {
             MenuInput("도서관리", "도서관리메뉴");
@@ -240,22 +240,23 @@ namespace LibraryManagement
         public void DBManagementMenu()
         {
             MenuInput("DB관리", "DB관리메뉴");
+            
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
-                case (int):
-                    bookManagement.SearchBook("justSearch", "도서명");
+                case (int)SearchType.SERARCH_BY_NAME:
+                   // bookManagement.SearchBook("justSearch", "도서명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_PUBLISHER:
-                    bookManagement.SearchBook("justSearch", "출판사명");
+                   // bookManagement.SearchBook("justSearch", "출판사명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_AUTHOR:
-                    bookManagement.SearchBook("justSearch", "저자명");
+                    //bookManagement.SearchBook("justSearch", "저자명");
                     return;
 
                 case (int)SearchType.EXIT:
-                    Environment.Exit(0);
+                    //Environment.Exit(0);
                     return;
             }
         }

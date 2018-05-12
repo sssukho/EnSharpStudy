@@ -38,6 +38,7 @@ namespace LibraryManagement
             database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
 
             connect = new MySqlConnection(connectionString);
+            OpenConnection();
         }
 
         //open connection to database
@@ -103,6 +104,34 @@ namespace LibraryManagement
             sqlQuery = "select * from " + tableName + " where " + primaryKey + " " + condition;
             SendQuery(sqlQuery);
             return dataReader;
+        }
+
+        public List<BookVO> SelectAll(List<BookVO> inputBookList, string searchBy, string searchWord)
+        {
+            inputBookList.Clear();
+            sqlQuery = "select * from book";
+            switch(searchBy)
+            {
+                case "도서명":
+                    sqlQuery = sqlQuery + " where name='" + searchWord + "';";
+                    break;
+                case "출판사명":
+                    sqlQuery = sqlQuery + " where publisher='" + searchWord + "';";
+                    break;
+                case "저자명":
+                    sqlQuery = sqlQuery + " where author='" + searchWord + "';";
+                    break;
+            }
+
+            SendQuery(sqlQuery);
+            while(dataReader.Read())
+            {
+                inputBookList.Add(new BookVO(int.Parse(dataReader["idx"].ToString()),dataReader["name"].ToString(), dataReader["author"].ToString(), 
+                    dataReader["price"].ToString(), dataReader["publisher"].ToString(), dataReader["publishDate"].ToString(), 
+                    int.Parse(dataReader["count"].ToString()), dataReader["isbn"].ToString(), dataReader["description"].ToString()));
+            }
+            dataReader.Close();
+            return inputBookList;
         }
 
         public bool IsMemberDulplicated(string id)

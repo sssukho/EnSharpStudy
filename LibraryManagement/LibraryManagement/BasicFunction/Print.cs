@@ -560,21 +560,67 @@ namespace LibraryManagement
         {
             Console.Clear();
 
-            Console.WriteLine("\n\n\t---------------------------------검색한 도서 기존 정보--------------------------------");
+            Console.WriteLine("\n\n\t---------------------------------검색한 도서 정보--------------------------------");
             Console.WriteLine("\t도서 제목 : {0}", inputBook.Name);
             Console.WriteLine("\t출판사 : {0}", inputBook.Publisher);
             Console.WriteLine("\t저자 : {0}", inputBook.Author);
             Console.WriteLine("\t수량 : {0}", inputBook.Count + "\n");
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
 
-            Console.Write("\n\n\t이전으로 돌아가려면 엔터...");
-            Console.ReadLine();
+            Console.Write("\n\n\t위 책을 등록하시겠습니까? (Y/N)");
         }
 
         public void Search(string type)
         {
             Console.Clear();
             Console.Write("\n\n\t{0}을(를) 입력해주세요 : ", type);
+        }
+
+        public void PrintBooks(List<BookVO> inputBookList)
+        {
+            Console.SetWindowSize(140, 25);
+            Console.Clear();
+
+            string name, author, price, publisher, pubDate, isbn, description;
+
+            Console.WriteLine("\n\n\t---------------------------------------------------------도서 명단-------------------------------------------------------------");
+            Console.WriteLine("고유번호 |도서명              |저자                |가격                |출판사              |출판일자            |수량 |ISBN                |줄거리              ");
+
+            foreach (var item in inputBookList)
+            {
+                name = AdjustText(item.Name);
+                author = AdjustText(item.Author);
+                price = AdjustText(item.Price);
+                publisher = AdjustText(item.Publisher);
+                pubDate = AdjustText(item.PublishDate);
+                isbn = AdjustText(item.Isbn);
+                description = AdjustText(item.Isbn);
+                Console.WriteLine(item.Index + "  " + name + author + price + publisher + pubDate + item.Count + " " + isbn);
+            }
+
+            Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
+            Console.ReadLine();
+        }
+
+        public string AdjustText(string input)
+        {
+            int inputSize = Encoding.Default.GetBytes(input).Length;
+            if (inputSize > 20)
+            {
+                input.Remove(20);
+            }
+
+            if(inputSize > 100)
+            {
+                input.Remove(100);
+            }
+
+            if(inputSize < 20)
+            {
+                for (int i = inputSize; i < 21; i++)
+                    input = input + " ";
+            }
+            return input;
         }
     }
 }
