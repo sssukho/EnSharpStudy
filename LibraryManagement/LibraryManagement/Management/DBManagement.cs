@@ -8,5 +8,10 @@ namespace LibraryManagement
 {
     class DBManagement
     {
+        AdminMenu adminMenu;
+        public DBManagement(AdminMenu adminMenu)
+        {
+            this.adminMenu = adminMenu;
+        }
     }
 }

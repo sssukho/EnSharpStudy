@@ -21,12 +21,12 @@ namespace LibraryManagement
         Print print;
         ErrorCheck errorCheck;
         
-        public AdminMenu(DAO dao, MemberManagement memberManagement, BookManagement bookManagement, DBManagement dbManagement)
+        public AdminMenu(DAO dao)
         {
             this.dao = dao;
-            this.memberManagement = memberManagement;
-            this.bookManagement = bookManagement;
-            this.dbManagement = dbManagement;
+            this.memberManagement = new MemberManagement(this);
+            this.bookManagement = new BookManagement(this);
+            this.dbManagement = new DBManagement(this);
             print = Print.GetInstance();
             errorCheck = ErrorCheck.GetInstance();
             MainMenu();

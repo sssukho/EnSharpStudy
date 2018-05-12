@@ -16,7 +16,8 @@ namespace LibraryManagement
         {
             print = Print.GetInstance();
             errorCheck = ErrorCheck.GetInstance();
-            dao = DAO.GetInstance();
+            dao = new DAO();
+            LoginToMenu();
         }
 
         public void LoginToMenu()
@@ -42,19 +43,25 @@ namespace LibraryManagement
                 print.FormErrorMsg("패스워드");
             }
 
-            if (IsAdmin(id, password) == true)
+            if (AuthenticateType(id, password) == "Admin")
             {
-
-                new AdminMenu();
+                new AdminMenu(dao);
                 return;
             }
 
-            new MemberMenu();
+            if(AuthenticateType(id,password) == "User")
+            {
+                new MemberMenu(dao);
+                return;
+            }
+
+            print.LoginError();
+            LoginToMenu();
         }
 
-        bool IsAdmin(string id, string password)
+        string AuthenticateType(string id, string password)
         {
-
+            return dao.Select(id, password);
         }
     }
 }

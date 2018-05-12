@@ -9,8 +9,6 @@ namespace LibraryManagement
 {
     class DAO
     {
-        private static DAO dao;
-
         private MySqlConnection connect;
         private MySqlDataReader dataReader;
         private MySqlCommand command;
@@ -25,14 +23,6 @@ namespace LibraryManagement
         public DAO()
         {
             Initialize();
-        }
-
-        public static DAO GetInstance()
-        {
-            if (dao == null)
-                dao = new DAO();
-
-            return dao;
         }
 
         //Initialize values
@@ -81,10 +71,34 @@ namespace LibraryManagement
         }
 
         //Select statement
-        public List<BookVO> Select(string selectType, string tableName, string primaryKey)
+        public List<BookVO> Select(List<BookVO> memberList)
         {
 
             return null;
+        }
+
+        public string Select(string id, string password)
+        {
+            sqlQuery = "select * from member where id='" + id + "' and password='" + password + "';";
+            command = new MySqlCommand(sqlQuery, connect);
+            dataReader = command.ExecuteReader();
+
+            if (dataReader.FieldCount == 0)
+            {
+                return "NoUser";
+            }
+
+            dataReader.Read();
+
+            if(dataReader["id"].ToString().Equals(id) && dataReader["password"].ToString().Equals(password))
+            {
+                if(id.Equals("관리자"))
+                    return "Admin";
+
+                return "User";
+            }
+
+            return "NoUser";
         }
         
 

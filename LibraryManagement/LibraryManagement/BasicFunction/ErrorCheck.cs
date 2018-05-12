@@ -22,6 +22,40 @@ namespace LibraryManagement
             return errorCheck;
         }
 
+        public bool IsValidMenuInput(ConsoleKeyInfo input, string type)
+        {
+            if (type.Contains("관리메뉴"))
+                type = "관리메뉴";
+
+            if (type.Contains("검색메뉴"))
+                type = "검색메뉴";
+
+            switch (type)
+            {
+                case "메인메뉴":
+                    pattern = @"[0-3]{1}$";
+                    break;
+
+                case "관리메뉴":
+                    pattern = @"[0-5]{1}$";
+                    break;
+
+                case "검색메뉴":
+                    pattern = @"[0-3]{1}$";
+                    break;
+
+                case "도서대여메뉴":
+                    pattern = @"[0-3]{1}$";
+                    break;
+
+                case "선택":
+                    pattern = @"[1-2]{1}$";
+                    break;
+            }
+
+            return Judgement(input.KeyChar.ToString(), pattern);
+        }
+
         public bool MemberName(string input)
         {
             pattern = @"^[가-힣]{2,4}$";

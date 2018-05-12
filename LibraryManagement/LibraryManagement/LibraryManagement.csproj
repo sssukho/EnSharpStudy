@@ -61,7 +61,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicFunction\Constant.cs" />
     <Compile Include="BasicFunction\DAO.cs" />
+    <Compile Include="Management\DBManagement.cs" />
     <Compile Include="Menu\AdminMenu.cs" />
     <Compile Include="Management\BookManagement.cs" />
     <Compile Include="Menu\MemberMenu.cs" />

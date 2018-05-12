@@ -8,5 +8,11 @@ namespace LibraryManagement
 {
     class MemberMenu
     {
+        DAO dao;
+
+        public MemberMenu(DAO dao)
+        {
+            this.dao = dao;
+        }
     }
 }

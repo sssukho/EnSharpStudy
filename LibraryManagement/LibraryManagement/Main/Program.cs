@@ -10,6 +10,7 @@ namespace LibraryManagement
     {
         static void Main(string[] args)
         {
+            new Login();
         }
     }
 }
