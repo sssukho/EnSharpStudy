@@ -11,12 +11,14 @@ namespace LibraryManagement
         Print print;
         ErrorCheck errorCheck;
         AdminMenu adminMenu;
+        DAO dao;
 
-        public MemberManagement(AdminMenu adminMenu)
+        public MemberManagement(AdminMenu adminMenu, DAO dao)
         {
             print = Print.GetInstance();
             errorCheck = ErrorCheck.GetInstance();
             this.adminMenu = adminMenu;
+            this.dao = dao;
         }
 
         //회원등록
@@ -25,40 +27,17 @@ namespace LibraryManagement
             MemberVO newMember;
             newMember = print.RegisterMember();
 
-            sqlQuery = "select id from member;";
-            SendQuery();
-
-            //id중복체크
-            while (dataReader.Read())
+            if(dao.IsMemberDulplicated(newMember.Id) == true)
             {
-                if (dataReader["id"].ToString().Equals(newMember.Id))
-                {
-                    CloseDB();
-                    print.ErrorMsg("중복 아이디");
-                    menu.MemberManagementMenu();
-                    return;
-                }
-            }
-
-            CloseDB();
-            sqlQuery = "insert into member values('" + newMember.Id + "', '" + newMember.Password + "', '"
-                + newMember.Name + "', '" + newMember.Gender + "', '" + newMember.PhoneNumber + "', '"
-                + newMember.Email + "', '" + newMember.Address + "', '" + newMember.RentBook + "', '"
-                + newMember.DueDate + "', '" + newMember.ExtensionCount + "');";
-
-            SendQuery();
-            dataReader.Read();
-            if (errorCheck.IsValidChange(dataReader) == false) //등록 에러
-            {
-                CloseDB();
-                print.ErrorMsg("회원 등록");
-                menu.MemberManagementMenu();
+                print.ErrorMsg("중복 아이디");
+                adminMenu.MemberManagementMenu();
                 return;
             }
 
-            CloseDB();
+            dao.Insert(newMember);
+
             print.CompleteMsg("회원 등록 완료");
-            menu.MemberManagementMenu();
+            adminMenu.MemberManagementMenu();
             return;
         }
 
@@ -69,21 +48,11 @@ namespace LibraryManagement
 
             foundMember = print.EditMember(foundMember);
 
-            sqlQuery = "update member set phoneNumber ='" + foundMember.PhoneNumber + "', address ='" + foundMember.Address + "' where id='" + foundMember.Id + "';";
-            SendQuery();
-            dataReader.Read();
-
-            if (errorCheck.IsValidChange(dataReader) == false) //편집 에러
-            {
-                CloseDB();
-                print.ErrorMsg("회원 정보 수정");
-                menu.MemberManagementMenu();
-                return;
-            }
-
-            CloseDB();
+            dao.Update("member", "phoneNumber", foundMember.PhoneNumber, "id", foundMember.Id);
+            dao.Update("member", "address", foundMember.Address, "id", foundMember.Id);
+            
             print.CompleteMsg("회원 정보 수정 완료");
-            menu.MemberManagementMenu();
+            adminMenu.MemberManagementMenu();
             return;
         }
 
@@ -99,25 +68,14 @@ namespace LibraryManagement
             if (errorCheck.Confirm(confirm))
             {
                 print.MenuErrorMsg("Y/N오류");
-                menu.MemberManagementMenu();
+                adminMenu.MemberManagementMenu();
                 return;
             }
 
-            sqlQuery = "delete from member where id='" + foundMember.Id + "';";
-            SendQuery();
-            dataReader.Read();
+            dao.Delete("member", "id", foundMember.Id);
 
-            if (errorCheck.IsValidChange(dataReader) == false) //편집 에러
-            {
-                CloseDB();
-                print.ErrorMsg("회원 삭제");
-                menu.MemberManagementMenu();
-                return;
-            }
-
-            CloseDB();
             print.CompleteMsg("회원 삭제 완료");
-            menu.MemberManagementMenu();
+            adminMenu.MemberManagementMenu();
             return;
         }
 
