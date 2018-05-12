@@ -99,27 +99,12 @@ namespace LibraryManagement
 
             searchID = Console.ReadLine();
 
-            sqlQuery = "select * from member where id='" + searchID + "';";
-            SendQuery();
-            dataReader.Read();
+            MemberVO foundMember = dao.Select(searchID);
 
-            if (errorCheck.IsValidMember(dataReader) == false) //검색 에러
-            {
-                CloseDB();
-                print.ErrorMsg("존재하는 회원 찾기");
-                if (searchType.Equals("justSearch")) menu.MemberManagementMenu();
-                return null;
-            }
-
-            MemberVO foundMember = new MemberVO(dataReader["id"].ToString(), dataReader["password"].ToString(),
-                    dataReader["name"].ToString(), dataReader["gender"].ToString(), dataReader["phoneNumber"].ToString(),
-                    dataReader["email"].ToString(), dataReader["address"].ToString(), dataReader["rentbook"].ToString(), dataReader["duedate"].ToString(), 3);
-
-            CloseDB();
             if (searchType.Equals("justSearch"))
             {
                 print.MemberInfo(foundMember);
-                menu.MemberManagementMenu();
+                adminMenu.MemberManagementMenu();
             }
             return foundMember;
         }
