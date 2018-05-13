@@ -67,7 +67,7 @@
     <Compile Include="Management\DBManagement.cs" />
     <Compile Include="Menu\AdminMenu.cs" />
     <Compile Include="Management\BookManagement.cs" />
-    <Compile Include="Menu\MemberMenu.cs" />
+    <Compile Include="Menu\UserMenu.cs" />
     <Compile Include="VO\BookVO.cs" />
     <Compile Include="BasicFunction\ErrorCheck.cs" />
     <Compile Include="Main\Login.cs" />

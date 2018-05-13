@@ -128,20 +128,21 @@ namespace LibraryManagement
 
         public bool BookName(string input)
         {
-            pattern = @"^[가-힣a-zA-Z0-9|!@#$%^&*()]{1,30}$";
-            return Judgement(input, pattern);
+            //pattern = @"^[가-힣a-zA-Z0-9|!@#$%^&*()]{1,30}$";
+            //return Judgement(input, pattern);
+            return false;
         }
 
         public bool BookPublisher(string input)
         {
             pattern = @"^[가-힣a-zA-Z]{1,30}$";
-            return Judgement(input, pattern);
+            return false;
         }
 
         public bool BookAuthor(string input)
         {
             pattern = @"^[가-힣a-zA-Z]{1,10}$";
-            return Judgement(input, pattern);
+            return false;
         }
 
         public bool BookCount(string input)

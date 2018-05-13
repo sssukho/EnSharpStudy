@@ -20,7 +20,7 @@ namespace LibraryManagement
         DAO dao;
         Print print;
         ErrorCheck errorCheck;
-        
+
         public AdminMenu(DAO dao)
         {
             this.dao = dao;
@@ -37,7 +37,6 @@ namespace LibraryManagement
 
         public void MainMenu()
         {
-            
             MenuInput("관리자메인", "메인메뉴");
 
             switch (int.Parse(menuSelect.KeyChar.ToString()))
@@ -55,6 +54,7 @@ namespace LibraryManagement
                     return;
 
                 case (int)Adminmenu.EXIT:
+                    dao.CloseConnection();
                     Environment.Exit(0);
                     return;
             }
@@ -87,18 +87,19 @@ namespace LibraryManagement
                     return;
 
                 case (int)MemberMenu.EXIT:
+                    dao.CloseConnection();
                     Environment.Exit(0);
                     return;
             }
         }
-        
+
         public void BookManagementMenu()
         {
             MenuInput("도서관리", "도서관리메뉴");
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)BookMenu.REGISTER_BOOK:
-                   // bookManagement.RegisterBook();
+                    bookManagement.RegisterBook();
                     return;
 
                 case (int)BookMenu.EDIT_BOOK:
@@ -114,7 +115,7 @@ namespace LibraryManagement
                     return;
 
                 case (int)BookMenu.PRINT_BOOKS:
-                    bookManagement.PrintBooks();
+                    bookManagement.PrintBooks("admin");
                     return;
 
                 case (int)BookMenu.SEARCH_NAVER:
@@ -122,6 +123,7 @@ namespace LibraryManagement
                     return;
 
                 case (int)BookMenu.EXIT:
+                    dao.CloseConnection();
                     Environment.Exit(0);
                     return;
             }
@@ -133,18 +135,19 @@ namespace LibraryManagement
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)SearchType.SERARCH_BY_NAME:
-                    //bookManagement.EditBook("도서명");
+                    bookManagement.EditBook("도서명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_PUBLISHER:
-                   // bookManagement.EditBook("출판사명");
+                    bookManagement.EditBook("출판사명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_AUTHOR:
-                    //bookManagement.EditBook("저자명");
+                    bookManagement.EditBook("저자명");
                     return;
 
                 case (int)SearchType.EXIT:
+                    dao.CloseConnection();
                     Environment.Exit(0);
                     return;
             }
@@ -156,18 +159,19 @@ namespace LibraryManagement
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)SearchType.SERARCH_BY_NAME:
-                   // bookManagement.RemoveBook("도서명");
+                    bookManagement.RemoveBook("도서명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_PUBLISHER:
-                   // bookManagement.RemoveBook("출판사명");
+                    bookManagement.RemoveBook("출판사명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_AUTHOR:
-                   // bookManagement.RemoveBook("저자명");
+                    bookManagement.RemoveBook("저자명");
                     return;
 
                 case (int)SearchType.EXIT:
+                    dao.CloseConnection();
                     Environment.Exit(0);
                     return;
             }
@@ -179,89 +183,45 @@ namespace LibraryManagement
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)SearchType.SERARCH_BY_NAME:
-                    bookManagement.SearchBook("justSearch", "도서명");
+                    bookManagement.SearchBook("justSearch", "도서명", "user");
                     return;
 
                 case (int)SearchType.SEARCH_BY_PUBLISHER:
-                    bookManagement.SearchBook("justSearch", "출판사명");
+                    bookManagement.SearchBook("justSearch", "출판사명", "user");
                     return;
 
                 case (int)SearchType.SEARCH_BY_AUTHOR:
-                    bookManagement.SearchBook("justSearch", "저자명");
+                    bookManagement.SearchBook("justSearch", "저자명", "user");
                     return;
 
                 case (int)SearchType.EXIT:
+                    dao.CloseConnection();
                     Environment.Exit(0);
                     return;
             }
         }
 
-        /*
-        public void BookRentMenu()
-        {
-            MenuInput("도서대여", "도서대여메뉴");
-            switch (int.Parse(menuSelect.KeyChar.ToString()))
-            {
-                case (int)BookRent.RENT_BOOK:
-                    BookRentSearchMenu();
-                    return;
-
-                case (int)BookRent.RETURN_BOOK:
-                    bookManagement.ReturnBook();
-                    return;
-
-                case (int)BookRent.EXTENSION_BOOK:
-                    bookManagement.ExtensionBook();
-                    return;
-
-                case (int)BookRent.EXIT:
-                    Environment.Exit(0);
-                    return;
-            }
-        }
-
-        public void BookRentSearchMenu()
-        {
-            MenuInput("대여검색", "도서대여검색메뉴");
-            switch (int.Parse(menuSelect.KeyChar.ToString()))
-            {
-                case (int)SearchType.SERARCH_BY_NAME:
-                    bookManagement.RentBook("도서명");
-                    return;
-
-                case (int)SearchType.SEARCH_BY_PUBLISHER:
-                    bookManagement.RentBook("출판사명");
-                    return;
-
-                case (int)SearchType.SEARCH_BY_AUTHOR:
-                    bookManagement.RentBook("저자명");
-                    return;
-
-                case (int)SearchType.EXIT:
-                    Environment.Exit(0);
-                    return;
-            }
-        }*/
         public void DBManagementMenu()
         {
             MenuInput("DB관리", "DB관리메뉴");
-            
+
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)SearchType.SERARCH_BY_NAME:
-                   // bookManagement.SearchBook("justSearch", "도서명");
+                    bookManagement.SearchBook("justSearch", "도서명", "user");
                     return;
 
                 case (int)SearchType.SEARCH_BY_PUBLISHER:
-                   // bookManagement.SearchBook("justSearch", "출판사명");
+                    bookManagement.SearchBook("justSearch", "출판사명", "user");
                     return;
 
                 case (int)SearchType.SEARCH_BY_AUTHOR:
-                    //bookManagement.SearchBook("justSearch", "저자명");
+                    bookManagement.SearchBook("justSearch", "저자명", "user");
                     return;
 
                 case (int)SearchType.EXIT:
-                    //Environment.Exit(0);
+                    dao.CloseConnection();
+                    Environment.Exit(0);
                     return;
             }
         }
@@ -303,15 +263,6 @@ namespace LibraryManagement
                     case "도서검색검색메뉴":
                         BookSearchMenu();
                         return;
-
-                    /*
-                case "도서대여메뉴":
-                    BookRentMenu();
-                    return;
-
-                case "도서대여검색메뉴":
-                    BookRentSearchMenu();
-                    return;*/
 
                     case "DB관리메뉴":
                         DBManagementMenu();

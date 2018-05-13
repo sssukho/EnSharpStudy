@@ -66,6 +66,9 @@ namespace LibraryManagement
                 case "관리자메인":
                     AdminMainMenu();
                     break;
+                case "사용자메인":
+                    UserMainMenu();
+                    break;
                 case "회원관리":
                     MemberManagementMenu();
                     break;
@@ -493,7 +496,7 @@ namespace LibraryManagement
 
             while (true)
             {
-                Console.Write("\n\n\t출판일자(yyyy.mm.dd) : ");
+                Console.Write("\n\n\t출판일자(yyyymmdd) : ");
                 publishDate = Console.ReadLine();
                 if (errorCheck.BookPublishDate(publishDate) == false) //정규식 고칠것
                     break;
@@ -523,7 +526,7 @@ namespace LibraryManagement
 
             while(true)
             {
-                Console.Write("\n\n\tISBN을 입력해주세요(숫자만) : ");
+                Console.Write("\n\n\tISBN을 입력해주세요(1234567890 1234567890123) : ");
                 isbn = Console.ReadLine(); //에러체크
                 if (errorCheck.BookIsbn(isbn) == false)
                     break;
@@ -563,7 +566,7 @@ namespace LibraryManagement
             Console.ReadLine();
         }
 
-        public BookVO EditBook(BookVO inputBook)
+        public int EditBook(BookVO inputBook)
         {
             string count;
             Console.Clear();
@@ -585,7 +588,7 @@ namespace LibraryManagement
                 FormErrorMsg("수량");
             }
             inputBook.Count = int.Parse(count);
-            return inputBook;
+            return inputBook.Count;
         }
 
         public void RemoveBook(BookVO inputBook)
@@ -598,8 +601,6 @@ namespace LibraryManagement
             Console.WriteLine("\t저자 : {0}", inputBook.Author);
             Console.WriteLine("\t수량 : {0}", inputBook.Count + "\n");
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
-
-            Console.Write("\n\n\t정말로 삭제하시겠습니까? (Y/N) : ");
         }
 
         public void BookInfo(BookVO inputBook)
@@ -612,8 +613,6 @@ namespace LibraryManagement
             Console.WriteLine("\t저자 : {0}", inputBook.Author);
             Console.WriteLine("\t수량 : {0}", inputBook.Count + "\n");
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
-
-            Console.Write("\n\n\t위 책을 등록하시겠습니까? (Y/N)");
         }
 
         public void Search(string type)
@@ -629,29 +628,46 @@ namespace LibraryManagement
 
         public void PrintBooks(List<BookVO> inputBookList)
         {
-            Console.SetWindowSize(180, 25);
+            Console.SetWindowSize(210, 25);
             Console.Clear();
 
-            string name, author, price, publisher, pubDate, isbn, description;
+            string name, author, publisher, pubDate;
 
-            Console.WriteLine("\n\n\t---------------------------------------------------------도서 명단-------------------------------------------------------------");
-            Console.WriteLine("고유번호 |도서명              |저자                |가격                |출판사              |출판일자            |수량 |ISBN                |줄거리              ");
+            Console.WriteLine("------------------------------------------------------------------------------------------도서 명단------------------------------------------------------------------------------------------------");
+            Console.WriteLine("고유번호|도서명             |저자               |가격                 |출판사             |출판일자           |수량|ISBN                     |줄거리              ");
 
             foreach (var item in inputBookList)
             {
                 name = AdjustText(item.Name);
                 author = AdjustText(item.Author);
-                price = AdjustText(item.Price);
                 publisher = AdjustText(item.Publisher);
                 pubDate = AdjustText(item.PublishDate);
-                isbn = AdjustText(item.Isbn);
-                description = AdjustText(item.Isbn);
-                Console.WriteLine(item.Index + "           " + name + author + price + publisher + pubDate + item.Count + " " + isbn);
+
+                Console.WriteLine(item.Index + "        " + name + author+ item.Price + "                 " + publisher+ pubDate+ item.Count + "    " + item.Isbn + "  " + item.Description);
             }
         }
-        public void RegisterCheck()
+
+        public string AdjustText(string input)
         {
-            Console.Write("\n\n\t등록하실 책 고유번호를 입력해주세요(등록안하고 나가려면 q입력) : ");
+            int inputSize = Encoding.Default.GetBytes(input).Length;
+            
+            if (inputSize > 20)
+            {
+                input = input.Remove(9);
+            }
+
+            if (inputSize < 20)
+            {
+                for (int i = inputSize; i < 20; i++)
+                    input = input + " ";
+            }
+
+            return input;
+        }
+
+        public void Check(string input)
+        {
+            Console.Write("\n\n\t{0}하실 책 고유번호를 입력해주세요({0}안하고 나가려면 q입력) : ", input);
         }
         
         public void PreviousCheck()
@@ -659,27 +675,67 @@ namespace LibraryManagement
             Console.Write("\n\t 이전메뉴로 돌아가려면 엔터");
             Console.ReadLine();
         }
-        
-        public string AdjustText(string input)
+
+        public void YNcheck()
         {
-            int inputSize = Encoding.Default.GetBytes(input).Length;
-
-            if (inputSize > 100)
-            {
-                input = input.Remove(100, input.Length - 100);
-            }
-
-            else if (inputSize > 40)
-            {
-                input = input.Remove(40,input.Length - 40);
-            }
-            
-            if(inputSize < 20)
-            {
-                for (int i = inputSize; i < 21; i++)
-                    input = input + " ";
-            }
-            return input;
+            Console.Write("\n해당 책을 DB에 등록하시겠습니까?(Y/N) : ");
         }
+
+        public void NotInStockMsg()
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t해당 도서의 재고가 없습니다.");
+            Console.WriteLine("\t이전 메뉴로 돌아가려면 엔터");
+            Console.ReadLine();
+        }
+
+        public void RentErrorMsg(string name, string bookName)
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t{0}님 께서는 빌려가신 <{1}>을 먼저 반납해야 합니다.", name, bookName);
+            Console.WriteLine("\n\t반납하러 가기 : 1번");
+            Console.WriteLine("\t이전 메뉴로 : 2번");
+            Console.Write("\t입력(1~2) : ");
+        }
+        public void CheckRentBook(BookVO inputBook)
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t---------------------------------대여할 도서 기존 정보--------------------------------");
+            Console.WriteLine("\t도서 제목 : {0}", inputBook.Name);
+            Console.WriteLine("\t출판사 : {0}", inputBook.Publisher);
+            Console.WriteLine("\t저자 : {0}", inputBook.Author);
+            Console.WriteLine("\t수량 : {0}", inputBook.Count + "\n");
+            Console.WriteLine("\t--------------------------------------------------------------------------------------");
+
+            Console.Write("\n\n\t해당 도서를 빌리시겠습니까?(Y/N) : ");
+        }
+
+        public void CheckReturnBook(BookVO inputBook)
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t---------------------------------반납할 도서 기존 정보--------------------------------");
+            Console.WriteLine("\t도서 제목 : {0}", inputBook.Name);
+            Console.WriteLine("\t출판사 : {0}", inputBook.Publisher);
+            Console.WriteLine("\t저자 : {0}", inputBook.Author + "\n");
+            Console.WriteLine("\t--------------------------------------------------------------------------------------");
+
+            Console.Write("\n\n\t해당 도서를 반납하시겠습니까?(Y/N) : ");
+        }
+
+        public void ExtensionErrorMsg()
+        {
+            Console.WriteLine("\n\n\t연장횟수 초과했습니다.");
+            Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
+            Console.ReadLine();
+        }
+
+        public void NoExtensionErrorMsg()
+        {
+            Console.WriteLine("\n\n\t연장할 도서가 없습니다.");
+            Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
+            Console.ReadLine();
+        }
+
+
     }
 }

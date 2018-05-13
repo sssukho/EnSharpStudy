@@ -56,61 +56,100 @@ namespace LibraryManagement
         public void SendQuery(string query)
         {
             command = new MySqlCommand(query, connect);
-            dataReader = command.ExecuteReader();
+            dataReader = command.ExecuteReader(); //syntax error
         }
 
         //Insert statement
         public void Insert(MemberVO inputMember)
         {
+            dataReader.Close();
             sqlQuery = "insert into member values('" + inputMember.Id + "', '" + inputMember.Password + "', '"
                 + inputMember.Name + "', '" + inputMember.Gender + "', '" + inputMember.PhoneNumber + "', '"
                 + inputMember.Email + "', '" + inputMember.Address + "', '" + inputMember.RentBook + "', '"
                 + inputMember.DueDate + "', '" + inputMember.ExtensionCount + "');";
 
             SendQuery(sqlQuery);
-            dataReader.Close();
+            //dataReader.Close();
         }
 
         public void Insert(BookVO inputBook)
         {
-            sqlQuery = "insert into book values(" + null + "'" + inputBook.Name + "', '" + inputBook.Author + "', '" + inputBook.Price + "', '" +
+            dataReader.Close();
+            sqlQuery = "insert into book values(null, " + "'" + inputBook.Name + "', '" + inputBook.Author + "', " + inputBook.Price + ", '" +
                 inputBook.Publisher + "', '" + inputBook.PublishDate + "', " + inputBook.Count + ", '" + inputBook.Isbn + "', '" +
-                inputBook.Description + "';";
+                inputBook.Description + "');";
 
             SendQuery(sqlQuery);
-            dataReader.Close();
+            //dataReader.Close();
         }
 
         //Update statement
         public void Update(string tableName, string fieldName, string value, string primaryField, string toChangeField)
         {
-            sqlQuery = "update " + tableName + " set " + fieldName + "='" + value + "' where " + primaryField + "='" + toChangeField + "';";
             dataReader.Close();
+            sqlQuery = "update " + tableName + " set " + fieldName + "='" + value + "' where " + primaryField + "='" + toChangeField + "';";
+            SendQuery(sqlQuery);
+            //dataReader.Close();
+        }
+
+        public void Update(string tableName, string fieldName, int value, string primaryField, int toChangeField)
+        {
+            dataReader.Close();
+            sqlQuery = "update " + tableName + " set " + fieldName + "=" + value + " where " + primaryField + "=" + toChangeField + ";";
+            SendQuery(sqlQuery);
+            //dataReader.Close();
+        }
+
+        public void UpdateRentBook(BookVO foundBook, string logOnID)
+        {
+            dataReader.Close();
+            sqlQuery = "update member set rentbook ='" + foundBook.Name + "', duedate ='" + "2018-05-21" + "' where id='" + logOnID + "';";
+            SendQuery(sqlQuery);
+            //dataReader.Close();
+        }
+
+        public void UpdateRentBook(BookVO foundBook)
+        {
+            dataReader.Close();
+            sqlQuery = "update book set count ='" + foundBook.Count + "' where name='" + foundBook.Name + "';";
+            SendQuery(sqlQuery);
+            //dataReader.Close();
         }
 
         //Delete statement
         public void Delete(string tableName, string primaryField, string toChangeValue)
         {
-            sqlQuery = "delete from " + tableName + " where " + primaryField + "='" + toChangeValue + "';";
             dataReader.Close();
+            sqlQuery = "delete from " + tableName + " where " + primaryField + "='" + toChangeValue + "';";
+            SendQuery(sqlQuery);
+            //dataReader.Close();
+        }
+
+        public void Delete(string tableName, string primaryField, int toChangeValue)
+        {
+            dataReader.Close();
+            sqlQuery = "delete from " + tableName + " where " + primaryField + "='" + toChangeValue + "';";
+            SendQuery(sqlQuery);
         }
 
         //Select statement
         public MemberVO Select(string id)
         {
+            dataReader.Close();
             sqlQuery = "select * from member where id='" + id + "';";
             SendQuery(sqlQuery);
             dataReader.Read();
             MemberVO selectedMember = new MemberVO(dataReader["id"].ToString(), dataReader["password"].ToString(),
                     dataReader["name"].ToString(), dataReader["gender"].ToString(), dataReader["phoneNumber"].ToString(),
                     dataReader["email"].ToString(), dataReader["address"].ToString(), dataReader["rentbook"].ToString(), dataReader["duedate"].ToString(), 3);
-            dataReader.Close();
+            //dataReader.Close();
 
             return selectedMember;
         }
 
         public MySqlDataReader SelectAll(string tableName, string primaryKey, string condition)
         {
+            dataReader.Close();
             sqlQuery = "select * from " + tableName + " where " + primaryKey + " " + condition;
             SendQuery(sqlQuery);
             return dataReader;
@@ -118,6 +157,7 @@ namespace LibraryManagement
 
         public List<BookVO> SelectAll(List<BookVO> inputBookList, string searchBy, string searchWord)
         {
+            dataReader.Close();
             inputBookList.Clear();
             sqlQuery = "select * from book";
             switch(searchBy)
@@ -142,21 +182,80 @@ namespace LibraryManagement
                     dataReader["price"].ToString(), dataReader["publisher"].ToString(), dataReader["publishDate"].ToString(), 
                     int.Parse(dataReader["count"].ToString()), dataReader["isbn"].ToString(), dataReader["description"].ToString()));
             }
-            dataReader.Close();
+            //dataReader.Close();
             return inputBookList;
+        }
+
+        public BookVO SelectBook(string rentBook)
+        {
+            dataReader.Close();
+            sqlQuery = "select * from book where name = '" + rentBook + "';";
+            SendQuery(sqlQuery);
+            dataReader.Read();
+            return new BookVO(int.Parse(dataReader["idx"].ToString()), dataReader["name"].ToString(), dataReader["author"].ToString(),
+                dataReader["price"].ToString(), dataReader["publisher"].ToString(), dataReader["publishDate"].ToString(), int.Parse(dataReader["count"].ToString()), dataReader["isbn"].ToString(),
+                dataReader["description"].ToString());
+        }
+
+        public void UpdateMember(string id)
+        {
+            dataReader.Close();
+            sqlQuery = "update member set rentbook = '없음', duedate = '없음', extensionCount = 2 where id = '" + id + "';";
+            SendQuery(sqlQuery);
+        }
+
+        public int SelectCount(string rentBook)
+        {
+            dataReader.Close();
+            sqlQuery = "select count from book where name='" + rentBook + "';";
+            SendQuery(sqlQuery);
+            dataReader.Read();
+
+            return int.Parse(dataReader["count"].ToString());
+        }
+
+        public void UpdateBookCount(int bookCount, string rentBook)
+        {
+            dataReader.Close();
+            sqlQuery = "update book set count=" + bookCount + " where name='" + rentBook + "';";
+            SendQuery(sqlQuery);
+        }
+
+        public void UpdateDueDate(string dueDate, int extensionCount, string id)
+        {
+            dataReader.Close();
+            sqlQuery = "update member set duedate='" + dueDate + "', extensionCount=" + extensionCount + " where id = '" + id + "';";
+            SendQuery(sqlQuery);
+        }
+
+        public bool IsBookDuplicated(BookVO inputBook)
+        {
+            dataReader.Close();
+            sqlQuery = "select * from book where isbn='" + inputBook.Isbn + "';";
+            SendQuery(sqlQuery);
+
+            if(dataReader.HasRows)
+            {
+                dataReader.Close();
+                return true;
+            }
+
+            dataReader.Close();
+            return false;
         }
 
         public bool IsMemberDulplicated(string id)
         {
+            dataReader.Close();
             sqlQuery = "select id from member where id='"+ id +"';";
             SendQuery(sqlQuery);
-            if (dataReader.FieldCount == 0)
+            if (dataReader.HasRows)
             {
                 dataReader.Close();
-                return false;
+                return true;
             }
             dataReader.Close();
-            return true;
+            return false;
         }
 
         public string Select(string id, string password)
@@ -164,21 +263,26 @@ namespace LibraryManagement
             sqlQuery = "select * from member where id='" + id + "' and password='" + password + "';";
             SendQuery(sqlQuery);
 
-            if (dataReader.FieldCount == 0)
+            if (dataReader.HasRows == false)
             {
+                dataReader.Close();
                 return "NoUser";
             }
-
             dataReader.Read();
 
             if(dataReader["id"].ToString().Equals(id) && dataReader["password"].ToString().Equals(password))
             {
                 if(id.Equals("관리자"))
+                {
+                    dataReader.Close();
                     return "Admin";
+                }
 
+                dataReader.Close();
                 return "User";
             }
 
+            dataReader.Close();
             return "NoUser";
         }
         

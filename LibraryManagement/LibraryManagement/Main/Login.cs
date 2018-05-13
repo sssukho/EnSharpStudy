@@ -54,7 +54,7 @@ namespace LibraryManagement
 
             if(AuthenticateType(id,password) == "User")
             {
-                new MemberMenu(dao);
+                new UserMenu(dao, id);
                 return;
             }
 
