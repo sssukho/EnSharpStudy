@@ -86,10 +86,12 @@ namespace LibraryManagement
                     return;
                 }
                 dao.Insert(foundBook);
+                dao.InsertLog("관리자", "도서등록", foundBook.Name, DateTime.Now);
                 print.CompleteMsg("도서 등록 완료");
             }
             adminMenu.BookManagementMenu();
             return;
+
         }
     
         public void EditBook(string searchBy)
@@ -114,8 +116,9 @@ namespace LibraryManagement
             BookVO foundBook = foundBookList.Find(book => book.Index.Equals(int.Parse(bookIndex)));
             int edittedCount = print.EditBook(foundBook);
             //에러쳌
-            dao.Update("book", "count", edittedCount, "idx", int.Parse(bookIndex)); 
+            dao.Update("book", "count", edittedCount, "idx", int.Parse(bookIndex));
             //에러쳌
+            dao.InsertLog("관리자", "도서편집", foundBook.Name, DateTime.Now);
             print.CompleteMsg("도서 정보 수정 완료");
             adminMenu.BookManagementMenu();
             return;
@@ -141,6 +144,7 @@ namespace LibraryManagement
             }
 
             dao.Delete("book", "idx", int.Parse(bookIndex));
+            dao.InsertLog("관리자", "도서삭제", foundBookList.Find(book=>book.Index.Equals(int.Parse(bookIndex))).Name, DateTime.Now);
             print.CompleteMsg("도서 정보 삭제 완료");
             return;
         }
@@ -304,7 +308,6 @@ namespace LibraryManagement
                 userMenu.BookRentSearchMenu();
                 return;
             }
-
             
             if (logOnMember.RentBook != "없음") //빌려간 책이 있는 경우
             {
@@ -351,6 +354,7 @@ namespace LibraryManagement
             dao.UpdateRentBook(foundBook);
 
             print.CompleteMsg("해당 도서 대여");
+            dao.InsertLog(logOnMember.Name, "도서대여", foundBook.Name, DateTime.Now);
             userMenu.BookRentMenu();
             return;
         }
@@ -397,6 +401,7 @@ namespace LibraryManagement
             logOnMember.DueDate = "없음";
             logOnMember.ExtensionCount = 2;
 
+            dao.InsertLog(logOnMember.Name, "도서반납", rentBook.Name, DateTime.Now);
             userMenu.BookRentMenu();
         }
 
@@ -433,6 +438,7 @@ namespace LibraryManagement
             }
 
             print.CompleteMsg("연장");
+            dao.InsertLog(logOnMember.Name, "대여연장", logOnMember.RentBook, DateTime.Now);
             userMenu.BookRentMenu();
         }
 
@@ -457,6 +463,8 @@ namespace LibraryManagement
             print.PrintBooks(bookList);
             print.Check("등록");
             indexInput = Console.ReadLine(); //입력예외처리 할 것
+
+            dao.InsertLog("관리자", "네이버검색", bookName, DateTime.Now);
             if (indexInput.ToUpper().Equals("Q"))
             {
                 adminMenu.BookManagementMenu();
@@ -490,7 +498,6 @@ namespace LibraryManagement
             return null;
         }
 
-        
         public List<BookVO> ParsingJson(string json, List<BookVO> bookList)
         {
             bookList.Clear();

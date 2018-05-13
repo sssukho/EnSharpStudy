@@ -83,13 +83,23 @@ namespace LibraryManagement
             //dataReader.Close();
         }
 
+        public void InsertLog(string name, string action, string keyword, DateTime dateTime)
+        {
+            dataReader.Close();
+            if (keyword == null)
+                keyword = " ";
+            sqlQuery = "insert into log values(null, " + "'" + name + "', '" + action + "', '" + keyword + "', '" + dateTime.ToString() + "');";
+
+            SendQuery(sqlQuery);
+        }
+
         //Update statement
         public void Update(string tableName, string fieldName, string value, string primaryField, string toChangeField)
         {
             dataReader.Close();
             sqlQuery = "update " + tableName + " set " + fieldName + "='" + value + "' where " + primaryField + "='" + toChangeField + "';";
             SendQuery(sqlQuery);
-            //dataReader.Close();
+            
         }
 
         public void Update(string tableName, string fieldName, int value, string primaryField, int toChangeField)
@@ -97,7 +107,7 @@ namespace LibraryManagement
             dataReader.Close();
             sqlQuery = "update " + tableName + " set " + fieldName + "=" + value + " where " + primaryField + "=" + toChangeField + ";";
             SendQuery(sqlQuery);
-            //dataReader.Close();
+            
         }
 
         public void UpdateRentBook(BookVO foundBook, string logOnID)
@@ -105,7 +115,7 @@ namespace LibraryManagement
             dataReader.Close();
             sqlQuery = "update member set rentbook ='" + foundBook.Name + "', duedate ='" + "2018-05-21" + "' where id='" + logOnID + "';";
             SendQuery(sqlQuery);
-            //dataReader.Close();
+            
         }
 
         public void UpdateRentBook(BookVO foundBook)
@@ -113,7 +123,7 @@ namespace LibraryManagement
             dataReader.Close();
             sqlQuery = "update book set count ='" + foundBook.Count + "' where name='" + foundBook.Name + "';";
             SendQuery(sqlQuery);
-            //dataReader.Close();
+            
         }
 
         //Delete statement
@@ -122,7 +132,7 @@ namespace LibraryManagement
             dataReader.Close();
             sqlQuery = "delete from " + tableName + " where " + primaryField + "='" + toChangeValue + "';";
             SendQuery(sqlQuery);
-            //dataReader.Close();
+            
         }
 
         public void Delete(string tableName, string primaryField, int toChangeValue)

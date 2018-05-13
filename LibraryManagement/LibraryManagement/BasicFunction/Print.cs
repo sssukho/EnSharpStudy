@@ -278,9 +278,11 @@ namespace LibraryManagement
             Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
             Console.WriteLine("\t|                                  로그 초기화 : 1번                                        |");
             Console.WriteLine("\t|                                                                                             |");
-            Console.WriteLine("\t|                                  바탕화면에 txt파일 저장 : 2번                                        |");
+            Console.WriteLine("\t|                                  로그 보기 : 2번                                        |");
             Console.WriteLine("\t|                                                                                             |");
-            Console.WriteLine("\t|                                  바탕화면 txt 파일 삭제: 3번                                        |");
+            Console.WriteLine("\t|                                  바탕화면에 txt파일 저장 : 3번                                        |");
+            Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  바탕화면 txt 파일 삭제: 4번                                        |");
             Console.WriteLine("\t|                                                                                             |");
             Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
             Console.WriteLine("\t-----------------------------------------------------------------------------------------------\n");
@@ -628,7 +630,7 @@ namespace LibraryManagement
 
         public void PrintBooks(List<BookVO> inputBookList)
         {
-            Console.SetWindowSize(210, 25);
+            Console.SetWindowSize(210, 60);
             Console.Clear();
 
             string name, author, publisher, pubDate;
