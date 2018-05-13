@@ -27,21 +27,24 @@ namespace LibraryManagement
 
             print.LoginUI();
 
-            while (true)
+            Console.Write("아이디 ▶ "); id = Console.ReadLine();
+            Console.Write("\n\n패스워드 ▶ "); password = Console.ReadLine();
+
+            /*while (true)
             {
-                Console.Write("아이디 ▶ "); id = Console.ReadLine();
-                if (errorCheck.MemberID(id) == false)
+                
+                //if (errorCheck.MemberID(id) == false)
                     break;
                 print.FormErrorMsg("아이디");
             }
 
             while (true)
             {
-                Console.Write("\n\n패스워드 ▶ "); password = Console.ReadLine();
-                if (errorCheck.MemberPassword(password) == false)
+                
+               // if (errorCheck.MemberPassword(password) == false)
                     break;
                 print.FormErrorMsg("패스워드");
-            }
+            }*/
 
             if (AuthenticateType(id, password) == "Admin")
             {

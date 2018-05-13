@@ -181,6 +181,8 @@ namespace LibraryManagement
             Console.WriteLine("\t|                                                                                             |");
             Console.WriteLine("\t|                                  도서 명단 출력 : 5번                                       |");
             Console.WriteLine("\t|                                                                                             |");
+            Console.WriteLine("\t|                                  네이버 도서 검색 : 6번                                       |");
+            Console.WriteLine("\t|                                                                                             |");
             Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
             Console.WriteLine("\t----------------------------------------------------------------------------------------------\n");
             Console.WriteLine("\n\t이전 메뉴로 돌아가려면 ESC");
@@ -446,13 +448,17 @@ namespace LibraryManagement
             Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
             Console.ReadLine();
         }
-        /*
+        
         public BookVO RegisterBook()
         {
             string name;
             string author;
             string publisher;
+            string price;
+            string publishDate;
             string count;
+            string isbn;
+            string description;
 
             Console.Clear();
             while (true)
@@ -475,6 +481,26 @@ namespace LibraryManagement
                 FormErrorMsg("저자");
             }
 
+            while(true)
+            {
+                Console.Write("\n\n\t도서 가격 입력(숫자만) : ");
+                price = Console.ReadLine();
+                if (errorCheck.BookPrice(price) == false)
+                    break;
+
+                FormErrorMsg("가격");
+            }
+
+            while (true)
+            {
+                Console.Write("\n\n\t출판일자(yyyy.mm.dd) : ");
+                publishDate = Console.ReadLine();
+                if (errorCheck.BookPublishDate(publishDate) == false) //정규식 고칠것
+                    break;
+
+                FormErrorMsg("출판일자");
+            }
+
             while (true)
             {
                 Console.Write("\n\n\t출판사 입력(8자이내) : ");
@@ -494,10 +520,30 @@ namespace LibraryManagement
 
                 FormErrorMsg("수량");
             }
-            BookVO newBook = new BookVO(name, author, publisher, int.Parse(count));
+
+            while(true)
+            {
+                Console.Write("\n\n\tISBN을 입력해주세요(숫자만) : ");
+                isbn = Console.ReadLine(); //에러체크
+                if (errorCheck.BookIsbn(isbn) == false)
+                    break;
+
+                FormErrorMsg("ISBN");
+            }
+
+            while(true)
+            {
+                Console.Write("\n\n\t줄거리를 입력해주세요(100자이내) : ");
+                description = Console.ReadLine();
+                if (errorCheck.BookDescription(description) == false) //에러 체크
+                    break;
+
+                FormErrorMsg("줄거리");
+            }
+            BookVO newBook = new BookVO(0, name, author, price, publisher, publishDate, int.Parse(count), isbn, description);
 
             return newBook;
-        }*/
+        }
 
         public void MemberInfo(MemberVO inputMember)
         {
@@ -576,9 +622,14 @@ namespace LibraryManagement
             Console.Write("\n\n\t{0}을(를) 입력해주세요 : ", type);
         }
 
+        public void InputBookCount()
+        {
+            Console.Write("\n\t검색할 개수를 입력해주세요 : ");
+        }
+
         public void PrintBooks(List<BookVO> inputBookList)
         {
-            Console.SetWindowSize(140, 25);
+            Console.SetWindowSize(180, 25);
             Console.Clear();
 
             string name, author, price, publisher, pubDate, isbn, description;
@@ -595,26 +646,34 @@ namespace LibraryManagement
                 pubDate = AdjustText(item.PublishDate);
                 isbn = AdjustText(item.Isbn);
                 description = AdjustText(item.Isbn);
-                Console.WriteLine(item.Index + "  " + name + author + price + publisher + pubDate + item.Count + " " + isbn);
+                Console.WriteLine(item.Index + "           " + name + author + price + publisher + pubDate + item.Count + " " + isbn);
             }
-
-            Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
+        }
+        public void RegisterCheck()
+        {
+            Console.Write("\n\n\t등록하실 책 고유번호를 입력해주세요(등록안하고 나가려면 q입력) : ");
+        }
+        
+        public void PreviousCheck()
+        {
+            Console.Write("\n\t 이전메뉴로 돌아가려면 엔터");
             Console.ReadLine();
         }
-
+        
         public string AdjustText(string input)
         {
             int inputSize = Encoding.Default.GetBytes(input).Length;
-            if (inputSize > 20)
+
+            if (inputSize > 100)
             {
-                input.Remove(20);
+                input = input.Remove(100, input.Length - 100);
             }
 
-            if(inputSize > 100)
+            else if (inputSize > 40)
             {
-                input.Remove(100);
+                input = input.Remove(40,input.Length - 40);
             }
-
+            
             if(inputSize < 20)
             {
                 for (int i = inputSize; i < 21; i++)

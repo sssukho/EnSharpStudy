@@ -37,7 +37,7 @@ namespace LibraryManagement
                     break;
 
                 case "관리메뉴":
-                    pattern = @"[0-5]{1}$";
+                    pattern = @"[0-6]{1}$";
                     break;
 
                 case "검색메뉴":
@@ -104,6 +104,28 @@ namespace LibraryManagement
             return Judgement(input, pattern);
         }
 
+        public bool BookPrice(string input)
+        {
+            pattern = @"^[0-9]{4,5}$";
+            return Judgement(input, pattern);
+        }
+
+        public bool BookIsbn(string input)
+        {
+            return false;
+        }
+
+        public bool BookDescription(string input)
+        {
+            return false;
+        }
+
+        public bool BookPublishDate(string input)
+        {
+            pattern = @"^[0-9]{4}";
+            return false;
+        }
+
         public bool BookName(string input)
         {
             pattern = @"^[가-힣a-zA-Z0-9|!@#$%^&*()]{1,30}$";
@@ -138,6 +160,7 @@ namespace LibraryManagement
             return false;
         }
 
+        /*
         public bool IsValidChange(MySqlDataReader dataReader)
         {
             if (dataReader.RecordsAffected == -1)
@@ -160,7 +183,7 @@ namespace LibraryManagement
                 return true;
             else
                 return false;
-        }
+        }*/
 
         public bool IsValidBook(List<BookVO> inputBookList)
         {

@@ -71,6 +71,16 @@ namespace LibraryManagement
             dataReader.Close();
         }
 
+        public void Insert(BookVO inputBook)
+        {
+            sqlQuery = "insert into book values(" + null + "'" + inputBook.Name + "', '" + inputBook.Author + "', '" + inputBook.Price + "', '" +
+                inputBook.Publisher + "', '" + inputBook.PublishDate + "', " + inputBook.Count + ", '" + inputBook.Isbn + "', '" +
+                inputBook.Description + "';";
+
+            SendQuery(sqlQuery);
+            dataReader.Close();
+        }
+
         //Update statement
         public void Update(string tableName, string fieldName, string value, string primaryField, string toChangeField)
         {
@@ -120,6 +130,8 @@ namespace LibraryManagement
                     break;
                 case "저자명":
                     sqlQuery = sqlQuery + " where author='" + searchWord + "';";
+                    break;
+                case "just":
                     break;
             }
 

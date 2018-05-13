@@ -10,7 +10,7 @@ namespace LibraryManagement
     {
         enum Adminmenu { EXIT, MEMBER_MANAGEMENT, BOOK_MANAGEMENT, DB_MANAGEMENT }
         enum MemberMenu { EXIT, REGISTER_MEMBER, EDIT_MEMBER, REMOVE_MEMBER, SEARCH_MEMBER, PRINT_MEMBERS }
-        enum BookMenu { EXIT, REGISTER_BOOK, EDIT_BOOK, REMOVE_BOOK, SEARCH_BOOK, PRINT_BOOKS }
+        enum BookMenu { EXIT, REGISTER_BOOK, EDIT_BOOK, REMOVE_BOOK, SEARCH_BOOK, PRINT_BOOKS, SEARCH_NAVER }
         enum SearchType { EXIT, SERARCH_BY_NAME, SEARCH_BY_PUBLISHER, SEARCH_BY_AUTHOR }
         enum BookRent { EXIT, RENT_BOOK, RETURN_BOOK, EXTENSION_BOOK }
 
@@ -37,7 +37,8 @@ namespace LibraryManagement
 
         public void MainMenu()
         {
-            MenuInput("메인", "메인메뉴");
+            
+            MenuInput("관리자메인", "메인메뉴");
 
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
@@ -97,7 +98,7 @@ namespace LibraryManagement
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)BookMenu.REGISTER_BOOK:
-                    bookManagement.RegisterBook();
+                   // bookManagement.RegisterBook();
                     return;
 
                 case (int)BookMenu.EDIT_BOOK:
@@ -116,6 +117,10 @@ namespace LibraryManagement
                     bookManagement.PrintBooks();
                     return;
 
+                case (int)BookMenu.SEARCH_NAVER:
+                    bookManagement.SearchNaver();
+                    return;
+
                 case (int)BookMenu.EXIT:
                     Environment.Exit(0);
                     return;
@@ -128,15 +133,15 @@ namespace LibraryManagement
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)SearchType.SERARCH_BY_NAME:
-                    bookManagement.EditBook("도서명");
+                    //bookManagement.EditBook("도서명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_PUBLISHER:
-                    bookManagement.EditBook("출판사명");
+                   // bookManagement.EditBook("출판사명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_AUTHOR:
-                    bookManagement.EditBook("저자명");
+                    //bookManagement.EditBook("저자명");
                     return;
 
                 case (int)SearchType.EXIT:
@@ -151,15 +156,15 @@ namespace LibraryManagement
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)SearchType.SERARCH_BY_NAME:
-                    bookManagement.RemoveBook("도서명");
+                   // bookManagement.RemoveBook("도서명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_PUBLISHER:
-                    bookManagement.RemoveBook("출판사명");
+                   // bookManagement.RemoveBook("출판사명");
                     return;
 
                 case (int)SearchType.SEARCH_BY_AUTHOR:
-                    bookManagement.RemoveBook("저자명");
+                   // bookManagement.RemoveBook("저자명");
                     return;
 
                 case (int)SearchType.EXIT:

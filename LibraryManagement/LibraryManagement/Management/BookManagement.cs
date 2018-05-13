@@ -39,51 +39,30 @@ namespace LibraryManagement
             this.dao = dao;
         }
 
-        public void RegisterBook(string searchBy)
+        public void RegisterBook()
         {
-            //도서 검색한 결과에서 가져와야함
-            BookVO foundBook = SearchBook("registerSearch", searchBy);
-            if(foundBook == null)
-            {
-                //adminMenu.BookRegisterMenu();
-                return;
-            }
+            BookVO newBook;
+            newBook = print.RegisterBook();
 
-            print.BookInfo(foundBook);
+            dao.Insert(newBook);
+            adminMenu.BookManagementMenu();
+        }
+
+        public void NaverRegisterBook(List<BookVO> inputBookList, int bookIndex)
+        {
+            print.BookInfo(inputBookList[bookIndex]);
             string registerCheck = Console.ReadLine();
+
             if(registerCheck.ToUpper().Equals("Y"))
             {
-                //등록하는것.
+                dao.Insert(inputBookList[bookIndex]);
+                print.CompleteMsg("도서 등록 완료");
             }
-            /*sqlQuery = "insert into book values('" + newBook.Name + "', '" + newBook.Author + "', '"
-                + newBook.Publisher + "', " + newBook.Count + ");";
-            SendQuery();
-            while (dataReader.Read())
-            {
-                if (dataReader["name"].ToString().Equals(newBook.Name))
-                {
-                    CloseDB();
-                    print.ErrorMsg("중복 아이디");
-                    menu.MemberManagementMenu();
-                    return;
-                }
-            }
-
-            if (errorCheck.IsValidChange(dataReader) == false) //등록 에러
-            {
-                CloseDB();
-                print.ErrorMsg("도서 등록");
-                menu.BookManagementMenu();
-                return;
-            }
-
-            CloseDB();*/
-            print.CompleteMsg("도서 등록 완료");
             adminMenu.BookManagementMenu();
             return;
         }
 
-    
+    /*
         public void EditBook(string searchBy)
         {
             BookVO foundBook = SearchBook("editSearch", searchBy);
@@ -151,13 +130,14 @@ namespace LibraryManagement
             print.CompleteMsg("도서 정보 삭제 완료");
             menu.BookManagementMenu();
             return;
-        }
+        }*/
 
-        public BookVO SearchBook(string searchType, string searchBy)
+        public List<BookVO> SearchBook(string searchType, string searchBy)
         {
             string searchName;
             string searchAuthor;
             string searchPublisher;
+            string indexInput;
 
             if (searchBy.Equals("도서명"))
             {
@@ -179,7 +159,6 @@ namespace LibraryManagement
                         print.Search("대여할 책 이름");
                         break;
                 }
-
                 searchName = Console.ReadLine();
                 if (errorCheck.BookName(searchName))
                 {
@@ -188,6 +167,7 @@ namespace LibraryManagement
                 }
 
                 bookList = dao.SelectAll(bookList, searchBy, searchName);
+                print.PrintBooks(bookList);
             }
 
             else if (searchBy.Equals("출판사명"))
@@ -216,6 +196,7 @@ namespace LibraryManagement
                 }
 
                 bookList = dao.SelectAll(bookList, searchBy, searchPublisher);
+                print.PrintBooks(bookList);
             }
 
             else if (searchBy.Equals("저자명"))
@@ -244,29 +225,35 @@ namespace LibraryManagement
                 }
 
                 bookList = dao.SelectAll(bookList, searchBy, searchAuthor);
+                print.PrintBooks(bookList);
             }
 
             if (errorCheck.IsValidBook(bookList) == false) //검색 에러
             {
                 print.ErrorMsg("존재하는 도서 찾기");
-                if (searchType.Equals("justSearch")) adminMenu.BookManagementMenu();
+                if (searchType.Equals("justSearch"))
+                    adminMenu.BookManagementMenu();
                 return null;
             }
-
-            print.PrintBooks(bookList);
-            return null;
+            
+            indexInput = Console.ReadLine(); //입력예외처리 할 것
+            if(searchType.Equals("justSearch"))
+            {
+                print.PrintBooks(bookList);
+                print.PreviousCheck();
+                adminMenu.BookSearchMenu();
+                return null;
+            }
+            return bookList;
         }
 
         public void PrintBooks()
         {
-            sqlQuery = "select * from book where name not in ('없음');";
-            SendQuery();
-
-            print.PrintBooks(dataReader);
-            CloseDB();
-            menu.BookManagementMenu();
+            print.PrintBooks(dao.SelectAll(bookList, "just", null));   
+            adminMenu.BookManagementMenu();
         }
 
+        /*
         public void RentBook(string searchBy)
         {
             ConsoleKeyInfo input;
@@ -453,18 +440,44 @@ namespace LibraryManagement
 
             print.CompleteMsg("연장");
             menu.BookRentMenu();
+        }*/
+
+        public void SearchNaver()
+        {
+            string bookName;
+            string searchCount;
+            string indexInput;
+
+            print.Search("네이버로 검색할 도서명");
+            bookName = Console.ReadLine();
+            print.InputBookCount();
+            searchCount = Console.ReadLine();
+
+            if (errorCheck.BookName(bookName))
+            {
+                print.FormErrorMsg("도서명");
+                adminMenu.BookManagementMenu();
+            }
+
+            bookList = ParsingJson(HttpRequest(bookName, int.Parse(searchCount)), bookList);
+            print.PrintBooks(bookList);
+            print.RegisterCheck();
+            indexInput = Console.ReadLine(); //입력예외처리 할 것
+            if (indexInput.ToUpper().Equals("Q"))
+            {
+                adminMenu.BookManagementMenu();
+                return;
+            }
+
+            NaverRegisterBook(bookList, int.Parse(indexInput));
         }
 
-        public string HttpRequest(string searchWord)
+        public string HttpRequest(string searchWord, int count)
         {
-           
-
-            string query = "열혈C언어"; // 검색할 문자열
             string url = string.Format("https://openapi.naver.com/v1/search/book.json"); // 결과가 JSON 포맷
 
             StringBuilder getParams = new StringBuilder();
-            getParams.Append("?query=" + WebUtility.UrlEncode(query));
-
+            getParams.Append("?query=" + WebUtility.UrlEncode(searchWord) + "&display=" + count);
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url + getParams);
             request.Headers.Add("X-Naver-Client-Id", clientID); // 클라이언트 아이디
@@ -477,6 +490,7 @@ namespace LibraryManagement
                 Stream stream = response.GetResponseStream();
                 StreamReader reader = new StreamReader(stream, Encoding.UTF8);
                 string text = reader.ReadToEnd();
+                
                 return text;
             }
             return null;
@@ -487,16 +501,17 @@ namespace LibraryManagement
         {
             bookList.Clear();
             JObject obj = JObject.Parse(json);
-            JArray array = JArray.Parse(obj["item"].ToString()); //검색어와 일치하는 부분은 태그로 감싸져있음
+            JArray array = JArray.Parse(obj["items"].ToString()); //검색어와 일치하는 부분은 태그로 감싸져있음
 
-            obj = JObject.Parse(array.ToString());
-
+            int i = 1;
+            
             foreach (JObject item in array)
             {
-                BookVO newBook = new BookVO(0, item["title"].ToString(), item["author"].ToString(), item["price"].ToString(),
+                BookVO newBook = new BookVO(i, item["title"].ToString(), item["author"].ToString(), item["price"].ToString(),
                     item["publisher"].ToString(), item["pubdate"].ToString(), 5, item["isbn"].ToString(), item["description"].ToString());
 
                 bookList.Add(newBook);
+                i = i + 1;
             }
 
             return bookList;
