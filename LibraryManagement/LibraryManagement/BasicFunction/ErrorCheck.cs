@@ -52,7 +52,6 @@ namespace LibraryManagement
                     pattern = @"[1-2]{1}$";
                     break;
             }
-
             return Judgement(input.KeyChar.ToString(), pattern);
         }
 
@@ -64,12 +63,20 @@ namespace LibraryManagement
 
         public bool MemberID(string input)
         {
+            if(input.Equals("관리자"))
+            {
+                return false; 
+            }
             pattern = @"^[0-9]{6,8}$";
             return Judgement(input, pattern);
         }
 
         public bool MemberPassword(string input)
         {
+            if(input.Equals("관리자"))
+            {
+                return false;
+            }
             pattern = @"^[0-9]{4}$";
             return Judgement(input, pattern);
         }
@@ -151,40 +158,23 @@ namespace LibraryManagement
             return Judgement(input, pattern);
         }
 
+        public bool EdittedCount(int input)
+        {
+            pattern = @"^[0-9]{1,2,3}$";
+            return Judgement(input.ToString(), pattern);
+        }
+
         public bool Judgement(string input, string pattern)
         {
             mc = Regex.Matches(input, pattern);
             if (mc.Count == 0)
-            {
                 return true;
-            }
+
+            if (string.IsNullOrEmpty(input))
+                return true;
+
             return false;
         }
-
-        /*
-        public bool IsValidChange(MySqlDataReader dataReader)
-        {
-            if (dataReader.RecordsAffected == -1)
-                return false;
-
-            return true;
-        }
-
-        public bool IsValidEdit(MySqlDataReader dataReader)
-        {
-            if (dataReader.RecordsAffected == -1)
-                return false;
-
-            return true;
-        }
-
-        public bool IsValidMember(MySqlDataReader dataReader)
-        {
-            if (dataReader.HasRows)
-                return true;
-            else
-                return false;
-        }*/
 
         public bool IsValidBook(List<BookVO> inputBookList)
         {

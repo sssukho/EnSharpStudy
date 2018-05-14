@@ -13,6 +13,7 @@ namespace LibraryManagement
         enum BookMenu { EXIT, REGISTER_BOOK, EDIT_BOOK, REMOVE_BOOK, SEARCH_BOOK, PRINT_BOOKS, SEARCH_NAVER }
         enum SearchType { EXIT, SERARCH_BY_NAME, SEARCH_BY_PUBLISHER, SEARCH_BY_AUTHOR }
         enum BookRent { EXIT, RENT_BOOK, RETURN_BOOK, EXTENSION_BOOK }
+        enum DBMenu { EXIT, INIT_LOG, CHECK_LOG, SAVE_AS_TXT, DELTE_TXT}
 
         MemberManagement memberManagement;
         BookManagement bookManagement;
@@ -26,7 +27,7 @@ namespace LibraryManagement
             this.dao = dao;
             this.memberManagement = new MemberManagement(this, dao);
             this.bookManagement = new BookManagement(this, dao);
-            this.dbManagement = new DBManagement(this);
+            this.dbManagement = new DBManagement(this, dao);
             print = Print.GetInstance();
             errorCheck = ErrorCheck.GetInstance();
             MainMenu();
@@ -183,15 +184,15 @@ namespace LibraryManagement
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
                 case (int)SearchType.SERARCH_BY_NAME:
-                    bookManagement.SearchBook("justSearch", "도서명", "user");
+                    bookManagement.SearchBook("justSearch", "도서명", "admin");
                     return;
 
                 case (int)SearchType.SEARCH_BY_PUBLISHER:
-                    bookManagement.SearchBook("justSearch", "출판사명", "user");
+                    bookManagement.SearchBook("justSearch", "출판사명", "admin");
                     return;
 
                 case (int)SearchType.SEARCH_BY_AUTHOR:
-                    bookManagement.SearchBook("justSearch", "저자명", "user");
+                    bookManagement.SearchBook("justSearch", "저자명", "admin");
                     return;
 
                 case (int)SearchType.EXIT:
@@ -207,19 +208,23 @@ namespace LibraryManagement
 
             switch (int.Parse(menuSelect.KeyChar.ToString()))
             {
-                case (int)SearchType.SERARCH_BY_NAME:
-                    bookManagement.SearchBook("justSearch", "도서명", "user");
+                case (int)DBMenu.INIT_LOG:
+                    dbManagement.InitLog();
                     return;
 
-                case (int)SearchType.SEARCH_BY_PUBLISHER:
-                    bookManagement.SearchBook("justSearch", "출판사명", "user");
+                case (int)DBMenu.CHECK_LOG:
+                    dbManagement.CheckLog();
                     return;
 
-                case (int)SearchType.SEARCH_BY_AUTHOR:
-                    bookManagement.SearchBook("justSearch", "저자명", "user");
+                case (int)DBMenu.SAVE_AS_TXT:
+                    dbManagement.SaveLogFile();
                     return;
 
-                case (int)SearchType.EXIT:
+                case (int)DBMenu.DELTE_TXT:
+                    dbManagement.RemoveLogFile();
+                    return;
+
+                case (int)DBMenu.EXIT:
                     dao.CloseConnection();
                     Environment.Exit(0);
                     return;

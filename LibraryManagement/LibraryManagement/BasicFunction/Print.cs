@@ -528,8 +528,8 @@ namespace LibraryManagement
 
             while(true)
             {
-                Console.Write("\n\n\tISBN을 입력해주세요(1234567890 1234567890123) : ");
-                isbn = Console.ReadLine(); //에러체크
+                Console.Write("\n\n\tISBN을 입력해주세요(양식: 1234567890 1234567890123) : ");
+                isbn = Console.ReadLine(); 
                 if (errorCheck.BookIsbn(isbn) == false)
                     break;
 
@@ -576,7 +576,9 @@ namespace LibraryManagement
             Console.WriteLine("\t도서 제목 : {0}", inputBook.Name);
             Console.WriteLine("\t출판사 : {0}", inputBook.Publisher);
             Console.WriteLine("\t저자 : {0}", inputBook.Author);
-            Console.WriteLine("\t수량 : {0}", inputBook.Count + "\n");
+            Console.WriteLine("\t수량 : {0}", inputBook.Count);
+            Console.WriteLine("\t가격 : {0}", inputBook.Price);
+            Console.WriteLine("\t출판 일자 : {0}", inputBook.PublishDate + "\n");
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
 
             Console.WriteLine("\n\n\t---------------------------------수정할 도서 수량 입력--------------------------------");
@@ -601,7 +603,9 @@ namespace LibraryManagement
             Console.WriteLine("\t도서 제목 : {0}", inputBook.Name);
             Console.WriteLine("\t출판사 : {0}", inputBook.Publisher);
             Console.WriteLine("\t저자 : {0}", inputBook.Author);
-            Console.WriteLine("\t수량 : {0}", inputBook.Count + "\n");
+            Console.WriteLine("\t수량 : {0}", inputBook.Count);
+            Console.WriteLine("\t가격 : {0}", inputBook.Price);
+            Console.WriteLine("\t출판 일자 : {0}", inputBook.PublishDate + "\n");
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
         }
 
@@ -613,7 +617,9 @@ namespace LibraryManagement
             Console.WriteLine("\t도서 제목 : {0}", inputBook.Name);
             Console.WriteLine("\t출판사 : {0}", inputBook.Publisher);
             Console.WriteLine("\t저자 : {0}", inputBook.Author);
-            Console.WriteLine("\t수량 : {0}", inputBook.Count + "\n");
+            Console.WriteLine("\t수량 : {0}", inputBook.Count);
+            Console.WriteLine("\t가격 : {0}", inputBook.Price);
+            Console.WriteLine("\t출판 일자 : {0}", inputBook.PublishDate + "\n");
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
         }
 
@@ -629,6 +635,28 @@ namespace LibraryManagement
         }
 
         public void PrintBooks(List<BookVO> inputBookList)
+        {
+            Console.SetWindowSize(210, 60);
+            Console.Clear();
+            Console.WriteLine("=============================도서명단====================================\n");
+            
+            foreach(var item in inputBookList)
+            {
+                Console.WriteLine("================================================================================================================================");
+                Console.WriteLine("고유번호 : " + item.Index);
+                Console.WriteLine("도서명 : " + item.Name);
+                Console.WriteLine("저자 : " + item.Author);
+                Console.WriteLine("가격 : " + item.Price);
+                Console.WriteLine("출판사 : " + item.Publisher);
+                Console.WriteLine("출판일자 : " + item.PublishDate);
+                Console.WriteLine("수량 : " + item.Count);
+                Console.WriteLine("ISBN : " + item.Isbn);
+                Console.WriteLine("줄거리 : " + item.Description);
+                Console.WriteLine("================================================================================================================================");
+            }
+        }
+
+        public void PrintBook(List<BookVO> inputBookList)
         {
             Console.SetWindowSize(210, 60);
             Console.Clear();
@@ -706,7 +734,9 @@ namespace LibraryManagement
             Console.WriteLine("\t도서 제목 : {0}", inputBook.Name);
             Console.WriteLine("\t출판사 : {0}", inputBook.Publisher);
             Console.WriteLine("\t저자 : {0}", inputBook.Author);
-            Console.WriteLine("\t수량 : {0}", inputBook.Count + "\n");
+            Console.WriteLine("\t수량 : {0}", inputBook.Count);
+            Console.WriteLine("\t가격 : {0}", inputBook.Price);
+            Console.WriteLine("\t출판 일자 : {0}", inputBook.PublishDate + "\n");
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
 
             Console.Write("\n\n\t해당 도서를 빌리시겠습니까?(Y/N) : ");
@@ -718,7 +748,10 @@ namespace LibraryManagement
             Console.WriteLine("\n\n\t---------------------------------반납할 도서 기존 정보--------------------------------");
             Console.WriteLine("\t도서 제목 : {0}", inputBook.Name);
             Console.WriteLine("\t출판사 : {0}", inputBook.Publisher);
-            Console.WriteLine("\t저자 : {0}", inputBook.Author + "\n");
+            Console.WriteLine("\t저자 : {0}", inputBook.Author);
+            Console.WriteLine("\t수량 : {0}", inputBook.Count);
+            Console.WriteLine("\t가격 : {0}", inputBook.Price);
+            Console.WriteLine("\t출판 일자 : {0}", inputBook.PublishDate + "\n");
             Console.WriteLine("\t--------------------------------------------------------------------------------------");
 
             Console.Write("\n\n\t해당 도서를 반납하시겠습니까?(Y/N) : ");
@@ -738,6 +771,21 @@ namespace LibraryManagement
             Console.ReadLine();
         }
 
+        public void PrintLog(MySqlDataReader dataReader)
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n\t---------------------------------로그 기록--------------------------------");
+            while(dataReader.Read())
+            {
+                Console.WriteLine("\t {0}    {1}         {2}          {3}", dataReader["id"].ToString(), dataReader["action"].ToString(), dataReader["keyword"].ToString(), dataReader["time"].ToString());
+            }   
+        }
+
+        public void RemoveLogError()
+        {
+            Console.Clear();
+            Console.WriteLine("\n\t삭제할 로그 내역 파일이 없습니다");
+        }
 
     }
 }

@@ -142,6 +142,13 @@ namespace LibraryManagement
             SendQuery(sqlQuery);
         }
 
+        public void InitLog()
+        {
+            dataReader.Close();
+            sqlQuery = "delete from log;";
+            SendQuery(sqlQuery);
+        }
+
         //Select statement
         public MemberVO Select(string id)
         {
@@ -152,7 +159,6 @@ namespace LibraryManagement
             MemberVO selectedMember = new MemberVO(dataReader["id"].ToString(), dataReader["password"].ToString(),
                     dataReader["name"].ToString(), dataReader["gender"].ToString(), dataReader["phoneNumber"].ToString(),
                     dataReader["email"].ToString(), dataReader["address"].ToString(), dataReader["rentbook"].ToString(), dataReader["duedate"].ToString(), 3);
-            //dataReader.Close();
 
             return selectedMember;
         }
@@ -161,6 +167,14 @@ namespace LibraryManagement
         {
             dataReader.Close();
             sqlQuery = "select * from " + tableName + " where " + primaryKey + " " + condition;
+            SendQuery(sqlQuery);
+            return dataReader;
+        }
+
+        public MySqlDataReader SelectLog()
+        {
+            dataReader.Close();
+            sqlQuery = "select * from log;";
             SendQuery(sqlQuery);
             return dataReader;
         }
@@ -294,13 +308,6 @@ namespace LibraryManagement
 
             dataReader.Close();
             return "NoUser";
-        }
-        
-
-        public List<MemberVO> Select()
-        {
-
-            return null;
         }
     }
 }

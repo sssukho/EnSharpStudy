@@ -7,6 +7,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Text.RegularExpressions;
+using System.Web;
 
 namespace LibraryManagement
 {
@@ -71,7 +72,7 @@ namespace LibraryManagement
         }
 
         public void NaverRegisterBook(List<BookVO> inputBookList, int bookIndex)
-        {
+        {     
             BookVO foundBook = inputBookList.Find(book => book.Index.Equals(bookIndex));
             print.BookInfo(foundBook);
             print.YNcheck();
@@ -91,7 +92,6 @@ namespace LibraryManagement
             }
             adminMenu.BookManagementMenu();
             return;
-
         }
     
         public void EditBook(string searchBy)
@@ -114,10 +114,15 @@ namespace LibraryManagement
             
             //foundBookList에서의 bookVO 중에서 idx값이 bookIndex와 같은것.
             BookVO foundBook = foundBookList.Find(book => book.Index.Equals(int.Parse(bookIndex)));
+            if(foundBook == null)
+            {
+                print.ErrorMsg("입력하신 고유번호와 일치하는 책 없음");
+                adminMenu.BookManagementMenu();
+                return;
+            }
+
             int edittedCount = print.EditBook(foundBook);
-            //에러쳌
             dao.Update("book", "count", edittedCount, "idx", int.Parse(bookIndex));
-            //에러쳌
             dao.InsertLog("관리자", "도서편집", foundBook.Name, DateTime.Now);
             print.CompleteMsg("도서 정보 수정 완료");
             adminMenu.BookManagementMenu();
@@ -184,7 +189,6 @@ namespace LibraryManagement
                     else
                         userMenu.MainMenu();
                 }
-
                 bookList = dao.SelectAll(bookList, searchBy, searchName); //db에 있는 인덱스값 그대로 불러옴
             }
 
@@ -251,7 +255,7 @@ namespace LibraryManagement
 
             if (errorCheck.IsValidBook(bookList) == false) //검색 에러
             {
-                print.ErrorMsg("존재하는 도서 찾기");
+                print.ErrorMsg("입력한 도서 없음");
                 if (searchType.Equals("justSearch"))
                 {
                     if (user.Equals("admin"))
@@ -338,7 +342,7 @@ namespace LibraryManagement
                 print.MenuErrorMsg("Y/N오류");
             }
 
-            if (input.KeyChar.ToString().Equals("N") || input.KeyChar.ToString().Equals("n")) //대여 안함
+            if (input.KeyChar.ToString().ToUpper().Equals("N")) //대여 안함
             {
                 userMenu.BookRentSearchMenu();
                 return;
@@ -383,7 +387,7 @@ namespace LibraryManagement
                 break;
             }
 
-            if (input.KeyChar.ToString().Equals("n") || input.KeyChar.ToString().Equals("N"))
+            if (input.KeyChar.ToString().ToUpper().Equals("N"))
             {
                 userMenu.BookRentMenu();
                 return;
@@ -392,7 +396,6 @@ namespace LibraryManagement
             dao.UpdateMember(logOnMember.Id);
 
             bookCount = dao.SelectCount(logOnMember.RentBook);
-
             bookCount = bookCount + 1;
 
             dao.UpdateBookCount(bookCount, logOnMember.RentBook);
@@ -431,10 +434,8 @@ namespace LibraryManagement
             else if (logOnMember.DueDate.Equals("2018-05-28"))
             {
                 dao.UpdateDueDate("2018-06-04", 0, logOnMember.Id);
-                
                 logOnMember.DueDate = "2018-06-04";
                 logOnMember.ExtensionCount = 0;
-                
             }
 
             print.CompleteMsg("연장");
@@ -470,7 +471,6 @@ namespace LibraryManagement
                 adminMenu.BookManagementMenu();
                 return;
             }
-
             NaverRegisterBook(bookList, int.Parse(indexInput));
         }
 
@@ -523,11 +523,8 @@ namespace LibraryManagement
                 pubdate = RemoveTag(item["pubdate"].ToString());
                 isbn = RemoveTag(item["isbn"].ToString());
                 description = RemoveTag(item["description"].ToString());
-                if(description.Length > 30)
-                {
-                    description = description.Remove(29);
-                }
-                description = RemoveSpecialLetter(description);
+                description = HttpUtility.HtmlDecode(description.Replace("'",""));
+                
                 BookVO newBook = new BookVO(i, title, author, price,publisher, pubdate, 5, isbn, description);
 
                 bookList.Add(newBook);
@@ -543,13 +540,6 @@ namespace LibraryManagement
             output = Regex.Replace(input, "<[^>]*>", string.Empty);
             //get rid of multiple blank lines
             output = Regex.Replace(output, @"^\s*$\n", string.Empty, System.Text.RegularExpressions.RegexOptions.Multiline);
-            return output;
-        }
-
-        public string RemoveSpecialLetter(string input)
-        {
-            string output;
-            output = Regex.Replace(input, @"[^a-zA-Z0-9가-힣_]", "", RegexOptions.Singleline);
             return output;
         }
     }
