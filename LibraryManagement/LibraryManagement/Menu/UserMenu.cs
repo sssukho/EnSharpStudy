@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace LibraryManagement
 {
+    /// <summary>
+    /// 일반 유저 전용 메뉴
+    /// </summary>
     class UserMenu
     {
         enum Usermenu { EXIT, RENT_EXTENSION, SEARCH_BOOK, PRINT_BOOKS }

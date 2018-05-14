@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace LibraryManagement
 {
+    /// <summary>
+    /// 회원 관리 클래스 : 일반 유저는 사용 불가능
+    /// </summary>
     class MemberManagement
     {
         Print print;

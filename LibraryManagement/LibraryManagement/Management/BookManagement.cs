@@ -12,7 +12,7 @@ using System.Web;
 namespace LibraryManagement
 {
     /// <summary>
-    /// 도서관리 기능을 담당하는 클래스
+    /// 도서관리 기능을 담당하는 클래스 (유저 및 관리자 모두 사용)
     /// 1. 도서 등록
     /// 2. 도서 정보 수정
     /// 3. 도서 정보 삭제
@@ -20,6 +20,8 @@ namespace LibraryManagement
     /// 5. 도서 명단 출력
     /// 6. 도서 대여 및 반납 기능
     /// 7. 도서 연장
+    /// 8. 네이버 API 사용한 검색
+    /// 9. 네이버 API 사용한 검색을 통한 도서 등록
     /// </summary>
     class BookManagement
     {
@@ -74,10 +76,19 @@ namespace LibraryManagement
         public void NaverRegisterBook(List<BookVO> inputBookList, int bookIndex)
         {     
             BookVO foundBook = inputBookList.Find(book => book.Index.Equals(bookIndex));
-            print.BookInfo(foundBook);
-            print.YNcheck();
-            string registerCheck = Console.ReadLine();
+            string registerCheck;
 
+            while (true)
+            {
+                print.BookInfo(foundBook);
+                print.YNcheck();
+                registerCheck = Console.ReadLine();
+                if (errorCheck.Confirm(registerCheck) == false)
+                    break;
+
+                print.FormErrorMsg("Y/N");
+            }
+            
             if(registerCheck.ToUpper().Equals("Y"))
             {
                 if(dao.IsBookDuplicated(foundBook))
@@ -103,14 +114,26 @@ namespace LibraryManagement
                 return;
             }
 
-            print.PrintBooks(foundBookList);
-            print.Check("편집");
-            string bookIndex = Console.ReadLine();
-            if(bookIndex.ToUpper().Equals("Q"))
+            
+            string bookIndex;
+            while(true)
             {
-                adminMenu.BookManagementMenu();
-                return;
+                print.PrintBooks(foundBookList);
+                print.Check("편집");
+                bookIndex = Console.ReadLine();
+                if (errorCheck.BookIndex(bookIndex) == false || bookIndex.ToUpper().Equals("Q"))
+                {
+                    if (bookIndex.ToUpper().Equals("Q"))
+                    {
+                        adminMenu.BookManagementMenu();
+                        return;
+                    }
+                    break;
+                }
+                print.FormErrorMsg("고유번호");
             }
+            
+            
             
             //foundBookList에서의 bookVO 중에서 idx값이 bookIndex와 같은것.
             BookVO foundBook = foundBookList.Find(book => book.Index.Equals(int.Parse(bookIndex)));
@@ -139,18 +162,29 @@ namespace LibraryManagement
                 return;
             }
 
-            print.PrintBooks(foundBookList);
-            print.Check("삭제");
-            string bookIndex = Console.ReadLine();
-            if(bookIndex.ToUpper().Equals("Q"))
+            string bookIndex;
+            while (true)
             {
-                adminMenu.BookManagementMenu();
-                return;
+                print.PrintBooks(foundBookList);
+                print.Check("삭제");
+                bookIndex = Console.ReadLine();
+                if (errorCheck.BookIndex(bookIndex) == false || bookIndex.ToUpper().Equals("Q"))
+                {
+                    if (bookIndex.ToUpper().Equals("Q"))
+                    {
+                        adminMenu.BookManagementMenu();
+                        return;
+                    }
+                    break;
+                }
+                print.FormErrorMsg("고유번호");
             }
+
 
             dao.Delete("book", "idx", int.Parse(bookIndex));
             dao.InsertLog("관리자", "도서삭제", foundBookList.Find(book=>book.Index.Equals(int.Parse(bookIndex))).Name, DateTime.Now);
             print.CompleteMsg("도서 정보 삭제 완료");
+            adminMenu.BookManagementMenu();
             return;
         }
 
@@ -301,9 +335,22 @@ namespace LibraryManagement
 
             print.PrintBooks(foundList);
             print.Check("대여");
-            string indexInput = Console.ReadLine();
-            if (indexInput.ToUpper().Equals("Q"))
-                userMenu.BookRentMenu();
+            string indexInput;
+            while (true)
+            {
+                indexInput = Console.ReadLine();
+                if (errorCheck.BookIndex(indexInput) == false || indexInput.ToUpper().Equals("Q"))
+                {
+                    if (indexInput.ToUpper().Equals("Q"))
+                    {
+                        adminMenu.BookManagementMenu();
+                        return;
+                    }
+                    break;
+                }
+
+                print.FormErrorMsg("고유번호");
+            }
 
             BookVO foundBook = foundList.Find(book => book.Index.Equals(int.Parse(indexInput)));
             if (foundBook.Count == 0) //빌릴 책의 수량이 없는 경우
@@ -335,6 +382,7 @@ namespace LibraryManagement
             print.CheckRentBook(foundBook);
             while (true) //제대로 입력할때까지 반복
             {
+                print.CheckRentBook(foundBook);
                 input = Console.ReadKey();
                 if (errorCheck.Confirm(input.KeyChar.ToString()) == false)
                     break;
@@ -466,10 +514,17 @@ namespace LibraryManagement
             indexInput = Console.ReadLine(); //입력예외처리 할 것
 
             dao.InsertLog("관리자", "네이버검색", bookName, DateTime.Now);
-            if (indexInput.ToUpper().Equals("Q"))
+            while(true)
             {
-                adminMenu.BookManagementMenu();
-                return;
+                if (errorCheck.BookIndex(indexInput) == false || indexInput.ToUpper().Equals("Q"))
+                {
+                    if (indexInput.ToUpper().Equals("Q"))
+                    {
+                        adminMenu.BookManagementMenu();
+                        return;
+                    }
+                    break;
+                }
             }
             NaverRegisterBook(bookList, int.Parse(indexInput));
         }

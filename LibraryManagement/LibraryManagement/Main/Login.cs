@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace LibraryManagement
 {
+    /// <summary>
+    /// 관리자 모드와 일반 유저 모드를 구분하기 위한 로그인 클래스
+    /// </summary>
     class Login
     {
         Print print;
@@ -43,12 +46,14 @@ namespace LibraryManagement
                 print.FormErrorMsg("패스워드");
             }
 
+            //아이디 비번 일치 확인(관리자)
             if (AuthenticateType(id, password) == "Admin")
             {
                 new AdminMenu(dao);
                 return;
             }
 
+            //아이디 비번 일치 확인(유저모드)
             if (AuthenticateType(id, password) == "User")
             {
                 new UserMenu(dao, id);

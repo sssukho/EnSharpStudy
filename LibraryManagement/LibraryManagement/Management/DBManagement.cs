@@ -8,6 +8,10 @@ using System.IO;
 
 namespace LibraryManagement
 {
+    /// <summary>
+    /// 로그 관리 클래스(관리자 전용)
+    /// 로그 테이블에 추가하는 방식 -> 매 메소드의 끝부분에 로그 테이블에 Insert
+    /// </summary>
     class DBManagement
     {
         AdminMenu adminMenu;

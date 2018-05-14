@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace LibraryManagement
 {
+    /// <summary>
+    /// 에러체크 클래스
+    /// </summary>
     class ErrorCheck
     {
         private static ErrorCheck errorCheck;
@@ -135,9 +138,15 @@ namespace LibraryManagement
 
         public bool BookName(string input)
         {
-            //pattern = @"^[가-힣a-zA-Z0-9|!@#$%^&*()]{1,30}$";
-            //return Judgement(input, pattern);
+            if (string.IsNullOrEmpty(input))
+                return true;
             return false;
+        }
+
+        public bool BookIndex(string input)
+        {
+            pattern = @"^[0-9]{1,3}";
+            return Judgement(input, pattern);
         }
 
         public bool BookPublisher(string input)
@@ -148,7 +157,7 @@ namespace LibraryManagement
 
         public bool BookAuthor(string input)
         {
-            pattern = @"^[가-힣a-zA-Z]{1,10}$";
+            pattern = @"^[가-힣a-zA-Z]{1,50}$";
             return false;
         }
 
@@ -160,7 +169,7 @@ namespace LibraryManagement
 
         public bool EdittedCount(int input)
         {
-            pattern = @"^[0-9]{1,2,3}$";
+            pattern = @"^[0-9]{1,3}$";
             return Judgement(input.ToString(), pattern);
         }
 

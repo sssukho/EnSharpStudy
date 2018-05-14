@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace LibraryManagement
 {
+    /// <summary>
+    /// 관리자 전용 메뉴
+    /// </summary>
+    
     class AdminMenu
     {
         enum Adminmenu { EXIT, MEMBER_MANAGEMENT, BOOK_MANAGEMENT, DB_MANAGEMENT }
