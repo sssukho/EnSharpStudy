@@ -28,13 +28,11 @@ namespace LibraryManagement
     //도서 대여 연장
     //도서 검색
     //도서 명단 출력
-
         /// <summary>
         /// mysql 접속 계정 및 비밀번호 내용 -> DAO Initialize 메소드
         /// 유저모드 아이디/비번 : 122172 / 6232
         /// 관리자모드 아이디/비번 : 관리자 / 관리자
         /// </summary>
-        /// 
     class Program
     {
         static void Main(string[] args)

@@ -113,7 +113,6 @@ namespace LibraryManagement
                 adminMenu.BookManagementMenu();
                 return;
             }
-
             
             string bookIndex;
             while(true)
@@ -132,9 +131,7 @@ namespace LibraryManagement
                 }
                 print.FormErrorMsg("고유번호");
             }
-            
-            
-            
+
             //foundBookList에서의 bookVO 중에서 idx값이 bookIndex와 같은것.
             BookVO foundBook = foundBookList.Find(book => book.Index.Equals(int.Parse(bookIndex)));
             if(foundBook == null)
@@ -179,7 +176,6 @@ namespace LibraryManagement
                 }
                 print.FormErrorMsg("고유번호");
             }
-
 
             dao.Delete("book", "idx", int.Parse(bookIndex));
             dao.InsertLog("관리자", "도서삭제", foundBookList.Find(book=>book.Index.Equals(int.Parse(bookIndex))).Name, DateTime.Now);
@@ -504,14 +500,29 @@ namespace LibraryManagement
 
             if (errorCheck.BookName(bookName))
             {
-                print.FormErrorMsg("도서명");
+                print.FormErrorMsg("통합검색");
                 adminMenu.BookManagementMenu();
             }
 
             bookList = ParsingJson(HttpRequest(bookName, int.Parse(searchCount)), bookList);
-            print.PrintBooks(bookList);
-            print.Check("등록");
-            indexInput = Console.ReadLine(); //입력예외처리 할 것
+
+            while (true)
+            {
+                print.PrintBooks(bookList);
+                print.Check("등록");
+                indexInput = Console.ReadLine();
+                if (errorCheck.BookIndex(indexInput) == false || indexInput.ToUpper().Equals("Q"))
+                {
+                    if (indexInput.ToUpper().Equals("Q"))
+                    {
+                        adminMenu.BookManagementMenu();
+                        return;
+                    }
+                    break;
+                }
+
+                print.FormErrorMsg("고유번호");
+            }
 
             dao.InsertLog("관리자", "네이버검색", bookName, DateTime.Now);
             while(true)

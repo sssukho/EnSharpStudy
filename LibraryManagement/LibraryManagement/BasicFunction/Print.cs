@@ -437,17 +437,17 @@ namespace LibraryManagement
 
         public void PrintMembers(MySqlDataReader dataReader)
         {
-            Console.SetWindowSize(160, 25);
+            Console.SetWindowSize(185, 25);
             Console.Clear();
-            Console.WriteLine("\n\n\t---------------------------------------------회원 명단---------------------------------------------");
-            Console.WriteLine("\t아이디  |  이름   | 성별 |   휴대폰번호   |   이메일   |   주소   |   대출한 책   |   반납일   |    연장 가능횟수    |");
+            Console.WriteLine("-------------------------------------------------------------회원 명단--------------------------------------------------------------");
+            Console.WriteLine("아이디 |이름 |성별  |휴대폰번호          |이메일              |주소                |대출한책            |반납일              |연장 가능횟수    ");
 
             while (dataReader.Read())
             {
-                Console.WriteLine("\n\t{0}      {1}      {2}      {3}      {4}      {5}      {6}      {7}      {8}",
-                    dataReader["id"].ToString(), dataReader["name"].ToString(), dataReader["gender"].ToString(),
-                    dataReader["phoneNumber"].ToString(), dataReader["email"].ToString(), dataReader["address"].ToString(),
-                    dataReader["rentbook"].ToString(), dataReader["duedate"].ToString(), dataReader["extensionCount"].ToString());
+                Console.WriteLine("{0} {1} {2} {3} {4} {5} {6} {7} {8}", dataReader["id"].ToString(), dataReader["name"].ToString(),
+                    dataReader["gender"].ToString(), AdjustText(dataReader["phoneNumber"].ToString()), AdjustText(dataReader["email"].ToString()), 
+                    AdjustText(dataReader["address"].ToString()), AdjustText(dataReader["rentbook"].ToString()), AdjustText(dataReader["duedate"].ToString()),
+                    dataReader["extensionCount"].ToString());
             }
             dataReader.Close();
             Console.WriteLine("\n\n\t이전 메뉴로 돌아가려면 엔터...");
@@ -653,27 +653,6 @@ namespace LibraryManagement
                 Console.WriteLine("ISBN : " + item.Isbn);
                 Console.WriteLine("줄거리 : " + item.Description);
                 Console.WriteLine("================================================================================================================================");
-            }
-        }
-
-        public void PrintBook(List<BookVO> inputBookList)
-        {
-            Console.SetWindowSize(210, 60);
-            Console.Clear();
-
-            string name, author, publisher, pubDate;
-
-            Console.WriteLine("------------------------------------------------------------------------------------------도서 명단------------------------------------------------------------------------------------------------");
-            Console.WriteLine("고유번호|도서명             |저자               |가격                 |출판사             |출판일자           |수량|ISBN                     |줄거리              ");
-
-            foreach (var item in inputBookList)
-            {
-                name = AdjustText(item.Name);
-                author = AdjustText(item.Author);
-                publisher = AdjustText(item.Publisher);
-                pubDate = AdjustText(item.PublishDate);
-
-                Console.WriteLine(item.Index + "        " + name + author+ item.Price + "                 " + publisher+ pubDate+ item.Count + "    " + item.Isbn + "  " + item.Description);
             }
         }
 
