@@ -43,12 +43,6 @@ namespace LibraryManagement
             database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
 
             connect = new MySqlConnection(connectionString);
-            OpenConnection();
-        }
-
-        //open connection to database
-        public void OpenConnection()
-        {
             connect.Open();
         }
 
@@ -86,7 +80,7 @@ namespace LibraryManagement
             SendQuery(sqlQuery);
         }
 
-        public void InsertLog(string name, string action, string keyword, DateTime dateTime)
+        public void Insert(string name, string action, string keyword, DateTime dateTime)
         {
             dataReader.Close();
             if (keyword == null)
@@ -100,6 +94,7 @@ namespace LibraryManagement
         public void Update(string tableName, string fieldName, string value, string primaryField, string toChangeField)
         {
             dataReader.Close();
+            //var isNumeric = int.TryParse(toChangeField, out int n);
             sqlQuery = "update " + tableName + " set " + fieldName + "='" + value + "' where " + primaryField + "='" + toChangeField + "';";
             SendQuery(sqlQuery);
         }
@@ -111,17 +106,47 @@ namespace LibraryManagement
             SendQuery(sqlQuery);
         }
 
-        public void UpdateRentBook(BookVO foundBook, string logOnID)
+        public void Update(BookVO foundBook, string logOnID)
         {
             dataReader.Close();
-            sqlQuery = "update member set rentbook ='" + foundBook.Name + "', duedate ='" + "2018-05-21" + "' where id='" + logOnID + "';";
+            sqlQuery = "update member set rentbook ='" + foundBook.Name + "', duedate ='" + DateTime.Today.ToString().Remove(11) + "' where id='" + logOnID + "';";
             SendQuery(sqlQuery);
         }
 
-        public void UpdateRentBook(BookVO foundBook)
+        public void Update(BookVO foundBook)
         {
             dataReader.Close();
             sqlQuery = "update book set count ='" + foundBook.Count + "' where name='" + foundBook.Name + "';";
+            SendQuery(sqlQuery);
+        }
+
+        public void Update(string id)
+        {
+            dataReader.Close();
+            sqlQuery = "update member set rentbook = '없음', duedate = '없음', extensionCount = 2 where id = '" + id + "';";
+            SendQuery(sqlQuery);
+        }
+
+        public void Update(int bookCount, string rentBook)
+        {
+            dataReader.Close();
+            sqlQuery = "update book set count=" + bookCount + " where name='" + rentBook + "';";
+            SendQuery(sqlQuery);
+        }
+
+        public void Update(string dueDate, int extensionCount, string id, int count)
+        {
+            dataReader.Close();
+            if (count == 1)
+            {
+                sqlQuery = "update member set duedate='" + dueDate + "', extensionCount=" + extensionCount + " where id = '" + id + "';";
+            }
+
+            if (count == 2)
+            {
+                sqlQuery = "update member set duedate='" + dueDate + "', extensionCount=" + extensionCount + " where id = '" + id + "';";
+            }
+
             SendQuery(sqlQuery);
         }
 
@@ -140,7 +165,7 @@ namespace LibraryManagement
             SendQuery(sqlQuery);
         }
 
-        public void InitLog()
+        public void Delete()
         {
             dataReader.Close();
             sqlQuery = "delete from log;";
@@ -161,7 +186,7 @@ namespace LibraryManagement
             return selectedMember;
         }
 
-        public MySqlDataReader SelectAll(string tableName, string primaryKey, string condition)
+        public MySqlDataReader Select(string tableName, string primaryKey, string condition)
         {
             dataReader.Close();
             sqlQuery = "select * from " + tableName + " where " + primaryKey + " " + condition;
@@ -169,7 +194,7 @@ namespace LibraryManagement
             return dataReader;
         }
 
-        public MySqlDataReader SelectLog()
+        public MySqlDataReader Select()
         {
             dataReader.Close();
             sqlQuery = "select * from log;";
@@ -204,8 +229,35 @@ namespace LibraryManagement
                     dataReader["price"].ToString(), dataReader["publisher"].ToString(), dataReader["publishDate"].ToString(), 
                     int.Parse(dataReader["count"].ToString()), dataReader["isbn"].ToString(), dataReader["description"].ToString()));
             }
-            //dataReader.Close();
             return inputBookList;
+        }
+
+        public string Select(string id, string password)
+        {
+            sqlQuery = "select * from member where id='" + id + "' and password='" + password + "';";
+            SendQuery(sqlQuery);
+
+            if (dataReader.HasRows == false)
+            {
+                dataReader.Close();
+                return "NoUser";
+            }
+            dataReader.Read();
+
+            if (dataReader["id"].ToString().Equals(id) && dataReader["password"].ToString().Equals(password))
+            {
+                if (id.Equals("관리자"))
+                {
+                    dataReader.Close();
+                    return "Admin";
+                }
+
+                dataReader.Close();
+                return "User";
+            }
+
+            dataReader.Close();
+            return "NoUser";
         }
 
         public BookVO SelectBook(string rentBook)
@@ -219,13 +271,6 @@ namespace LibraryManagement
                 dataReader["description"].ToString());
         }
 
-        public void UpdateMember(string id)
-        {
-            dataReader.Close();
-            sqlQuery = "update member set rentbook = '없음', duedate = '없음', extensionCount = 2 where id = '" + id + "';";
-            SendQuery(sqlQuery);
-        }
-
         public int SelectCount(string rentBook)
         {
             dataReader.Close();
@@ -234,20 +279,6 @@ namespace LibraryManagement
             dataReader.Read();
 
             return int.Parse(dataReader["count"].ToString());
-        }
-
-        public void UpdateBookCount(int bookCount, string rentBook)
-        {
-            dataReader.Close();
-            sqlQuery = "update book set count=" + bookCount + " where name='" + rentBook + "';";
-            SendQuery(sqlQuery);
-        }
-
-        public void UpdateDueDate(string dueDate, int extensionCount, string id)
-        {
-            dataReader.Close();
-            sqlQuery = "update member set duedate='" + dueDate + "', extensionCount=" + extensionCount + " where id = '" + id + "';";
-            SendQuery(sqlQuery);
         }
 
         public bool IsBookDuplicated(BookVO inputBook)
@@ -278,34 +309,6 @@ namespace LibraryManagement
             }
             dataReader.Close();
             return false;
-        }
-
-        public string Select(string id, string password)
-        {
-            sqlQuery = "select * from member where id='" + id + "' and password='" + password + "';";
-            SendQuery(sqlQuery);
-
-            if (dataReader.HasRows == false)
-            {
-                dataReader.Close();
-                return "NoUser";
-            }
-            dataReader.Read();
-
-            if(dataReader["id"].ToString().Equals(id) && dataReader["password"].ToString().Equals(password))
-            {
-                if(id.Equals("관리자"))
-                {
-                    dataReader.Close();
-                    return "Admin";
-                }
-
-                dataReader.Close();
-                return "User";
-            }
-
-            dataReader.Close();
-            return "NoUser";
         }
     }
 }

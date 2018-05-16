@@ -30,14 +30,14 @@ namespace LibraryManagement
 
         public void InitLog()
         {
-            dao.InitLog();
+            dao.Delete();
             print.CompleteMsg("로그 테이블 초기화 완료");
             adminMenu.DBManagementMenu();
         }
 
         public void CheckLog()
         {
-            print.PrintLog(dao.SelectLog());
+            print.PrintLog(dao.Select());
             print.PreviousCheck();
             adminMenu.DBManagementMenu();
         }
@@ -45,7 +45,7 @@ namespace LibraryManagement
         public void SaveLogFile()
         {
             MySqlDataReader dataReader;
-            dataReader = dao.SelectLog();
+            dataReader = dao.Select();
 
             using (StreamWriter outputFile = new StreamWriter(filePath+"\\LogFile.txt"))
             {
@@ -55,7 +55,7 @@ namespace LibraryManagement
                         dataReader["keyword"].ToString() + "     " + dataReader["time"].ToString());
                 }
             }
-            dao.InsertLog("관리자", "로그 파일로 내보내기", null, DateTime.Now);
+            dao.Insert("관리자", "로그 파일로 내보내기", null, DateTime.Now);
             print.CompleteMsg("로그 내역 텍스트 파일로 바탕화면에 생성 완료");
             adminMenu.DBManagementMenu();
         }
@@ -74,7 +74,7 @@ namespace LibraryManagement
 
             File.Delete(filePath + "\\LogFile.txt");
             print.CompleteMsg("로그 내역 삭제 완료");
-            dao.InsertLog("관리자", "로그삭제", null, DateTime.Now);
+            dao.Insert("관리자", "로그삭제", null, DateTime.Now);
             adminMenu.DBManagementMenu();
         }
     }

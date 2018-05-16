@@ -98,7 +98,7 @@ namespace LibraryManagement
                     return;
                 }
                 dao.Insert(foundBook);
-                dao.InsertLog("관리자", "도서등록", foundBook.Name, DateTime.Now);
+                dao.Insert("관리자", "도서등록", foundBook.Name, DateTime.Now);
                 print.CompleteMsg("도서 등록 완료");
             }
             adminMenu.BookManagementMenu();
@@ -143,7 +143,7 @@ namespace LibraryManagement
 
             int edittedCount = print.EditBook(foundBook);
             dao.Update("book", "count", edittedCount, "idx", int.Parse(bookIndex));
-            dao.InsertLog("관리자", "도서편집", foundBook.Name, DateTime.Now);
+            dao.Insert("관리자", "도서편집", foundBook.Name, DateTime.Now);
             print.CompleteMsg("도서 정보 수정 완료");
             adminMenu.BookManagementMenu();
             return;
@@ -178,7 +178,7 @@ namespace LibraryManagement
             }
 
             dao.Delete("book", "idx", int.Parse(bookIndex));
-            dao.InsertLog("관리자", "도서삭제", foundBookList.Find(book=>book.Index.Equals(int.Parse(bookIndex))).Name, DateTime.Now);
+            dao.Insert("관리자", "도서삭제", foundBookList.Find(book=>book.Index.Equals(int.Parse(bookIndex))).Name, DateTime.Now);
             print.CompleteMsg("도서 정보 삭제 완료");
             adminMenu.BookManagementMenu();
             return;
@@ -393,16 +393,16 @@ namespace LibraryManagement
             }
 
             //대여함
-            dao.UpdateRentBook(foundBook, logonID);
+            dao.Update(foundBook, logonID);
             logOnMember.RentBook = foundBook.Name;
-            logOnMember.DueDate = "2018-05-21";
+            logOnMember.DueDate = DateTime.Today.ToString().Remove(11);
 
             foundBook.Count = foundBook.Count - 1;
 
-            dao.UpdateRentBook(foundBook);
+            dao.Update(foundBook);
 
             print.CompleteMsg("해당 도서 대여");
-            dao.InsertLog(logOnMember.Name, "도서대여", foundBook.Name, DateTime.Now);
+            dao.Insert(logOnMember.Name, "도서대여", foundBook.Name, DateTime.Now);
             userMenu.BookRentMenu();
             return;
         }
@@ -437,23 +437,26 @@ namespace LibraryManagement
                 return;
             }
 
-            dao.UpdateMember(logOnMember.Id);
+            dao.Update(logOnMember.Id);
 
             bookCount = dao.SelectCount(logOnMember.RentBook);
             bookCount = bookCount + 1;
 
-            dao.UpdateBookCount(bookCount, logOnMember.RentBook);
+            dao.Update(bookCount, logOnMember.RentBook);
 
             logOnMember.RentBook = "없음";
             logOnMember.DueDate = "없음";
             logOnMember.ExtensionCount = 2;
 
-            dao.InsertLog(logOnMember.Name, "도서반납", rentBook.Name, DateTime.Now);
+            dao.Insert(logOnMember.Name, "도서반납", rentBook.Name, DateTime.Now);
             userMenu.BookRentMenu();
         }
 
         public void ExtensionBook()
         {
+            string after1Week = DateTime.Today.AddDays(7).ToString().Remove(11);
+            string after2Week = DateTime.Today.AddDays(14).ToString().Remove(11);
+
             if (logOnMember.ExtensionCount == 0)
             {
                 print.ExtensionErrorMsg();
@@ -468,22 +471,22 @@ namespace LibraryManagement
                 return;
             }
 
-            if (logOnMember.DueDate.Equals("2018-05-21"))
+            if (logOnMember.DueDate.Equals(DateTime.Today.ToString().Remove(11)))
             {
-                dao.UpdateDueDate("2018-05-28", 1, logOnMember.Id);
-                logOnMember.DueDate = "2018-05-28";
+                dao.Update(after1Week, 1, logOnMember.Id, 1); 
+                logOnMember.DueDate = after1Week;
                 logOnMember.ExtensionCount = 1;
             }
 
-            else if (logOnMember.DueDate.Equals("2018-05-28"))
+            else if (logOnMember.DueDate.Equals(after1Week))
             {
-                dao.UpdateDueDate("2018-06-04", 0, logOnMember.Id);
-                logOnMember.DueDate = "2018-06-04";
+                dao.Update(after2Week, 0, logOnMember.Id, 2); 
+                logOnMember.DueDate = after2Week;
                 logOnMember.ExtensionCount = 0;
             }
 
             print.CompleteMsg("연장");
-            dao.InsertLog(logOnMember.Name, "대여연장", logOnMember.RentBook, DateTime.Now);
+            dao.Insert(logOnMember.Name, "대여연장", logOnMember.RentBook, DateTime.Now);
             userMenu.BookRentMenu();
         }
 
@@ -524,7 +527,7 @@ namespace LibraryManagement
                 print.FormErrorMsg("고유번호");
             }
 
-            dao.InsertLog("관리자", "네이버검색", bookName, DateTime.Now);
+            dao.Insert("관리자", "네이버검색", bookName, DateTime.Now);
             while(true)
             {
                 if (errorCheck.BookIndex(indexInput) == false || indexInput.ToUpper().Equals("Q"))

@@ -39,7 +39,7 @@ namespace LibraryManagement
 
             dao.Insert(newMember);
 
-            dao.InsertLog("관리자", "회원추가", newMember.Name, DateTime.Now);
+            dao.Insert("관리자", "회원추가", newMember.Name, DateTime.Now);
             print.CompleteMsg("회원 등록 완료");
             adminMenu.MemberManagementMenu();
             return;
@@ -55,7 +55,7 @@ namespace LibraryManagement
             dao.Update("member", "phoneNumber", foundMember.PhoneNumber, "id", foundMember.Id);
             dao.Update("member", "address", foundMember.Address, "id", foundMember.Id);
 
-            dao.InsertLog("관리자", "회원정보수정", foundMember.Name, DateTime.Now);
+            dao.Insert("관리자", "회원정보수정", foundMember.Name, DateTime.Now);
             print.CompleteMsg("회원 정보 수정 완료");
             adminMenu.MemberManagementMenu();
             return;
@@ -79,7 +79,7 @@ namespace LibraryManagement
 
             dao.Delete("member", "id", foundMember.Id);
 
-            dao.InsertLog("관리자", "회원삭제", foundMember.Name, DateTime.Now);
+            dao.Insert("관리자", "회원삭제", foundMember.Name, DateTime.Now);
             print.CompleteMsg("회원 삭제 완료");
             adminMenu.MemberManagementMenu();
             return;
@@ -118,7 +118,7 @@ namespace LibraryManagement
         //회원명단 출력
         public void PrintMembers()
         {
-            print.PrintMembers(dao.SelectAll("member", "id", "not in('관리자');"));
+            print.PrintMembers(dao.Select("member", "id", "not in('관리자');"));
             adminMenu.MemberManagementMenu();
         }
     }
