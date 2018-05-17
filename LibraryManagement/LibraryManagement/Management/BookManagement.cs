@@ -329,12 +329,14 @@ namespace LibraryManagement
                 return;
             }
 
-            print.PrintBooks(foundList);
-            print.Check("대여");
             string indexInput;
             while (true)
             {
+                print.PrintBooks(foundList);
+                print.Check("대여");
                 indexInput = Console.ReadLine();
+
+                //입력 양식 및 q를 눌렀을때 혹은 찾은 bookList에 입력한 해당 고유번호가 존재할때만
                 if (errorCheck.BookIndex(indexInput) == false || indexInput.ToUpper().Equals("Q"))
                 {
                     if (indexInput.ToUpper().Equals("Q"))
@@ -342,8 +344,13 @@ namespace LibraryManagement
                         adminMenu.BookManagementMenu();
                         return;
                     }
-                    break;
+
+                    if (foundList.Find(book => book.Index.Equals(int.Parse(indexInput))) != null)
+                        break;
                 }
+
+                //if (foundList.Find(book => book.Index.Equals(int.Parse(indexInput))) != null && errorCheck.BookIndex(indexInput) == false)
+                  //  break;
 
                 print.FormErrorMsg("고유번호");
             }

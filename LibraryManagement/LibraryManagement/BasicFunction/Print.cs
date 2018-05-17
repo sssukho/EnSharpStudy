@@ -126,7 +126,7 @@ namespace LibraryManagement
             Console.WriteLine("\t|                                                                                             |");
             Console.WriteLine("\t|                                  도서 관리 메뉴 : 2번                                       |");
             Console.WriteLine("\t|                                                                                             |");
-            Console.WriteLine("\t|                                  DB 관리 메뉴   : 3번                                  |");
+            Console.WriteLine("\t|                                  DB 관리 메뉴   : 3번                                       |");
             Console.WriteLine("\t|                                                                                             |");
             Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
             Console.WriteLine("\t----------------------------------------------------------------------------------------------\n");
@@ -184,7 +184,7 @@ namespace LibraryManagement
             Console.WriteLine("\t|                                                                                             |");
             Console.WriteLine("\t|                                  도서 명단 출력 : 5번                                       |");
             Console.WriteLine("\t|                                                                                             |");
-            Console.WriteLine("\t|                                  네이버 도서 검색 : 6번                                       |");
+            Console.WriteLine("\t|                                  네이버 도서 검색 : 6번                                      |");
             Console.WriteLine("\t|                                                                                             |");
             Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
             Console.WriteLine("\t----------------------------------------------------------------------------------------------\n");
@@ -276,13 +276,13 @@ namespace LibraryManagement
         {
             Console.Clear();
             Console.WriteLine("\n\n\t----------------------------------------------------------------------------------------------");
-            Console.WriteLine("\t|                                  로그 초기화 : 1번                                        |");
+            Console.WriteLine("\t|                                  로그 초기화 : 1번                                          |");
             Console.WriteLine("\t|                                                                                             |");
-            Console.WriteLine("\t|                                  로그 보기 : 2번                                        |");
+            Console.WriteLine("\t|                                  로그 보기 : 2번                                            |");
             Console.WriteLine("\t|                                                                                             |");
-            Console.WriteLine("\t|                                  바탕화면에 txt파일 저장 : 3번                                        |");
+            Console.WriteLine("\t|                                  바탕화면에 txt파일 저장 : 3번                              |");
             Console.WriteLine("\t|                                                                                             |");
-            Console.WriteLine("\t|                                  바탕화면 txt 파일 삭제: 4번                                        |");
+            Console.WriteLine("\t|                                  바탕화면 txt 파일 삭제: 4번                                |");
             Console.WriteLine("\t|                                                                                             |");
             Console.WriteLine("\t|                                  프로그램 종료 : 0번                                        |");
             Console.WriteLine("\t-----------------------------------------------------------------------------------------------\n");
@@ -526,25 +526,17 @@ namespace LibraryManagement
                 FormErrorMsg("수량");
             }
 
-            while(true)
-            {
-                Console.Write("\n\n\tISBN을 입력해주세요(양식: 1234567890 1234567890123) : ");
-                isbn = Console.ReadLine(); 
-                if (errorCheck.BookIsbn(isbn) == false)
-                    break;
 
-                FormErrorMsg("ISBN");
-            }
+            Console.Write("\n\n\tISBN을 입력해주세요(양식: 1234567890 1234567890123) : ");
+            isbn = Console.ReadLine();
 
-            while(true)
-            {
-                Console.Write("\n\n\t줄거리를 입력해주세요(100자이내) : ");
-                description = Console.ReadLine();
-                if (errorCheck.BookDescription(description) == false) //에러 체크
-                    break;
+            FormErrorMsg("ISBN");
 
-                FormErrorMsg("줄거리");
-            }
+            Console.Write("\n\n\t줄거리를 입력해주세요 : ");
+            description = Console.ReadLine();
+
+            FormErrorMsg("줄거리");
+
             BookVO newBook = new BookVO(0, name, author, price, publisher, publishDate, int.Parse(count), isbn, description);
 
             return newBook;

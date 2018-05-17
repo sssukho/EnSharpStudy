@@ -10,7 +10,6 @@ namespace LibraryManagement
     /// <summary>
     ///  SQL QUERY만 보내는 구조.
     ///  생성자를 통해 DB에 연결하는 정보를 초기화
-    ///  원래대로라면 Insert, Update, Delete, Select 문들을 한번에 처리해야함
     /// </summary>
     class DAO
     {

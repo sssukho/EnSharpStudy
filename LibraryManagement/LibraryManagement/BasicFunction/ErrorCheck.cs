@@ -120,16 +120,6 @@ namespace LibraryManagement
             return Judgement(input, pattern);
         }
 
-        public bool BookIsbn(string input)
-        {
-            return false;
-        }
-
-        public bool BookDescription(string input)
-        {
-            return false;
-        }
-
         public bool BookPublishDate(string input)
         {
             pattern = @"^[0-9]{4}";
@@ -145,7 +135,7 @@ namespace LibraryManagement
 
         public bool BookIndex(string input)
         {
-            pattern = @"^[0-9]{1,3}";
+            pattern = @"^[0-9]{1,3}$";
             return Judgement(input, pattern);
         }
 
