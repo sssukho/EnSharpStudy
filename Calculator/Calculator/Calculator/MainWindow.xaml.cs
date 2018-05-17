@@ -21,10 +21,12 @@ namespace Calculator
     public partial class MainWindow : Window
     {
         CalculatorControl calculatorControl;
+
         public MainWindow()
         {
             InitializeComponent();
             calculatorControl = new CalculatorControl();
+            MainGrid.Children.Add(calculatorControl);
         }
     }
 }
