@@ -26,8 +26,6 @@ namespace Calculator
         private double backOperand; //뒤쪽 피연산자
         private char op; //연산자
 
-
-        //예외1, numberDisplay 요소 글씨 못쓰게 할 것.
         //예외2. 100단위로 콤마
         //예외3. 글자 10개부터 폰트 작아짐
         //예외4. 소수점찍고 = 누르면 소수점은 없어지고 숫자만 그대로
@@ -45,7 +43,7 @@ namespace Calculator
         {
             Button btn = sender as Button;
 
-            String num = btn.Name.Remove(0, 3); //맨 앞에서 3글자 삭제
+            string num = btn.Name.Remove(0, 3); //맨 앞에서 3글자 삭제
             
             if(isPushed == true)
             {
@@ -62,9 +60,12 @@ namespace Calculator
             {
                 textResult.Text = num;
             }
+
             else
             {
                 textResult.Text = textResult.Text + num;
+                textResult.Text = string.Format("{0:#,###,###,###,###,###}", Convert.ToDouble(textResult.Text));
+                
             }
         }
 
