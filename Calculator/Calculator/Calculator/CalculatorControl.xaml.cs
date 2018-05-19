@@ -26,7 +26,6 @@ namespace Calculator
         private double backOperand; //뒤쪽 피연산자
         private char op; //연산자
 
-        //예외2. 100단위로 콤마
         //예외3. 글자 10개부터 폰트 작아짐
         //예외4. 소수점찍고 = 누르면 소수점은 없어지고 숫자만 그대로
         //예외5. 
@@ -61,10 +60,46 @@ namespace Calculator
                 textResult.Text = num;
             }
 
+            //콤마포함 21글자까지 출력가능해야함
+            //콤마포함 17글자까지 쓸 수 있음 내꺼는
             else
             {
+                if (textResult.Text.Length > 21)
+                    return;
                 textResult.Text = textResult.Text + num;
                 textResult.Text = string.Format("{0:#,###,###,###,###,###}", Convert.ToDouble(textResult.Text));
+
+                switch (textResult.Text.Length)
+                {
+                    case 21:
+                        textResult.FontSize = 39;
+                        break;
+
+                    case 20:
+                        textResult.FontSize = 42;
+                        break;
+
+                    case 19:
+                        textResult.FontSize = 45;
+                        break;
+
+                    case 18:
+                        textResult.FontSize = 48;
+                        break;
+
+                    case 17:
+                        textResult.FontSize = 51;
+                        break;
+
+                    case 16:
+                        textResult.FontSize = 54;
+                        break;
+
+                    case 15:
+                        textResult.FontSize = 57;
+                        break;
+                }
+
                 
             }
         }
