@@ -26,7 +26,7 @@ namespace Calculator
         private double backOperand; //뒤쪽 피연산자
         private char op; //연산자
 
-        //예외3. 글자 10개부터 폰트 작아짐
+        //예외3. 소수점찍은 상태에서 폰트 사이즈
         //예외4. 소수점찍고 = 누르면 소수점은 없어지고 숫자만 그대로
         //예외5. 
 
@@ -34,7 +34,6 @@ namespace Calculator
         {
             InitializeComponent();
             textResult.Text = "0";
-
             textResult.FontSize = 60;
         }
 
@@ -53,6 +52,7 @@ namespace Calculator
             else if(textResult.Text.IndexOf('.') != -1)
             {
                 textResult.Text = textResult.Text + num;
+                AdjustFontSize();
             }
 
             else if (double.Parse(textResult.Text) == 0)
@@ -68,39 +68,7 @@ namespace Calculator
                     return;
                 textResult.Text = textResult.Text + num;
                 textResult.Text = string.Format("{0:#,###,###,###,###,###}", Convert.ToDouble(textResult.Text));
-
-                switch (textResult.Text.Length)
-                {
-                    case 21:
-                        textResult.FontSize = 39;
-                        break;
-
-                    case 20:
-                        textResult.FontSize = 42;
-                        break;
-
-                    case 19:
-                        textResult.FontSize = 45;
-                        break;
-
-                    case 18:
-                        textResult.FontSize = 48;
-                        break;
-
-                    case 17:
-                        textResult.FontSize = 51;
-                        break;
-
-                    case 16:
-                        textResult.FontSize = 54;
-                        break;
-
-                    case 15:
-                        textResult.FontSize = 57;
-                        break;
-                }
-
-                
+                AdjustFontSize();
             }
         }
 
@@ -199,6 +167,41 @@ namespace Calculator
                 operatorDisplay.Text = "";
                 isPushed = true;
             }
+        }
+
+        private void AdjustFontSize()
+        {
+            switch (textResult.Text.Length)
+            {
+                case 21:
+                    textResult.FontSize = 39;
+                    break;
+
+                case 20:
+                    textResult.FontSize = 42;
+                    break;
+
+                case 19:
+                    textResult.FontSize = 45;
+                    break;
+
+                case 18:
+                    textResult.FontSize = 48;
+                    break;
+
+                case 17:
+                    textResult.FontSize = 51;
+                    break;
+
+                case 16:
+                    textResult.FontSize = 54;
+                    break;
+
+                case 15:
+                    textResult.FontSize = 57;
+                    break;
+            }
+
         }
     }
 }
