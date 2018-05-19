@@ -22,36 +22,40 @@ namespace Calculator
     {
         private bool isPushed; //연산자가 눌린 바로 다음에 true
         private bool isCalculating; //계산중
-        private bool isMemorySaved; //memory save 바로 다음에 true
-        private double memoryNumber; //기억하고 있는 숫자
         private double frontOperand; //앞쪽 피연산자
         private double backOperand; //뒤쪽 피연산자
         private char op; //연산자
+
+
+        //예외1, numberDisplay 요소 글씨 못쓰게 할 것.
+        //예외2. 100단위로 콤마
+        //예외3. 글자 10개부터 폰트 작아짐
+        //예외4. 소수점찍고 = 누르면 소수점은 없어지고 숫자만 그대로
+        //예외5. 
 
         public CalculatorControl()
         {
             InitializeComponent();
             textResult.Text = "0";
 
-            textResult.FontSize = 20;
+            textResult.FontSize = 60;
         }
 
         private void BtnNum_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
 
-            String num = btn.Name.Remove(0, 3);
+            String num = btn.Name.Remove(0, 3); //맨 앞에서 3글자 삭제
             
-            if(isPushed == true || isMemorySaved == true)
+            if(isPushed == true)
             {
                 textResult.Text = num;
                 isPushed = false;
-                isMemorySaved = false;
             }
 
             else if(textResult.Text.IndexOf('.') != -1)
             {
-                textResult.Text = textResult + num;
+                textResult.Text = textResult.Text + num;
             }
 
             else if (double.Parse(textResult.Text) == 0)
@@ -124,20 +128,15 @@ namespace Calculator
 
         private void BtnDot_Click(object sender, RoutedEventArgs e)
         {
-            frontOperand = Convert.ToDouble(textResult.Text);
-            isCalculating = true;
-            isPushed = true;
-            op = '.';
-
             if(isPushed == true || double.Parse(textResult.Text) == 0)
             {
-                textResult.Text = "0,";
+                textResult.Text = "0.";
                 isPushed = false;
             }
 
-            else if(double.Parse(textResult.Text) == (int)(double.Parse(textResult.Text)))
+            else if(double.Parse(textResult.Text) == (int)(double.Parse(textResult.Text))) //정수라면
             {
-                textResult.Text = textResult.Text + ".";
+                textResult.Text = textResult.Text.ToString() + ".";
             }
         }
 

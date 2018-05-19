@@ -9,12 +9,12 @@
 
     <StackPanel>
         <Grid>
-            <TextBox Height="300" x:Name="textResult" Background="#DEE0E5" TextAlignment="Right" VerticalContentAlignment="Bottom"></TextBox>
-            <TextBlock Margin="15" VerticalAlignment="Bottom" x:Name="numberDisplay"></TextBlock>
-            <TextBlock Margin="15" HorizontalAlignment="Right" x:Name="operatorDisplay"></TextBlock>
+            <TextBox Height="300" x:Name="textResult" FontWeight="Bold" Background="#DEE0E5" TextAlignment="Right" VerticalContentAlignment="Bottom" IsReadOnly="True"></TextBox>
+            <TextBlock Margin="15" VerticalAlignment="Bottom" x:Name="numberDisplay" FontSize="30" FontWeight="Bold"></TextBlock>
+            <TextBlock Margin="15" HorizontalAlignment="Right" x:Name="operatorDisplay" FontSize="30" FontWeight="Bold"></TextBlock>
         </Grid>
 
-        <Grid Margin="5,0,10,0" Height="260">
+        <Grid Margin="5,5,10,0" Height="250">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
