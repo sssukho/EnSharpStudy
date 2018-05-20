@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="500" ResizeMode="NoResize" Background="#FFDDE7F3">
+        Title="계산기" Height="600" Width="500" ResizeMode="NoResize" Background="#FFDDE7F3">
 
     <Grid x:Name="MainGrid">
 
