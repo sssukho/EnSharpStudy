@@ -27,10 +27,13 @@ namespace Calculator
         private double backOperand; //뒤쪽 피연산자
         private char op; //연산자
         private double temp = 0;
-
+        private string operatorDisplayRemember; //operatorDisplay에 띄울 글자 저장해두는 변수
+        private string num;
+        private double previousNum; // 연산자만 눌렀을때 뒤 피연산자
+        
+        
         //operatorDisplay에 여러번 연산할때 계속 기록 남기는거
-        //나눗셈 한번 하고 equal누를때 값 이상하게 바뀌는거
-        //같은 = 버튼 계속 누를때 front back 바뀌는거 수정해야함
+        
 
         public CalculatorControl()
         {
@@ -45,7 +48,7 @@ namespace Calculator
         {
             Button btn = sender as Button;
 
-            string num = btn.Name.Remove(0, 3); //맨 앞에서 3글자 삭제
+            num = btn.Name.Remove(0, 3); //맨 앞에서 3글자 삭제
 
             if (isPushed == true)
             {
@@ -109,7 +112,8 @@ namespace Calculator
             isPushed = true;
             isCalculating = true;
             op = '÷';
-            operatorDisplay.Text = frontOperand.ToString() + " ÷";
+            operatorDisplay.Text = frontOperand.ToString() + " ÷ ";
+            
         }
 
         private void BtnMultiply_Click(object sender, RoutedEventArgs e)
@@ -118,7 +122,7 @@ namespace Calculator
             isCalculating = true;
             isPushed = true;
             op = 'X';
-            operatorDisplay.Text = frontOperand.ToString() + " X";
+            operatorDisplay.Text = frontOperand.ToString() + " X ";
         }
 
         private void BtnMinus_Click(object sender, RoutedEventArgs e)
@@ -127,16 +131,32 @@ namespace Calculator
             isCalculating = true;
             isPushed = true;
             op = '-';
-            operatorDisplay.Text = frontOperand.ToString() + " -";
+            operatorDisplay.Text = frontOperand.ToString() + " - ";
         }
 
         private void BtnPlus_Click(object sender, RoutedEventArgs e)
         {
-            frontOperand = Convert.ToDouble(textResult.Text);
+            if(frontOperand == 0)
+            {
+                frontOperand = Convert.ToDouble(textResult.Text);
+                operatorDisplay.Text = frontOperand.ToString() + " + ";
+            }
+                
+
+            else
+            {
+                frontOperand = previousNum;
+                backOperand = double.Parse(num);
+                operatorDisplay.Text = operatorDisplay.Text + backOperand.ToString() + " + ";
+            }
+
             isCalculating = true;
             isPushed = true;
             op = '+';
-            operatorDisplay.Text = frontOperand.ToString() + " +";
+            textResult.Text = (frontOperand + backOperand).ToString();
+
+            
+            previousNum = double.Parse(textResult.Text);
         }
 
         private void BtnDot_Click(object sender, RoutedEventArgs e)

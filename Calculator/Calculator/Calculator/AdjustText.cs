@@ -17,6 +17,9 @@ namespace Calculator
 
             if (inputText.Equals("0"))
                 return inputText;
+
+            if (inputText.Contains("."))
+                return inputText;
             
             inputText = inputText.Replace(",", "");
             inputText = string.Format("{0:#,###,###,###,###,###}", Convert.ToDouble(inputText));
