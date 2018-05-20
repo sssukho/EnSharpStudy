@@ -20,21 +20,25 @@ namespace Calculator
     /// </summary>
     public partial class CalculatorControl : UserControl
     {
+        AdjustText adjustText;
         private bool isPushed; //연산자가 눌린 바로 다음에 true
         private bool isCalculating; //계산중
         private double frontOperand; //앞쪽 피연산자
         private double backOperand; //뒤쪽 피연산자
         private char op; //연산자
+        private double temp = 0;
 
-        //예외3. 소수점찍은 상태에서 폰트 사이즈
-        //예외4. 소수점찍고 = 누르면 소수점은 없어지고 숫자만 그대로
-        //예외5. 
+        //operatorDisplay에 여러번 연산할때 계속 기록 남기는거
+        //나눗셈 한번 하고 equal누를때 값 이상하게 바뀌는거
+        //같은 = 버튼 계속 누를때 front back 바뀌는거 수정해야함
 
         public CalculatorControl()
         {
             InitializeComponent();
             textResult.Text = "0";
             textResult.FontSize = 60;
+            
+            adjustText = new AdjustText();
         }
 
         private void BtnNum_Click(object sender, RoutedEventArgs e)
@@ -42,17 +46,21 @@ namespace Calculator
             Button btn = sender as Button;
 
             string num = btn.Name.Remove(0, 3); //맨 앞에서 3글자 삭제
-            
-            if(isPushed == true)
+
+            if (isPushed == true)
             {
                 textResult.Text = num;
+                textResult.Text = adjustText.AddComma(textResult.Text);
                 isPushed = false;
             }
 
-            else if(textResult.Text.IndexOf('.') != -1)
+            else if (textResult.Text.IndexOf('.') != -1)
             {
+                if (textResult.Text.Length > 20)
+                    return;
+
                 textResult.Text = textResult.Text + num;
-                AdjustFontSize();
+                textResult.FontSize = adjustText.AdjustFontSize(textResult.Text);
             }
 
             else if (double.Parse(textResult.Text) == 0)
@@ -60,27 +68,28 @@ namespace Calculator
                 textResult.Text = num;
             }
 
-            //콤마포함 21글자까지 출력가능해야함
-            //콤마포함 17글자까지 쓸 수 있음 내꺼는
             else
             {
-                if (textResult.Text.Length > 21)
+                if (textResult.Text.Length > 20)
                     return;
+
                 textResult.Text = textResult.Text + num;
-                textResult.Text = string.Format("{0:#,###,###,###,###,###}", Convert.ToDouble(textResult.Text));
-                AdjustFontSize();
+                textResult.Text = adjustText.AddComma(textResult.Text);
+                textResult.FontSize = adjustText.AdjustFontSize(textResult.Text);
             }
         }
 
         private void BtnCE_Click(object sender, RoutedEventArgs e)
         {
             textResult.Text = "0";
+            textResult.FontSize = 60;
         }
 
         private void BtnC_Click(object sender, RoutedEventArgs e)
         {
             textResult.Text = "0";
             operatorDisplay.Text = "";
+            textResult.FontSize = 60;
             frontOperand = 0;
             backOperand = 0;
             isPushed = false;
@@ -103,7 +112,7 @@ namespace Calculator
             operatorDisplay.Text = frontOperand.ToString() + " ÷";
         }
 
-        private void BtnTimes_Click(object sender, RoutedEventArgs e)
+        private void BtnMultiply_Click(object sender, RoutedEventArgs e)
         {
             frontOperand = Convert.ToDouble(textResult.Text);
             isCalculating = true;
@@ -132,76 +141,84 @@ namespace Calculator
 
         private void BtnDot_Click(object sender, RoutedEventArgs e)
         {
-            if(isPushed == true || double.Parse(textResult.Text) == 0)
+            if (isPushed == true || double.Parse(textResult.Text) == 0)
             {
                 textResult.Text = "0.";
                 isPushed = false;
             }
 
-            else if(double.Parse(textResult.Text) == (int)(double.Parse(textResult.Text))) //정수라면
+            else if (double.Parse(textResult.Text) == (int)(double.Parse(textResult.Text))) //정수라면
             {
                 textResult.Text = textResult.Text.ToString() + ".";
             }
         }
 
-        private void BtnEqual_Click(object sender, RoutedEventArgs e)
+        private void BtnPlusMinus_Click(object sender, RoutedEventArgs e)
         {
-            if(isCalculating == true)
-            {
-                backOperand = double.Parse(textResult.Text);
-                switch(op)
-                {
-                    case '+':
-                        textResult.Text = (frontOperand + backOperand).ToString();
-                        break;
-                    case '-':
-                        textResult.Text = (frontOperand - backOperand).ToString();
-                        break;
-                    case 'X':
-                        textResult.Text = (frontOperand * backOperand).ToString();
-                        break;
-                    case '÷':
-                        textResult.Text = (frontOperand / backOperand).ToString();
-                        break;
-                }
-                operatorDisplay.Text = "";
-                isPushed = true;
-            }
+            if (operatorDisplay.Text.Contains("negate"))
+                operatorDisplay.Text = "negate(" + operatorDisplay.Text + ")";
+
+            if (operatorDisplay.Text == "")
+                operatorDisplay.Text = "negate(" + textResult.Text + ")";
+
+            textResult.Text = (-double.Parse(textResult.Text)).ToString();
         }
 
-        private void AdjustFontSize()
+        private void BtnEqual_Click(object sender, RoutedEventArgs e)
         {
-            switch (textResult.Text.Length)
+            
+            if (textResult.Text.Equals("0."))
             {
-                case 21:
-                    textResult.FontSize = 39;
-                    break;
-
-                case 20:
-                    textResult.FontSize = 42;
-                    break;
-
-                case 19:
-                    textResult.FontSize = 45;
-                    break;
-
-                case 18:
-                    textResult.FontSize = 48;
-                    break;
-
-                case 17:
-                    textResult.FontSize = 51;
-                    break;
-
-                case 16:
-                    textResult.FontSize = 54;
-                    break;
-
-                case 15:
-                    textResult.FontSize = 57;
-                    break;
+                textResult.Text = "0";
+                return;
             }
 
+            if(textResult.Text.Equals("0으로 나눌 수 없습니다."))
+            {
+                textResult.Text = "0";
+                operatorDisplay.Text = "";
+                return;
+            }
+
+            if (isCalculating == false)
+            {
+                backOperand = temp;
+                frontOperand = double.Parse(textResult.Text);
+                //isCalculating = true;
+            }
+
+            if (isCalculating == true)
+            {
+                backOperand = double.Parse(textResult.Text);
+            }
+
+            switch (op)
+            {
+                case '+':
+                    textResult.Text = (frontOperand + backOperand).ToString();
+                    break;
+                case '-':
+                    textResult.Text = (frontOperand - backOperand).ToString();
+                    break;
+                case 'X':
+                    textResult.Text = (frontOperand * backOperand).ToString();
+                    break;
+                case '÷':
+                    if (backOperand == 0)
+                    {
+                        textResult.Text = "0으로 나눌 수 없습니다.";
+                        textResult.FontSize = 40;
+                        return;
+                    }
+                    textResult.Text = (frontOperand / backOperand).ToString();
+                    break;
+            }
+            isCalculating = false;
+            operatorDisplay.Text = "";
+            isPushed = true;
+            textResult.Text = adjustText.AddComma(textResult.Text);
+            textResult.FontSize = adjustText.AdjustFontSize(textResult.Text);
+            temp = backOperand;
         }
     }
 }
