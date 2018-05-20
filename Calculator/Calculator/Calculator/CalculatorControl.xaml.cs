@@ -104,38 +104,89 @@ namespace Calculator
 
         private void BtnDivide_Click(object sender, RoutedEventArgs e)
         {
-            frontOperand = Convert.ToDouble(textResult.Text);
+            if (frontOperand == 0)
+            {
+                frontOperand = Convert.ToDouble(textResult.Text);
+                operatorDisplay.Text = frontOperand.ToString() + " ÷ ";
+                textResult.Text = frontOperand.ToString();
+            }
+
+            else
+            {
+                frontOperand = previousNum;
+                backOperand = double.Parse(num);
+                operatorDisplay.Text = operatorDisplay.Text + backOperand.ToString() + " ÷ ";
+                textResult.Text = (frontOperand / backOperand).ToString();
+            }
+
             isPushed = true;
             isCalculating = true;
             op = '÷';
-            operatorDisplay.Text = frontOperand.ToString() + " ÷ ";
-            
+            textResult.Text = adjustText.AddComma(textResult.Text);
+            previousNum = double.Parse(textResult.Text);
         }
 
         private void BtnMultiply_Click(object sender, RoutedEventArgs e)
         {
-            frontOperand = Convert.ToDouble(textResult.Text);
+            if (frontOperand == 0)
+            {
+                frontOperand = Convert.ToDouble(textResult.Text);
+                operatorDisplay.Text = frontOperand.ToString() + " X ";
+                textResult.Text = frontOperand.ToString();
+            }
+
+            else
+            {
+                frontOperand = previousNum;
+                backOperand = double.Parse(num);
+                operatorDisplay.Text = operatorDisplay.Text + backOperand.ToString() + " X ";
+                textResult.Text = (frontOperand * backOperand).ToString();
+            }
+
             isCalculating = true;
             isPushed = true;
             op = 'X';
-            operatorDisplay.Text = frontOperand.ToString() + " X ";
+            textResult.Text = adjustText.AddComma(textResult.Text);
+            previousNum = double.Parse(textResult.Text);
         }
 
         private void BtnMinus_Click(object sender, RoutedEventArgs e)
         {
-            frontOperand = Convert.ToDouble(textResult.Text);
+            if(frontOperand == 0)
+            {
+                frontOperand = Convert.ToDouble(textResult.Text);
+                operatorDisplay.Text = frontOperand.ToString() + " - ";
+            }
+
+            else
+            {
+                frontOperand = previousNum;
+                backOperand = double.Parse(num);
+                operatorDisplay.Text = operatorDisplay.Text + backOperand.ToString() + " - ";
+            }
+
             isCalculating = true;
             isPushed = true;
             op = '-';
-            operatorDisplay.Text = frontOperand.ToString() + " - ";
+            textResult.Text = (frontOperand - backOperand).ToString();
+            textResult.Text = adjustText.AddComma(textResult.Text);
+            previousNum = double.Parse(textResult.Text);
         }
 
         private void BtnPlus_Click(object sender, RoutedEventArgs e)
         {
+
             if(frontOperand == 0)
             {
-                frontOperand = Convert.ToDouble(textResult.Text);
-                operatorDisplay.Text = frontOperand.ToString() + " + ";
+                if (operatorDisplay.Text.Contains("negate") == true)
+                {
+                    operatorDisplay.Text = operatorDisplay.Text + " + ";
+                }
+                else
+                {
+                    frontOperand = Convert.ToDouble(textResult.Text);
+                    operatorDisplay.Text = frontOperand.ToString() + " + ";
+                }
             }        
 
             else
@@ -149,6 +200,7 @@ namespace Calculator
             isPushed = true;
             op = '+';
             textResult.Text = (frontOperand + backOperand).ToString();
+            textResult.Text = adjustText.AddComma(textResult.Text);
             previousNum = double.Parse(textResult.Text);
         }
 
@@ -207,7 +259,7 @@ namespace Calculator
             switch (op)
             {
                 case '+':
-                    if(operatorDisplay.Text.Length > 3)
+                    if(operatorDisplay.Text.Length > 4 && operatorDisplay.Text.Contains("negate") == false)
                     {
                         textResult.Text = (backOperand + double.Parse(textResult.Text)).ToString();
                         break;
@@ -215,17 +267,17 @@ namespace Calculator
                     textResult.Text = (frontOperand + backOperand).ToString();
                     break;
                 case '-':
-                    if (operatorDisplay.Text.Length > 3)
+                    if (operatorDisplay.Text.Length > 4)
                     {
-                        textResult.Text = (backOperand + double.Parse(textResult.Text)).ToString();
+                        textResult.Text = (backOperand - double.Parse(textResult.Text)).ToString();
                         break;
                     }
                     textResult.Text = (frontOperand - backOperand).ToString();
                     break;
                 case 'X':
-                    if (operatorDisplay.Text.Length > 3)
+                    if (operatorDisplay.Text.Length > 4)
                     {
-                        textResult.Text = (backOperand + double.Parse(textResult.Text)).ToString();
+                        textResult.Text = (backOperand * double.Parse(textResult.Text)).ToString();
                         break;
                     }
                     textResult.Text = (frontOperand * backOperand).ToString();
