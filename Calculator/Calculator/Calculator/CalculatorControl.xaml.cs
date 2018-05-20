@@ -27,14 +27,10 @@ namespace Calculator
         private double backOperand; //뒤쪽 피연산자
         private char op; //연산자
         private double temp = 0;
-        private string operatorDisplayRemember; //operatorDisplay에 띄울 글자 저장해두는 변수
         private string num;
         private double previousNum; // 연산자만 눌렀을때 뒤 피연산자
-        
-        
-        //operatorDisplay에 여러번 연산할때 계속 기록 남기는거
-        
 
+        //negate
         public CalculatorControl()
         {
             InitializeComponent();
@@ -140,8 +136,7 @@ namespace Calculator
             {
                 frontOperand = Convert.ToDouble(textResult.Text);
                 operatorDisplay.Text = frontOperand.ToString() + " + ";
-            }
-                
+            }        
 
             else
             {
@@ -154,8 +149,6 @@ namespace Calculator
             isPushed = true;
             op = '+';
             textResult.Text = (frontOperand + backOperand).ToString();
-
-            
             previousNum = double.Parse(textResult.Text);
         }
 
@@ -186,7 +179,6 @@ namespace Calculator
 
         private void BtnEqual_Click(object sender, RoutedEventArgs e)
         {
-            
             if (textResult.Text.Equals("0."))
             {
                 textResult.Text = "0";
@@ -215,12 +207,27 @@ namespace Calculator
             switch (op)
             {
                 case '+':
+                    if(operatorDisplay.Text.Length > 3)
+                    {
+                        textResult.Text = (backOperand + double.Parse(textResult.Text)).ToString();
+                        break;
+                    }
                     textResult.Text = (frontOperand + backOperand).ToString();
                     break;
                 case '-':
+                    if (operatorDisplay.Text.Length > 3)
+                    {
+                        textResult.Text = (backOperand + double.Parse(textResult.Text)).ToString();
+                        break;
+                    }
                     textResult.Text = (frontOperand - backOperand).ToString();
                     break;
                 case 'X':
+                    if (operatorDisplay.Text.Length > 3)
+                    {
+                        textResult.Text = (backOperand + double.Parse(textResult.Text)).ToString();
+                        break;
+                    }
                     textResult.Text = (frontOperand * backOperand).ToString();
                     break;
                 case '÷':
@@ -233,6 +240,7 @@ namespace Calculator
                     textResult.Text = (frontOperand / backOperand).ToString();
                     break;
             }
+
             isCalculating = false;
             operatorDisplay.Text = "";
             isPushed = true;
