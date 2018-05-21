@@ -20,7 +20,10 @@ namespace Calculator
 
             if (inputText.Contains("."))
                 return inputText;
-            
+
+            if (inputText.Equals(""))
+                return "0";
+
             inputText = inputText.Replace(",", "");
             inputText = string.Format("{0:#,###,###,###,###,###}", Convert.ToDouble(inputText));
             return inputText;
@@ -31,25 +34,25 @@ namespace Calculator
             switch (inputText.Length)
             {
                 case 21:
-                    return 39;
+                    return 32;
 
                 case 20:
-                    return 42;
+                    return 36;
 
                 case 19:
-                    return 45;
+                    return 40;
 
                 case 18:
-                    return 48;
+                    return 44;
 
                 case 17:
-                    return 51;
+                    return 48;
 
                 case 16:
-                    return 54;
+                    return 52;
 
                 case 15:
-                    return 57;
+                    return 56;
             }
             return 60;
         }
