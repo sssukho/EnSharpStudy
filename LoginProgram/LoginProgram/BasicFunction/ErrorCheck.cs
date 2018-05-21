@@ -12,7 +12,7 @@ namespace LoginProgram
         private static ErrorCheck errorCheck;
 
         MatchCollection mc;
-        string pattern;
+        private string pattern;
 
         public ErrorCheck() { }
 
