@@ -27,7 +27,7 @@ namespace Calculator
         private double backOperand; //뒤쪽 피연산자
         private char op; //연산자
         private double temp = 0;
-        private string num;
+        private string num; //숫자 버튼 눌렀을 때 저장되는 숫자
         private double previousNum; // 연산자만 눌렀을때 뒤 피연산자
         private double memNum; //이전 연산했을때 가지고 있는 값.
 
@@ -40,32 +40,26 @@ namespace Calculator
             adjustText = new AdjustText();
         }
 
+        //모든 숫자 입력
         private void BtnNum_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
 
             num = btn.Name.Remove(0, 3); //맨 앞에서 3글자 삭제
 
-            /*
-            if(isPushed == false && isCalculating == true)
-            {
-                //if (textResult.Text != "0")  
-                textResult.Text = "0";
-            }*/
-
             if (textResult.Text.Contains("0으로"))
-                ButtonEnabled();
+                ButtonEnabled(); //0으로 나눌 수 없음으로 인해서 버튼 비활성화 되었을 때 다시 활성화 시키는것.
 
             if (isPushed == true)
             {
                 textResult.Text = num;
-                textResult.Text = adjustText.AddComma(textResult.Text);
+                textResult.Text = adjustText.AddComma(textResult.Text); //천단위 콤마
                 isPushed = false;
             }
 
             else if (textResult.Text.IndexOf('.') != -1)
             {
-                if (textResult.Text.Length > 20)
+                if (textResult.Text.Length > 20) //최대 숫자 개수보다 더 입력되면 바로 함수 종료
                     return;
 
                 textResult.Text = textResult.Text + num;
@@ -85,10 +79,11 @@ namespace Calculator
 
                 textResult.Text = textResult.Text + num;
                 textResult.Text = adjustText.AddComma(textResult.Text);
-                textResult.FontSize = adjustText.AdjustFontSize(textResult.Text);
+                textResult.FontSize = adjustText.AdjustFontSize(textResult.Text); //폰트사이즈 조정
             }
         }
 
+        //CE버튼
         private void BtnCE_Click(object sender, RoutedEventArgs e)
         {
             if (textResult.Text.Contains("0으로"))
@@ -101,14 +96,16 @@ namespace Calculator
             textResult.FontSize = 60;
         }
 
+        //C버튼
         private void BtnC_Click(object sender, RoutedEventArgs e)
         {
             if (textResult.Text.Contains("0으로"))
                 ButtonEnabled();
 
-            InitializeVariables();
+            InitializeVariables(); //모든 변수 초기화
         }
 
+        //뒤로 지우는 BackSpace버튼
         private void BtnBS_Click(object sender, RoutedEventArgs e)
         {
             if (textResult.Text.Contains("0으로"))
@@ -116,19 +113,20 @@ namespace Calculator
                 ButtonEnabled();
                 return;
             }
-                
+               
             textResult.Text = adjustText.AddComma(textResult.Text.Remove(textResult.Text.Length - 1));
 
             if (textResult.Text.Length == 0)
                 textResult.Text = "0";
         }
 
+        //나눗셈 버튼
         private void BtnDivide_Click(object sender, RoutedEventArgs e)
         {
             if (isPushed)
                 return;
 
-            if (isPushed == false && isCalculating == true)
+            if (isPushed == false && isCalculating == true) //연달아서 계속 연산하는 케이스
             {
                 if (double.Parse(textResult.Text) == memNum && memNum == frontOperand)
                     return;
@@ -141,6 +139,7 @@ namespace Calculator
                 return;
             }
 
+            //C눌렀을 때 맨처음 0 상황
             if (frontOperand == 0)
             {
                 if (operatorDisplay.Text.Contains("negate") == true)
@@ -169,6 +168,7 @@ namespace Calculator
             previousNum = double.Parse(textResult.Text);
         }
 
+        //곱셈버튼
         private void BtnMultiply_Click(object sender, RoutedEventArgs e)
         {
             if (isPushed)
@@ -215,6 +215,7 @@ namespace Calculator
             previousNum = double.Parse(textResult.Text);
         }
 
+        //뺄셈 버튼
         private void BtnMinus_Click(object sender, RoutedEventArgs e)
         {
             if (isPushed)
@@ -260,6 +261,8 @@ namespace Calculator
             previousNum = double.Parse(textResult.Text);
         }
 
+
+        //더하기 버튼
         private void BtnPlus_Click(object sender, RoutedEventArgs e)
         {
             if(isPushed)
@@ -305,6 +308,7 @@ namespace Calculator
             previousNum = double.Parse(textResult.Text);
         }
 
+        //소수점버튼
         private void BtnDot_Click(object sender, RoutedEventArgs e)
         {
             if (isPushed == true || double.Parse(textResult.Text) == 0)
@@ -320,6 +324,7 @@ namespace Calculator
             }
         }
 
+        //negate버튼
         private void BtnPlusMinus_Click(object sender, RoutedEventArgs e)
         {
             if (operatorDisplay.Text.Contains("negate"))
@@ -332,6 +337,7 @@ namespace Calculator
             textResult.Text = adjustText.AddComma(textResult.Text);
         }
 
+        //= 버튼
         private void BtnEqual_Click(object sender, RoutedEventArgs e)
         {
             if (textResult.Text.Equals("0."))
@@ -402,8 +408,6 @@ namespace Calculator
                     else
                         textResult.Text = (previousNum * backOperand).ToString();
                     break;
-                    //textResult.Text = (frontOperand * backOperand).ToString();
-                    //break;
 
                 case '÷':
                     if (backOperand == 0)
@@ -426,8 +430,6 @@ namespace Calculator
                     else
                         textResult.Text = (previousNum / backOperand).ToString();
                     break;
-                    //textResult.Text = (frontOperand / backOperand).ToString();
-                    //break;
             }
 
             isCalculating = false;
@@ -472,6 +474,7 @@ namespace Calculator
             isCalculating = false;
         }
 
+        //연달아 계산할때 이전 계산하는 메소드
         private void PreviousCalculate()
         {
             switch(op)
