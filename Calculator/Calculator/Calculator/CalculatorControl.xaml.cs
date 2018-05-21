@@ -29,8 +29,7 @@ namespace Calculator
         private double temp = 0;
         private string num;
         private double previousNum; // 연산자만 눌렀을때 뒤 피연산자
-        private double waitNum = 0; //연산 계속 누르고 있을때 backOperand 기다리는값..
-
+        private double memNum; //이전 연산했을때 가지고 있는 값.
 
         public CalculatorControl()
         {
@@ -46,6 +45,15 @@ namespace Calculator
             Button btn = sender as Button;
 
             num = btn.Name.Remove(0, 3); //맨 앞에서 3글자 삭제
+
+            if(isPushed == false && isCalculating == true)
+            {
+                //if (textResult.Text != "0")  
+                textResult.Text = "0";
+            }
+
+            if (textResult.Text.Contains("0으로"))
+                ButtonEnabled();
 
             if (isPushed == true)
             {
@@ -63,11 +71,13 @@ namespace Calculator
                 textResult.FontSize = adjustText.AdjustFontSize(textResult.Text);
             }
 
+           
+
             else if (double.Parse(textResult.Text) == 0)
             {
                 textResult.Text = num;
             }
-
+            
             else
             {
                 if (textResult.Text.Length > 20)
@@ -81,25 +91,32 @@ namespace Calculator
 
         private void BtnCE_Click(object sender, RoutedEventArgs e)
         {
+            if (textResult.Text.Contains("0으로"))
+                ButtonEnabled();
+
+            if (operatorDisplay.Text.Contains("negate"))
+                operatorDisplay.Text = "";
+
             textResult.Text = "0";
             textResult.FontSize = 60;
         }
 
         private void BtnC_Click(object sender, RoutedEventArgs e)
         {
-            textResult.Text = "0";
-            operatorDisplay.Text = "";
-            textResult.FontSize = 60;
-            frontOperand = 0;
-            backOperand = 0;
-            num = "0";
-            previousNum = 0;
-            isPushed = false;
-            isCalculating = false;
+            if (textResult.Text.Contains("0으로"))
+                ButtonEnabled();
+
+            InitializeVariables();
         }
 
         private void BtnBS_Click(object sender, RoutedEventArgs e)
         {
+            if (textResult.Text.Contains("0으로"))
+            {
+                ButtonEnabled();
+                return;
+            }
+                
             textResult.Text = adjustText.AddComma(textResult.Text.Remove(textResult.Text.Length - 1));
             //textResult.Text = textResult.Text.Remove(textResult.Text.Length - 1);
             if (textResult.Text.Length == 0)
@@ -108,6 +125,22 @@ namespace Calculator
 
         private void BtnDivide_Click(object sender, RoutedEventArgs e)
         {
+            if (isPushed)
+                return;
+
+            if (isPushed == false && isCalculating == true)
+            {
+                if (double.Parse(textResult.Text) == memNum && memNum == frontOperand)
+                    return;
+
+                PreviousCalculate();
+                frontOperand = memNum;
+                operatorDisplay.Text = operatorDisplay.Text + textResult.Text + " - ";
+                textResult.Text = frontOperand.ToString();
+                op = '÷';
+                return;
+            }
+
             if (frontOperand == 0)
             {
                 if (operatorDisplay.Text.Contains("negate") == true)
@@ -124,7 +157,7 @@ namespace Calculator
 
             else
             {
-                frontOperand = previousNum;
+                //frontOperand = previousNum;
                 backOperand = double.Parse(num);
                 operatorDisplay.Text = operatorDisplay.Text + backOperand.ToString() + " ÷ ";
                 textResult.Text = (frontOperand / backOperand).ToString();
@@ -139,6 +172,22 @@ namespace Calculator
 
         private void BtnMultiply_Click(object sender, RoutedEventArgs e)
         {
+            if (isPushed)
+                return;
+
+            if (isPushed == false && isCalculating == true)
+            {
+                if(double.Parse(textResult.Text) == memNum && memNum == frontOperand)
+                    return;
+                
+                PreviousCalculate();
+                frontOperand = memNum;
+                operatorDisplay.Text = operatorDisplay.Text + textResult.Text + " - ";
+                textResult.Text = frontOperand.ToString();
+                op = 'X';
+                return;
+            }
+
             if (frontOperand == 0)
             {
                 if (operatorDisplay.Text.Contains("negate") == true)
@@ -155,14 +204,7 @@ namespace Calculator
 
             else
             {
-                if (isPushed == true)
-                {
-                    backOperand = double.Parse(num);
-                }
-                else
-                {
-                    backOperand = double.Parse(textResult.Text);
-                }
+                backOperand = double.Parse(num);
                 operatorDisplay.Text = operatorDisplay.Text + backOperand.ToString() + " X ";
                 textResult.Text = (frontOperand * backOperand).ToString();
             }
@@ -176,33 +218,38 @@ namespace Calculator
 
         private void BtnMinus_Click(object sender, RoutedEventArgs e)
         {
+            if (isPushed)
+                return;
+          
+            if(isPushed == false && isCalculating == true)
+            {
+                if (double.Parse(textResult.Text) == memNum && memNum == frontOperand)
+                    return;
+                PreviousCalculate();
+                frontOperand = memNum;
+                operatorDisplay.Text = operatorDisplay.Text + textResult.Text + " - ";
+                textResult.Text = frontOperand.ToString();
+                op = '-';
+                return;
+            }
+
             if (frontOperand == 0)
             {
                 if (operatorDisplay.Text.Contains("negate") == true)
                 {
                     operatorDisplay.Text = operatorDisplay.Text + " - ";
                 }
-
                 else
                 {
                     frontOperand = Convert.ToDouble(textResult.Text);
                     operatorDisplay.Text = frontOperand.ToString() + " - ";
                 }
-
-
             }
 
             else
             {
                 frontOperand = previousNum;
-                if (isPushed == true)
-                {
-                    backOperand = double.Parse(num);
-                }
-                else
-                {
-                    backOperand = double.Parse(textResult.Text);
-                }
+                backOperand = double.Parse(textResult.Text);
                 operatorDisplay.Text = operatorDisplay.Text + backOperand.ToString() + " - ";
             }
 
@@ -216,6 +263,21 @@ namespace Calculator
 
         private void BtnPlus_Click(object sender, RoutedEventArgs e)
         {
+            if(isPushed)
+                return;
+
+            if (isPushed == false && isCalculating == true)
+            {
+                if (double.Parse(textResult.Text) == memNum && memNum == frontOperand)
+                    return;
+                PreviousCalculate();
+                frontOperand = memNum;
+                operatorDisplay.Text = operatorDisplay.Text + textResult.Text + " + ";
+                textResult.Text = frontOperand.ToString();
+                op = '+';
+                return;
+            }
+
             if (frontOperand == 0)
             {
                 if (operatorDisplay.Text.Contains("negate") == true)
@@ -232,6 +294,8 @@ namespace Calculator
             else
             {
                 frontOperand = previousNum;
+                backOperand = double.Parse(textResult.Text);
+                /*
                 if (isPushed == true)
                 {
                     backOperand = double.Parse(num);
@@ -239,7 +303,7 @@ namespace Calculator
                 else
                 {
                     backOperand = double.Parse(textResult.Text);
-                }
+                }*/
                 operatorDisplay.Text = operatorDisplay.Text + backOperand.ToString() + " + ";
             }
 
@@ -262,6 +326,7 @@ namespace Calculator
             else if (double.Parse(textResult.Text) == (int)(double.Parse(textResult.Text))) //정수라면
             {
                 textResult.Text = textResult.Text.ToString() + ".";
+                textResult.Text = adjustText.AddComma(textResult.Text);
             }
         }
 
@@ -270,10 +335,11 @@ namespace Calculator
             if (operatorDisplay.Text.Contains("negate"))
                 operatorDisplay.Text = "negate(" + operatorDisplay.Text + ")";
 
-            if (operatorDisplay.Text == "")
+            if (operatorDisplay.Text == "" && textResult.Text== "0")
                 operatorDisplay.Text = "negate(" + textResult.Text + ")";
 
             textResult.Text = (-double.Parse(textResult.Text)).ToString();
+            textResult.Text = adjustText.AddComma(textResult.Text);
         }
 
         private void BtnEqual_Click(object sender, RoutedEventArgs e)
@@ -286,6 +352,7 @@ namespace Calculator
 
             if (textResult.Text.Equals("0으로 나눌 수 없습니다."))
             {
+                ButtonEnabled();
                 textResult.Text = "0";
                 operatorDisplay.Text = "";
                 return;
@@ -295,7 +362,6 @@ namespace Calculator
             {
                 backOperand = temp;
                 frontOperand = double.Parse(textResult.Text);
-                //isCalculating = true;
             }
 
             if (isCalculating == true)
@@ -311,7 +377,12 @@ namespace Calculator
                         textResult.Text = (backOperand + double.Parse(textResult.Text)).ToString();
                         break;
                     }
-                    textResult.Text = (frontOperand + backOperand).ToString();
+                    if (isCalculating == false)
+                        textResult.Text = (frontOperand + backOperand).ToString();
+                    else if (isCalculating == true && isPushed == false)
+                        textResult.Text = (frontOperand + backOperand).ToString();
+                    else
+                        textResult.Text = (previousNum + backOperand).ToString();
                     break;
 
                 case '-':
@@ -320,7 +391,12 @@ namespace Calculator
                         textResult.Text = (backOperand - double.Parse(textResult.Text)).ToString();
                         break;
                     }
-                    textResult.Text = (frontOperand - backOperand).ToString();
+                    if (isCalculating == false)
+                        textResult.Text = (frontOperand - backOperand).ToString();
+                    else if (isCalculating == true && isPushed == false)
+                        textResult.Text = (frontOperand - backOperand).ToString();
+                    else
+                        textResult.Text = (previousNum - backOperand).ToString();
                     break;
 
                 case 'X':
@@ -329,13 +405,21 @@ namespace Calculator
                         textResult.Text = (backOperand * double.Parse(textResult.Text)).ToString();
                         break;
                     }
-                    textResult.Text = (frontOperand * backOperand).ToString();
+                    if (isCalculating == false)
+                        textResult.Text = (frontOperand * backOperand).ToString();
+                    else if (isCalculating == true && isPushed == false)
+                        textResult.Text = (frontOperand * backOperand).ToString();
+                    else
+                        textResult.Text = (previousNum * backOperand).ToString();
                     break;
+                    //textResult.Text = (frontOperand * backOperand).ToString();
+                    //break;
 
                 case '÷':
                     if (backOperand == 0)
                     {
                         textResult.Text = "0으로 나눌 수 없습니다.";
+                        ButtonDisabled();
                         textResult.FontSize = 40;
                         return;
                     }
@@ -345,8 +429,15 @@ namespace Calculator
                         textResult.Text = (backOperand * double.Parse(textResult.Text)).ToString();
                         break;
                     }
-                    textResult.Text = (frontOperand / backOperand).ToString();
+                    if (isCalculating == false)
+                        textResult.Text = (frontOperand / backOperand).ToString();
+                    else if (isCalculating == true && isPushed == false)
+                        textResult.Text = (frontOperand / backOperand).ToString();
+                    else
+                        textResult.Text = (previousNum / backOperand).ToString();
                     break;
+                    //textResult.Text = (frontOperand / backOperand).ToString();
+                    //break;
             }
 
             isCalculating = false;
@@ -357,22 +448,60 @@ namespace Calculator
             temp = backOperand;
         }
 
-        public int CountOperator(string input)
+        public void ButtonDisabled()
         {
-            int count = 0;
-            char[] array = input.ToCharArray();
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                if (array[i] == '+' || array[i] == '-' || array[i] == 'X' || array[i] == '÷')
-                {
-                    count = count + 1;
-                }
-            }
-
-            return count;
+            BtnPlus.IsEnabled = false;
+            BtnMinus.IsEnabled = false;
+            BtnPlusMinus.IsEnabled = false;
+            BtnMultiply.IsEnabled = false;
+            BtnDivide.IsEnabled = false;
+            BtnDot.IsEnabled = false;
         }
 
-        
+        public void ButtonEnabled()
+        {
+            BtnPlus.IsEnabled = true;
+            BtnMinus.IsEnabled = true;
+            BtnPlusMinus.IsEnabled = true;
+            BtnMultiply.IsEnabled = true;
+            BtnDivide.IsEnabled = true;
+            BtnDot.IsEnabled = true;
+            InitializeVariables();
+        }
+
+        public void InitializeVariables()
+        {
+            textResult.Text = "0";
+            operatorDisplay.Text = "";
+            textResult.FontSize = 60;
+            frontOperand = 0;
+            backOperand = 0;
+            num = "0";
+            previousNum = 0;
+            isPushed = false;
+            isCalculating = false;
+        }
+
+        private void PreviousCalculate()
+        {
+            switch(op)
+            {
+                case '+':
+                    memNum = frontOperand + double.Parse(textResult.Text);
+                    break;
+
+                case '-':
+                    memNum = frontOperand - double.Parse(textResult.Text);
+                    break;
+
+                case 'X':
+                    memNum = frontOperand * double.Parse(textResult.Text);
+                    break;
+
+                case '÷':
+                    memNum = frontOperand / double.Parse(textResult.Text);
+                    break;
+            }
+        }
     }
 }

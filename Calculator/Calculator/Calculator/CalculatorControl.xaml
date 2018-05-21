@@ -10,9 +10,8 @@
     <StackPanel>
         <Grid>
             <TextBox Height="300" x:Name="textResult" FontWeight="Bold" Background="#DEE0E5" TextAlignment="Right" VerticalContentAlignment="Bottom" IsReadOnly="True"></TextBox>
-            <!--<TextBlock Margin="15" VerticalAlignment="Bottom" x:Name="numberDisplay" FontSize="30" FontWeight="Bold"></TextBlock>-->
             <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top">
-            <TextBlock Margin="15" HorizontalAlignment="Right" x:Name="operatorDisplay" FontSize="30" FontWeight="Light" Height="40" VerticalAlignment="Top" Foreground="Gray"></TextBlock>
+                <TextBox Margin="15" HorizontalAlignment="Right" x:Name="operatorDisplay" FontSize="30" FontWeight="Light" Height="45" VerticalAlignment="Top" Foreground="Gray" BorderBrush="#DEE0E5" Background="#DEE0E5" IsReadOnly="True"></TextBox>
             </ScrollViewer>
         </Grid>
 
