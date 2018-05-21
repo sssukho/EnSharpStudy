@@ -46,11 +46,12 @@ namespace Calculator
 
             num = btn.Name.Remove(0, 3); //맨 앞에서 3글자 삭제
 
+            /*
             if(isPushed == false && isCalculating == true)
             {
                 //if (textResult.Text != "0")  
                 textResult.Text = "0";
-            }
+            }*/
 
             if (textResult.Text.Contains("0으로"))
                 ButtonEnabled();
@@ -71,13 +72,12 @@ namespace Calculator
                 textResult.FontSize = adjustText.AdjustFontSize(textResult.Text);
             }
 
-           
-
             else if (double.Parse(textResult.Text) == 0)
             {
                 textResult.Text = num;
+                return;
             }
-            
+
             else
             {
                 if (textResult.Text.Length > 20)
@@ -118,7 +118,7 @@ namespace Calculator
             }
                 
             textResult.Text = adjustText.AddComma(textResult.Text.Remove(textResult.Text.Length - 1));
-            //textResult.Text = textResult.Text.Remove(textResult.Text.Length - 1);
+
             if (textResult.Text.Length == 0)
                 textResult.Text = "0";
         }
@@ -135,7 +135,7 @@ namespace Calculator
 
                 PreviousCalculate();
                 frontOperand = memNum;
-                operatorDisplay.Text = operatorDisplay.Text + textResult.Text + " - ";
+                operatorDisplay.Text = operatorDisplay.Text + textResult.Text + " ÷ ";
                 textResult.Text = frontOperand.ToString();
                 op = '÷';
                 return;
@@ -157,7 +157,6 @@ namespace Calculator
 
             else
             {
-                //frontOperand = previousNum;
                 backOperand = double.Parse(num);
                 operatorDisplay.Text = operatorDisplay.Text + backOperand.ToString() + " ÷ ";
                 textResult.Text = (frontOperand / backOperand).ToString();
@@ -182,7 +181,7 @@ namespace Calculator
                 
                 PreviousCalculate();
                 frontOperand = memNum;
-                operatorDisplay.Text = operatorDisplay.Text + textResult.Text + " - ";
+                operatorDisplay.Text = operatorDisplay.Text + textResult.Text + " X ";
                 textResult.Text = frontOperand.ToString();
                 op = 'X';
                 return;
@@ -295,15 +294,6 @@ namespace Calculator
             {
                 frontOperand = previousNum;
                 backOperand = double.Parse(textResult.Text);
-                /*
-                if (isPushed == true)
-                {
-                    backOperand = double.Parse(num);
-                }
-                else
-                {
-                    backOperand = double.Parse(textResult.Text);
-                }*/
                 operatorDisplay.Text = operatorDisplay.Text + backOperand.ToString() + " + ";
             }
 
