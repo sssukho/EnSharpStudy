@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:LoginProgram"
         mc:Ignorable="d"
         Title="sssuk's Login" Height="880" Width="600">
-    <Grid x:Name="mainGrid">
+    <Grid x:Name="MainGrid">
         
     </Grid>
 </Window>

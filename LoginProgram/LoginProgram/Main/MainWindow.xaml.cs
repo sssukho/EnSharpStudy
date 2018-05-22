@@ -21,12 +21,17 @@ namespace LoginProgram
     public partial class MainWindow : Window
     {
         LoginControl loginControl;
+        SignUpControl signUpControl;
+        EditProfileControl editProfileControl;
 
         public MainWindow()
         {
             InitializeComponent();
-            loginControl = new LoginControl();
-            mainGrid.Children.Add(loginControl);
+
+            signUpControl = new SignUpControl();
+            editProfileControl = new EditProfileControl();
+            loginControl = new LoginControl(this, signUpControl, editProfileControl);
+            MainGrid.Children.Add(loginControl);
         }
     }
 }
