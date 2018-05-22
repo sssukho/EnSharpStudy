@@ -17,7 +17,7 @@
             <StackPanel Orientation="Vertical" Margin="10" HorizontalAlignment="Center">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock Width="108" HorizontalAlignment="Left" FontWeight="Bold" FontSize="20">Password</TextBlock>
-                    <Button x:Name="Btn_FindPassword" Click="FindPasswordClicked" Foreground="Blue" HorizontalAlignment="Right" FontWeight="Bold" FontSize="10" Background="#ffff" BorderThickness="0">Forgot Password?</Button>
+                    <Button x:Name="Btn_FindPassword" Click="ForgotPasswordClicked" Foreground="Blue" HorizontalAlignment="Right" FontWeight="Bold" FontSize="10" Background="#ffff" BorderThickness="0">Forgot Password?</Button>
                 </StackPanel>
                 <TextBox x:Name="inputPassword" Width="200" FontSize="18" BorderBrush="Black"></TextBox>
             </StackPanel>

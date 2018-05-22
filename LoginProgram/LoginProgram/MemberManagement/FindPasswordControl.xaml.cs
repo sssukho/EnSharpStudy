@@ -16,17 +16,13 @@ using System.Windows.Shapes;
 namespace LoginProgram
 {
     /// <summary>
-    /// MainWindow.xaml에 대한 상호 작용 논리
+    /// FindPasswordControl.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class FindPasswordControl : UserControl
     {
-        LoginControl loginControl;
-
-        public MainWindow()
+        public FindPasswordControl()
         {
             InitializeComponent();
-            loginControl = new LoginControl(this);
-            MainGrid.Children.Add(loginControl);
         }
     }
 }

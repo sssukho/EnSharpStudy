@@ -20,8 +20,6 @@ namespace LoginProgram
     /// </summary>
     public partial class LoginControl : UserControl
     {
-        SignUpControl signUpControl;
-        EditProfileControl editProfileControl;
         MainWindow mainWindow;
 
         public LoginControl()
@@ -29,15 +27,13 @@ namespace LoginProgram
             InitializeComponent();
         }
 
-        public LoginControl(MainWindow mainWindow, SignUpControl signUpControl, EditProfileControl editProfileControl)
+        public LoginControl(MainWindow mainWindow)
         {
             InitializeComponent();
             this.mainWindow = mainWindow;
-            this.signUpControl = signUpControl;
-            this.editProfileControl = editProfileControl;
         }
 
-        private void FindPasswordClicked(object sender, RoutedEventArgs e)
+        private void ForgotPasswordClicked(object sender, RoutedEventArgs e)
         {
             mainWindow.MainGrid.Children.Clear();
             mainWindow.MainGrid.Children.Add(new FindPasswordControl());
@@ -52,7 +48,7 @@ namespace LoginProgram
         private void CreateAccountClicked(object sender, RoutedEventArgs e)
         {
             mainWindow.MainGrid.Children.Clear();
-            mainWindow.MainGrid.Children.Add(signUpControl);
+            mainWindow.MainGrid.Children.Add(new SignUpControl());
         }
     }
 }
