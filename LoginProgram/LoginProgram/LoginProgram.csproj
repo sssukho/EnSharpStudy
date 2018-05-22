@@ -52,6 +52,7 @@
     <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Management" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -71,6 +72,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BasicFunction\DAO.cs" />
+    <Compile Include="MemberManagement\FindPasswordControl.xaml.cs">
+      <DependentUpon>FindPasswordControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Main\MainViewControl.xaml.cs">
+      <DependentUpon>MainViewControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MemberManagement\EditProfileControl.xaml.cs">
       <DependentUpon>EditProfileControl.xaml</DependentUpon>
     </Compile>
@@ -78,12 +85,20 @@
     <Compile Include="Main\LoginControl.xaml.cs">
       <DependentUpon>LoginControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MemberManagement\SingUpControl.xaml.cs">
-      <DependentUpon>SingUpControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MemberManagement\WithdrawControl.xaml.cs">
       <DependentUpon>WithdrawControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MemberManagement\SignUpControl.xaml.cs">
+      <DependentUpon>SignUpControl.xaml</DependentUpon>
+    </Compile>
+    <Page Include="MemberManagement\FindPasswordControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Main\MainViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MemberManagement\EditProfileControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -104,11 +119,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MemberManagement\SingUpControl.xaml">
+    <Page Include="MemberManagement\WithdrawControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MemberManagement\WithdrawControl.xaml">
+    <Page Include="MemberManagement\SignUpControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
