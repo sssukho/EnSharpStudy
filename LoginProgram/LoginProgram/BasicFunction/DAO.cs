@@ -102,5 +102,17 @@ namespace LoginProgram
             selectedUser[7] = dataReader["address"].ToString();
             return selectedUser;
         }
+
+        public bool IsAuthenticate(string id)
+        {
+            DataReaderClose();
+            sqlQuery = "select id from user where id='" + id + "';";
+            SendQuery(sqlQuery);
+            
+            if(dataReader.HasRows)
+                return true;
+            
+            return false;
+        }
     }
 }

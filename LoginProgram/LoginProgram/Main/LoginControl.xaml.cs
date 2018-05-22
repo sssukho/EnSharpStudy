@@ -46,15 +46,6 @@ namespace LoginProgram
 
         private void SignInClicked(object sender, RoutedEventArgs e)
         {   
-            /*
-            if(inputID.Text == null || inputPassword == null)
-            {
-                MessageBox.Show("아이디 및 비밀번호를 입력해주세요.");
-                inputID.Clear();
-                inputPassword.Clear();
-                return;
-            }*/
-
             if (errorCheck.MemberID(inputID.Text))
             {
                 MessageBox.Show("아이디 양식에 맞춰 입력해주세요.");
@@ -68,7 +59,15 @@ namespace LoginProgram
                 inputPassword.Clear();
                 return;
             }
-                
+
+            if(dao.IsAuthenticate(inputID.Text) == false)
+            {
+                MessageBox.Show("존재하지 않는 사용자 입니다.");
+                inputPassword.Clear();
+                inputID.Clear();
+                return;
+            }
+
             mainWindow.MainGrid.Children.Clear();
             mainWindow.MainGrid.Children.Add(new MainViewControl());
         }
