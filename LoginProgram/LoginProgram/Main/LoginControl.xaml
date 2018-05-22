@@ -19,7 +19,7 @@
                     <TextBlock Width="108" HorizontalAlignment="Left" FontWeight="Bold" FontSize="20">Password</TextBlock>
                     <Button x:Name="Btn_FindPassword" Click="ForgotPasswordClicked" Foreground="Blue" HorizontalAlignment="Right" FontWeight="Bold" FontSize="10" Background="#ffff" BorderThickness="0">Forgot Password?</Button>
                 </StackPanel>
-                <TextBox x:Name="inputPassword" Width="200" FontSize="18" BorderBrush="Black"></TextBox>
+                <PasswordBox x:Name="inputPassword" Width="200" FontSize="18" BorderBrush="Black"></PasswordBox>
             </StackPanel>
 
             <Button x:Name="Login" Click="SignInClicked"  FontSize="20" Background="Green" FontWeight="Bold" Width="200" Margin="20">Sign in</Button>

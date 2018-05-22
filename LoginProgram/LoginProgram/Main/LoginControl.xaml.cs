@@ -27,7 +27,6 @@ namespace LoginProgram
         public LoginControl()
         {
             InitializeComponent();
-            
         }
 
         public LoginControl(MainWindow mainWindow)
@@ -38,13 +37,13 @@ namespace LoginProgram
             this.errorCheck = ErrorCheck.GetInstance();
         }
 
-        private void ForgotPasswordClicked(object sender, RoutedEventArgs e)
+        public void ForgotPasswordClicked(object sender, RoutedEventArgs e)
         {
             mainWindow.MainGrid.Children.Clear();
-            mainWindow.MainGrid.Children.Add(new FindPasswordControl());
+            mainWindow.MainGrid.Children.Add(new FindPasswordControl(mainWindow, this, dao));
         }
 
-        private void SignInClicked(object sender, RoutedEventArgs e)
+        public void SignInClicked(object sender, RoutedEventArgs e)
         {   
             if (errorCheck.MemberID(inputID.Text))
             {
@@ -53,16 +52,16 @@ namespace LoginProgram
                 return;
             }
 
-            if(errorCheck.MemberPassword(inputPassword.Text))
+            if(errorCheck.MemberPassword(inputPassword.Password))
             {
                 MessageBox.Show("비밀번호 양식에 맞춰 입력해주세요.");
                 inputPassword.Clear();
                 return;
             }
 
-            if(dao.IsAuthenticate(inputID.Text) == false)
+            if(dao.IsAuthenticate(inputID.Text, inputPassword.Password) == false)
             {
-                MessageBox.Show("존재하지 않는 사용자 입니다.");
+                MessageBox.Show("존재하지 않는 사용자 혹은 비밀번호가 일치하지 않습니다.");
                 inputPassword.Clear();
                 inputID.Clear();
                 return;
@@ -72,7 +71,7 @@ namespace LoginProgram
             mainWindow.MainGrid.Children.Add(new MainViewControl());
         }
 
-        private void CreateAccountClicked(object sender, RoutedEventArgs e)
+        public void CreateAccountClicked(object sender, RoutedEventArgs e)
         {
             mainWindow.MainGrid.Children.Clear();
             mainWindow.MainGrid.Children.Add(new SignUpControl());

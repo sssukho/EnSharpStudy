@@ -7,16 +7,16 @@ using MySql.Data.MySqlClient;
 
 namespace LoginProgram
 {
-    class DAO
+    public class DAO
     {
-        private MySqlConnection connect;
-        private MySqlDataReader dataReader;
-        private MySqlCommand command;
+        public MySqlConnection connect;
+        public MySqlDataReader dataReader;
+        public MySqlCommand command;
 
-        private string server;
-        private string database;
-        private string uid;
-        private string password;
+        public string server;
+        public string database;
+        public string uid;
+        public string password;
         public string sqlQuery;
 
         public DAO()
@@ -24,7 +24,7 @@ namespace LoginProgram
             Initialize();
         }
 
-        private void Initialize()
+        public void Initialize()
         {
             server = "localhost";
             database = "Login";
@@ -59,32 +59,30 @@ namespace LoginProgram
 
         public void Insert(string[] newMember)
         {
-            DataReaderClose();
-
             //id, password, name, gender, birth, email, phone, address 순서대로.
             sqlQuery = "insert into User values('" + newMember[0] + "', '" + newMember[1] + "', '" + newMember[2] + "', '" + newMember[3] + "', '"
                 + newMember[4] + "', '" + newMember[5] + "', '" + newMember[6] + "', '" + newMember[7] + "');";
 
             SendQuery(sqlQuery);
+            DataReaderClose();
         }
 
         public void Update(string editedValue, string column, string id)
         {
-            DataReaderClose();
             sqlQuery = "update User set " + column + "='" + editedValue + "' where id='" + id + "';";
             SendQuery(sqlQuery);
+            DataReaderClose();
         }
 
         public void Delete(string id)
         {
-            DataReaderClose();
             sqlQuery = "delete from User where id='" + id + "';";
             SendQuery(sqlQuery);
+            DataReaderClose();
         }
 
         public string[] Select(string id)
         {
-            DataReaderClose();
             string[] selectedUser = new string[8];
 
             //id, password, name, gender, birth, email, phone, address 순서대로.
@@ -100,18 +98,22 @@ namespace LoginProgram
             selectedUser[5] = dataReader["email"].ToString();
             selectedUser[6] = dataReader["phone"].ToString();
             selectedUser[7] = dataReader["address"].ToString();
+            DataReaderClose();
             return selectedUser;
         }
 
-        public bool IsAuthenticate(string id)
+        public bool IsAuthenticate(string id, string password)
         {
-            DataReaderClose();
-            sqlQuery = "select id from user where id='" + id + "';";
+            sqlQuery = "select id, password from user where id='" + id + "';";
             SendQuery(sqlQuery);
-            
-            if(dataReader.HasRows)
+            dataReader.Read();
+
+            if(dataReader["id"].ToString().Equals(id) && dataReader["password"].ToString().Equals(password))
+            {
+                DataReaderClose();
                 return true;
-            
+            }
+            DataReaderClose();
             return false;
         }
     }
