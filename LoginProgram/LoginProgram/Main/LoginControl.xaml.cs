@@ -21,16 +21,21 @@ namespace LoginProgram
     public partial class LoginControl : UserControl
     {
         MainWindow mainWindow;
+        DAO dao;
+        ErrorCheck errorCheck;
 
         public LoginControl()
         {
             InitializeComponent();
+            
         }
 
         public LoginControl(MainWindow mainWindow)
         {
             InitializeComponent();
             this.mainWindow = mainWindow;
+            dao = new DAO();
+            this.errorCheck = ErrorCheck.GetInstance();
         }
 
         private void ForgotPasswordClicked(object sender, RoutedEventArgs e)
@@ -40,7 +45,30 @@ namespace LoginProgram
         }
 
         private void SignInClicked(object sender, RoutedEventArgs e)
-        {
+        {   
+            /*
+            if(inputID.Text == null || inputPassword == null)
+            {
+                MessageBox.Show("아이디 및 비밀번호를 입력해주세요.");
+                inputID.Clear();
+                inputPassword.Clear();
+                return;
+            }*/
+
+            if (errorCheck.MemberID(inputID.Text))
+            {
+                MessageBox.Show("아이디 양식에 맞춰 입력해주세요.");
+                inputID.Clear();
+                return;
+            }
+
+            if(errorCheck.MemberPassword(inputPassword.Text))
+            {
+                MessageBox.Show("비밀번호 양식에 맞춰 입력해주세요.");
+                inputPassword.Clear();
+                return;
+            }
+                
             mainWindow.MainGrid.Children.Clear();
             mainWindow.MainGrid.Children.Add(new MainViewControl());
         }

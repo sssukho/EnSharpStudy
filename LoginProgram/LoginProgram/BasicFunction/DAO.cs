@@ -21,6 +21,7 @@ namespace LoginProgram
 
         public DAO()
         {
+            Initialize();
         }
 
         private void Initialize()
