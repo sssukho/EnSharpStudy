@@ -20,9 +20,13 @@ namespace LoginProgram
     /// </summary>
     public partial class MainWindow : Window
     {
+        LoginControl loginControl;
+
         public MainWindow()
         {
             InitializeComponent();
+            loginControl = new LoginControl();
+            mainGrid.Children.Add(loginControl);
         }
     }
 }

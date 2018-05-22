@@ -24,5 +24,20 @@ namespace LoginProgram
         {
             InitializeComponent();
         }
+
+        private void FindPasswordClicked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SignInClicked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CreateAccountClicked(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

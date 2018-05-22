@@ -59,6 +59,12 @@ namespace LoginProgram
             return Judgement(input, pattern);
         }
 
+        public bool MemberAddress(string input)
+        {
+            pattern = @"(([가-힣]+(\d{1,5}|\d{1,5}(,|.)\d{1,5}|)+(읍|면|동|가|리))(^구|)((\d{1,5}(~|-)\d{1,5}|\d{1,5})(가|리|)|))([ ](산(\d{1,5}(~|-)\d{1,5}|\d{1,5}))|)|(([가-힣]|(\d{1,5}(~|-)\d{1,5})|\d{1,5})+(로|길))";
+            return Judgement(input, pattern);
+        }
+
         public bool Judgement(string input, string pattern)
         {
             mc = Regex.Matches(input, pattern);

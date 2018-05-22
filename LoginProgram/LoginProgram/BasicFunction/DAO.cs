@@ -60,9 +60,9 @@ namespace LoginProgram
         {
             DataReaderClose();
 
-            //id, password, name, gender, birth, email, phone 순서대로. index 6까지
+            //id, password, name, gender, birth, email, phone, address 순서대로.
             sqlQuery = "insert into User values('" + newMember[0] + "', '" + newMember[1] + "', '" + newMember[2] + "', '" + newMember[3] + "', '"
-                + newMember[4] + "', '" + newMember[5] + "', '" + newMember[6] + "');";
+                + newMember[4] + "', '" + newMember[5] + "', '" + newMember[6] + "', '" + newMember[7] + "');";
 
             SendQuery(sqlQuery);
         }
@@ -84,7 +84,7 @@ namespace LoginProgram
         public string[] Select(string id)
         {
             DataReaderClose();
-            string[] selectedUser = new string[7];
+            string[] selectedUser = new string[8];
 
             //id, password, name, gender, birth, email, phone 순서대로. index 6까지
             sqlQuery = "select * from user where id='" + id + "';";
@@ -98,7 +98,7 @@ namespace LoginProgram
             selectedUser[4] = dataReader["birth"].ToString();
             selectedUser[5] = dataReader["email"].ToString();
             selectedUser[6] = dataReader["phone"].ToString();
-
+            selectedUser[7] = dataReader["address"].ToString();
             return selectedUser;
         }
     }
