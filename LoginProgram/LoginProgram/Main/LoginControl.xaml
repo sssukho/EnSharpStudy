@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:LoginProgram"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="600">
-    <Grid x:Name="loginGrid">
+    <Grid>
         <StackPanel Orientation="Vertical" Margin="50" Height="400" Background="#ffffff">
 
             <StackPanel Orientation="Vertical" Margin="20" HorizontalAlignment="Center">

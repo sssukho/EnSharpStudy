@@ -86,7 +86,7 @@ namespace LoginProgram
             DataReaderClose();
             string[] selectedUser = new string[8];
 
-            //id, password, name, gender, birth, email, phone 순서대로. index 6까지
+            //id, password, name, gender, birth, email, phone, address 순서대로.
             sqlQuery = "select * from user where id='" + id + "';";
             SendQuery(sqlQuery);
             dataReader.Read();
