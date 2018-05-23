@@ -65,6 +65,18 @@ namespace LoginProgram
             return Judgement(input, pattern);
         }
 
+        public bool MemberIdentifyNumber(string input) //-까지 포함된 문자열로 검색
+        {
+            pattern = @"^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))-[1-4][0-9]{6}$";
+            return Judgement(input, pattern);
+        }
+
+        public bool MemberBirth(string input)
+        {
+            pattern = @"^(\d+)[/|\-|\s]+[0|1](\d)[/|\-|\s]+([0|1|2|3]\d)$";
+            return Judgement(input, pattern);
+        }
+
         public bool Judgement(string input, string pattern)
         {
             mc = Regex.Matches(input, pattern);

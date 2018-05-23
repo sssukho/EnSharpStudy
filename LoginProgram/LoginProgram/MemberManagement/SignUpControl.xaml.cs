@@ -24,20 +24,14 @@ namespace LoginProgram
         LoginControl loginControl;
         DAO dao;
         ErrorCheck errorCheck;
-
-        
-        public SignUpControl()
-        {
-            InitializeComponent();
-        }
-
+       
         public SignUpControl(MainWindow mainWindow, LoginControl loginControl, DAO dao)
         {
+            InitializeComponent();
             this.mainWindow = mainWindow;
             this.loginControl = loginControl;
             this.dao = dao;
             errorCheck = ErrorCheck.GetInstance();
-            
         }
 
         //id, password, name, gender, birth, email, phone, address, identityNumber 입력받아야함
@@ -46,43 +40,53 @@ namespace LoginProgram
             string[] newMember = new string[9];
             if (errorCheck.MemberID(inputID.Text))
             {
-                MessageBox.Show("아이디 양식에 맞춰 주십시오.");
+                ShowMessage("아이디");
                 inputID.Clear();
                 return;
             }
             if (errorCheck.MemberPassword(inputPassword.Password))
             {
-                MessageBox.Show("비밀번호 양식에 맞춰 주십시오.");
+                ShowMessage("비밀번호");
                 inputPassword.Clear();
                 return;
             }
             if (errorCheck.MemberName(inputName.Text))
             {
-                MessageBox.Show("이름 양식에 맞춰 주십시오.");
+                ShowMessage("이름");
                 inputName.Clear();
+                return;
+            }
+            if(errorCheck.MemberBirth(inputBirth.Text))
+            {
+                ShowMessage("생년월일");
+                inputBirth.Clear();
                 return;
             }
             if(errorCheck.MemberEmail(inputEmail.Text))
             {
-                MessageBox.Show("이메일 양식에 맞춰 주십시오.");
-                inputPhone.Clear();
+                ShowMessage("이메일");
+                inputEmail.Clear();
                 return;
             }
             if(errorCheck.MemberPhone(inputPhone.Text))
             {
-                MessageBox.Show("전화번호 양식에 맞춰 주십시오.");
+                ShowMessage("핸드폰 번호");
                 inputPhone.Clear();
                 return;
             }
             if(errorCheck.MemberAddress(inputAddress.Text))
             {
-                MessageBox.Show("주소 양식에 맞춰 주십시오.");
+                ShowMessage("주소");
                 inputAddress.Clear();
                 return;
             }
-            //identify, birth check 해야함
+            if (errorCheck.MemberIdentifyNumber(inputIdenetity.Text))
+            {
+                ShowMessage("주민등록번호");
+                inputIdenetity.Clear();
+                return;
+            }
 
-            
             newMember[0] = inputID.Text;
             newMember[1] = inputPassword.Password;
             newMember[2] = inputName.Text;
@@ -96,7 +100,9 @@ namespace LoginProgram
             newMember[7] = inputAddress.Text;
             newMember[8] = inputIdenetity.Text;
 
-            
+            dao.Insert(newMember);
+            MessageBox.Show("회원가입에 성공하셨습니다!");
+            SignUpGrid.Children.Clear();
         }
 
         public void BackClicked(object sender, RoutedEventArgs e)
@@ -107,5 +113,9 @@ namespace LoginProgram
             mainWindow.MainGrid.Children.Add(loginControl);
         }
 
+        public void ShowMessage(string input)
+        {
+            MessageBox.Show("{0} 양식에 맞춰 주십시오.", input);
+        }
     }
 }

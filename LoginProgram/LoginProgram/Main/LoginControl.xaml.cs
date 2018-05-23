@@ -74,7 +74,7 @@ namespace LoginProgram
         public void CreateAccountClicked(object sender, RoutedEventArgs e)
         {
             mainWindow.MainGrid.Children.Clear();
-            mainWindow.MainGrid.Children.Add(new SignUpControl());
+            mainWindow.MainGrid.Children.Add(new SignUpControl(mainWindow, this, dao));
         }
     }
 }
