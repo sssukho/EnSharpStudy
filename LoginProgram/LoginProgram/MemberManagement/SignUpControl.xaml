@@ -5,8 +5,61 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LoginProgram"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+             d:DesignHeight="800" d:DesignWidth="600">
+
+    <StackPanel Orientation="Vertical">
+        <Grid Margin="5,5,10,0" Height="600" Width="400" Background="#ffff">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" FontWeight="Bold" FontSize="20">Username</TextBlock>
+            <TextBox Grid.Row="1"  x:Name="inputID" FontSize="20" BorderBrush="Black"></TextBox>
+            <TextBlock Grid.Row="2" FontWeight="Bold" FontSize="20">Password</TextBlock>
+            <PasswordBox Grid.Row="3" x:Name="inputPassword" FontSize="20" BorderBrush="Black"></PasswordBox>
+            <TextBlock Grid.Row="4" FontWeight="Bold" FontSize="20">PasswordCheck</TextBlock>
+            <PasswordBox Grid.Row="5" x:Name="inputPasswordCheck" FontSize="20" BorderBrush="Black"></PasswordBox>
+            <TextBlock Grid.Row="6" FontWeight="Bold" FontSize="20">Name</TextBlock>
+            <TextBox Grid.Row="7"  x:Name="inputName" FontSize="20" BorderBrush="Black" ></TextBox>
+            <TextBlock Grid.Row="8" FontWeight="Bold" FontSize="20">Gender</TextBlock>
+            <StackPanel Orientation="Horizontal" Grid.Row="9">
+                <CheckBox x:Name="inputMale" IsChecked="True" FontSize="20" >남성</CheckBox>
+                <CheckBox x:Name="inputFemale" FontSize="20">여성</CheckBox>
+            </StackPanel>
+            <TextBlock Grid.Row="10" FontWeight="Bold" FontSize="20">Birth</TextBlock>
+            <TextBox Grid.Row="11"  x:Name="inputBirth" FontSize="20" BorderBrush="Black"></TextBox>
+            <TextBlock Grid.Row="12" FontWeight="Bold" FontSize="20">Email</TextBlock>
+            <TextBox Grid.Row="13"  x:Name="inputEmail" FontSize="20" BorderBrush="Black"></TextBox>
+            <TextBlock Grid.Row="14" FontWeight="Bold" FontSize="20">Phone</TextBlock>
+            <TextBox Grid.Row="15"  x:Name="inputPhone" FontSize="20" BorderBrush="Black"></TextBox>
+            <TextBlock Grid.Row="16" FontWeight="Bold" FontSize="20">address</TextBlock>
+            <TextBox Grid.Row="17" x:Name="inputAddress" FontSize="20" BorderBrush="Black"></TextBox>
+            <TextBlock Grid.Row="18" FontWeight="Bold" FontSize="20">identityNumber</TextBlock>
+            <TextBox Grid.Row="19"  x:Name="inputIdenetity" FontSize="20" BorderBrush="Black"></TextBox>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="Join" Click="JoinClicked" FontSize="20" FontWeight="Bold" Width="80" Height="50" Margin="30">Join</Button>
+            <Button x:Name="Back" Click="BackClicked" FontSize="20" FontWeight="Bold" Width="80" Height="50" Margin="30">Back</Button>
+        </StackPanel>
+    </StackPanel>
 </UserControl>

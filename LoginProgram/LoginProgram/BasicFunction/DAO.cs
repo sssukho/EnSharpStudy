@@ -59,9 +59,9 @@ namespace LoginProgram
 
         public void Insert(string[] newMember)
         {
-            //id, password, name, gender, birth, email, phone, address 순서대로.
+            //id, password, name, gender, birth, email, phone, address, identityNumber 순서대로.
             sqlQuery = "insert into User values('" + newMember[0] + "', '" + newMember[1] + "', '" + newMember[2] + "', '" + newMember[3] + "', '"
-                + newMember[4] + "', '" + newMember[5] + "', '" + newMember[6] + "', '" + newMember[7] + "');";
+                + newMember[4] + "', '" + newMember[5] + "', '" + newMember[6] + "', '" + newMember[7] + "', '" + newMember[8] + "');";
 
             SendQuery(sqlQuery);
             DataReaderClose();
@@ -83,7 +83,7 @@ namespace LoginProgram
 
         public string[] Select(string id)
         {
-            string[] selectedUser = new string[8];
+            string[] selectedUser = new string[9];
 
             //id, password, name, gender, birth, email, phone, address 순서대로.
             sqlQuery = "select * from user where id='" + id + "';";
@@ -98,6 +98,7 @@ namespace LoginProgram
             selectedUser[5] = dataReader["email"].ToString();
             selectedUser[6] = dataReader["phone"].ToString();
             selectedUser[7] = dataReader["address"].ToString();
+            selectedUser[8] = dataReader["identityNumber"].ToString();
             DataReaderClose();
             return selectedUser;
         }
