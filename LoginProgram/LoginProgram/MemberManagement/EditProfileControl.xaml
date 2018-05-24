@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="600">
     <StackPanel Orientation="Vertical">
-        <TextBlock Background="#ffff" Height="100" Foreground="Coral" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">Edit informations what you want instead of previous</TextBlock>
+        <TextBlock Background="#ffff" Height="100" Foreground="Coral" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center">Edit informations!</TextBlock>
         <Grid x:Name="SignUpGrid" Margin="5,5,10,0" Height="600" Width="400" Background="#ffff">
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -37,7 +37,8 @@
             <TextBlock Grid.Row="2" FontWeight="Bold" FontSize="20">Password</TextBlock>
             <PasswordBox Grid.Row="3" x:Name="inputPassword" FontSize="20" BorderBrush="Black"></PasswordBox>
             <TextBlock Grid.Row="4" FontWeight="Bold" FontSize="20">PasswordCheck</TextBlock>
-            <PasswordBox Grid.Row="5" x:Name="inputPasswordCheck" FontSize="20" BorderBrush="Black"></PasswordBox>
+            <TextBlock x:Name="passWordCheckStatus" Grid.Row="4" FontWeight="Bold" FontSize="15" Margin="200,0,0,0"></TextBlock>
+            <PasswordBox Grid.Row="5" x:Name="inputPasswordCheck" FontSize="20" BorderBrush="Black" PasswordChanged="InputPasswordCheckChanged"></PasswordBox>
             <TextBlock Grid.Row="6" FontWeight="Bold" FontSize="20">Name</TextBlock>
             <TextBox Grid.Row="7"  x:Name="inputName" FontSize="20" BorderBrush="Black" ></TextBox>
             <TextBlock Grid.Row="8" FontWeight="Bold" FontSize="20">Birth</TextBlock>

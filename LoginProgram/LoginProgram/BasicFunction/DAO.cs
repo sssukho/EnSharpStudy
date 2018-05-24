@@ -103,6 +103,20 @@ namespace LoginProgram
             return selectedUser;
         }
 
+        public bool IsDuplicate(string input, string type)
+        {
+            sqlQuery = "select * from user where " + type + "='" + input + "';";
+            SendQuery(sqlQuery);
+            dataReader.Read();
+            if (dataReader.HasRows)
+            {
+                DataReaderClose();
+                return true;
+            }
+            DataReaderClose();
+            return false;
+        }
+
         public bool IsAuthenticate(string id, string password)
         {
             sqlQuery = "select id, password from user where id='" + id + "';";

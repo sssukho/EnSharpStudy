@@ -42,9 +42,7 @@ namespace LoginProgram
         public void FindClicked(object sender, RoutedEventArgs e)
         {
             string[] selectedUser;
-
             selectedUser = dao.Select(inputID.Text);
-
             password.Text = selectedUser[1];
         }
 

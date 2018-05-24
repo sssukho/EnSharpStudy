@@ -23,6 +23,35 @@ namespace LoginProgram
             return errorCheck;
         }
 
+        public string InputErrorType(string id, string password, string name, string birth, string email, string phone, string address, string identifyNumber)
+        {
+            if (errorCheck.MemberID(id))
+                return "아이디";
+
+            if (errorCheck.MemberPassword(password))
+                return "비밀번호";
+            
+            if (errorCheck.MemberName(name))
+                return "이름";
+            
+            if (errorCheck.MemberBirth(birth))
+                return "생년월일";
+            
+            if (errorCheck.MemberEmail(email))
+                return "이메일";
+            
+            if (errorCheck.MemberPhone(phone))
+                return "핸드폰 번호";
+            
+            if (errorCheck.MemberAddress(address))
+                return "주소";
+            
+            if (errorCheck.MemberIdentifyNumber(identifyNumber))
+                return "주민등록번호";
+
+            return "none";
+        }
+
         public bool MemberID(string input)
         {
             pattern = @"^[A-Za-z0-9]{4,12}$"; //4~12자리 영(대,소) 숫자만 입력받기.
@@ -71,7 +100,7 @@ namespace LoginProgram
             return Judgement(input, pattern);
         }
 
-        public bool MemberBirth(string input)
+        public bool MemberBirth(string input) //1992-04-11
         {
             pattern = @"^(\d+)[/|\-|\s]+[0|1](\d)[/|\-|\s]+([0|1|2|3]\d)$";
             return Judgement(input, pattern);

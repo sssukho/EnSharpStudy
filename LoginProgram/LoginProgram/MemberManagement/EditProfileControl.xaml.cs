@@ -25,6 +25,8 @@ namespace LoginProgram
         MainViewControl mainViewControl;
         DAO dao;
         ErrorCheck errorCheck = ErrorCheck.GetInstance();
+        string realtimePassword;
+        bool passwordCheck;
 
         public EditProfileControl(string logonID, MainWindow mainWindow, MainViewControl mainViewControl, DAO dao)
         {
@@ -55,7 +57,6 @@ namespace LoginProgram
         private void InputIDClicked(object sender, MouseButtonEventArgs e)
         {
             MessageBox.Show("ID는 바꿀 수 없습니다!");
-            
         }
 
         private void InputIdentityClicked(object sender, MouseButtonEventArgs e)
@@ -65,54 +66,30 @@ namespace LoginProgram
 
         private void EditClicked(object sender, RoutedEventArgs e)
         {
-            if(inputPassword != inputPasswordCheck)
+            string messageType;
+
+            messageType = errorCheck.InputErrorType(inputID.Text, inputPassword.Password, inputName.Text,
+                inputBirth.Text, inputEmail.Text, inputPhone.Text, inputAddress.Text, inputIdentity.Text);
+
+            if (messageType != "none")
             {
-                MessageBox.Show("비밀번호와 비밀번호 확인이 일치하지 않습니다!");
+                ShowMessage(messageType);
                 return;
             }
-            if (errorCheck.MemberID(inputID.Text))
+
+            if (dao.IsDuplicate(inputPhone.Text, "phone"))
             {
-                ShowMessage("아이디");
-                inputID.Clear();
-                return;
-            }
-            if (errorCheck.MemberPassword(inputPassword.Password))
-            {
-                ShowMessage("비밀번호");
-                inputPassword.Clear();
-                inputPasswordCheck.Clear();
-                return;
-            }
-            if (errorCheck.MemberName(inputName.Text))
-            {
-                ShowMessage("이름");
-                inputName.Clear();
-                return;
-            }
-            if (errorCheck.MemberBirth(inputBirth.Text))
-            {
-                ShowMessage("생년월일");
-                inputBirth.Clear();
-                return;
-            }
-            if (errorCheck.MemberEmail(inputEmail.Text))
-            {
-                ShowMessage("이메일");
-                inputEmail.Clear();
-                return;
-            }
-            if (errorCheck.MemberPhone(inputPhone.Text))
-            {
-                ShowMessage("핸드폰 번호");
+                MessageBox.Show("똑같은 휴대번호를 가지고 있는 회원이 있습니다.");
                 inputPhone.Clear();
                 return;
             }
-            if (errorCheck.MemberAddress(inputAddress.Text))
+
+            if(passwordCheck == false)
             {
-                ShowMessage("주소");
-                inputAddress.Clear();
+                MessageBox.Show("패스워드 확인과 패스워드를 일치시켜야 합니다!");
                 return;
             }
+
             MessageBox.Show("정보 수정 완료되었습니다.");
             mainWindow.MainGrid.Children.Clear();
             mainWindow.MainGrid.Children.Add(mainViewControl);
@@ -126,7 +103,23 @@ namespace LoginProgram
 
         public void ShowMessage(string input)
         {
-            MessageBox.Show("{0} 양식에 맞춰 주십시오.", input);
+            MessageBox.Show(input + " 양식에 맞춰 주십시오.");
+        }
+
+        private void InputPasswordCheckChanged(object sender, RoutedEventArgs e)
+        {
+            realtimePassword = inputPasswordCheck.Password;
+            if (inputPassword.Password == inputPasswordCheck.Password)
+            {
+                passWordCheckStatus.Text = "password와 일치합니다!";
+                passWordCheckStatus.Foreground = Brushes.Green;
+                passwordCheck = true;
+                return;
+            }
+
+            passwordCheck = false;
+            passWordCheckStatus.Foreground = Brushes.Red;
+            passWordCheckStatus.Text = "password와 불일치합니다.";
         }
     }
 }

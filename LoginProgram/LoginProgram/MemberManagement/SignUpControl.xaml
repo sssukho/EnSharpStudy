@@ -32,19 +32,20 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
+
             <TextBlock Grid.Row="0" FontWeight="Bold" FontSize="20">Username</TextBlock>
+            <Button Grid.Row="0" x:Name="DuplicateCheck" Click="DuplicateCheckClicked" Width="100" FontSize="20" FontWeight="Bold" Background="Gray" Foreground="WhiteSmoke" Margin="290,0,0,0">중복체크</Button>
             <TextBox Grid.Row="1"  x:Name="inputID" FontSize="20" BorderBrush="Black"></TextBox>
             <TextBlock Grid.Row="2" FontWeight="Bold" FontSize="20">Password</TextBlock>
             <PasswordBox Grid.Row="3" x:Name="inputPassword" FontSize="20" BorderBrush="Black"></PasswordBox>
             <TextBlock Grid.Row="4" FontWeight="Bold" FontSize="20">PasswordCheck</TextBlock>
-            <PasswordBox Grid.Row="5" x:Name="inputPasswordCheck" FontSize="20" BorderBrush="Black"></PasswordBox>
+            <TextBlock x:Name="passWordCheckStatus" Grid.Row="4" FontWeight="Bold" FontSize="15" Margin="200,0,0,0"></TextBlock>
+            <PasswordBox Grid.Row="5" x:Name="inputPasswordCheck" FontSize="20" BorderBrush="Black" PasswordChanged="InputPasswordCheckChanged"></PasswordBox>
             <TextBlock Grid.Row="6" FontWeight="Bold" FontSize="20">Name</TextBlock>
             <TextBox Grid.Row="7"  x:Name="inputName" FontSize="20" BorderBrush="Black" ></TextBox>
             <TextBlock Grid.Row="8" FontWeight="Bold" FontSize="20">Gender</TextBlock>
-            <StackPanel Orientation="Horizontal" Grid.Row="9">
-                <CheckBox x:Name="inputMale" IsChecked="True" FontSize="20" >남성</CheckBox>
-                <CheckBox x:Name="inputFemale" FontSize="20">여성</CheckBox>
-            </StackPanel>
+            <CheckBox Grid.Row="9" x:Name="inputMale" IsChecked="True" FontSize="20" >남성</CheckBox>
+            <CheckBox Grid.Row="9" x:Name="inputFemale" FontSize="20" Margin="80,0,0,0">여성</CheckBox>
             <TextBlock Grid.Row="10" FontWeight="Bold" FontSize="20">Birth</TextBlock>
             <TextBox Grid.Row="11"  x:Name="inputBirth" FontSize="20" BorderBrush="Black"></TextBox>
             <TextBlock Grid.Row="12" FontWeight="Bold" FontSize="20">Email</TextBlock>

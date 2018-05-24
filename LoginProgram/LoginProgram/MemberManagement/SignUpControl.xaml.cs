@@ -24,7 +24,10 @@ namespace LoginProgram
         LoginControl loginControl;
         DAO dao;
         ErrorCheck errorCheck;
-       
+        bool idDuplicateCheck;
+        string realtimePassword;
+        bool passwordCheck;
+
         public SignUpControl(MainWindow mainWindow, LoginControl loginControl, DAO dao)
         {
             InitializeComponent();
@@ -38,56 +41,17 @@ namespace LoginProgram
         public void JoinClicked(object sender, RoutedEventArgs e)
         {
             string[] newMember = new string[9];
-            if (errorCheck.MemberID(inputID.Text))
-            {
-                ShowMessage("아이디");
-                inputID.Clear();
-                return;
-            }
-            if (errorCheck.MemberPassword(inputPassword.Password))
-            {
-                ShowMessage("비밀번호");
-                inputPassword.Clear();
-                inputPasswordCheck.Clear();
-                return;
-            }
-            if (errorCheck.MemberName(inputName.Text))
-            {
-                ShowMessage("이름");
-                inputName.Clear();
-                return;
-            }
-            if(errorCheck.MemberBirth(inputBirth.Text))
-            {
-                ShowMessage("생년월일");
-                inputBirth.Clear();
-                return;
-            }
-            if(errorCheck.MemberEmail(inputEmail.Text))
-            {
-                ShowMessage("이메일");
-                inputEmail.Clear();
-                return;
-            }
-            if(errorCheck.MemberPhone(inputPhone.Text))
-            {
-                ShowMessage("핸드폰 번호");
-                inputPhone.Clear();
-                return;
-            }
-            if(errorCheck.MemberAddress(inputAddress.Text))
-            {
-                ShowMessage("주소");
-                inputAddress.Clear();
-                return;
-            }
-            if (errorCheck.MemberIdentifyNumber(inputIdenetity.Text))
-            {
-                ShowMessage("주민등록번호");
-                inputIdenetity.Clear();
-                return;
-            }
+            string messageType;
 
+            messageType = errorCheck.InputErrorType(inputID.Text, inputPassword.Password, inputName.Text, 
+                inputBirth.Text, inputEmail.Text, inputPhone.Text, inputAddress.Text, inputIdenetity.Text);
+
+            if(messageType != "none")
+            {
+                ShowMessage(messageType);
+                return;
+            }
+            
             newMember[0] = inputID.Text;
             newMember[1] = inputPassword.Password;
             newMember[2] = inputName.Text;
@@ -101,9 +65,30 @@ namespace LoginProgram
             newMember[7] = inputAddress.Text;
             newMember[8] = inputIdenetity.Text;
 
+            if(idDuplicateCheck == true)
+            {
+                MessageBox.Show("아이디 중복체크를 해주시기 바랍니다.");
+                return;
+            }
+
+            if (dao.IsDuplicate(inputPhone.Text, "phone"))
+            {
+                MessageBox.Show("똑같은 휴대번호를 가지고 있는 회원이 있습니다.");
+                inputPhone.Clear();
+                return;
+            }
+
+            if(passwordCheck == false)
+            {
+                MessageBox.Show("패스워드와 패스워드 확인을 일치시켜야 합니다!");
+                return;
+            }
+
             dao.Insert(newMember);
             MessageBox.Show("회원가입에 성공하셨습니다!");
             InitializeTextBox();
+            mainWindow.MainGrid.Children.Clear();
+            mainWindow.MainGrid.Children.Add(loginControl);
         }
 
         public void BackClicked(object sender, RoutedEventArgs e)
@@ -129,7 +114,45 @@ namespace LoginProgram
 
         public void ShowMessage(string input)
         {
-            MessageBox.Show("{0} 양식에 맞춰 주십시오.", input);
+            MessageBox.Show(input + " 양식에 맞춰 주십시오.");
+        }
+
+        private void DuplicateCheckClicked(object sender, RoutedEventArgs e)
+        {
+            if(dao.IsDuplicate(inputID.Text, "id"))
+            {
+                MessageBox.Show("중복 아이디 입니다!");
+                inputID.Clear();
+                idDuplicateCheck = true;
+                return;
+            }
+
+            if (errorCheck.MemberID(inputID.Text))
+            {
+                ShowMessage("아이디");
+                inputID.Clear();
+                return;
+            }
+
+            MessageBox.Show("사용하실 수 있는 아이디 입니다!");
+            idDuplicateCheck = false;
+        }
+
+        private void InputPasswordCheckChanged(object sender, RoutedEventArgs e)
+        {
+            realtimePassword = inputPasswordCheck.Password;
+
+            if (inputPassword.Password == inputPasswordCheck.Password)
+            {
+                passWordCheckStatus.Text = "password와 일치합니다!";
+                passWordCheckStatus.Foreground = Brushes.Green;
+                passwordCheck = true;
+                return;
+            }
+
+            passwordCheck = false;
+            passWordCheckStatus.Foreground = Brushes.Red;
+            passWordCheckStatus.Text = "password와 불일치합니다.";
         }
     }
 }
