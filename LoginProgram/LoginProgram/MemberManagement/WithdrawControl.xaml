@@ -5,8 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LoginProgram"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid >
+             d:DesignHeight="800" d:DesignWidth="600">
+    <Grid>
+        <StackPanel Orientation="Vertical" Margin="50" Height="400" Background="#ffffff">
+
+            <TextBlock Width="200" FontWeight="Bold" FontSize="20" Foreground="Red">Delete Confirm</TextBlock>
             
+            <StackPanel Orientation="Vertical" Margin="20" HorizontalAlignment="Center">
+                <TextBlock Width="200" FontWeight="Bold" FontSize="20">Password</TextBlock>
+                <PasswordBox x:Name="inputPassword" Width="200" FontSize="18" BorderBrush="Black" PasswordChanged="InputPassword_PasswordChanged"></PasswordBox>
+            </StackPanel>
+
+            <Button x:Name="Delete" Click="DeleteClicked"  FontSize="20" Background="Red" FontWeight="Bold" Width="200" Margin="20" IsEnabled="False">Delete</Button>
+
+            <Button x:Name="Back" Click="BackClicked" FontSize="20" FontWeight="Bold" Width="50" HorizontalAlignment="Right" Margin="30">Back</Button>
+        </StackPanel>
     </Grid>
 </UserControl>

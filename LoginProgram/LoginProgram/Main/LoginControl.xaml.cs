@@ -68,7 +68,7 @@ namespace LoginProgram
             }
 
             mainWindow.MainGrid.Children.Clear();
-            mainWindow.MainGrid.Children.Add(new MainViewControl());
+            mainWindow.MainGrid.Children.Add(new MainViewControl(inputID.Text, mainWindow, this, dao));
         }
 
         public void CreateAccountClicked(object sender, RoutedEventArgs e)

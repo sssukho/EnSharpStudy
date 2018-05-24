@@ -5,8 +5,58 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LoginProgram"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+             d:DesignHeight="800" d:DesignWidth="600">
+    <StackPanel Orientation="Vertical">
+        <TextBlock Background="#ffff" Height="100" Foreground="Coral" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">Edit informations what you want instead of previous</TextBlock>
+        <Grid x:Name="SignUpGrid" Margin="5,5,10,0" Height="600" Width="400" Background="#ffff">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" FontWeight="Bold" FontSize="20">Username</TextBlock>
+            <StackPanel Grid.Row="1" PreviewMouseDown="InputIDClicked">
+            <TextBox x:Name="inputID" FontSize="20" BorderBrush="Black" IsEnabled="False"></TextBox>
+            </StackPanel>
+            <TextBlock Grid.Row="2" FontWeight="Bold" FontSize="20">Password</TextBlock>
+            <PasswordBox Grid.Row="3" x:Name="inputPassword" FontSize="20" BorderBrush="Black"></PasswordBox>
+            <TextBlock Grid.Row="4" FontWeight="Bold" FontSize="20">PasswordCheck</TextBlock>
+            <PasswordBox Grid.Row="5" x:Name="inputPasswordCheck" FontSize="20" BorderBrush="Black"></PasswordBox>
+            <TextBlock Grid.Row="6" FontWeight="Bold" FontSize="20">Name</TextBlock>
+            <TextBox Grid.Row="7"  x:Name="inputName" FontSize="20" BorderBrush="Black" ></TextBox>
+            <TextBlock Grid.Row="8" FontWeight="Bold" FontSize="20">Birth</TextBlock>
+            <TextBox Grid.Row="9"  x:Name="inputBirth" FontSize="20" BorderBrush="Black"></TextBox>
+            <TextBlock Grid.Row="10" FontWeight="Bold" FontSize="20">Email</TextBlock>
+            <TextBox Grid.Row="11"  x:Name="inputEmail" FontSize="20" BorderBrush="Black"></TextBox>
+            <TextBlock Grid.Row="12" FontWeight="Bold" FontSize="20">Phone</TextBlock>
+            <TextBox Grid.Row="13"  x:Name="inputPhone" FontSize="20" BorderBrush="Black"></TextBox>
+            <TextBlock Grid.Row="14" FontWeight="Bold" FontSize="20">address</TextBlock>
+            <TextBox Grid.Row="15" x:Name="inputAddress" FontSize="20" BorderBrush="Black"></TextBox>
+            <TextBlock Grid.Row="16" FontWeight="Bold" FontSize="20">identityNumber</TextBlock>
+            <StackPanel Grid.Row="17" PreviewMouseDown="InputIdentityClicked">
+                <TextBox x:Name="inputIdentity" FontSize="20" BorderBrush="Black" IsEnabled="False"></TextBox>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="Edit" Click="EditClicked" FontSize="20" FontWeight="Bold" Width="80" Height="50" Margin="30">Edit</Button>
+            <Button x:Name="Back" Click="BackClicked" FontSize="20" FontWeight="Bold" Width="80" Height="50" Margin="30">Back</Button>
+        </StackPanel>
+    </StackPanel>
 </UserControl>

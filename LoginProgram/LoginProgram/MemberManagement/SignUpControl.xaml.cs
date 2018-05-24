@@ -48,6 +48,7 @@ namespace LoginProgram
             {
                 ShowMessage("비밀번호");
                 inputPassword.Clear();
+                inputPasswordCheck.Clear();
                 return;
             }
             if (errorCheck.MemberName(inputName.Text))
@@ -102,7 +103,7 @@ namespace LoginProgram
 
             dao.Insert(newMember);
             MessageBox.Show("회원가입에 성공하셨습니다!");
-            SignUpGrid.Children.Clear();
+            InitializeTextBox();
         }
 
         public void BackClicked(object sender, RoutedEventArgs e)
@@ -111,6 +112,19 @@ namespace LoginProgram
             loginControl.inputID.Clear();
             loginControl.inputPassword.Clear();
             mainWindow.MainGrid.Children.Add(loginControl);
+        }
+
+        public void InitializeTextBox()
+        {
+            inputID.Clear();
+            inputPassword.Clear();
+            inputPasswordCheck.Clear();
+            inputName.Clear();
+            inputBirth.Clear();
+            inputEmail.Clear();
+            inputPhone.Clear();
+            inputAddress.Clear();
+            inputIdenetity.Clear();
         }
 
         public void ShowMessage(string input)
