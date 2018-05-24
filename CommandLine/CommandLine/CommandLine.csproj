@@ -42,6 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Function\CommandMenu.cs" />
+    <Compile Include="Function\Command.cs" />
+    <Compile Include="Data\DirectoryVO.cs" />
+    <Compile Include="BaseFunction\ErrorCheck.cs" />
+    <Compile Include="Data\FileVO.cs" />
+    <Compile Include="BaseFunction\Print.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

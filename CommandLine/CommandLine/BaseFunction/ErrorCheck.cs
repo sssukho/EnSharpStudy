@@ -8,5 +8,19 @@ namespace CommandLine
 {
     class ErrorCheck
     {
+        private static ErrorCheck errorCheck;
+
+        public ErrorCheck()
+        {
+
+        }
+
+        public static ErrorCheck GetInstance()
+        {
+            if (errorCheck == null)
+                errorCheck = new ErrorCheck();
+
+            return errorCheck;
+        }
     }
 }

@@ -8,5 +8,6 @@ namespace CommandLine
 {
     class Command
     {
+
     }
 }

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace CommandLine
 {
-    class View
+    class CommandMenu
     {
+
     }
 }
