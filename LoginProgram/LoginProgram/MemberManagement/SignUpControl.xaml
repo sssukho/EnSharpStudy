@@ -33,9 +33,11 @@
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0" FontWeight="Bold" FontSize="20">Username</TextBlock>
+            <TextBlock Grid.Row="0" FontSize="10" Margin="110,20,0,0">(4~12자리 영(대,소), 숫자만 입력가능)</TextBlock>
             <Button Grid.Row="0" x:Name="DuplicateCheck" Click="DuplicateCheckClicked" Width="100" FontSize="20" FontWeight="Bold" Background="Gray" Foreground="WhiteSmoke" Margin="290,0,0,0">중복체크</Button>
             <TextBox Grid.Row="1" x:Name="inputID" FontSize="20" BorderBrush="Black"></TextBox>
             <TextBlock Grid.Row="2" FontWeight="Bold" FontSize="20">Password</TextBlock>
+            <TextBlock Grid.Row="2" FontSize="10" Margin="110,20,0,0">6~20 영문 대소문자 + 최소 1개의 숫자 혹은 특수문자</TextBlock>
             <PasswordBox Grid.Row="3" x:Name="inputPassword" FontSize="20" BorderBrush="Black"></PasswordBox>
             <TextBlock Grid.Row="4" FontWeight="Bold" FontSize="20">PasswordCheck</TextBlock>
             <TextBlock x:Name="passWordCheckStatus" Grid.Row="4" FontWeight="Bold" FontSize="15" Margin="200,0,0,0"></TextBlock>
@@ -45,15 +47,16 @@
             <TextBlock Grid.Row="8" FontWeight="Bold" FontSize="20">Gender</TextBlock>
             <CheckBox Grid.Row="9" x:Name="inputMale" IsChecked="True" FontSize="20" >남성</CheckBox>
             <CheckBox Grid.Row="9" x:Name="inputFemale" FontSize="20" Margin="80,0,0,0">여성</CheckBox>
-            <TextBlock Grid.Row="10" FontWeight="Bold" FontSize="20">Birth</TextBlock>
+            <TextBlock Grid.Row="10" FontWeight="Bold" FontSize="20">Birth(yyyy-mm-dd)</TextBlock>
             <TextBox Grid.Row="11"  x:Name="inputBirth" FontSize="20" BorderBrush="Black"></TextBox>
             <TextBlock Grid.Row="12" FontWeight="Bold" FontSize="20">Email</TextBlock>
             <TextBox Grid.Row="13"  x:Name="inputEmail" FontSize="20" BorderBrush="Black"></TextBox>
-            <TextBlock Grid.Row="14" FontWeight="Bold" FontSize="20">Phone</TextBlock>
+            <TextBlock Grid.Row="14" FontWeight="Bold" FontSize="20">Phone(xxx-xxxx-xxxx)</TextBlock>
             <TextBox Grid.Row="15"  x:Name="inputPhone" FontSize="20" BorderBrush="Black"></TextBox>
             <TextBlock Grid.Row="16" FontWeight="Bold" FontSize="20">address</TextBlock>
             <TextBox Grid.Row="17" x:Name="inputAddress" FontSize="20" BorderBrush="Black"></TextBox>
             <TextBlock Grid.Row="18" FontWeight="Bold" FontSize="20">identityNumber</TextBlock>
+            <TextBlock Grid.Row="18" FontSize="10" Margin="160,20,0,0">주민등록번호, xxxxxx-xxxxxxx</TextBlock>
             <TextBox Grid.Row="19"  x:Name="inputIdenetity" FontSize="20" BorderBrush="Black"></TextBox>
         </Grid>
 
