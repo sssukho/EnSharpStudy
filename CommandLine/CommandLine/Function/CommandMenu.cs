@@ -8,6 +8,21 @@ namespace CommandLine
 {
     class CommandMenu
     {
+        ErrorCheck errorCheck;
+        Print print;
+
+        public CommandMenu()
+        {                
+            errorCheck = ErrorCheck.GetInstance();
+            print = Print.GetInstance();
+            InitialView();
+        }
+
+        public void InitialView()
+        {
+            print.InitialView();
+            print.CurrentPath();
+        }
 
     }
 }
