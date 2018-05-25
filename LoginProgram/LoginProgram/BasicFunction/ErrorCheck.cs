@@ -65,26 +65,26 @@ namespace LoginProgram
 
         public bool MemberID(string input)
         {
-            pattern = @"^[A-Za-z0-9]{4,12}$"; //4~12자리 영(대,소) 숫자만 입력받기.
+            pattern = @"^[A-Za-z0-9]{4,12}$";
             return Judgement(input, pattern);
         }
 
         public bool MemberPassword(string input)
         {
-            pattern = @"^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,20}$"; //6~20 영문 대소문자 + 최소 1개의 숫자 혹은 특수 문자 포함
+            pattern = @"^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,20}$";
             return Judgement(input, pattern);
         }
 
         public bool MemberName(string input)
         {
-            pattern = @"^[가-힣]{2,4}$"; //2~4 글자 한글로만
+            pattern = @"^[가-힣]{2,4}$"; 
             return Judgement(input, pattern);
         }
 
         public bool MemberGender(string input)
         {
             pattern = @"^[남자|여자]{2}$";
-            return Judgement(input, pattern); // 남자 혹은 여자 두글자로만
+            return Judgement(input, pattern);
         }
 
         public bool MemberPhone(string input)
@@ -105,13 +105,13 @@ namespace LoginProgram
             return Judgement(input, pattern);
         }
 
-        public bool MemberIdentifyNumber(string input) //-까지 포함된 문자열로 검색
+        public bool MemberIdentifyNumber(string input)
         {
             pattern = @"^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))-[1-4][0-9]{6}$";
             return Judgement(input, pattern);
         }
 
-        public bool MemberBirth(string input) //1992-04-11
+        public bool MemberBirth(string input) 
         {
             pattern = @"^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$";
             return Judgement(input, pattern);

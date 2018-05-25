@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace LoginProgram
 {
     /// <summary>
-    /// FindPasswordControl.xaml에 대한 상호 작용 논리
+    /// 계정 및 비밀번호 찾기
     /// </summary>
     public partial class FindPasswordControl : UserControl
     {

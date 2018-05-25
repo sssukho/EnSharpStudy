@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace LoginProgram
 {
     /// <summary>
-    /// LoginControl.xaml에 대한 상호 작용 논리
+    /// 로그인 화면 컨트롤러
     /// </summary>
     public partial class LoginControl : UserControl
     {
@@ -38,6 +38,7 @@ namespace LoginProgram
             mainWindow.Closed += MainWindow_Closed;
         }
 
+        //우측 상단 x 버튼으로 프로그램 종료시 데이터베이스 연결 종료
         private void MainWindow_Closed(object sender, EventArgs e)
         {
             dao.CloseConnection();
@@ -50,6 +51,7 @@ namespace LoginProgram
             mainWindow.MainGrid.Children.Add(new FindPasswordControl(mainWindow, this, dao));
         }
 
+        //로그인 Sign In 클릭 이벤트
         public void SignInClicked(object sender, RoutedEventArgs e)
         {   
             if (errorCheck.MemberID(inputID.Text))
@@ -78,12 +80,11 @@ namespace LoginProgram
             mainWindow.MainGrid.Children.Add(new MainViewControl(inputID.Text, mainWindow, this, dao));
         }
 
+        //회원가입
         public void CreateAccountClicked(object sender, RoutedEventArgs e)
         {
             mainWindow.MainGrid.Children.Clear();
             mainWindow.MainGrid.Children.Add(new SignUpControl(mainWindow, this, dao));
         }
-
-        
     }
 }

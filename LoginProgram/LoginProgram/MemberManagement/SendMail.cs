@@ -7,6 +7,9 @@ using System.Net.Mail;
 
 namespace LoginProgram
 {
+    /// <summary>
+    /// 계정 및 비밀번호를 메일로 보내주는 클래스
+    /// </summary>
     class SendMail
     {
         DAO dao;

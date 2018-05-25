@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace LoginProgram
 {
     /// <summary>
-    /// WithdrawControl.xaml에 대한 상호 작용 논리
+    /// 회원 탈퇴 클래스
     /// </summary>
     public partial class WithdrawControl : UserControl
     {

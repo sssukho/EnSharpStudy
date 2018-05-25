@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace LoginProgram
 {
     /// <summary>
-    /// EditProfileControl.xaml에 대한 상호 작용 논리
+    /// 로그인 한 회원의 개인정보 편집
     /// </summary>
     public partial class EditProfileControl : UserControl
     {

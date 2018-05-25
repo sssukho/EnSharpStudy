@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace LoginProgram
 {
     /// <summary>
-    /// MainViewControl.xaml에 대한 상호 작용 논리
+    /// 로그인 후 메인화면 컨트롤러
     /// </summary>
     public partial class MainViewControl : UserControl
     {
@@ -25,15 +25,10 @@ namespace LoginProgram
         DAO dao;
         string logonID;
 
-        public MainViewControl()
-        {
-            InitializeComponent();
-        }
-
         public MainViewControl(string logonID, MainWindow mainWindow, LoginControl loginControl, DAO dao)
         {
-            this.dao = dao;
             InitializeComponent();
+            this.dao = dao;
             this.logonID = logonID;
             this.mainWindow = mainWindow;
             this.loginControl = loginControl;
@@ -54,6 +49,7 @@ namespace LoginProgram
             mainWindow.MainGrid.Children.Add(new EditProfileControl(logonID, mainWindow, this, dao));
         }
 
+        //회원탈퇴 버튼 클릭
         public void WithdrawClicked(object sender, RoutedEventArgs e)
         {
             mainWindow.MainGrid.Children.Clear();
