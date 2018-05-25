@@ -35,6 +35,13 @@ namespace LoginProgram
             this.mainWindow = mainWindow;
             dao = new DAO();
             this.errorCheck = ErrorCheck.GetInstance();
+            mainWindow.Closed += MainWindow_Closed;
+        }
+
+        private void MainWindow_Closed(object sender, EventArgs e)
+        {
+            dao.CloseConnection();
+            dao.DataReaderClose();
         }
 
         public void ForgotPasswordClicked(object sender, RoutedEventArgs e)
@@ -76,5 +83,7 @@ namespace LoginProgram
             mainWindow.MainGrid.Children.Clear();
             mainWindow.MainGrid.Children.Add(new SignUpControl(mainWindow, this, dao));
         }
+
+        
     }
 }

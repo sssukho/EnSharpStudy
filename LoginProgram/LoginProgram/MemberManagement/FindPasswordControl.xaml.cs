@@ -41,9 +41,33 @@ namespace LoginProgram
 
         public void FindClicked(object sender, RoutedEventArgs e)
         {
-            string[] selectedUser;
-            selectedUser = dao.Select(inputID.Text);
-            password.Text = selectedUser[1];
+            bool IsSucceed;
+            if (errorCheck.MemberPhone(inputPhone.Text))
+            {
+                MessageBox.Show("올바른 핸드폰 번호가 아닙니다.");
+                inputPhone.Clear();
+                return;
+            }
+
+            if(errorCheck.MemberEmail(inputEmail.Text))
+            {
+                MessageBox.Show("올바른 이메일이 아닙니다.");
+                inputEmail.Clear();
+                return;
+            }
+
+            SendMail sendMail = new SendMail(dao);
+            IsSucceed = sendMail.Send(inputPhone.Text, inputEmail.Text);
+            if(IsSucceed == false)
+            {
+                MessageBox.Show("존재하는 회원이 아닙니다.");
+                inputPhone.Clear();
+                return;
+            }
+
+            MessageBox.Show("입력하신 이메일 주소로 이메일과 비밀번호를 보냈습니다.");
+            inputPhone.Clear();
+            inputEmail.Clear();
         }
 
         public void BackClicked(object sender, RoutedEventArgs e)

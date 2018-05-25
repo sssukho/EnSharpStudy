@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="sssuk's Login" Height="880" Width="600" ResizeMode="NoResize">
     <Grid x:Name="MainGrid">
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="290*"/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
     </Grid>
 </Window>

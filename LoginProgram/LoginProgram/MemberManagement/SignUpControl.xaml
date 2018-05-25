@@ -32,10 +32,9 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-
             <TextBlock Grid.Row="0" FontWeight="Bold" FontSize="20">Username</TextBlock>
             <Button Grid.Row="0" x:Name="DuplicateCheck" Click="DuplicateCheckClicked" Width="100" FontSize="20" FontWeight="Bold" Background="Gray" Foreground="WhiteSmoke" Margin="290,0,0,0">중복체크</Button>
-            <TextBox Grid.Row="1"  x:Name="inputID" FontSize="20" BorderBrush="Black"></TextBox>
+            <TextBox Grid.Row="1" x:Name="inputID" FontSize="20" BorderBrush="Black"></TextBox>
             <TextBlock Grid.Row="2" FontWeight="Bold" FontSize="20">Password</TextBlock>
             <PasswordBox Grid.Row="3" x:Name="inputPassword" FontSize="20" BorderBrush="Black"></PasswordBox>
             <TextBlock Grid.Row="4" FontWeight="Bold" FontSize="20">PasswordCheck</TextBlock>

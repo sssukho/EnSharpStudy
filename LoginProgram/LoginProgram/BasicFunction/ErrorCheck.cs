@@ -5,6 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
+/*********************************************************
+    * 회원 가입 및 편집 정규표현식
+       1. 아이디 : 4~12자리 영(대, 소) 숫자만 입력 가능
+       2. 비밀번호 : 6~20 영문 대소문자 + 최소 1개의 숫자 혹은 특수문자 포함
+       3. 이름 :  2~4글자 한글로만
+       4. 핸드폰 번호: 01x-xxxx-xxxx 혹은 01x-xxx-xxxx
+       5. 이메일 주소 : 골벵이 들어가야하고 영문만
+       6. 거주지 주소 : 배달의민족 개발자 블로그에서 가져옴
+       7. 생년월일 : yyyy-mm-dd
+       8. 주민등록번호 : yymmdd-xxxxxxx
+       ***************************************************/
 namespace LoginProgram
 {
     class ErrorCheck
@@ -78,7 +89,7 @@ namespace LoginProgram
 
         public bool MemberPhone(string input)
         {
-            pattern = @"^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$";
+            pattern = @"^01([0|1|6|7|8|9]?)-\d{3,4}-\d{4}$";
             return Judgement(input, pattern);
         }
 
@@ -102,7 +113,7 @@ namespace LoginProgram
 
         public bool MemberBirth(string input) //1992-04-11
         {
-            pattern = @"^(\d+)[/|\-|\s]+[0|1](\d)[/|\-|\s]+([0|1|2|3]\d)$";
+            pattern = @"^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$";
             return Judgement(input, pattern);
         }
 

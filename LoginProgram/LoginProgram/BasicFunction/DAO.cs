@@ -52,19 +52,28 @@ namespace LoginProgram
 
         public void DataReaderClose()
         {
-            //dataReader 열려있으면 닫으시오~
-            if (!dataReader.IsClosed)
-                dataReader.Close();
+            //dataReader가 열리지도 않았으면 그냥 정료
+            if (dataReader == null)
+                return;
+            
+            if (!dataReader.IsClosed) //dataReader 열려있으면 닫기.
+                dataReader.Close();   
         }
 
         public void Insert(string[] newMember)
         {
-            //id, password, name, gender, birth, email, phone, address, identityNumber 순서대로.
-            sqlQuery = "insert into User values('" + newMember[0] + "', '" + newMember[1] + "', '" + newMember[2] + "', '" + newMember[3] + "', '"
-                + newMember[4] + "', '" + newMember[5] + "', '" + newMember[6] + "', '" + newMember[7] + "', '" + newMember[8] + "');";
-
-            SendQuery(sqlQuery);
-            DataReaderClose();
+            command = connect.CreateCommand();
+            command.CommandText = "Insert into user values (@id, @password, @name, @gender, @birth, @email, @phone, @address, @identityNumber)";
+            command.Parameters.Add("@id", MySqlDbType.VarChar).Value = newMember[0];
+            command.Parameters.Add("@password", MySqlDbType.VarChar).Value = newMember[1];
+            command.Parameters.Add("@name", MySqlDbType.VarChar).Value = newMember[2];
+            command.Parameters.Add("@gender", MySqlDbType.VarChar).Value = newMember[3];
+            command.Parameters.Add("@birth", MySqlDbType.VarChar).Value = newMember[4];
+            command.Parameters.Add("@email", MySqlDbType.VarChar).Value = newMember[5];
+            command.Parameters.Add("@phone", MySqlDbType.VarChar).Value = newMember[6];
+            command.Parameters.Add("@address", MySqlDbType.VarChar).Value = newMember[7];
+            command.Parameters.Add("@identityNumber", MySqlDbType.VarChar).Value = newMember[8];
+            command.ExecuteNonQuery();
         }
 
         public void Update(string editedValue, string column, string id)
@@ -85,7 +94,6 @@ namespace LoginProgram
         {
             string[] selectedUser = new string[9];
 
-            //id, password, name, gender, birth, email, phone, address 순서대로.
             sqlQuery = "select * from user where id='" + id + "';";
             SendQuery(sqlQuery);
             dataReader.Read();
@@ -101,6 +109,24 @@ namespace LoginProgram
             selectedUser[8] = dataReader["identityNumber"].ToString();
             DataReaderClose();
             return selectedUser;
+        }
+
+        public string[] FindAccount(string phone)
+        {
+            string[] account = new string[2];
+            sqlQuery = "select id, password from user where phone='" + phone + "';";
+            SendQuery(sqlQuery);
+            dataReader.Read();
+
+            if(dataReader.HasRows)
+            {
+                account[0] = dataReader["id"].ToString();
+                account[1] = dataReader["password"].ToString();
+                DataReaderClose();
+                return account;
+            }
+            DataReaderClose();
+            return null;
         }
 
         public bool IsDuplicate(string input, string type)

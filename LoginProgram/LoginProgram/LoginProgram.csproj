@@ -91,6 +91,7 @@
     <Compile Include="MemberManagement\SignUpControl.xaml.cs">
       <DependentUpon>SignUpControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MemberManagement\SendMail.cs" />
     <Page Include="MemberManagement\FindPasswordControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
