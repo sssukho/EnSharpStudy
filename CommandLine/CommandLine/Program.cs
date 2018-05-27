@@ -11,7 +11,7 @@ namespace CommandLine
         static void Main(string[] args)
         {
             Console.Clear();
-            new CommandMenu();
+            new Command();
         }
     }
 }

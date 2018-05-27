@@ -9,22 +9,15 @@ namespace CommandLine
 {
     class Print
     {
-        private static Print print;
-        public ErrorCheck errorCheck;
-        string directoryName;
-        string command;
-
-        public Print()
+        Command command;
+        public Print(Command command)
         {
-
+            this.command = command;
         }
 
-        public static Print GetInstance()
+        public void ShowCommandLine(string inputPath)
         {
-            if (print == null)
-                print = new Print();
-
-            return print;
+            Console.Write(inputPath + ">");
         }
 
         public void InitialView()
@@ -34,16 +27,40 @@ namespace CommandLine
             Console.WriteLine("(c) 2017 Microsoft Corporation. All rights reserved.\n");
         }
 
-        public string ShowPath()
+        public void InputError(string inputCommand)
         {
-            directoryName = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            Console.WriteLine("'{0}'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는", inputCommand);
+            Console.WriteLine("배치 파일이 아닙니다.\n");
+        }
 
-            while(true)
+        public void ShowDirectoryList(string inputPath)
+        {
+            if(Directory.Exists(inputPath))
             {
-                Console.WriteLine(directoryName + ">");
-                command = Console.ReadLine();
+                string result;
+                DirectoryInfo directoryInfo = new DirectoryInfo(inputPath);
+
+                Console.WriteLine(" 드라이브의 불륨에는 이름이 없습니다.");
+                Console.WriteLine(" 불륨 일련 번호: 0A91-13CA\n");
+                Console.WriteLine(" {0} 디렉터리\n", inputPath);
+
+                foreach(var item in directoryInfo.GetDirectories())
+                {
+                    if (FileAttributes.Directory == item.Attributes)
+                        result = string.Format("{0, -23} {1, -10} {2,-25}", item.CreationTime.ToString().Remove(20), "<DIR>", item.Name);
+
+                    else
+                    {
+                        FileInfo file = new FileInfo(item.Name);
+                        result = string.Format("{0, -28} {1, -5} {2, -25}", item.CreationTime.ToString(), file.Length, item.FullName);
+                    }
+                        
+                       // result = item.CreationTime.ToString().Remove(20) + "       " + item.FullName;
+
+                    Console.WriteLine(result);
+                }
+                command.InputCommand();
             }
-            return command;
         }
     }
 }
