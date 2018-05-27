@@ -10,7 +10,14 @@ namespace CommandLine
     class Print
     {
         private static Print print;
-        string currentPath;
+        public ErrorCheck errorCheck;
+        string directoryName;
+        string command;
+
+        public Print()
+        {
+
+        }
 
         public static Print GetInstance()
         {
@@ -27,10 +34,16 @@ namespace CommandLine
             Console.WriteLine("(c) 2017 Microsoft Corporation. All rights reserved.\n");
         }
 
-        public void CurrentPath()
+        public string ShowPath()
         {
-            currentPath = Directory.GetCurrentDirectory();
-            Console.WriteLine(currentPath + ">");
+            directoryName = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
+            while(true)
+            {
+                Console.WriteLine(directoryName + ">");
+                command = Console.ReadLine();
+            }
+            return command;
         }
     }
 }

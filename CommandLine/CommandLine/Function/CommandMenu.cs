@@ -21,7 +21,8 @@ namespace CommandLine
         public void InitialView()
         {
             print.InitialView();
-            print.CurrentPath();
+            print.ShowPath();
+            new Command().DIR();
         }
 
     }
