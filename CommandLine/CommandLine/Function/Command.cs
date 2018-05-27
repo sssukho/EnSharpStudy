@@ -38,7 +38,6 @@ namespace CommandLine
 
                 if(command.ToUpper().Contains("DIR"))
                 {
-                    Console.WriteLine();
                     DirectoryList();
                     return;
                 }
@@ -105,7 +104,7 @@ namespace CommandLine
             //루트로
             if(tempPath.Equals("\\") ||  tempPath.Equals(" \\") || tempPath.Equals("/") || tempPath.Equals(" /")) 
             {
-                currentPath = "C:\\";
+                currentPath = "C:'\'";
                 currentPath = Path.GetPathRoot(currentPath); 
                 InputCommand(currentPath);
                 return;
