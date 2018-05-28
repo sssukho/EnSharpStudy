@@ -3,24 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace CommandLine
 {
     class ErrorCheck
     {
-        private static ErrorCheck errorCheck;
+        public ErrorCheck() { }
 
-        public ErrorCheck()
+        public bool IsValidFile(string inputPath)
         {
+            if(File.Exists(inputPath))
+                return true;
 
+            return false;
         }
 
-        public static ErrorCheck GetInstance()
-        {
-            if (errorCheck == null)
-                errorCheck = new ErrorCheck();
-
-            return errorCheck;
-        }
     }
 }

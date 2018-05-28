@@ -44,14 +44,12 @@ namespace CommandLine
 
                 DirectoryInfo directoryInfo = new DirectoryInfo(inputPath); //디렉토리
 
+                DriveInfo driveInfo = new DriveInfo(inputPath.Remove(1));
+                
                 Console.WriteLine(" C 드라이브의 불륨에는 이름이 없습니다.");
                 Console.WriteLine(" 불륨 일련 번호: 0A91-13CA\n");
                 Console.WriteLine(" {0} 디렉터리\n", inputPath);
-
                 
-
-
-
                 foreach (var item in directoryInfo.GetFileSystemInfos())
                 {
                     if(item.Attributes.HasFlag(FileAttributes.Directory))
@@ -59,7 +57,7 @@ namespace CommandLine
                         if (item.Attributes.ToString().Equals("Directory") || item.Attributes.ToString().Equals("ReadOnly, Directory"))
                         {
                             directoryCount = directoryCount + 1;
-                            result = string.Format("{0, -27} {1, -12} {2,-30}", item.LastAccessTime.ToString("yyyy .MM. dd.  tt hh: mm"), "<DIR>", item.Name);
+                            result = string.Format("{0, -27} {1, -12} {2,-30}", item.LastAccessTime.ToString("yyyy .MM. dd.  tt hh:mm"), "<DIR>", item.Name);
                             Console.WriteLine(result);
                         }
                     }
@@ -71,17 +69,38 @@ namespace CommandLine
                             long fileSize = new FileInfo(inputPath + "\\" + item.Name).Length;
                             fileCount = fileCount + 1;
                             fileTotalSize = fileTotalSize + fileSize;
-                            result = string.Format("{0, -27} {1, 12} {2, -30}", item.LastAccessTime.ToString("yyyy. MM. dd.  tt hh: mm"), fileSize.ToString(), item.Name);
+                            result = string.Format("{0, -27} {1, 12} {2, -30}", item.LastAccessTime.ToString("yyyy. MM. dd.  tt hh:mm"), fileSize.ToString(), item.Name);
                             Console.WriteLine(result);
                         }
                     }
                 }
 
                 Console.WriteLine(string.Format("{0, 22} {1, 15} {2,6}", fileCount + "개 파일", fileTotalSize, "바이트"));
-                Console.WriteLine(string.Format("{0, 22} {1, 15} {2,6}", directoryCount + "개 디렉터리", "108,873,854,976", "바이트 남음"));
+                Console.WriteLine(string.Format("{0, 22} {1, 15} {2,6}", directoryCount + "개 디렉터리",driveInfo.AvailableFreeSpace, "바이트 남음"));
                 Console.WriteLine();
                 command.InputCommand(inputPath);
             }
+        }
+
+        public void ConfirmOverwrite(string inputObject)
+        {
+            Console.Write(inputObject + "을(를) 덮어쓰시겠습니까? (Yes/No/All):");
+        }
+
+        public void CopyCompleted(int count)
+        {
+            Console.WriteLine("\t" + count + "개 파일이 복사되었습니다.");
+        }
+
+        public void FindingFileError()
+        {
+            Console.WriteLine("지정된 파일을 찾을 수 없습니다.");
+            Console.WriteLine();
+        }
+
+        public void MoveCompleted(int count)
+        {
+            Console.WriteLine("\t" + count + "개 파일을 이동했습니다.");
         }
 
         public void ShowHelp()
@@ -185,7 +204,5 @@ namespace CommandLine
                 "WMIC           대화형 명령 셸 내의 WMI 정보를 표시합니다.\n\n" +
                 "도구에 대한 자세한 내용은 온라인 도움말의 명령줄 참조를 참조하십시오.\n");
         }
-
-
     }
 }
