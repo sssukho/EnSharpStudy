@@ -19,5 +19,13 @@ namespace CommandLine
             return false;
         }
 
+        public bool IsValidPath(string inputPath)
+        {
+            if (Directory.Exists(inputPath))
+                return true;
+
+            return false;
+        }
+
     }
 }
