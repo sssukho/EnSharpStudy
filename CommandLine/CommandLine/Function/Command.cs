@@ -90,6 +90,20 @@ namespace CommandLine
 
         public void DirectoryList()
         {
+            command = command.Trim();
+            if(command.Length > 3)
+            {
+                string destinationPath;
+                destinationPath = command.Remove(0, 4);
+
+                if (errorCheck.IsValidPath(destinationPath))
+                    print.ShowDirectoryList(destinationPath);
+
+                print.FindingPathError("경로를");
+                InputCommand(currentPath);
+                return;
+            }
+
             print.ShowDirectoryList(currentPath);
         }
 
@@ -108,9 +122,8 @@ namespace CommandLine
             //루트로
             if (tempPath.Equals("\\") || tempPath.Equals(" \\") || tempPath.Equals("/") || tempPath.Equals(" /"))
             {
-                currentPath = "C:\\";
                 currentPath = Path.GetPathRoot(currentPath);
-                InputCommand(currentPath);
+                InputCommand(currentPath.Remove(2));
                 return;
             }
 
@@ -135,15 +148,23 @@ namespace CommandLine
             //실제 경로로
             else
             {
-                currentPath = currentPath + "\\" + command.Remove(0, 3);
-                InputCommand(currentPath);
-                return;
+                if (currentPath == "C:\\")
+                {
+                    currentPath = currentPath + command.Remove(0, 3);
+                    InputCommand(currentPath);
+                }
+                else
+                {
+                    currentPath = currentPath + "\\" + command.Remove(0, 3);
+                    InputCommand(currentPath);
+                }
             }
         }
 
         public void ClearSystem()
         {
             Console.Clear();
+            Console.WriteLine();
             InputCommand(currentPath);
         }
 
@@ -166,7 +187,7 @@ namespace CommandLine
                 //찾는 파일 없음
                 if(!File.Exists(copyCommandObject[0]))
                 {
-                    print.FindingFileError();
+                    print.FindingPathError("파일을");
                     InputCommand(currentPath);
                     return;
                 }
@@ -240,7 +261,7 @@ namespace CommandLine
             {
                 if(!File.Exists(currentPath + "\\" + copyCommandObject[0]))
                 {
-                    print.FindingFileError();
+                    print.FindingPathError("파일을");
                     InputCommand(currentPath);
                     return;
                 }
@@ -411,7 +432,7 @@ namespace CommandLine
                 //찾는 파일 없음
                 if (!File.Exists(moveCommandObject[0]))
                 {
-                    print.FindingFileError();
+                    print.FindingPathError("파일을");
                     InputCommand(currentPath);
                     return;
                 }
@@ -485,7 +506,7 @@ namespace CommandLine
             {
                 if (!File.Exists(currentPath + "\\" + moveCommandObject[0]))
                 {
-                    print.FindingFileError();
+                    print.FindingPathError("파일을");
                     InputCommand(currentPath);
                     return;
                 }
