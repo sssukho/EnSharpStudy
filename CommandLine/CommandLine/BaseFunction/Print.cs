@@ -39,12 +39,13 @@ namespace CommandLine
             if(Directory.Exists(inputPath))
             {
                 string result;
-                string directoryFormat = "{0, -27} {1, -12} {2,-30}";
-                string fileFormat = "{0, -27} {1, 12} {2, -30}";
+                string directoryFormat = "{0, -27} {1, -14} {2,-30}";
+                string fileFormat = "{0, -27} {1, 14} {2, -30}";
                 int directoryCount = 0;
                 int fileCount = 0;
                 long fileTotalSize = 0;
                 string avaliableFreeSpace;
+
 
                 DirectoryInfo directoryInfo = new DirectoryInfo(inputPath); //디렉토리
                 DriveInfo driveInfo = new DriveInfo(inputPath.Remove(1));
@@ -83,13 +84,13 @@ namespace CommandLine
                             long fileSize = new FileInfo(inputPath + "\\" + item.Name).Length;
                             fileCount = fileCount + 1;
                             fileTotalSize = fileTotalSize + fileSize;
-                            result = string.Format(fileFormat, item.LastWriteTime.ToString("yyyy. MM. dd.  tt hh:mm"), fileSize.ToString(), item.Name);
+                            result = string.Format(fileFormat, item.LastWriteTime.ToString("yyyy. MM. dd.  tt hh:mm"), string.Format("{0:###,###,###,###}",fileSize), item.Name);
                             Console.WriteLine(result);
                         }
                     }
                 }
-
-                Console.WriteLine(string.Format("{0, 22} {1, 15} {2,6}", fileCount + "개 파일", fileTotalSize, "바이트"));
+                //string.Format("{0:###,###,###,###}", driveInfo.AvailableFreeSpace);
+                Console.WriteLine(string.Format("{0, 22} {1, 15} {2,6}", fileCount + "개 파일", string.Format("{0:###,###,###,###}", fileTotalSize), "바이트"));
                 Console.WriteLine(string.Format("{0, 22} {1, 15} {2,6}", directoryCount + "개 디렉터리", avaliableFreeSpace, "바이트 남음"));
                 Console.WriteLine();
                 command.InputCommand(inputPath);
