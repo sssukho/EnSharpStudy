@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Management;
 
 namespace CommandLine
 {
@@ -38,18 +39,31 @@ namespace CommandLine
             if(Directory.Exists(inputPath))
             {
                 string result;
+                string directoryFormat = "{0, -27} {1, -12} {2,-30}";
+                string fileFormat = "{0, -27} {1, 12} {2, -30}";
                 int directoryCount = 0;
                 int fileCount = 0;
                 long fileTotalSize = 0;
+                string avaliableFreeSpace;
 
                 DirectoryInfo directoryInfo = new DirectoryInfo(inputPath); //디렉토리
-
                 DriveInfo driveInfo = new DriveInfo(inputPath.Remove(1));
-                
-                Console.WriteLine(" C 드라이브의 불륨에는 이름이 없습니다.");
-                Console.WriteLine(" 불륨 일련 번호: 0A91-13CA\n");
+
+                avaliableFreeSpace = string.Format("{0:###,###,###,###}", driveInfo.AvailableFreeSpace);
+               
+                Console.WriteLine(" {0} 드라이브의 불륨에는 이름이 없습니다.", inputPath.Remove(1));
+                Console.WriteLine(" 불륨 일련 번호: 0A91-13CA" + "\n");
                 Console.WriteLine(" {0} 디렉터리\n", inputPath);
-                
+
+                if(!inputPath.Equals("C:\\"))
+                {
+                    Console.WriteLine(string.Format(directoryFormat, directoryInfo.LastWriteTime.ToString("yyyy .MM. dd.  tt hh:mm"),
+                    "<DIR>", "."));
+                    Console.WriteLine(string.Format(directoryFormat, directoryInfo.LastWriteTime.ToString("yyyy .MM. dd.  tt hh:mm"),
+                        "<DIR>", ".."));
+                    directoryCount = 2;
+                }
+
                 foreach (var item in directoryInfo.GetFileSystemInfos())
                 {
                     if(item.Attributes.HasFlag(FileAttributes.Directory))
@@ -57,7 +71,7 @@ namespace CommandLine
                         if (item.Attributes.ToString().Equals("Directory") || item.Attributes.ToString().Equals("ReadOnly, Directory"))
                         {
                             directoryCount = directoryCount + 1;
-                            result = string.Format("{0, -27} {1, -12} {2,-30}", item.LastAccessTime.ToString("yyyy .MM. dd.  tt hh:mm"), "<DIR>", item.Name);
+                            result = string.Format(directoryFormat, item.LastWriteTime.ToString("yyyy .MM. dd.  tt hh:mm"), "<DIR>", item.Name);
                             Console.WriteLine(result);
                         }
                     }
@@ -69,14 +83,14 @@ namespace CommandLine
                             long fileSize = new FileInfo(inputPath + "\\" + item.Name).Length;
                             fileCount = fileCount + 1;
                             fileTotalSize = fileTotalSize + fileSize;
-                            result = string.Format("{0, -27} {1, 12} {2, -30}", item.LastAccessTime.ToString("yyyy. MM. dd.  tt hh:mm"), fileSize.ToString(), item.Name);
+                            result = string.Format(fileFormat, item.LastWriteTime.ToString("yyyy. MM. dd.  tt hh:mm"), fileSize.ToString(), item.Name);
                             Console.WriteLine(result);
                         }
                     }
                 }
 
                 Console.WriteLine(string.Format("{0, 22} {1, 15} {2,6}", fileCount + "개 파일", fileTotalSize, "바이트"));
-                Console.WriteLine(string.Format("{0, 22} {1, 15} {2,6}", directoryCount + "개 디렉터리",driveInfo.AvailableFreeSpace, "바이트 남음"));
+                Console.WriteLine(string.Format("{0, 22} {1, 15} {2,6}", directoryCount + "개 디렉터리", avaliableFreeSpace, "바이트 남음"));
                 Console.WriteLine();
                 command.InputCommand(inputPath);
             }
@@ -92,9 +106,9 @@ namespace CommandLine
             Console.WriteLine("\t" + count + "개 파일이 복사되었습니다.");
         }
 
-        public void FindingFileError()
+        public void FindingPathError(string type)
         {
-            Console.WriteLine("지정된 파일을 찾을 수 없습니다.");
+            Console.WriteLine("지정된 {0} 찾을 수 없습니다.", type);
             Console.WriteLine();
         }
 
@@ -105,7 +119,6 @@ namespace CommandLine
 
         public void ShowHelp()
         {
-
             Console.WriteLine("특정 명령어에 대한 자세한 내용이 필요하면 HELP 명령어 이름을 입력하십시오.\n" +
                 "ASSOC    파일 확장명 연결을 보여주거나 수정합니다. \n" +
                 "ATTRIB   파일 속성을 표시하거나 바꿉니다. \n" +
