@@ -56,7 +56,6 @@ namespace CommandLine
                 manageobject.Get();
                 volumeSeriralNumber = manageobject["VolumeSerialNumber"].ToString().Insert(4, "-");
                 
-
                 Console.WriteLine(" {0} 드라이브의 불륨에는 이름이 없습니다.", inputPath.Remove(1));
                 Console.WriteLine(" 불륨 일련 번호: " + volumeSeriralNumber + "\n");
                 Console.WriteLine(" {0} 디렉터리\n", inputPath);
@@ -96,8 +95,8 @@ namespace CommandLine
                     }
                 }
 
-                Console.WriteLine(string.Format("{0, 22} {1, 15} {2,6}", fileCount + "개 파일", string.Format("{0:###,###,###,###}", fileTotalSize), "바이트"));
-                Console.WriteLine(string.Format("{0, 22} {1, 15} {2,6}", directoryCount + "개 디렉터리", avaliableFreeSpace, "바이트 남음"));
+                Console.WriteLine(string.Format("{0, 22} {1, 18}", fileCount + "개 파일", string.Format("{0:###,###,###,###}", fileTotalSize)) + " 바이트");
+                Console.WriteLine(string.Format("{0, 24} {1, 15}", directoryCount + "개 디렉터리", avaliableFreeSpace) + " 바이트 남음");
                 Console.WriteLine();
                 command.InputCommand(inputPath);
             }

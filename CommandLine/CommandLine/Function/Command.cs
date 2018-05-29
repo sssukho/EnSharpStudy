@@ -178,6 +178,7 @@ namespace CommandLine
             }
         }
 
+        //cls 명령어
         public void ClearSystem()
         {
             Console.Clear();
@@ -185,12 +186,14 @@ namespace CommandLine
             InputCommand(currentPath);
         }
 
+        //Help 명령어
         public void Help()
         {
             print.ShowHelp();
             InputCommand(currentPath);
         }
 
+        //Copy 명령어
         public void Copy()
         {
             command = command.Remove(0, 5);
@@ -215,7 +218,7 @@ namespace CommandLine
                     //dest에 같은 파일명이 있으면
                     if (File.Exists(currentPath + "\\" + Path.GetFileName(copyCommandObject[0])))
                     {
-                        DuplicatedFileCopyHandler(copyCommandObject);
+                        DuplicatedFileHandler(copyCommandObject, "copy");
                         return;
                     }
 
@@ -238,7 +241,7 @@ namespace CommandLine
                         //dest에 같은 파일명 있음
                         if(File.Exists(copyCommandObject[1]))
                         {
-                            DuplicatedFileCopyHandler(copyCommandObject);
+                            DuplicatedFileHandler(copyCommandObject, "copy");
                             return;
                         }
 
@@ -258,7 +261,7 @@ namespace CommandLine
                     {
                         if(File.Exists(currentPath + "\\" + copyCommandObject[1]))
                         {
-                            DuplicatedFileCopyHandler(copyCommandObject);
+                            DuplicatedFileHandler(copyCommandObject, "copy");
                             return;
                         }
 
@@ -282,12 +285,13 @@ namespace CommandLine
                     InputCommand(currentPath);
                     return;
                 }
+
                 //copy a.txt c:\users\sb\desktop\sb\aoa.txt
                 if(copyCommandObject[1].Contains("\\"))
                 {
                     if (File.Exists(copyCommandObject[1]))
                     {
-                        DuplicatedFileCopyHandler(copyCommandObject);
+                        DuplicatedFileHandler(copyCommandObject, "copy");
                         return;
                     }
 
@@ -306,7 +310,7 @@ namespace CommandLine
                 {
                     if (File.Exists(currentPath + "\\" + copyCommandObject[1]))
                     {
-                        DuplicatedFileCopyHandler(copyCommandObject);
+                        DuplicatedFileHandler(copyCommandObject, "copy");
                         return;
                     }
 
@@ -322,119 +326,30 @@ namespace CommandLine
             }
         }
 
-        public void DuplicatedFileCopyHandler(string[] copyCommandObject)
+        public void DuplicatedFileHandler(string[] inputCommand, string commandType)
         {
             string confirm;
-            int copyCount = 0;
 
-            if(copyCommandObject.Length == 1)
+            if (inputCommand.Length == 1)
             {
-                print.ConfirmOverwrite(Path.GetFileName(copyCommandObject[0]));
+                print.ConfirmOverwrite(Path.GetFileName(inputCommand[0]));
             }
 
-            if(copyCommandObject.Length == 2)
+            if (inputCommand.Length == 2)
             {
-                if (copyCommandObject[1].Contains("\\"))
-                    print.ConfirmOverwrite(Path.GetFileName(copyCommandObject[1]));
+                if (inputCommand[1].Contains("\\"))
+                    print.ConfirmOverwrite(Path.GetFileName(inputCommand[1]));
                 else
-                    print.ConfirmOverwrite(copyCommandObject[1]);
+                    print.ConfirmOverwrite(inputCommand[1]);
             }
 
             confirm = Console.ReadLine().ToUpper();
 
-            if (confirm.Contains("YES") && confirm.Contains("ALL") && confirm.Contains("NO"))
-            {
-                //더 앞쪽에 나오는 확인문구로 명령어 실행(yes나 all이 나오는경우)
-                if (confirm.IndexOf("YES") < confirm.IndexOf("NO") || confirm.IndexOf("ALL") < confirm.IndexOf("NO"))
-                {
-                    if(copyCommandObject.Length == 1)
-                        File.Copy(currentPath, copyCommandObject[0], true);
-                        
-                    if(copyCommandObject.Length == 2)
-                    {
-                        if(copyCommandObject[0].Contains("\\") && copyCommandObject[1].Contains("\\"))
-                            File.Copy(copyCommandObject[0], copyCommandObject[1], true);     
-
-                        else if(copyCommandObject[0].Contains("\\") && !copyCommandObject[1].Contains("\\"))
-                            File.Copy(copyCommandObject[0], currentPath + "\\" + copyCommandObject[1], true);
-                            
-                        else if(!copyCommandObject[0].Contains("\\") && copyCommandObject[1].Contains("\\"))
-                            File.Copy(currentPath + "\\" + copyCommandObject[0], copyCommandObject[1], true);
-                            
-                        else if(!copyCommandObject[0].Contains("\\") && !copyCommandObject[1].Contains("\\"))
-                            File.Copy(currentPath + "\\" + copyCommandObject[0], currentPath + "\\" + copyCommandObject[1], true);
-                    }
-                    copyCount = 1;
-                }
-
-                //더 앞쪽에 NO가 나오는 경우
-                else
-                {
-                    copyCount = 0;
-                }
-                print.CopyCompleted(copyCount);
-                InputCommand(currentPath);
-            }
-
-            //Yes나 All문구만 있는 경우
-            else if (confirm.Contains("YES") || confirm.Contains("ALL"))
-            {
-                if (copyCommandObject.Length == 1)
-                    File.Copy(currentPath, copyCommandObject[0], true);
-
-                if (copyCommandObject.Length == 2)
-                {
-                    if (copyCommandObject[0].Contains("\\") && copyCommandObject[1].Contains("\\"))
-                        File.Copy(copyCommandObject[0], copyCommandObject[1], true);
-
-                    else if (copyCommandObject[0].Contains("\\") && !copyCommandObject[1].Contains("\\"))
-                        File.Copy(copyCommandObject[0], currentPath + "\\" + copyCommandObject[1], true);
-
-                    else if (!copyCommandObject[0].Contains("\\") && copyCommandObject[1].Contains("\\"))
-                        File.Copy(currentPath + "\\" + copyCommandObject[0], copyCommandObject[1], true);
-
-                    else if (!copyCommandObject[0].Contains("\\") && !copyCommandObject[1].Contains("\\"))
-                        File.Copy(currentPath + "\\" + copyCommandObject[0], currentPath + "\\" + copyCommandObject[1], true);
-                }
-                copyCount = 1;
-                print.CopyCompleted(copyCount);
-                InputCommand(currentPath);
-            }
-
-            //No문구만 있는 경우
-            else if (confirm.Contains("NO"))
-            {
-                copyCount = 0;
-                print.CopyCompleted(copyCount);
-                InputCommand(currentPath);
-            }
-
-            //아무런 글자를 입력했을 때 카피 명령 실행
-            else
-            {
-                if (copyCommandObject.Length == 1)
-                    File.Copy(currentPath, copyCommandObject[0], true);
-
-                if (copyCommandObject.Length == 2)
-                {
-                    if (copyCommandObject[0].Contains("\\") && copyCommandObject[1].Contains("\\"))
-                        File.Copy(copyCommandObject[0], copyCommandObject[1], true);
-
-                    else if (copyCommandObject[0].Contains("\\") && !copyCommandObject[1].Contains("\\"))
-                        File.Copy(copyCommandObject[0], currentPath + "\\" + copyCommandObject[1], true);
-
-                    else if (!copyCommandObject[0].Contains("\\") && copyCommandObject[1].Contains("\\"))
-                        File.Copy(currentPath + "\\" + copyCommandObject[0], copyCommandObject[1], true);
-
-                    else if (!copyCommandObject[0].Contains("\\") && !copyCommandObject[1].Contains("\\"))
-                        File.Copy(currentPath + "\\" + copyCommandObject[0], currentPath + "\\" + copyCommandObject[1], true);
-                }
-                copyCount = 1;
-                print.CopyCompleted(copyCount);
-                InputCommand(currentPath);
-            }
+            if(commandType.Equals("copy"))
+                OperateDividingByConfirmString(inputCommand, "copy", confirm);
+            else if(commandType.Equals("move"))
+                OperateDividingByConfirmString(inputCommand, "move", confirm);
         }
-      
 
         public void Move()
         {
@@ -460,7 +375,7 @@ namespace CommandLine
                     //dest에 같은 파일명이 있으면
                     if (File.Exists(currentPath + "\\" + Path.GetFileName(moveCommandObject[0])))
                     {
-                        DuplicatedFileMoveHandler(moveCommandObject);
+                        DuplicatedFileHandler(moveCommandObject, "move");
                         return;
                     }
 
@@ -483,7 +398,7 @@ namespace CommandLine
                         //dest에 같은 파일명 있음
                         if (File.Exists(moveCommandObject[1]))
                         {
-                            DuplicatedFileMoveHandler(moveCommandObject);
+                            DuplicatedFileHandler(moveCommandObject, "move");
                             return;
                         }
 
@@ -503,7 +418,7 @@ namespace CommandLine
                     {
                         if (File.Exists(currentPath + "\\" + moveCommandObject[1]))
                         {
-                            DuplicatedFileMoveHandler(moveCommandObject);
+                            DuplicatedFileHandler(moveCommandObject, "move");
                             return;
                         }
 
@@ -532,7 +447,7 @@ namespace CommandLine
                 {
                     if (File.Exists(moveCommandObject[1]))
                     {
-                        DuplicatedFileMoveHandler(moveCommandObject);
+                        DuplicatedFileHandler(moveCommandObject,"move");
                         return;
                     }
 
@@ -560,7 +475,7 @@ namespace CommandLine
                 {
                     if (File.Exists(currentPath + "\\" + moveCommandObject[1]))
                     {
-                        DuplicatedFileMoveHandler(moveCommandObject);
+                        DuplicatedFileHandler(moveCommandObject, "move");
                         return;
                     }
 
@@ -576,162 +491,247 @@ namespace CommandLine
             }
         }
 
-        public void DuplicatedFileMoveHandler(string[] moveCommandObject)
+        public void OperateDividingByConfirmString(string[] inputCommand, string commandType, string confirm)
         {
-            string confirm;
-            int moveCount = 0;
+            int copyCount;
+            int moveCount;
 
-            if (moveCommandObject.Length == 1)
+            //copy명령어 일때
+            if (commandType.Equals("copy"))
             {
-                print.ConfirmOverwrite(Path.GetFileName(moveCommandObject[0]));
-            }
-
-            if (moveCommandObject.Length == 2)
-            {
-                if (moveCommandObject[1].Contains("\\"))
-                    print.ConfirmOverwrite(Path.GetFileName(moveCommandObject[1]));
-                else
-                    print.ConfirmOverwrite(moveCommandObject[1]);
-            }
-
-            confirm = Console.ReadLine().ToUpper();
-
-            if (confirm.Contains("YES") && confirm.Contains("ALL") && confirm.Contains("NO"))
-            {
-                //더 앞쪽에 나오는 확인문구로 명령어 실행(yes나 all이 나오는경우)
-                if (confirm.IndexOf("YES") < confirm.IndexOf("NO") || confirm.IndexOf("ALL") < confirm.IndexOf("NO"))
+                if (confirm.Contains("YES") && confirm.Contains("ALL") && confirm.Contains("NO"))
                 {
-                    if (moveCommandObject.Length == 1)
+                    //더 앞쪽에 나오는 확인문구로 명령어 실행(yes나 all이 나오는경우)
+                    if (confirm.IndexOf("YES") < confirm.IndexOf("NO") || confirm.IndexOf("ALL") < confirm.IndexOf("NO"))
                     {
-                        File.Delete(moveCommandObject[0]);
-                        File.Move(currentPath, moveCommandObject[0]);
-                    }   
+                        if (inputCommand.Length == 1)
+                            File.Copy(currentPath, inputCommand[0], true);
 
-                    if (moveCommandObject.Length == 2)
+                        if (inputCommand.Length == 2)
+                        {
+                            if (inputCommand[0].Contains("\\") && inputCommand[1].Contains("\\"))
+                                File.Copy(inputCommand[0], inputCommand[1], true);
+
+                            else if (inputCommand[0].Contains("\\") && !inputCommand[1].Contains("\\"))
+                                File.Copy(inputCommand[0], currentPath + "\\" + inputCommand[1], true);
+
+                            else if (!inputCommand[0].Contains("\\") && inputCommand[1].Contains("\\"))
+                                File.Copy(currentPath + "\\" + inputCommand[0], inputCommand[1], true);
+
+                            else if (!inputCommand[0].Contains("\\") && !inputCommand[1].Contains("\\"))
+                                File.Copy(currentPath + "\\" + inputCommand[0], currentPath + "\\" + inputCommand[1], true);
+                        }
+                        copyCount = 1;
+                    }
+
+                    //더 앞쪽에 NO가 나오는 경우
+                    else
                     {
-                        if (moveCommandObject[0].Contains("\\") && moveCommandObject[1].Contains("\\"))
+                        copyCount = 0;
+                    }
+                    print.CopyCompleted(copyCount);
+                    InputCommand(currentPath);
+                }
+
+                //Yes나 All문구만 있는 경우
+                else if (confirm.Contains("YES") || confirm.Contains("ALL"))
+                {
+                    if (inputCommand.Length == 1)
+                        File.Copy(currentPath, inputCommand[0], true);
+
+                    if (inputCommand.Length == 2)
+                    {
+                        if (inputCommand[0].Contains("\\") && inputCommand[1].Contains("\\"))
+                            File.Copy(inputCommand[0], inputCommand[1], true);
+
+                        else if (inputCommand[0].Contains("\\") && !inputCommand[1].Contains("\\"))
+                            File.Copy(inputCommand[0], currentPath + "\\" + inputCommand[1], true);
+
+                        else if (!inputCommand[0].Contains("\\") && inputCommand[1].Contains("\\"))
+                            File.Copy(currentPath + "\\" + inputCommand[0], inputCommand[1], true);
+
+                        else if (!inputCommand[0].Contains("\\") && !inputCommand[1].Contains("\\"))
+                            File.Copy(currentPath + "\\" + inputCommand[0], currentPath + "\\" + inputCommand[1], true);
+                    }
+                    copyCount = 1;
+                    print.CopyCompleted(copyCount);
+                    InputCommand(currentPath);
+                }
+
+                //No문구만 있는 경우
+                else if (confirm.Contains("NO"))
+                {
+                    copyCount = 0;
+                    print.CopyCompleted(copyCount);
+                    InputCommand(currentPath);
+                }
+
+                //아무런 글자를 입력했을 때 카피 명령 실행
+                else
+                {
+                    if (inputCommand.Length == 1)
+                        File.Copy(currentPath, inputCommand[0], true);
+
+                    if (inputCommand.Length == 2)
+                    {
+                        if (inputCommand[0].Contains("\\") && inputCommand[1].Contains("\\"))
+                            File.Copy(inputCommand[0], inputCommand[1], true);
+
+                        else if (inputCommand[0].Contains("\\") && !inputCommand[1].Contains("\\"))
+                            File.Copy(inputCommand[0], currentPath + "\\" + inputCommand[1], true);
+
+                        else if (!inputCommand[0].Contains("\\") && inputCommand[1].Contains("\\"))
+                            File.Copy(currentPath + "\\" + inputCommand[0], inputCommand[1], true);
+
+                        else if (!inputCommand[0].Contains("\\") && !inputCommand[1].Contains("\\"))
+                            File.Copy(currentPath + "\\" + inputCommand[0], currentPath + "\\" + inputCommand[1], true);
+                    }
+                    copyCount = 1;
+                    print.CopyCompleted(copyCount);
+                    InputCommand(currentPath);
+                }
+            }
+
+            //move명령어
+            if (commandType.Equals("move"))
+            {
+                if (confirm.Contains("YES") && confirm.Contains("ALL") && confirm.Contains("NO"))
+                {
+                    //더 앞쪽에 나오는 확인문구로 명령어 실행(yes나 all이 나오는경우)
+                    if (confirm.IndexOf("YES") < confirm.IndexOf("NO") || confirm.IndexOf("ALL") < confirm.IndexOf("NO"))
+                    {
+                        if (inputCommand.Length == 1)
                         {
-                            File.Delete(moveCommandObject[1]);
-                            File.Move(moveCommandObject[0], moveCommandObject[1]);
-                        }
-                            
-                        else if (moveCommandObject[0].Contains("\\") && !moveCommandObject[1].Contains("\\"))
-                        {
-                            File.Delete(currentPath + "\\" + moveCommandObject[1]);
-                            File.Move(moveCommandObject[0], currentPath + "\\" + moveCommandObject[1]);
-                        }
-                            
-                        else if (!moveCommandObject[0].Contains("\\") && moveCommandObject[1].Contains("\\"))
-                        {
-                            File.Delete(moveCommandObject[1]);
-                            File.Move(currentPath + "\\" + moveCommandObject[0], moveCommandObject[1]);
+                            File.Delete(inputCommand[0]);
+                            File.Move(currentPath, inputCommand[0]);
                         }
 
-                        else if (!moveCommandObject[0].Contains("\\") && !moveCommandObject[1].Contains("\\"))
+                        if (inputCommand.Length == 2)
                         {
-                            File.Delete(currentPath + "\\" + moveCommandObject[1]);
-                            File.Move(currentPath + "\\" + moveCommandObject[0], currentPath + "\\" + moveCommandObject[1]);
+                            if (inputCommand[0].Contains("\\") && inputCommand[1].Contains("\\"))
+                            {
+                                File.Delete(inputCommand[1]);
+                                File.Move(inputCommand[0], inputCommand[1]);
+                            }
+
+                            else if (inputCommand[0].Contains("\\") && !inputCommand[1].Contains("\\"))
+                            {
+                                File.Delete(currentPath + "\\" + inputCommand[1]);
+                                File.Move(inputCommand[0], currentPath + "\\" + inputCommand[1]);
+                            }
+
+                            else if (!inputCommand[0].Contains("\\") && inputCommand[1].Contains("\\"))
+                            {
+                                File.Delete(inputCommand[1]);
+                                File.Move(currentPath + "\\" + inputCommand[0], inputCommand[1]);
+                            }
+
+                            else if (!inputCommand[0].Contains("\\") && !inputCommand[1].Contains("\\"))
+                            {
+                                File.Delete(currentPath + "\\" + inputCommand[1]);
+                                File.Move(currentPath + "\\" + inputCommand[0], currentPath + "\\" + inputCommand[1]);
+                            }
+
                         }
-                           
+                        moveCount = 1;
+                    }
+
+                    //더 앞쪽에 NO가 나오는 경우
+                    else
+                    {
+                        moveCount = 0;
+                    }
+                    print.MoveCompleted(moveCount);
+                    InputCommand(currentPath);
+                }
+
+                //Yes나 All문구만 있는 경우
+                else if (confirm.Contains("YES") || confirm.Contains("ALL"))
+                {
+                    if (inputCommand.Length == 1)
+                    {
+                        File.Delete(inputCommand[0]);
+                        File.Move(currentPath, inputCommand[0]);
+                    }
+
+                    if (inputCommand.Length == 2)
+                    {
+                        if (inputCommand[0].Contains("\\") && inputCommand[1].Contains("\\"))
+                        {
+                            File.Delete(inputCommand[1]);
+                            File.Move(inputCommand[0], inputCommand[1]);
+                        }
+
+                        else if (inputCommand[0].Contains("\\") && !inputCommand[1].Contains("\\"))
+                        {
+                            File.Delete(inputCommand[1]);
+                            File.Move(inputCommand[0], currentPath + "\\" + inputCommand[1]);
+                        }
+
+                        else if (!inputCommand[0].Contains("\\") && inputCommand[1].Contains("\\"))
+                        {
+                            File.Delete(inputCommand[1]);
+                            File.Move(currentPath + "\\" + inputCommand[0], inputCommand[1]);
+                        }
+
+                        else if (!inputCommand[0].Contains("\\") && !inputCommand[1].Contains("\\"))
+                        {
+                            File.Delete(currentPath + "\\" + inputCommand[1]);
+                            File.Move(currentPath + "\\" + inputCommand[0], currentPath + "\\" + inputCommand[1]);
+                        }
                     }
                     moveCount = 1;
+                    print.MoveCompleted(moveCount);
+                    InputCommand(currentPath);
                 }
 
-                //더 앞쪽에 NO가 나오는 경우
-                else
+                //No문구만 있는 경우
+                else if (confirm.Contains("NO"))
                 {
                     moveCount = 0;
+                    print.MoveCompleted(moveCount);
+                    InputCommand(currentPath);
                 }
-                print.MoveCompleted(moveCount);
-                InputCommand(currentPath);
-            }
 
-            //Yes나 All문구만 있는 경우
-            else if (confirm.Contains("YES") || confirm.Contains("ALL"))
-            {
-                if (moveCommandObject.Length == 1)
+                //아무런 글자를 입력했을 때 카피 명령 실행
+                else
                 {
-                    File.Delete(moveCommandObject[0]);
-                    File.Move(currentPath, moveCommandObject[0]);
+                    if (inputCommand.Length == 1)
+                    {
+                        File.Delete(inputCommand[0]);
+                        File.Move(currentPath, inputCommand[0]);
+                    }
+
+                    if (inputCommand.Length == 2)
+                    {
+                        if (inputCommand[0].Contains("\\") && inputCommand[1].Contains("\\"))
+                        {
+                            File.Delete(inputCommand[1]);
+                            File.Move(inputCommand[0], inputCommand[1]);
+                        }
+
+                        else if (inputCommand[0].Contains("\\") && !inputCommand[1].Contains("\\"))
+                        {
+                            File.Delete(inputCommand[1]);
+                            File.Move(inputCommand[0], currentPath + "\\" + inputCommand[1]);
+                        }
+
+                        else if (!inputCommand[0].Contains("\\") && inputCommand[1].Contains("\\"))
+                        {
+                            File.Delete(inputCommand[1]);
+                            File.Move(currentPath + "\\" + inputCommand[0], inputCommand[1]);
+                        }
+
+                        else if (!inputCommand[0].Contains("\\") && !inputCommand[1].Contains("\\"))
+                        {
+                            File.Delete(inputCommand[1]);
+                            File.Move(currentPath + "\\" + inputCommand[0], currentPath + "\\" + inputCommand[1]);
+                        }
+                    }
+                    moveCount = 1;
+                    print.MoveCompleted(moveCount);
+                    InputCommand(currentPath);
                 }
-                    
-                if (moveCommandObject.Length == 2)
-                {
-                    if (moveCommandObject[0].Contains("\\") && moveCommandObject[1].Contains("\\"))
-                    {
-                        File.Delete(moveCommandObject[1]);
-                        File.Move(moveCommandObject[0], moveCommandObject[1]);
-                    }
-
-                    else if (moveCommandObject[0].Contains("\\") && !moveCommandObject[1].Contains("\\"))
-                    {
-                        File.Delete(moveCommandObject[1]);
-                        File.Move(moveCommandObject[0], currentPath + "\\" + moveCommandObject[1]);
-                    }   
-
-                    else if (!moveCommandObject[0].Contains("\\") && moveCommandObject[1].Contains("\\"))
-                    {
-                        File.Delete(moveCommandObject[1]);
-                        File.Move(currentPath + "\\" + moveCommandObject[0], moveCommandObject[1]);
-                    }
-
-                    else if (!moveCommandObject[0].Contains("\\") && !moveCommandObject[1].Contains("\\"))
-                    {
-                        File.Delete(currentPath + "\\" + moveCommandObject[1]);
-                        File.Move(currentPath + "\\" + moveCommandObject[0], currentPath + "\\" + moveCommandObject[1]);
-                    }       
-                }
-                moveCount = 1;
-                print.MoveCompleted(moveCount);
-                InputCommand(currentPath);
-            }
-
-            //No문구만 있는 경우
-            else if (confirm.Contains("NO"))
-            {
-                moveCount = 0;
-                print.MoveCompleted(moveCount);
-                InputCommand(currentPath);
-            }
-
-            //아무런 글자를 입력했을 때 카피 명령 실행
-            else
-            {
-                if (moveCommandObject.Length == 1)
-                {
-                    File.Delete(moveCommandObject[0]);
-                    File.Move(currentPath, moveCommandObject[0]);
-                }
-                    
-                if (moveCommandObject.Length == 2)
-                {
-                    if (moveCommandObject[0].Contains("\\") && moveCommandObject[1].Contains("\\"))
-                    {
-                        File.Delete(moveCommandObject[1]);
-                        File.Move(moveCommandObject[0], moveCommandObject[1]);
-                    }
-
-                    else if (moveCommandObject[0].Contains("\\") && !moveCommandObject[1].Contains("\\"))
-                    {
-                        File.Delete(moveCommandObject[1]);
-                        File.Move(moveCommandObject[0], currentPath + "\\" + moveCommandObject[1]);
-                    }
-                        
-                    else if (!moveCommandObject[0].Contains("\\") && moveCommandObject[1].Contains("\\"))
-                    {
-                        File.Delete(moveCommandObject[1]);
-                        File.Move(currentPath + "\\" + moveCommandObject[0], moveCommandObject[1]);
-                    }
-
-                    else if (!moveCommandObject[0].Contains("\\") && !moveCommandObject[1].Contains("\\"))
-                    {
-                        File.Delete(moveCommandObject[1]);
-                        File.Move(currentPath + "\\" + moveCommandObject[0], currentPath + "\\" + moveCommandObject[1]);
-                    }
-                }
-                moveCount = 1;
-                print.MoveCompleted(moveCount);
-                InputCommand(currentPath);
             }
         }
     }
