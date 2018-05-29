@@ -31,7 +31,7 @@ namespace CommandLine
                 command = Console.ReadLine();
                 if (command.ToUpper().Contains("CD"))
                 {
-                    //Console.WriteLine();
+                    Console.WriteLine();
                     ChangeDirectory();
                     return;
                 }
@@ -110,7 +110,7 @@ namespace CommandLine
         public void ChangeDirectory()
         {
             string destinationPath;
-            destinationPath = command.Remove(0, 2);
+            destinationPath = command.Trim().Remove(0, 2).Trim();
 
             //cd하고 그냥 엔터
             if (string.IsNullOrEmpty(destinationPath) || string.IsNullOrWhiteSpace(destinationPath))
@@ -130,6 +130,11 @@ namespace CommandLine
             //한단계 상위
             if (destinationPath.Equals("..") || destinationPath.Equals(" ..") || destinationPath.Trim().Equals(".."))
             {
+                if(currentPath.Equals("C:\\"))
+                {
+                    InputCommand(currentPath);
+                    return;
+                }
                 currentPath = Directory.GetParent(currentPath).FullName;
                 InputCommand(currentPath);
                 return;
@@ -150,7 +155,7 @@ namespace CommandLine
             }
 
             //유효한 경로인지 확인
-            if (errorCheck.IsValidPath(currentPath + "\\" + command.Remove(0, 3)) == false)
+            if (errorCheck.IsValidPath(currentPath + "\\" + command.Trim().Remove(0, 3).TrimStart()) == false)
             {
                 print.FindingPathError("경로를");
                 InputCommand(currentPath);
@@ -167,7 +172,7 @@ namespace CommandLine
                 }
                 else
                 {
-                    currentPath = currentPath + "\\" + command.Remove(0, 3);
+                    currentPath = currentPath + "\\" + command.Trim().Remove(0, 3).TrimStart();
                     InputCommand(currentPath);
                 }
             }

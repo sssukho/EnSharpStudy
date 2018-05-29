@@ -36,7 +36,7 @@ namespace CommandLine
 
         public void ShowDirectoryList(string inputPath)
         {
-            if(Directory.Exists(inputPath))
+            if (Directory.Exists(inputPath))
             {
                 string result;
                 string directoryFormat = "{0, -27} {1, -14} {2,-30}";
@@ -50,12 +50,12 @@ namespace CommandLine
                 DriveInfo driveInfo = new DriveInfo(inputPath.Remove(1));
 
                 avaliableFreeSpace = string.Format("{0:###,###,###,###}", driveInfo.AvailableFreeSpace);
-               
+
                 Console.WriteLine(" {0} 드라이브의 불륨에는 이름이 없습니다.", inputPath.Remove(1));
                 Console.WriteLine(" 불륨 일련 번호: 0A91-13CA" + "\n");
                 Console.WriteLine(" {0} 디렉터리\n", inputPath);
 
-                if(!inputPath.Equals("C:\\"))
+                if (!inputPath.Equals("C:\\"))
                 {
                     Console.WriteLine(string.Format(directoryFormat, directoryInfo.LastWriteTime.ToString("yyyy .MM. dd.  tt hh:mm"),
                     "<DIR>", "."));
@@ -66,7 +66,7 @@ namespace CommandLine
 
                 foreach (var item in directoryInfo.GetFileSystemInfos())
                 {
-                    if(item.Attributes.HasFlag(FileAttributes.Directory))
+                    if (item.Attributes.HasFlag(FileAttributes.Directory))
                     {
                         if (item.Attributes.ToString().Equals("Directory") || item.Attributes.ToString().Equals("ReadOnly, Directory") ||
                             item.Attributes.ToString().Equals("Directory, NotContentIndexed") || item.Attributes.ToString().Equals("Directory, Compressed, NotContentIndexed"))
@@ -77,19 +77,19 @@ namespace CommandLine
                         }
                     }
 
-                    if(item.Attributes.HasFlag(FileAttributes.Archive))
+                    if (item.Attributes.HasFlag(FileAttributes.Archive))
                     {
                         if (!item.Attributes.HasFlag(FileAttributes.Hidden) && !item.Attributes.HasFlag(FileAttributes.System))
                         {
                             long fileSize = new FileInfo(inputPath + "\\" + item.Name).Length;
                             fileCount = fileCount + 1;
                             fileTotalSize = fileTotalSize + fileSize;
-                            result = string.Format(fileFormat, item.LastWriteTime.ToString("yyyy. MM. dd.  tt hh:mm"), string.Format("{0:###,###,###,###}",fileSize), item.Name);
+                            result = string.Format(fileFormat, item.LastWriteTime.ToString("yyyy. MM. dd.  tt hh:mm"), string.Format("{0:###,###,###,###}", fileSize), item.Name);
                             Console.WriteLine(result);
                         }
                     }
                 }
-                
+
                 Console.WriteLine(string.Format("{0, 22} {1, 15} {2,6}", fileCount + "개 파일", string.Format("{0:###,###,###,###}", fileTotalSize), "바이트"));
                 Console.WriteLine(string.Format("{0, 22} {1, 15} {2,6}", directoryCount + "개 디렉터리", avaliableFreeSpace, "바이트 남음"));
                 Console.WriteLine();
