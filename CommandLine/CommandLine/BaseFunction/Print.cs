@@ -45,14 +45,20 @@ namespace CommandLine
                 int fileCount = 0;
                 long fileTotalSize = 0;
                 string avaliableFreeSpace;
+                string volumeSeriralNumber;
 
                 DirectoryInfo directoryInfo = new DirectoryInfo(inputPath); //디렉토리
                 DriveInfo driveInfo = new DriveInfo(inputPath.Remove(1));
 
                 avaliableFreeSpace = string.Format("{0:###,###,###,###}", driveInfo.AvailableFreeSpace);
 
+                ManagementObject manageobject = new ManagementObject("win32_logicaldisk.deviceid=\"" + "C" + ":\"");
+                manageobject.Get();
+                volumeSeriralNumber = manageobject["VolumeSerialNumber"].ToString().Insert(4, "-");
+                
+
                 Console.WriteLine(" {0} 드라이브의 불륨에는 이름이 없습니다.", inputPath.Remove(1));
-                Console.WriteLine(" 불륨 일련 번호: 0A91-13CA" + "\n");
+                Console.WriteLine(" 불륨 일련 번호: " + volumeSeriralNumber + "\n");
                 Console.WriteLine(" {0} 디렉터리\n", inputPath);
 
                 if (!inputPath.Equals("C:\\"))

@@ -539,6 +539,15 @@ namespace CommandLine
                     else
                     {
                         moveCount = 1;
+                        int flag = moveCommandObject[1].LastIndexOf('\\');
+                        string DestinationPath = moveCommandObject[1].Remove(flag);
+                        
+                        if(!Directory.Exists(moveCommandObject[1].Remove(moveCommandObject[1].LastIndexOf('\\'))))
+                        {
+                            print.FindingPathError("경로를");
+                            InputCommand(currentPath);
+                            return;
+                        }
                         File.Move(currentPath + "\\" + moveCommandObject[0], moveCommandObject[1]);
                         print.MoveCompleted(moveCount);
                         InputCommand(currentPath);
