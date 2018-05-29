@@ -31,7 +31,7 @@ namespace CommandLine
                 command = Console.ReadLine();
                 if (command.ToUpper().Contains("CD"))
                 {
-                    Console.WriteLine();
+                    //Console.WriteLine();
                     ChangeDirectory();
                     return;
                 }
@@ -109,18 +109,18 @@ namespace CommandLine
 
         public void ChangeDirectory()
         {
-            string tempPath;
-            tempPath = command.Remove(0, 2);
+            string destinationPath;
+            destinationPath = command.Remove(0, 2);
 
             //cd하고 그냥 엔터
-            if (string.IsNullOrEmpty(tempPath) || string.IsNullOrWhiteSpace(tempPath))
+            if (string.IsNullOrEmpty(destinationPath) || string.IsNullOrWhiteSpace(destinationPath))
             {
-                Console.Write(currentPath + "\n");
+                Console.Write(currentPath + "\n\n");
                 InputCommand(currentPath);
             }
 
             //루트로
-            if (tempPath.Equals("\\") || tempPath.Equals(" \\") || tempPath.Equals("/") || tempPath.Equals(" /"))
+            if (destinationPath.Equals("\\") || destinationPath.Equals(" \\") || destinationPath.Equals("/") || destinationPath.Equals(" /"))
             {
                 currentPath = Path.GetPathRoot(currentPath);
                 InputCommand(currentPath.Remove(2));
@@ -128,7 +128,7 @@ namespace CommandLine
             }
 
             //한단계 상위
-            if (tempPath.Equals("..") || tempPath.Equals(" .."))
+            if (destinationPath.Equals("..") || destinationPath.Equals(" ..") || destinationPath.Trim().Equals(".."))
             {
                 currentPath = Directory.GetParent(currentPath).FullName;
                 InputCommand(currentPath);
@@ -136,14 +136,26 @@ namespace CommandLine
             }
 
             //두단계 상위
-            if (tempPath.Equals("..\\..") || tempPath.Equals(" ..\\.."))
+            if (destinationPath.Trim().Contains("..\\\\..") || destinationPath.Equals(" ..\\\\.."))
             {
                 currentPath = Directory.GetParent(Directory.GetParent(currentPath).FullName).FullName;
                 InputCommand(currentPath);
                 return;
             }
 
-            //올바르지 않은 경로 예외처리 요망
+            //아무런 변화x
+            if(destinationPath.Trim().Contains("..."))
+            {
+                InputCommand(currentPath);
+            }
+
+            //유효한 경로인지 확인
+            if (errorCheck.IsValidPath(currentPath + "\\" + command.Remove(0, 3)) == false)
+            {
+                print.FindingPathError("경로를");
+                InputCommand(currentPath);
+                return;
+            }
 
             //실제 경로로
             else
@@ -194,7 +206,7 @@ namespace CommandLine
 
                 //경로가 하나만 있는 경우(copy c:\users\sb\desktop\sb\aoa.txt) 바탕화면 폴더의 aoa텍스트를 현재 경로에 복사
                 if (copyCommandObject.Length == 1)
-                {
+                {   
                     //dest에 같은 파일명이 있으면
                     if (File.Exists(currentPath + "\\" + Path.GetFileName(copyCommandObject[0])))
                     {
