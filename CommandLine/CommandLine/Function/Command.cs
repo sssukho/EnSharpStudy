@@ -13,7 +13,7 @@ namespace CommandLine
         public ErrorCheck errorCheck;
         public string command;
         public string currentPath;
-
+        
         public Command()
         {
             this.print = new Print(this);
@@ -23,12 +23,18 @@ namespace CommandLine
             InputCommand(currentPath);
         }
 
+        /// <summary>
+        /// 명령어 입력 무한 루프
+        /// </summary>
+        /// <param name="inputPath">입력 받기 이전 줄에 출력하기 위한 경로</param>
         public void InputCommand(string inputPath)
         {
             while (true)
             {
                 print.ShowCommandLine(inputPath);
                 command = Console.ReadLine();
+
+                //CD명령어
                 if (command.ToUpper().Contains("CD"))
                 {
                     Console.WriteLine();
@@ -36,12 +42,14 @@ namespace CommandLine
                     return;
                 }
 
+                //dir 명령어
                 if (command.ToUpper().Contains("DIR"))
                 {
-                    DirectoryList();
+                    ShowDirectoryList();
                     return;
                 }
 
+                //cls 명령어
                 if (command.ToUpper().Contains("CLS"))
                 {
                     Console.WriteLine();
@@ -49,6 +57,7 @@ namespace CommandLine
                     return;
                 }
 
+                //Help 명령어
                 if (command.ToUpper().Contains("HELP"))
                 {
                     Console.WriteLine();
@@ -56,6 +65,7 @@ namespace CommandLine
                     return;
                 }
 
+                //copy 명령어
                 if (command.ToUpper().Contains("COPY"))
                 {
                     Console.WriteLine();
@@ -63,6 +73,7 @@ namespace CommandLine
                     return;
                 }
 
+                //move 명령어
                 if (command.ToUpper().Contains("MOVE"))
                 {
                     Console.WriteLine();
@@ -70,6 +81,7 @@ namespace CommandLine
                     return;
                 }
 
+                //아무것도 안쓰고 엔터 칠때 오류
                 if (string.IsNullOrEmpty(command) || string.IsNullOrWhiteSpace(command))
                 {
                     InputCommand(currentPath);
@@ -81,6 +93,7 @@ namespace CommandLine
                     Environment.Exit(0);
                 }
 
+                //이외에는 에러처리
                 else
                 {
                     print.InputError(command);
@@ -88,7 +101,8 @@ namespace CommandLine
             }
         }
 
-        public void DirectoryList()
+        //dir 명령어 수행
+        public void ShowDirectoryList()
         {
             command = command.Trim();
             if(command.Length > 3)
@@ -103,27 +117,28 @@ namespace CommandLine
                 InputCommand(currentPath);
                 return;
             }
-
             print.ShowDirectoryList(currentPath);
         }
 
+        //CD 명령어 수행
         public void ChangeDirectory()
         {
             string destinationPath;
             destinationPath = command.Trim().Remove(0, 2).Trim();
-
+            
             //cd하고 그냥 엔터
             if (string.IsNullOrEmpty(destinationPath) || string.IsNullOrWhiteSpace(destinationPath))
             {
                 Console.Write(currentPath + "\n\n");
                 InputCommand(currentPath);
             }
-
+            
             //루트로
-            if (destinationPath.Equals("\\") || destinationPath.Equals(" \\") || destinationPath.Equals("/") || destinationPath.Equals(" /"))
+            if (destinationPath.Equals("\\") || destinationPath.Equals(" \\") || destinationPath.Equals("/") || destinationPath.Equals(" /") || 
+                destinationPath.Contains("\\..\\.."))
             {
                 currentPath = Path.GetPathRoot(currentPath);
-                InputCommand(currentPath.Remove(2));
+                InputCommand(currentPath);
                 return;
             }
 
@@ -178,7 +193,7 @@ namespace CommandLine
             }
         }
 
-        //cls 명령어
+        //cls 명령어 수행
         public void ClearSystem()
         {
             Console.Clear();
@@ -186,14 +201,14 @@ namespace CommandLine
             InputCommand(currentPath);
         }
 
-        //Help 명령어
+        //Help 명령어 수행
         public void Help()
         {
             print.ShowHelp();
             InputCommand(currentPath);
         }
 
-        //Copy 명령어
+        //Copy 명령어 수행
         public void Copy()
         {
             command = command.Remove(0, 5);
@@ -325,32 +340,8 @@ namespace CommandLine
                 }
             }
         }
-
-        public void DuplicatedFileHandler(string[] inputCommand, string commandType)
-        {
-            string confirm;
-
-            if (inputCommand.Length == 1)
-            {
-                print.ConfirmOverwrite(Path.GetFileName(inputCommand[0]));
-            }
-
-            if (inputCommand.Length == 2)
-            {
-                if (inputCommand[1].Contains("\\"))
-                    print.ConfirmOverwrite(Path.GetFileName(inputCommand[1]));
-                else
-                    print.ConfirmOverwrite(inputCommand[1]);
-            }
-
-            confirm = Console.ReadLine().ToUpper();
-
-            if(commandType.Equals("copy"))
-                OperateDividingByConfirmString(inputCommand, "copy", confirm);
-            else if(commandType.Equals("move"))
-                OperateDividingByConfirmString(inputCommand, "move", confirm);
-        }
-
+        
+        //Move명령어 수행
         public void Move()
         {
             command = command.Remove(0, 5);
@@ -369,7 +360,7 @@ namespace CommandLine
                     return;
                 }
 
-                //경로가 하나만 있는 경우(copy c:\users\sb\desktop\sb\aoa.txt) 바탕화면 폴더의 aoa텍스트를 현재 경로에 복사
+                //경로가 하나만 있는 경우(move c:\users\sb\desktop\sb\aoa.txt) 바탕화면 폴더의 aoa텍스트를 현재 경로에 복사
                 if (moveCommandObject.Length == 1)
                 {
                     //dest에 같은 파일명이 있으면
@@ -390,7 +381,7 @@ namespace CommandLine
                     }
                 }
 
-                //copy c:\users\sb\desktop\a.txt c:\users\sb\desktop\sb\aoa.txt 
+                //move c:\users\sb\desktop\a.txt c:\users\sb\desktop\sb\aoa.txt 
                 if (moveCommandObject.Length == 2)
                 {
                     if (moveCommandObject[1].Contains("\\"))
@@ -413,7 +404,7 @@ namespace CommandLine
                         }
                     }
 
-                    //copy c:\users\sb\desktop\a.txt c.txt
+                    //move c:\users\sb\desktop\a.txt c.txt
                     else
                     {
                         if (File.Exists(currentPath + "\\" + moveCommandObject[1]))
@@ -442,7 +433,7 @@ namespace CommandLine
                     InputCommand(currentPath);
                     return;
                 }
-                //copy a.txt c:\users\sb\desktop\sb\aoa.txt
+                //move a.txt c:\users\sb\desktop\sb\aoa.txt
                 if (moveCommandObject[1].Contains("\\"))
                 {
                     if (File.Exists(moveCommandObject[1]))
@@ -456,8 +447,8 @@ namespace CommandLine
                         moveCount = 1;
                         int flag = moveCommandObject[1].LastIndexOf('\\');
                         string DestinationPath = moveCommandObject[1].Remove(flag);
-                        
-                        if(!Directory.Exists(moveCommandObject[1].Remove(moveCommandObject[1].LastIndexOf('\\'))))
+
+                        if (errorCheck.IsValidPath(moveCommandObject[1]) == false)
                         {
                             print.FindingPathError("경로를");
                             InputCommand(currentPath);
@@ -470,7 +461,7 @@ namespace CommandLine
                     }
                 }
 
-                //copy a.txt b.txt
+                //move a.txt b.txt
                 else
                 {
                     if (File.Exists(currentPath + "\\" + moveCommandObject[1]))
@@ -491,12 +482,13 @@ namespace CommandLine
             }
         }
 
+        //중복 파일의 경우 확인 문구에 대한 대답 문구 예외처리 수행
         public void OperateDividingByConfirmString(string[] inputCommand, string commandType, string confirm)
         {
-            int copyCount;
-            int moveCount;
+            int copiedCount;
+            int movedCount;
 
-            //copy명령어 일때
+            //move명령어 일때
             if (commandType.Equals("copy"))
             {
                 if (confirm.Contains("YES") && confirm.Contains("ALL") && confirm.Contains("NO"))
@@ -521,15 +513,15 @@ namespace CommandLine
                             else if (!inputCommand[0].Contains("\\") && !inputCommand[1].Contains("\\"))
                                 File.Copy(currentPath + "\\" + inputCommand[0], currentPath + "\\" + inputCommand[1], true);
                         }
-                        copyCount = 1;
+                        copiedCount = 1;
                     }
 
                     //더 앞쪽에 NO가 나오는 경우
                     else
                     {
-                        copyCount = 0;
+                        copiedCount = 0;
                     }
-                    print.CopyCompleted(copyCount);
+                    print.CopyCompleted(copiedCount);
                     InputCommand(currentPath);
                 }
 
@@ -553,16 +545,16 @@ namespace CommandLine
                         else if (!inputCommand[0].Contains("\\") && !inputCommand[1].Contains("\\"))
                             File.Copy(currentPath + "\\" + inputCommand[0], currentPath + "\\" + inputCommand[1], true);
                     }
-                    copyCount = 1;
-                    print.CopyCompleted(copyCount);
+                    copiedCount = 1;
+                    print.CopyCompleted(copiedCount);
                     InputCommand(currentPath);
                 }
 
                 //No문구만 있는 경우
                 else if (confirm.Contains("NO"))
                 {
-                    copyCount = 0;
-                    print.CopyCompleted(copyCount);
+                    copiedCount = 0;
+                    print.CopyCompleted(copiedCount);
                     InputCommand(currentPath);
                 }
 
@@ -586,8 +578,8 @@ namespace CommandLine
                         else if (!inputCommand[0].Contains("\\") && !inputCommand[1].Contains("\\"))
                             File.Copy(currentPath + "\\" + inputCommand[0], currentPath + "\\" + inputCommand[1], true);
                     }
-                    copyCount = 1;
-                    print.CopyCompleted(copyCount);
+                    copiedCount = 1;
+                    print.CopyCompleted(copiedCount);
                     InputCommand(currentPath);
                 }
             }
@@ -633,15 +625,15 @@ namespace CommandLine
                             }
 
                         }
-                        moveCount = 1;
+                        movedCount = 1;
                     }
 
                     //더 앞쪽에 NO가 나오는 경우
                     else
                     {
-                        moveCount = 0;
+                        movedCount = 0;
                     }
-                    print.MoveCompleted(moveCount);
+                    print.MoveCompleted(movedCount);
                     InputCommand(currentPath);
                 }
 
@@ -680,16 +672,16 @@ namespace CommandLine
                             File.Move(currentPath + "\\" + inputCommand[0], currentPath + "\\" + inputCommand[1]);
                         }
                     }
-                    moveCount = 1;
-                    print.MoveCompleted(moveCount);
+                    movedCount = 1;
+                    print.MoveCompleted(movedCount);
                     InputCommand(currentPath);
                 }
 
                 //No문구만 있는 경우
                 else if (confirm.Contains("NO"))
                 {
-                    moveCount = 0;
-                    print.MoveCompleted(moveCount);
+                    movedCount = 0;
+                    print.MoveCompleted(movedCount);
                     InputCommand(currentPath);
                 }
 
@@ -728,11 +720,37 @@ namespace CommandLine
                             File.Move(currentPath + "\\" + inputCommand[0], currentPath + "\\" + inputCommand[1]);
                         }
                     }
-                    moveCount = 1;
-                    print.MoveCompleted(moveCount);
+                    movedCount = 1;
+                    print.MoveCompleted(movedCount);
                     InputCommand(currentPath);
                 }
             }
+        }
+
+        //중복 파일이 있는 경우 
+        public void DuplicatedFileHandler(string[] inputCommand, string commandType)
+        {
+            string confirm;
+
+            if (inputCommand.Length == 1)
+            {
+                print.ConfirmOverwrite(Path.GetFileName(inputCommand[0]));
+            }
+
+            if (inputCommand.Length == 2)
+            {
+                if (inputCommand[1].Contains("\\"))
+                    print.ConfirmOverwrite(Path.GetFileName(inputCommand[1]));
+                else
+                    print.ConfirmOverwrite(inputCommand[1]);
+            }
+
+            confirm = Console.ReadLine().ToUpper();
+
+            if (commandType.Equals("copy"))
+                OperateDividingByConfirmString(inputCommand, "copy", confirm);
+            else if (commandType.Equals("move"))
+                OperateDividingByConfirmString(inputCommand, "move", confirm);
         }
     }
 }

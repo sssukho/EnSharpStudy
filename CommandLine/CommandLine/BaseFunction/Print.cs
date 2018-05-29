@@ -16,24 +16,28 @@ namespace CommandLine
             this.command = command;
         }
 
+        //명령어 치는 줄 출력
         public void ShowCommandLine(string inputPath)
         {
             Console.Write(inputPath + ">");
         }
 
+        //초기화면 출력
         public void InitialView()
         {
             Console.SetWindowSize(120, 30);
-            Console.WriteLine("Microsoft Windows [Version 10.0.16299.125]");
+            Console.WriteLine("Microsoft Windows [{0}]", Environment.OSVersion);
             Console.WriteLine("(c) 2017 Microsoft Corporation. All rights reserved.\n");
         }
 
+        //입력 에러 출력
         public void InputError(string inputCommand)
         {
             Console.WriteLine("'{0}'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는", inputCommand);
             Console.WriteLine("배치 파일이 아닙니다.\n");
         }
 
+        //dir명령어 출력
         public void ShowDirectoryList(string inputPath)
         {
             if (Directory.Exists(inputPath))
@@ -102,27 +106,32 @@ namespace CommandLine
             }
         }
 
+        //덮어쓰기 확인 문구 출력
         public void ConfirmOverwrite(string inputObject)
         {
             Console.Write(inputObject + "을(를) 덮어쓰시겠습니까? (Yes/No/All):");
         }
 
+        //복사 결과 출력
         public void CopyCompleted(int count)
         {
             Console.WriteLine("\t" + count + "개 파일이 복사되었습니다.");
         }
 
+        //경로 및 파일 찾을 수 없는 오류 출력
         public void FindingPathError(string type)
         {
             Console.WriteLine("지정된 {0} 찾을 수 없습니다.", type);
             Console.WriteLine();
         }
 
+        //파일 이동 완료 출력
         public void MoveCompleted(int count)
         {
             Console.WriteLine("\t" + count + "개 파일을 이동했습니다.");
         }
 
+        //Help 명령어 출력
         public void ShowHelp()
         {
             Console.WriteLine("특정 명령어에 대한 자세한 내용이 필요하면 HELP 명령어 이름을 입력하십시오.\n" +
