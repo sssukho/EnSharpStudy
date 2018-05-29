@@ -46,7 +46,6 @@ namespace CommandLine
                 long fileTotalSize = 0;
                 string avaliableFreeSpace;
 
-
                 DirectoryInfo directoryInfo = new DirectoryInfo(inputPath); //디렉토리
                 DriveInfo driveInfo = new DriveInfo(inputPath.Remove(1));
 
@@ -69,7 +68,8 @@ namespace CommandLine
                 {
                     if(item.Attributes.HasFlag(FileAttributes.Directory))
                     {
-                        if (item.Attributes.ToString().Equals("Directory") || item.Attributes.ToString().Equals("ReadOnly, Directory"))
+                        if (item.Attributes.ToString().Equals("Directory") || item.Attributes.ToString().Equals("ReadOnly, Directory") ||
+                            item.Attributes.ToString().Equals("Directory, NotContentIndexed") || item.Attributes.ToString().Equals("Directory, Compressed, NotContentIndexed"))
                         {
                             directoryCount = directoryCount + 1;
                             result = string.Format(directoryFormat, item.LastWriteTime.ToString("yyyy .MM. dd.  tt hh:mm"), "<DIR>", item.Name);
@@ -79,7 +79,7 @@ namespace CommandLine
 
                     if(item.Attributes.HasFlag(FileAttributes.Archive))
                     {
-                        if (!item.Attributes.HasFlag(FileAttributes.Hidden))
+                        if (!item.Attributes.HasFlag(FileAttributes.Hidden) && !item.Attributes.HasFlag(FileAttributes.System))
                         {
                             long fileSize = new FileInfo(inputPath + "\\" + item.Name).Length;
                             fileCount = fileCount + 1;
@@ -89,7 +89,7 @@ namespace CommandLine
                         }
                     }
                 }
-                //string.Format("{0:###,###,###,###}", driveInfo.AvailableFreeSpace);
+                
                 Console.WriteLine(string.Format("{0, 22} {1, 15} {2,6}", fileCount + "개 파일", string.Format("{0:###,###,###,###}", fileTotalSize), "바이트"));
                 Console.WriteLine(string.Format("{0, 22} {1, 15} {2,6}", directoryCount + "개 디렉터리", avaliableFreeSpace, "바이트 남음"));
                 Console.WriteLine();
