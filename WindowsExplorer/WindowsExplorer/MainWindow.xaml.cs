@@ -20,10 +20,18 @@ namespace WindowsExplorer
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();
-            
+            InitializeView();
+        }
+
+        public void InitializeView()
+        {
+            Address.Children.Add(new AddressControl());
+            TreeStructure.Children.Add(new TreeStructureControl());
+            Content.Children.Add(new ContentControl());
         }
     }
 }

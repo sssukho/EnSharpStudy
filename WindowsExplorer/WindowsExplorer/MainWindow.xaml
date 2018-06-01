@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WindowsExplorer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1000">
-    <Grid x:Name="mainGrid">
-        
-    </Grid>
+        Title="탐색기" Height="800" Width="1000" ResizeMode="NoResize">
+    <StackPanel x:Name="MainPanel" Orientation="Vertical">
+        <Grid x:Name="Address" Height="80"> </Grid>
+        <StackPanel Orientation="Horizontal">
+            <Grid x:Name="TreeStructure" Height="700"  Width="200" HorizontalAlignment="Left"></Grid>
+            <Grid x:Name="Content" Height="700" Width="800"></Grid>
+        </StackPanel>
+    </StackPanel>
 </Window>
