@@ -24,5 +24,20 @@ namespace WindowsExplorer
         {
             InitializeComponent();
         }
+
+        public void BackButtonClicked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public void FrontButtonClicked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddressChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
