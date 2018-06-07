@@ -8,15 +8,15 @@
              d:DesignHeight="80" d:DesignWidth="1000">
     <StackPanel Orientation="Horizontal">
         <Button x:Name="BackButton" Click="BackButtonClicked" Height="40" Width="40" HorizontalAlignment="Left" Margin="20,0,10,0">
-            <Image Source="/ButtonImage/BackButton.png" Width="40" Height="40"></Image>
+            <Image x:Name="BackButtonImage" Width="40" Height="40"></Image>
         </Button>
         <Button x:Name="FrontButton" Click="FrontButtonClicked" Height="40" Width="40" HorizontalAlignment="Left" Margin="10,0,10,0">
-            <Image Source="/ButtonImage/FrontButton.png" Width="40" Height="40"></Image>
+            <Image x:Name="FrontButtonImage" Width="40" Height="40"></Image>
         </Button>
-        <Button Height="40" Width="80" HorizontalAlignment="Left" Margin="10,0,10,0">
-            <Image Source="/ButtonImage/up.png" Width="80" Height="40"></Image>
+        <Button x:Name="UpButton" Height="40" Width="80" HorizontalAlignment="Left" Margin="10,0,10,0">
+            <Image x:Name="UpButtonImage" Width="80" Height="40"></Image>
         </Button>
-        <TextBox x:Name="addressTextBox" TextChanged="AddressChanged" Height="40" Width="600" HorizontalAlignment="Left" Margin="10,0,10,0"></TextBox>
-        <TextBlock Height="40" Width="120" HorizontalAlignment="Left" Margin="10,0,10,0" IsEnabled="False" TextAlignment="Center" FontSize="20">바탕화면검색</TextBlock>
+        <TextBox x:Name="addressTextBox" TextChanged="AddressChanged" Height="40" Width="600" HorizontalAlignment="Left" Margin="10,0,10,0" FontSize="20"></TextBox>
+        <TextBlock Height="40" Width="120" HorizontalAlignment="Left" Margin="10,0,10,0" IsEnabled="False" TextAlignment="Center" FontSize="30">검색</TextBlock>
     </StackPanel>
 </UserControl>

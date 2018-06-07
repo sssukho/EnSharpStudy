@@ -23,6 +23,14 @@ namespace WindowsExplorer
         public AddressControl()
         {
             InitializeComponent();
+            InitializeImageButton();
+        }
+
+        public void InitializeImageButton()
+        {
+            BackButtonImage.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\..\..\ButtonImage\BackButton.png"));
+            FrontButtonImage.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\..\..\ButtonImage\FrontButton.png"));
+            UpButtonImage.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\..\..\ButtonImage\UpButton.png"));
         }
 
         public void BackButtonClicked(object sender, RoutedEventArgs e)
@@ -35,7 +43,7 @@ namespace WindowsExplorer
 
         }
 
-        private void AddressChanged(object sender, TextChangedEventArgs e)
+        public void AddressChanged(object sender, TextChangedEventArgs e)
         {
 
         }
