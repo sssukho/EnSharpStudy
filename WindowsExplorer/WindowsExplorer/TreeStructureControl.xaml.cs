@@ -12,7 +12,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.IO;
 
 namespace WindowsExplorer
@@ -22,53 +21,79 @@ namespace WindowsExplorer
     /// </summary>
     public partial class TreeStructureControl : UserControl
     {
+        private object dummyNode = null;
+
         public TreeStructureControl()
         {
             InitializeComponent();
-            InitializeView();
+            InitializeTree();
         }
 
-        public void InitializeView()
+        public void InitializeTree()
         {
             DriveInfo[] allDrives = DriveInfo.GetDrives();
-            
+
             foreach (DriveInfo drive in allDrives)
             {
-                if(drive.IsReady)
+                if (drive.IsReady)
                 {
-                    TreeViewItem treeViewItem = new TreeViewItem
-                    {
-                        Header = drive,
-                        Tag = drive
-                    };
-                    treeView.Items.Add(treeViewItem);
-                    treeViewItem.FontWeight = FontWeights.Normal;
+                    TreeViewItem treeViewItem = new TreeViewItem();
 
+                    treeViewItem.Header = drive;
+                    treeViewItem.Tag = drive;
+                    treeViewItem.FontWeight = FontWeights.Normal;
+                    treeViewItem.Items.Add(dummyNode);
                     treeViewItem.Expanded += new RoutedEventHandler(FolderExpanded);
+                    treeView.Items.Add(treeViewItem);
                 }
             }
         }
 
         public void FolderExpanded(object sender, RoutedEventArgs e)
         {
+            /*
             TreeViewItem item = (TreeViewItem)sender;
-            
             item.Items.Clear();
-            foreach (string directory in Directory.GetDirectories(item.Tag.ToString()))
+            string itemPath;
+
+            DirectoryInfo directoryInfo = new DirectoryInfo(itemPath);
+
+            foreach (DirectoryInfo directory in directoryInfo.GetDirectories())
             {
-                TreeViewItem subitem = new TreeViewItem();
-                subitem.Header = directory.Substring(directory.LastIndexOf("\\") + 1);
-                subitem.Tag = directory;
-                subitem.FontWeight = FontWeights.Normal;
-                subitem.Expanded += new RoutedEventHandler(TreeViewItemSelected);
-                item.Items.Add(subitem);
+                if (directory.Attributes.ToString().Contains("Directory") && !directory.Attributes.ToString().Contains("Hidden"))
+                {
+                    TreeViewItem treeViewItem = new TreeViewItem
+                    {
+                        Header = directory.ToString().Substring(directory.ToString().LastIndexOf("\\") + 1),
+                        Tag = directory.ToString(),
+                        FontWeight = FontWeights.Normal
+                    };
+                    item.Items.Add(treeViewItem);
+                    treeViewItem.Expanded += FolderExpanded;
+                }
+            }*/
+
+
+
+            TreeViewItem item = (TreeViewItem)sender;
+            if (item.Items.Count == 1 && item.Items[0] == dummyNode)
+            {
+                item.Items.Clear();
+                try
+                {
+                    foreach (string directory in Directory.GetDirectories(item.Tag.ToString()))
+                    {
+                        TreeViewItem subitem = new TreeViewItem();
+                        subitem.Header = directory.Substring(directory.LastIndexOf("\\") + 1);
+                        subitem.Tag = directory;
+                        subitem.FontWeight = FontWeights.Normal;
+                        subitem.Items.Add(dummyNode);
+                        subitem.Expanded += new RoutedEventHandler(FolderExpanded);
+                        item.Items.Add(subitem);
+                    }
+                }
+                catch (Exception) { }
             }
-
-        }
-
-        public void TreeViewItemSelected(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
