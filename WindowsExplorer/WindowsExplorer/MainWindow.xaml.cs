@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace WindowsExplorer
 {
@@ -20,17 +20,24 @@ namespace WindowsExplorer
     /// </summary>
     public partial class MainWindow : Window
     {
+        AddressControl addressControl;
+        TreeStructureControl treeStructureControl;
+        ContentControl contentControl;
+
         public MainWindow()
         {
             InitializeComponent();
+            addressControl = new AddressControl();
+            contentControl = new ContentControl();
+            treeStructureControl = new TreeStructureControl(contentControl, addressControl);
             InitializeView();
         }
 
         public void InitializeView()
         {
-            Address.Children.Add(new AddressControl());
-            TreeStructure.Children.Add(new TreeStructureControl());
-            Content.Children.Add(new ContentControl());
+            Address.Children.Add(addressControl);
+            IconContent.Children.Add(contentControl);
+            TreeStructure.Children.Add(treeStructureControl);
         }
     }
 }

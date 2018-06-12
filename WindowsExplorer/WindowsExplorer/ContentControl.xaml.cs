@@ -11,7 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Drawing;
+using System.IO;
 
 namespace WindowsExplorer
 {
@@ -20,9 +21,83 @@ namespace WindowsExplorer
     /// </summary>
     public partial class ContentControl : UserControl
     {
+        public string currentPath;
+
         public ContentControl()
         {
             InitializeComponent();
+        }
+
+        public ImageSource GetIcon(string filePath)
+        {
+            if(File.Exists(filePath))
+            {
+                Icon icon = Icon.ExtractAssociatedIcon(filePath);
+                return System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
+                    icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            }
+            return null;
+        }
+
+        public void SetIcon(string directoryPath)
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(directoryPath);
+            iconPanel.Children.Clear();
+            foreach (var item in directoryInfo.GetFileSystemInfos())
+            {
+                //디렉토리일 경우
+                if (item.Attributes.HasFlag(FileAttributes.Directory) && !item.Attributes.HasFlag(FileAttributes.Hidden))
+                {
+                    System.Windows.Controls.Image directoryIcon = new System.Windows.Controls.Image();
+                    Button directoryButton = new Button();
+                    directoryIcon.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\..\..\ButtonImage\Directory.png"));
+                    directoryIcon.Width = 60;
+                    directoryIcon.Height = 60;
+                    directoryButton.Content = directoryIcon;
+                    directoryButton.Tag = item.Name;
+
+                    Label directoryName = new Label();
+                    directoryName.Content = item.Name;
+                    if (item.Name.Length > 8)
+                        directoryName.Content = item.Name.Substring(0, 8) + "...";
+                    
+                    directoryName.FontSize = 12;
+                    directoryName.HorizontalContentAlignment = HorizontalAlignment.Center;
+                    directoryName.VerticalContentAlignment = VerticalAlignment.Bottom;
+
+                    StackPanel directoryPanel = new StackPanel();
+                    directoryPanel.Children.Add(directoryButton);
+                    directoryPanel.Children.Add(directoryName);
+
+                    iconPanel.Children.Add(directoryPanel);
+                }
+                //파일일 경우
+                else if(item.Attributes.HasFlag(FileAttributes.Archive) && !item.Attributes.HasFlag(FileAttributes.System))
+                {
+                    System.Windows.Controls.Image fileIcon = new System.Windows.Controls.Image();
+                    Button fileButton = new Button();
+
+                    fileIcon.Source = GetIcon(item.FullName);
+                    fileIcon.Width = 60;
+                    fileIcon.Height = 60;
+                    fileButton.Content = fileIcon;
+                    fileButton.Tag = item.Name;
+
+                    Label fileName = new Label();
+                    fileName.Content = item.Name;
+                    if (item.Name.Length > 8)
+                        fileName.Content = item.Name.Substring(0, 8) + "...";
+                    fileName.FontSize = 12;
+                    fileName.HorizontalAlignment = HorizontalAlignment.Center;
+                    fileName.VerticalAlignment = VerticalAlignment.Bottom;
+
+                    StackPanel filePanel = new StackPanel();
+                    filePanel.Children.Add(fileButton);
+                    filePanel.Children.Add(fileName);
+
+                    iconPanel.Children.Add(filePanel);
+                }
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.IO;
 
+
 namespace WindowsExplorer
 {
     /// <summary>
@@ -22,11 +23,15 @@ namespace WindowsExplorer
     public partial class TreeStructureControl : UserControl
     {
         private object dummyNode = null;
+        ContentControl contentControl;
+        AddressControl addressControl;
 
-        public TreeStructureControl()
+        public TreeStructureControl(ContentControl contentControl, AddressControl addressControl)
         {
             InitializeComponent();
             InitializeTree();
+            this.contentControl = contentControl;
+            this.addressControl = addressControl;
         }
 
         public void InitializeTree()
@@ -38,7 +43,6 @@ namespace WindowsExplorer
                 if (drive.IsReady)
                 {
                     TreeViewItem treeViewItem = new TreeViewItem();
-
                     treeViewItem.Header = drive;
                     treeViewItem.Tag = drive;
                     treeViewItem.FontWeight = FontWeights.Normal;
@@ -51,48 +55,29 @@ namespace WindowsExplorer
 
         public void FolderExpanded(object sender, RoutedEventArgs e)
         {
-            /*
             TreeViewItem item = (TreeViewItem)sender;
-            item.Items.Clear();
-            string itemPath;
+            //contentControl.currentPath = item.Tag.ToString();
+            string currentPath = item.Tag.ToString();
 
-            DirectoryInfo directoryInfo = new DirectoryInfo(itemPath);
-
-            foreach (DirectoryInfo directory in directoryInfo.GetDirectories())
-            {
-                if (directory.Attributes.ToString().Contains("Directory") && !directory.Attributes.ToString().Contains("Hidden"))
-                {
-                    TreeViewItem treeViewItem = new TreeViewItem
-                    {
-                        Header = directory.ToString().Substring(directory.ToString().LastIndexOf("\\") + 1),
-                        Tag = directory.ToString(),
-                        FontWeight = FontWeights.Normal
-                    };
-                    item.Items.Add(treeViewItem);
-                    treeViewItem.Expanded += FolderExpanded;
-                }
-            }*/
-
-
-
-            TreeViewItem item = (TreeViewItem)sender;
             if (item.Items.Count == 1 && item.Items[0] == dummyNode)
             {
                 item.Items.Clear();
-                try
+                DirectoryInfo directoryInfo = new DirectoryInfo(item.Tag.ToString());
+                
+                foreach(DirectoryInfo directory in directoryInfo.GetDirectories())
                 {
-                    foreach (string directory in Directory.GetDirectories(item.Tag.ToString()))
+                    if(directory.Attributes.ToString().Contains("Directory") && !directory.Attributes.ToString().Contains("Hidden"))
                     {
-                        TreeViewItem subitem = new TreeViewItem();
-                        subitem.Header = directory.Substring(directory.LastIndexOf("\\") + 1);
-                        subitem.Tag = directory;
-                        subitem.FontWeight = FontWeights.Normal;
-                        subitem.Items.Add(dummyNode);
-                        subitem.Expanded += new RoutedEventHandler(FolderExpanded);
-                        item.Items.Add(subitem);
+                        TreeViewItem subItem = new TreeViewItem();
+                        subItem.Header = directory.Name;
+                        subItem.Tag = directory.FullName;
+                        subItem.FontWeight = FontWeights.Normal;
+                        subItem.Items.Add(dummyNode);
+                        subItem.Expanded += new RoutedEventHandler(FolderExpanded);
+                        item.Items.Add(subItem);
                     }
                 }
-                catch (Exception) { }
+                contentControl.SetIcon(currentPath);
             }
         }
     }

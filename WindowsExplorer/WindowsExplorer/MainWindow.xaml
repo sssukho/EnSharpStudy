@@ -10,7 +10,7 @@
         <Grid x:Name="Address" Height="80"> </Grid>
         <StackPanel Orientation="Horizontal">
             <Grid x:Name="TreeStructure" Height="700"  Width="200" HorizontalAlignment="Left"></Grid>
-            <Grid x:Name="Content" Height="700" Width="800"></Grid>
+            <Grid x:Name="IconContent" Height="700" Width="800"></Grid>
         </StackPanel>
     </StackPanel>
 </Window>
