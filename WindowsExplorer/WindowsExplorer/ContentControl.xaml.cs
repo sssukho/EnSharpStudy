@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Drawing;
 using System.IO;
+using System.Diagnostics;
 
 namespace WindowsExplorer
 {
@@ -21,11 +22,21 @@ namespace WindowsExplorer
     /// </summary>
     public partial class ContentControl : UserControl
     {
+        public AddressControl addressControl;
         public string currentPath;
 
-        public ContentControl()
+        public ContentControl(AddressControl addressControl)
         {
             InitializeComponent();
+            this.addressControl = addressControl;
+        }
+
+        public void setCurrentPath(string currentPath)
+        {
+            if (!currentPath.EndsWith(@"\"))
+                this.currentPath = currentPath.Insert(currentPath.Length, @"\");
+            else
+                this.currentPath = currentPath;
         }
 
         public ImageSource GetIcon(string filePath)
@@ -42,6 +53,8 @@ namespace WindowsExplorer
         public void SetIcon(string directoryPath)
         {
             DirectoryInfo directoryInfo = new DirectoryInfo(directoryPath);
+            setCurrentPath(directoryPath);
+
             iconPanel.Children.Clear();
             foreach (var item in directoryInfo.GetFileSystemInfos())
             {
@@ -55,6 +68,7 @@ namespace WindowsExplorer
                     directoryIcon.Height = 60;
                     directoryButton.Content = directoryIcon;
                     directoryButton.Tag = item.Name;
+                    directoryButton.Background = System.Windows.Media.Brushes.White;
 
                     Label directoryName = new Label();
                     directoryName.Content = item.Name;
@@ -70,6 +84,9 @@ namespace WindowsExplorer
                     directoryPanel.Children.Add(directoryName);
 
                     iconPanel.Children.Add(directoryPanel);
+                    directoryButton.Click += DirectoryButtonClicked;
+                    directoryButton.MouseDoubleClick += DirectoryButtonDoubleClicked;
+                    directoryButton.LostFocus += DirectoryButtonLostFocus;
                 }
                 //파일일 경우
                 else if(item.Attributes.HasFlag(FileAttributes.Archive) && !item.Attributes.HasFlag(FileAttributes.System))
@@ -82,6 +99,7 @@ namespace WindowsExplorer
                     fileIcon.Height = 60;
                     fileButton.Content = fileIcon;
                     fileButton.Tag = item.Name;
+                    fileButton.Background = System.Windows.Media.Brushes.White;
 
                     Label fileName = new Label();
                     fileName.Content = item.Name;
@@ -95,9 +113,54 @@ namespace WindowsExplorer
                     filePanel.Children.Add(fileButton);
                     filePanel.Children.Add(fileName);
 
-                    iconPanel.Children.Add(filePanel);
+                    fileButton.Click += FileButtonClicked;
+                    fileButton.MouseDoubleClick += FileButtonMouseDoubleClicked;
+                    fileButton.LostFocus += FileButtonLostFocus;
+                    iconPanel.Children.Add(filePanel);                    
                 }
             }
+        }
+
+        public void FileButtonLostFocus(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            button.Background = System.Windows.Media.Brushes.White;
+        }
+
+        public void DirectoryButtonLostFocus(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            button.Background = System.Windows.Media.Brushes.White;
+        }
+
+        public void FileButtonMouseDoubleClicked(object sender, MouseButtonEventArgs e)
+        {
+            Button button = (Button)sender;
+            button.Background = System.Windows.Media.Brushes.White;
+            Process.Start(currentPath + button.Tag.ToString());
+        }
+
+        public void FileButtonClicked(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            button.Background = System.Windows.Media.Brushes.SkyBlue;
+        }
+
+        public void DirectoryButtonDoubleClicked(object sender, MouseButtonEventArgs e)
+        {
+            Button button = (Button)sender;
+            button.Background = System.Windows.Media.Brushes.White;
+
+            addressControl.SetCurrentPath(currentPath + button.Tag.ToString());
+            addressControl.backPathStack.Push(currentPath);
+            SetIcon(currentPath + button.Tag.ToString());
+            
+        }
+
+        public void DirectoryButtonClicked(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            button.Background = System.Windows.Media.Brushes.SkyBlue;
         }
     }
 }

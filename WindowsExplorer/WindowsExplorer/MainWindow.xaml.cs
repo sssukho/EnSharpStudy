@@ -28,7 +28,7 @@ namespace WindowsExplorer
         {
             InitializeComponent();
             addressControl = new AddressControl();
-            contentControl = new ContentControl();
+            contentControl = new ContentControl(addressControl);
             treeStructureControl = new TreeStructureControl(contentControl, addressControl);
             InitializeView();
         }
@@ -38,6 +38,7 @@ namespace WindowsExplorer
             Address.Children.Add(addressControl);
             IconContent.Children.Add(contentControl);
             TreeStructure.Children.Add(treeStructureControl);
+            addressControl.contentControl = this.contentControl;
         }
     }
 }

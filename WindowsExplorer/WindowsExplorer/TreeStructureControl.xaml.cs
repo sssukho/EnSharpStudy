@@ -56,7 +56,6 @@ namespace WindowsExplorer
         public void FolderExpanded(object sender, RoutedEventArgs e)
         {
             TreeViewItem item = (TreeViewItem)sender;
-            //contentControl.currentPath = item.Tag.ToString();
             string currentPath = item.Tag.ToString();
 
             if (item.Items.Count == 1 && item.Items[0] == dummyNode)
@@ -78,6 +77,7 @@ namespace WindowsExplorer
                     }
                 }
                 contentControl.SetIcon(currentPath);
+                addressControl.SetCurrentPath(currentPath);
             }
         }
     }
