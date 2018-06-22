@@ -16,17 +16,13 @@ using System.Windows.Shapes;
 namespace Paint
 {
     /// <summary>
-    /// MainWindow.xaml에 대한 상호 작용 논리
+    /// ButtonMenu.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ButtonMenu : UserControl
     {
-        public MainWindow()
+        public ButtonMenu()
         {
             InitializeComponent();
-            ButtonMenu buttonMenu = new ButtonMenu();
-
-            mainPanel.Children.Add(buttonMenu);
-
         }
     }
 }
