@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="200">
     <Grid>
-        <TreeView x:Name="treeView">
+        <TreeView x:Name="treeView" ScrollViewer.CanContentScroll="True">
 
         </TreeView>
     </Grid>

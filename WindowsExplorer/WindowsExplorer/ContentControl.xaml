@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:WindowsExplorer"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800">
-    <WrapPanel x:Name="iconPanel" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <WrapPanel x:Name="iconPanel">
         
     </WrapPanel>
+    </ScrollViewer>
 </UserControl>

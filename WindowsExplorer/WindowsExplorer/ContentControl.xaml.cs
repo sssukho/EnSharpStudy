@@ -121,13 +121,13 @@ namespace WindowsExplorer
             }
         }
 
-        public void FileButtonLostFocus(object sender, RoutedEventArgs e)
+        public void FileButtonClicked(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            button.Background = System.Windows.Media.Brushes.White;
+            button.Background = System.Windows.Media.Brushes.SkyBlue;
         }
 
-        public void DirectoryButtonLostFocus(object sender, RoutedEventArgs e)
+        public void FileButtonLostFocus(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
             button.Background = System.Windows.Media.Brushes.White;
@@ -140,10 +140,10 @@ namespace WindowsExplorer
             Process.Start(currentPath + button.Tag.ToString());
         }
 
-        public void FileButtonClicked(object sender, RoutedEventArgs e)
+        public void DirectoryButtonLostFocus(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            button.Background = System.Windows.Media.Brushes.SkyBlue;
+            button.Background = System.Windows.Media.Brushes.White;
         }
 
         public void DirectoryButtonDoubleClicked(object sender, MouseButtonEventArgs e)
