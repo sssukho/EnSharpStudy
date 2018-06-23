@@ -24,9 +24,10 @@ namespace Paint
         {
             InitializeComponent();
             ButtonMenu buttonMenu = new ButtonMenu();
+            PaintBoard paintBoard = new PaintBoard(buttonMenu);
 
-            mainPanel.Children.Add(buttonMenu);
-
+            btnMenu.Children.Add(buttonMenu);
+            paintingCanvas.Children.Add(paintBoard);
         }
     }
 }

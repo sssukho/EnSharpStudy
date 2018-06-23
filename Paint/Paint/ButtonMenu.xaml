@@ -5,8 +5,58 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Paint"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel >
-            
+             d:DesignHeight="200" d:DesignWidth="900">
+    <StackPanel x:Name="menuPanel" Orientation="Horizontal">
+        
+        <StackPanel Orientation="Vertical" Height="80" Width="80" Margin="40, 0, 20, 40">
+            <Button x:Name="selectButton"  Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="SelectButtonClicked">
+                <Image x:Name="selectButtonImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
+            </Button>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Height="80" Width="40" Margin="0,0,0,40">
+            <Button x:Name="pencilButton" Height="40" Width="40" Background="Transparent" HorizontalAlignment="Stretch" Click="PencilButtonClicked" >
+                <Image x:Name="pencilButtonImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
+            </Button>
+            <Button x:Name="eraseButton" Height="40" Width="40" Background="Transparent" Margin="0,0,0,80" Click="EraseButtonClicked">
+                <Image x:Name="eraseButtonImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
+            </Button>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Height="80" Width="40" Margin="0,0,0,40">
+            <Button x:Name="paintButton" Click="PaintButtonClicked" Height="40" Width="40" Background="Transparent" HorizontalAlignment="Stretch" >
+                <Image x:Name="paintButtonImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
+            </Button>
+            <Button x:Name="pipetteButton" Click="PipetteButtonClicked" Height="40" Width="40" Background="Transparent" Margin="0,0,0,80">
+                <Image x:Name="pipetteButtonImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
+            </Button>
+        </StackPanel>
+
+        <Button x:Name="squareButton" Click="SquareButtonClicked" Height="80" Width="80" Background="Transparent" Margin="20,0,0,40">
+            <Image x:Name="squareButtonImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
+        </Button>
+
+        <Button x:Name="circleButton" Click="CircleButtonClicked" Height="80" Width="80" Background="Transparent" Margin="20,0,0,40">
+            <Image x:Name="circleButtonImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
+        </Button>
+
+        <Button x:Name="sizeButton" Click="SizeButtonClicked" Height="80" Width="80" Background="Transparent" Margin="0,0,0,40">
+            <Image x:Name="sizeButtonImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
+        </Button>
+
+        <Button x:Name="currentColor" Height="80" Width="80" Background="Transparent" Margin="40,0,0,40"></Button>
+
+        <StackPanel Orientation="Vertical" Height="80" Width="120" Margin="40,0,0,40">
+            <StackPanel Orientation="Horizontal" Height="40" Width="120">
+                <Button x:Name="colorRed" Height="40" Width="40" Background="Red" Click="ColorButtonClicked"></Button>
+                <Button x:Name="colorBlue" Height="40" Width="40" Background="Blue" Click="ColorButtonClicked"></Button>
+                <Button x:Name="colorGreen" Height="40" Width="40" Background="Green" Click="ColorButtonClicked"></Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Height="40" Width="120">
+                <Button x:Name="colorYellow" Height="40" Width="40" Background="Yellow" Click="ColorButtonClicked"></Button>
+                <Button x:Name="colorWhite" Height="40" Width="40" Background="White" Click="ColorButtonClicked"></Button>
+                <Button x:Name="colorBlack" Height="40" Width="40" Background="Black" Click="ColorButtonClicked"></Button>
+            </StackPanel>
+        </StackPanel>
     </StackPanel>
 </UserControl>

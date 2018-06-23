@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Paint"
         mc:Ignorable="d"
-        Title="그림판" Height="800" Width="800">
+        Title="그림판" Height="900" Width="900">
     <StackPanel x:Name="mainPanel" Orientation="Vertical">
-        <StackPanel x:Name="btnMenu" Height="100" Width="600"></StackPanel>
-        <StackPanel x:Name="paintingCanvas" Height="500" Width="600"></StackPanel>
+        <StackPanel x:Name="btnMenu" Height="200" Width="900"></StackPanel>
+        <StackPanel x:Name="paintingCanvas" Height="670" Width="900"></StackPanel>
     </StackPanel>
 </Window>

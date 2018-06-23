@@ -20,9 +20,15 @@ namespace Paint
     /// </summary>
     public partial class PaintBoard : UserControl
     {
-        public PaintBoard()
+        ButtonMenu buttonMenu;
+
+        public PaintBoard(ButtonMenu buttonMenu)
         {
             InitializeComponent();
+            this.buttonMenu = buttonMenu;
+            this.buttonMenu.paintBoard = this;
         }
+
+
     }
 }
