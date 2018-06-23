@@ -37,53 +37,104 @@ namespace Paint
             pipetteButtonImage.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\..\..\png\pipette.png"));
             squareButtonImage.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\..\..\png\square.png"));
             circleButtonImage.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\..\..\png\circle.png"));
-            sizeButtonImage.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\..\..\png\size.png"));
+            Thickness1Image.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\..\..\png\Thickness1.png"));
+            Thickness2Image.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\..\..\png\Thickness2.png"));
+            Thickness3Image.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\..\..\png\Thickness3.png"));
+            mouseButtonImage.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\..\..\png\mouse.png"));
         }
 
         private void SelectButtonClicked(object sender, RoutedEventArgs e)
         {
-
+            paintBoard.buttonType = "Select";
+            Button button = sender as Button;
+            button.Background = System.Windows.Media.Brushes.SkyBlue;
         }
 
         private void PencilButtonClicked(object sender, RoutedEventArgs e)
         {
-
+            paintBoard.buttonType = "Pencil";
+            Button button = sender as Button;
+            button.Background = System.Windows.Media.Brushes.SkyBlue;
         }
 
         private void EraseButtonClicked(object sender, RoutedEventArgs e)
         {
-
+            paintBoard.buttonType = "Erase";
+            Button button = sender as Button;
+            button.Background = System.Windows.Media.Brushes.SkyBlue;
         }
 
         private void PaintButtonClicked(object sender, RoutedEventArgs e)
         {
-
+            paintBoard.buttonType = "Paint";
+            Button button = sender as Button;
+            button.Background = System.Windows.Media.Brushes.SkyBlue;
         }
 
         private void PipetteButtonClicked(object sender, RoutedEventArgs e)
         {
-
+            paintBoard.buttonType = "Pipette";
+            Button button = sender as Button;
+            button.Background = System.Windows.Media.Brushes.SkyBlue;
         }
 
         private void SquareButtonClicked(object sender, RoutedEventArgs e)
         {
-
+            paintBoard.buttonType = "Square";
+            Button button = sender as Button;
+            button.Background = System.Windows.Media.Brushes.SkyBlue;
         }
 
         private void CircleButtonClicked(object sender, RoutedEventArgs e)
         {
-
+            paintBoard.buttonType = "Circle";
+            Button button = sender as Button;
+            button.Background = System.Windows.Media.Brushes.SkyBlue;
         }
 
-        private void SizeButtonClicked(object sender, RoutedEventArgs e)
+        private void Thickness1ButtonClicked(object sender, RoutedEventArgs e)
         {
+            paintBoard.thickness = "1";
+            Button button = sender as Button;
+            button.Background = System.Windows.Media.Brushes.SkyBlue;
+        }
 
+        private void Thickness2ButtonClicked(object sender, RoutedEventArgs e)
+        {
+            paintBoard.thickness = "2";
+            Button button = sender as Button;
+            button.Background = System.Windows.Media.Brushes.SkyBlue;
+        }
+
+        private void Thickness3ButtonClicked(object sender, RoutedEventArgs e)
+        {
+            paintBoard.thickness = "3";
+            Button button = sender as Button;
+            button.Background = System.Windows.Media.Brushes.SkyBlue;
         }
 
         private void ColorButtonClicked(object sender, RoutedEventArgs e)
         {
             Button colorButton = sender as Button;
             currentColor.Background = colorButton.Background;
+        }
+
+        private void MouseButtonClicked(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            button.Background = System.Windows.Media.Brushes.SkyBlue;
+        }
+
+        private void ButtonFocusLost(object sender, RoutedEventArgs e)
+        {
+            paintBoard.buttonType = "Mouse";
+            Button button = sender as Button;
+            button.Background = System.Windows.Media.Brushes.Transparent;
+        }
+
+        private void EraseButtonDoubleClicked(object sender, MouseButtonEventArgs e)
+        {
+            paintBoard.paintingCanvas.Children.Clear();
         }
     }
 }

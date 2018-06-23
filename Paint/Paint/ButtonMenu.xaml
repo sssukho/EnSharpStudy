@@ -9,40 +9,48 @@
     <StackPanel x:Name="menuPanel" Orientation="Horizontal">
         
         <StackPanel Orientation="Vertical" Height="80" Width="80" Margin="40, 0, 20, 40">
-            <Button x:Name="selectButton"  Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="SelectButtonClicked">
+            <Button x:Name="selectButton"  Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="SelectButtonClicked" LostFocus="ButtonFocusLost">
                 <Image x:Name="selectButtonImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
             </Button>
         </StackPanel>
 
         <StackPanel Orientation="Vertical" Height="80" Width="40" Margin="0,0,0,40">
-            <Button x:Name="pencilButton" Height="40" Width="40" Background="Transparent" HorizontalAlignment="Stretch" Click="PencilButtonClicked" >
+            <Button x:Name="pencilButton" Height="40" Width="40" Background="Transparent" HorizontalAlignment="Stretch" Click="PencilButtonClicked" LostFocus="ButtonFocusLost" >
                 <Image x:Name="pencilButtonImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
             </Button>
-            <Button x:Name="eraseButton" Height="40" Width="40" Background="Transparent" Margin="0,0,0,80" Click="EraseButtonClicked">
+            <Button x:Name="eraseButton" Height="40" Width="40" Background="Transparent" Margin="0,0,0,80" Click="EraseButtonClicked" LostFocus="ButtonFocusLost" MouseDoubleClick="EraseButtonDoubleClicked">
                 <Image x:Name="eraseButtonImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
             </Button>
         </StackPanel>
 
         <StackPanel Orientation="Vertical" Height="80" Width="40" Margin="0,0,0,40">
-            <Button x:Name="paintButton" Click="PaintButtonClicked" Height="40" Width="40" Background="Transparent" HorizontalAlignment="Stretch" >
+            <Button x:Name="paintButton" Click="PaintButtonClicked" Height="40" Width="40" Background="Transparent" HorizontalAlignment="Stretch" LostFocus="ButtonFocusLost">
                 <Image x:Name="paintButtonImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
             </Button>
-            <Button x:Name="pipetteButton" Click="PipetteButtonClicked" Height="40" Width="40" Background="Transparent" Margin="0,0,0,80">
+            <Button x:Name="pipetteButton" Click="PipetteButtonClicked" Height="40" Width="40" Background="Transparent" Margin="0,0,0,80" LostFocus="ButtonFocusLost">
                 <Image x:Name="pipetteButtonImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
             </Button>
         </StackPanel>
 
-        <Button x:Name="squareButton" Click="SquareButtonClicked" Height="80" Width="80" Background="Transparent" Margin="20,0,0,40">
+        <Button x:Name="squareButton" Click="SquareButtonClicked" LostFocus="ButtonFocusLost" Height="80" Width="80" Background="Transparent" Margin="20,0,0,40">
             <Image x:Name="squareButtonImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
         </Button>
 
-        <Button x:Name="circleButton" Click="CircleButtonClicked" Height="80" Width="80" Background="Transparent" Margin="20,0,0,40">
+        <Button x:Name="circleButton" Click="CircleButtonClicked" LostFocus="ButtonFocusLost" Height="80" Width="80" Background="Transparent" Margin="20,0,0,40">
             <Image x:Name="circleButtonImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
         </Button>
 
-        <Button x:Name="sizeButton" Click="SizeButtonClicked" Height="80" Width="80" Background="Transparent" Margin="0,0,0,40">
-            <Image x:Name="sizeButtonImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
-        </Button>
+        <StackPanel Orientation="Vertical" Height="80" Width="80" Background="Transparent" Margin="20, 0, 0, 40">
+            <Button x:Name="Thickness1" Click="Thickness1ButtonClicked" LostFocus="ButtonFocusLost" Height="23" Width="80" Background="Transparent" BorderThickness="0">
+                <Image x:Name="Thickness1Image" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
+            </Button>
+            <Button x:Name="Thickness2" Click="Thickness2ButtonClicked" LostFocus="ButtonFocusLost" Height="23" Width="80" Background="Transparent" BorderThickness="0">
+                <Image x:Name="Thickness2Image" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
+            </Button>
+            <Button x:Name="Thickness3" Click="Thickness3ButtonClicked" LostFocus="ButtonFocusLost" Height="23" Width="80" Background="Transparent" BorderThickness="0">
+                <Image x:Name="Thickness3Image" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
+            </Button>    
+        </StackPanel>
 
         <Button x:Name="currentColor" Height="80" Width="80" Background="Transparent" Margin="40,0,0,40"></Button>
 
@@ -58,5 +66,9 @@
                 <Button x:Name="colorBlack" Height="40" Width="40" Background="Black" Click="ColorButtonClicked"></Button>
             </StackPanel>
         </StackPanel>
+
+        <Button x:Name="mouseButton" Click="MouseButtonClicked" LostFocus="ButtonFocusLost" Height="80" Width="50" Background="Transparent" BorderThickness="0" Margin="30,0,0,40">
+            <Image x:Name="mouseButtonImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
+        </Button>
     </StackPanel>
 </UserControl>

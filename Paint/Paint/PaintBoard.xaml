@@ -6,7 +6,9 @@
              xmlns:local="clr-namespace:Paint"
              mc:Ignorable="d" 
              d:DesignHeight="670" d:DesignWidth="900">
-    <Canvas x:Name="paintingCanvas">
-            
+    <Canvas x:Name="paintingCanvas" Height="670" Width="900" MouseDown="CanvasMouseDown" MouseMove="CanvasMouseMove">
+        <Canvas.Background>
+            <SolidColorBrush Color="White" Opacity="0"/>
+        </Canvas.Background>
     </Canvas>
 </UserControl>

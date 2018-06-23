@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace Paint
 {
     /// <summary>
@@ -20,15 +21,268 @@ namespace Paint
     /// </summary>
     public partial class PaintBoard : UserControl
     {
-        ButtonMenu buttonMenu;
+        public ButtonMenu buttonMenu;
+        public string buttonType = null;
+        public Point currentPoint;
+        public string thickness;
+        public Rectangle selectPreviousRectangle;
+        public Rectangle previousRectangle;
+        public Ellipse previousEllipse;
 
         public PaintBoard(ButtonMenu buttonMenu)
         {
             InitializeComponent();
             this.buttonMenu = buttonMenu;
             this.buttonMenu.paintBoard = this;
+            currentPoint = new Point();
         }
 
+        private void CanvasMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ButtonState == MouseButtonState.Pressed)
+                currentPoint = e.GetPosition(this);
+        }
 
+        private void CanvasMouseMove(object sender, MouseEventArgs e)
+        { 
+            if (buttonType == null)
+                return;
+
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                switch(buttonType)
+                {
+                    case "Mouse":
+                        MouseSelect(e);
+                        break;
+
+                    case "Select":
+                        DrawWithSelect(e);
+                        break;
+
+                    case "Pencil":
+                        DrawWithPencil(e);
+                        break;
+
+                    case "Erase":
+                        DrawWithErase(e);
+                        break;
+
+                    case "Paint":
+                        DrawWithPaint(e);
+                        break;
+
+                    case "Pipette":
+                        DrawWithPipette(e);
+                        break;
+
+                    case "Square":
+                        DrawWithSquare(e);
+                        break;
+
+                    case "Circle":
+                        DrawWithCircle(e);
+                        break;
+                }
+            }
+        }
+
+        private void MouseSelect(MouseEventArgs e)
+        {
+
+        }
+
+        private void DrawWithSelect(MouseEventArgs e)
+        {
+            if(e.MouseDevice.LeftButton == MouseButtonState.Pressed)
+            {
+                Rectangle selectRectangle = new Rectangle();
+                selectRectangle.Stroke = new SolidColorBrush(Colors.Black);
+                selectRectangle.StrokeThickness = 2;
+                selectRectangle.Opacity = 0.7;
+                selectRectangle.StrokeDashArray = new DoubleCollection() { 1 };
+
+                double left = currentPoint.X;
+                double top = currentPoint.Y;
+
+                if(e.GetPosition(this).X < currentPoint.X)
+                    left = e.GetPosition(this).X;
+
+                if (e.GetPosition(this).Y < currentPoint.Y)
+                    top = e.GetPosition(this).Y;
+
+                selectRectangle.Margin = new Thickness(left, top, 0, 0);
+                selectRectangle.Width = Math.Abs(e.GetPosition(this).X - currentPoint.X);
+                selectRectangle.Height = Math.Abs(e.GetPosition(this).Y - currentPoint.Y);
+
+                paintingCanvas.Children.Remove(selectPreviousRectangle);
+                selectPreviousRectangle = selectRectangle;
+                paintingCanvas.Children.Add(selectRectangle);
+            }
+            else
+            {
+                if (selectPreviousRectangle == null)
+                    return;
+                Rectangle rectangle = new Rectangle();
+                selectPreviousRectangle.StrokeDashArray = null;
+                rectangle = selectPreviousRectangle;
+                selectPreviousRectangle = null;
+            }
+
+        }
+
+        private void DrawWithErase(MouseEventArgs e)
+        {
+            Line line = new Line();
+
+            switch (thickness)
+            {
+                case "1":
+                    line.StrokeThickness = 1;
+                    break;
+
+                case "2":
+                    line.StrokeThickness = 5;
+                    break;
+
+                case "3":
+                    line.StrokeThickness = 10;
+                    break;
+            }
+
+            line.Stroke = new SolidColorBrush(Colors.White);
+            line.X1 = currentPoint.X;
+            line.Y1 = currentPoint.Y;
+            line.X2 = e.GetPosition(this).X;
+            line.Y2 = e.GetPosition(this).Y;
+
+            currentPoint = e.GetPosition(this);
+            paintingCanvas.Children.Add(line);
+        }
+
+        private void DrawWithPaint(object shape)
+        {
+            
+            if(shape is Rectangle)
+            {
+                Rectangle rectangle = shape as Rectangle;
+                rectangle.Fill = buttonMenu.currentColor.Background;
+            }
+
+            else if(shape is Ellipse)
+            {
+                Ellipse ellipse = shape as Ellipse;
+                ellipse.Fill = buttonMenu.currentColor.Background;
+            }
+
+            else
+            {
+                return;
+            }
+        }
+
+        private void DrawWithPipette(MouseEventArgs e)
+        {
+
+        }
+
+        private void DrawWithSquare(MouseEventArgs e)
+        {
+            if (e.MouseDevice.LeftButton == MouseButtonState.Pressed)
+            {
+                Rectangle rectangle = new Rectangle();
+
+                double left = currentPoint.X;
+                double top = currentPoint.Y;
+
+                if (e.GetPosition(this).X < currentPoint.X)
+                    left = e.GetPosition(this).X;
+
+                if (e.GetPosition(this).Y < currentPoint.Y)
+                    top = e.GetPosition(this).Y;
+
+                rectangle.StrokeThickness = 2;
+                rectangle.Margin = new Thickness(left, top, 0, 0);
+                rectangle.Width = Math.Abs(e.GetPosition(this).X - currentPoint.X);
+                rectangle.Height = Math.Abs(e.GetPosition(this).Y - currentPoint.Y);
+                rectangle.Stroke = buttonMenu.currentColor.Background;
+
+                paintingCanvas.Children.Remove(previousRectangle);
+                previousRectangle = rectangle;
+                paintingCanvas.Children.Add(rectangle);
+                rectangle.MouseLeftButtonUp += Rectangle_MouseLeftButtonUp;
+            }
+        }
+
+        private void Rectangle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            previousRectangle = null;
+            if (buttonType.Equals("Paint"))
+                DrawWithPaint(sender);
+        }
+
+        private void DrawWithCircle(MouseEventArgs e)
+        {
+            if (e.MouseDevice.LeftButton == MouseButtonState.Pressed)
+            {
+                Ellipse ellipse = new Ellipse();
+
+                double left = currentPoint.X;
+                double top = currentPoint.Y;
+
+                if (e.GetPosition(this).X < currentPoint.X)
+                    left = e.GetPosition(this).X;
+
+                if (e.GetPosition(this).Y < currentPoint.Y)
+                    top = e.GetPosition(this).Y;
+
+                ellipse.StrokeThickness = 2;
+                ellipse.Margin = new Thickness(left, top, 0, 0);
+                ellipse.Width = Math.Abs(e.GetPosition(this).X - currentPoint.X);
+                ellipse.Height = Math.Abs(e.GetPosition(this).Y - currentPoint.Y);
+                ellipse.Stroke = buttonMenu.currentColor.Background;
+
+                paintingCanvas.Children.Remove(previousEllipse);
+                previousEllipse = ellipse;
+                paintingCanvas.Children.Add(ellipse);
+                MouseLeftButtonUp += PaintBoard_MouseLeftButtonUp;
+            }
+        }
+
+        private void PaintBoard_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            previousEllipse = null;
+            if (buttonType.Equals("Paint"))
+                DrawWithPaint(sender);
+        }
+
+        private void DrawWithPencil(MouseEventArgs e)
+        {
+            Line line = new Line();
+
+            switch(thickness)
+            {
+                case "1":
+                    line.StrokeThickness = 1;
+                    break;
+
+                case "2":
+                    line.StrokeThickness = 5;
+                    break;
+
+                case "3":
+                    line.StrokeThickness = 10;
+                    break;
+            }
+
+            line.Stroke = new SolidColorBrush(Colors.Black);
+            line.X1 = currentPoint.X;
+            line.Y1 = currentPoint.Y;
+            line.X2 = e.GetPosition(this).X;
+            line.Y2 = e.GetPosition(this).Y;
+
+            currentPoint = e.GetPosition(this);
+            paintingCanvas.Children.Add(line);
+        }
     }
 }
