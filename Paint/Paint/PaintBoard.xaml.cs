@@ -35,6 +35,7 @@ namespace Paint
             this.buttonMenu = buttonMenu;
             this.buttonMenu.paintBoard = this;
             currentPoint = new Point();
+            paintingCanvas.Background = System.Windows.Media.Brushes.White;
         }
 
         private void CanvasMouseDown(object sender, MouseButtonEventArgs e)
@@ -52,28 +53,12 @@ namespace Paint
             {
                 switch(buttonType)
                 {
-                    case "Mouse":
-                        MouseSelect(e);
-                        break;
-
                     case "Select":
                         DrawWithSelect(e);
                         break;
 
                     case "Pencil":
                         DrawWithPencil(e);
-                        break;
-
-                    case "Erase":
-                        DrawWithErase(e);
-                        break;
-
-                    case "Paint":
-                        DrawWithPaint(e);
-                        break;
-
-                    case "Pipette":
-                        DrawWithPipette(e);
                         break;
 
                     case "Square":
@@ -87,9 +72,13 @@ namespace Paint
             }
         }
 
-        private void MouseSelect(MouseEventArgs e)
+        private void MouseSelect(object shape)
         {
-
+            if(shape is Rectangle)
+            {
+                Rectangle rectangle = shape as Rectangle;
+                rectangle.StrokeDashArray = new DoubleCollection() { 1 };
+            }
         }
 
         private void DrawWithSelect(MouseEventArgs e)
@@ -101,6 +90,7 @@ namespace Paint
                 selectRectangle.StrokeThickness = 2;
                 selectRectangle.Opacity = 0.7;
                 selectRectangle.StrokeDashArray = new DoubleCollection() { 1 };
+                selectRectangle.Fill = Brushes.Transparent;
 
                 double left = currentPoint.X;
                 double top = currentPoint.Y;
@@ -121,14 +111,14 @@ namespace Paint
             }
             else
             {
-                if (selectPreviousRectangle == null)
+                if (selectPreviousRectangle == null) 
                     return;
+                
                 Rectangle rectangle = new Rectangle();
                 selectPreviousRectangle.StrokeDashArray = null;
                 rectangle = selectPreviousRectangle;
                 selectPreviousRectangle = null;
             }
-
         }
 
         private void DrawWithErase(MouseEventArgs e)
@@ -162,7 +152,6 @@ namespace Paint
 
         private void DrawWithPaint(object shape)
         {
-            
             if(shape is Rectangle)
             {
                 Rectangle rectangle = shape as Rectangle;
@@ -181,9 +170,13 @@ namespace Paint
             }
         }
 
-        private void DrawWithPipette(MouseEventArgs e)
+        private void DrawWithPipette(object shape)
         {
+            if (shape is Rectangle)
+                buttonMenu.currentColor.Background = ((Rectangle)shape).Fill;
 
+            else if (shape is Ellipse)
+                buttonMenu.currentColor.Background = ((Ellipse)shape).Fill;
         }
 
         private void DrawWithSquare(MouseEventArgs e)
@@ -206,6 +199,7 @@ namespace Paint
                 rectangle.Width = Math.Abs(e.GetPosition(this).X - currentPoint.X);
                 rectangle.Height = Math.Abs(e.GetPosition(this).Y - currentPoint.Y);
                 rectangle.Stroke = buttonMenu.currentColor.Background;
+                rectangle.Fill = Brushes.Transparent;
 
                 paintingCanvas.Children.Remove(previousRectangle);
                 previousRectangle = rectangle;
@@ -219,6 +213,12 @@ namespace Paint
             previousRectangle = null;
             if (buttonType.Equals("Paint"))
                 DrawWithPaint(sender);
+
+            else if (buttonType.Equals("Pipette"))
+                DrawWithPipette(sender);
+
+            else if (buttonType.Equals("Mouse"))
+                MouseSelect(sender);
         }
 
         private void DrawWithCircle(MouseEventArgs e)
@@ -241,6 +241,7 @@ namespace Paint
                 ellipse.Width = Math.Abs(e.GetPosition(this).X - currentPoint.X);
                 ellipse.Height = Math.Abs(e.GetPosition(this).Y - currentPoint.Y);
                 ellipse.Stroke = buttonMenu.currentColor.Background;
+                ellipse.Fill = Brushes.Transparent;
 
                 paintingCanvas.Children.Remove(previousEllipse);
                 previousEllipse = ellipse;
@@ -252,8 +253,14 @@ namespace Paint
         private void PaintBoard_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             previousEllipse = null;
-            if (buttonType.Equals("Paint"))
-                DrawWithPaint(sender);
+            if (buttonType.Equals("Paint") && e.OriginalSource is Ellipse)
+                DrawWithPaint(e.OriginalSource);
+
+            else if (buttonType.Equals("Pipette") && e.OriginalSource is Ellipse)
+                DrawWithPipette(e.OriginalSource);
+
+            else if (buttonType.Equals("Mouse") && e.OriginalSource is Ellipse)
+                MouseSelect(e.OriginalSource);
         }
 
         private void DrawWithPencil(MouseEventArgs e)
@@ -275,7 +282,7 @@ namespace Paint
                     break;
             }
 
-            line.Stroke = new SolidColorBrush(Colors.Black);
+            line.Stroke = buttonMenu.currentColor.Background;
             line.X1 = currentPoint.X;
             line.Y1 = currentPoint.Y;
             line.X2 = e.GetPosition(this).X;

@@ -26,6 +26,7 @@ namespace Paint
         {
             InitializeComponent();
             InitializeImageButton();
+            currentColor.Background = System.Windows.Media.Brushes.Black;
         }
 
         public void InitializeImageButton()
@@ -135,6 +136,8 @@ namespace Paint
         private void EraseButtonDoubleClicked(object sender, MouseButtonEventArgs e)
         {
             paintBoard.paintingCanvas.Children.Clear();
+            Button button = sender as Button;
+            button.Background = Brushes.Transparent;
         }
     }
 }
